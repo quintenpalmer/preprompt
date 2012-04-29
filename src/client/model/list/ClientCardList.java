@@ -1,5 +1,5 @@
 package client.model.list;
 
-public class ClientList{
+public class ClientCardList{
 
 }

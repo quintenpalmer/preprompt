@@ -20,6 +20,20 @@ public class FullCard extends Card{
 		name = "card";
 		id = 1;
 	}
+	
+	/** Gets the location of the card
+	 * @return the location of the card
+	 */
+	public int getLocation(){
+		return location;
+	}
+	
+	/** Sets the location of the card to the new location
+	 * @param newLocation the new location of the card
+	 */
+	public void setLocation(int newLocation){
+		location = newLocation;
+	}
 
 	/** used to serialize the card into the xml format
 	* @return String that uniquely represents the FullCard
