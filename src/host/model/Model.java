@@ -22,7 +22,6 @@ public class Model{
 	* TODO Actually load in game
 	*/
 	public void addGame(String startInfo){
-		int i = 0;
 	}
 
 	/** serializes the game state into an xml string

@@ -1,6 +1,5 @@
 package client.view;
 
-import client.control.ClientControl;
 import client.model.Model;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;

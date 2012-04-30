@@ -1,6 +1,8 @@
 package client.model.game;
 
 import client.model.player.ClientPlayer;
+import shared.control.Parser;
+import org.w3c.dom.Element;
 
 /** The ClientGame is the client's representation of the game
 * One player represents the person playing the game
@@ -20,4 +22,28 @@ public class ClientGame{
 		playerthem = new ClientPlayer(player2name);
 	}
 
+	/** used to serialize the game into the xml format
+	* @return String that uniquely represents the ClientGame
+	*/
+	public String xmlOutput(){
+		String xml = "";
+		xml += "<game>";
+		xml += "<player1>"; 
+		xml += playerme.xmlOutput();
+		xml += "</player1>";
+		xml += "<player2>"; 
+		xml += playerthem.xmlOutput();
+		xml += "</player2>"; 
+		xml += "</game>";
+		return xml;
+	}
+
+	/** used to unserialze the xml element into a ClientGame
+	* @param ele the element of the sax xml parser
+	*/
+	public void xmlInput(Element ele){
+		Parser parser = new Parser();
+		playerme.xmlInput(parser.eleParseElement(ele,"player"));
+		playerthem.xmlInput(parser.eleParseElement(ele,"player"));
+	}
 }

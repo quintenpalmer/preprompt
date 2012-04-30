@@ -1,9 +1,7 @@
 package host.control.network;
 
 import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.sql.*;
+import java.net.Socket;
 import host.model.Model;
 import host.control.gameHandle.Request;
 import host.control.gameHandle.HostHandler;

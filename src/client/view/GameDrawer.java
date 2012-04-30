@@ -1,6 +1,7 @@
 package client.view;
 
 import client.model.Model;
+import client.model.game.ClientGame;
 import client.model.card.ClientCard;
 import org.lwjgl.opengl.GL11;
 import shared.model.constants.Constants;
@@ -13,10 +14,19 @@ public class GameDrawer{
 	* @param model the game model to draw
 	*/
 	public void draw(Model model){
-		ClientCard card = model.getCard();
-		if(card!=null){
-			drawCard(card);
+		ClientGame game = model.getGame();
+		if(game!=null){
+			drawGame(game);
 		}
+	}
+	
+	/** Draws the backdrop for the game
+	* @param card a ClientCard to be drawn
+	*/
+	private void drawGame(ClientGame game){
+		float[] colors = {.39f,.32f,.28f};
+		GL11.glRotatef(0f,0f,0f,0f);
+		drawQuad(0,0,0,Constants.boardWidth,Constants.boardHeight,colors);
 	}
 
 	/** Draws an individual Card

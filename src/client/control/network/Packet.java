@@ -31,7 +31,8 @@ public class Packet{
 			return "Coudn't get I/O for the connection to : " + host;
 		}
 
-		BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+		// Use stdIn to run requests from the terminal
+		//BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 		String fromServer;
 
 		out.println(command);

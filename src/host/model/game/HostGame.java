@@ -1,6 +1,5 @@
 package host.model.game;
 
-import shared.model.game.Game;
 import host.model.player.HostPlayer;
 
 /** There is one HostGame on the server 
