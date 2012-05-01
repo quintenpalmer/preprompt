@@ -1,6 +1,7 @@
 package client.model;
 
 import client.model.game.ClientGame;
+import shared.model.constants.Constants;
 import shared.control.Parser;
 import org.w3c.dom.Element;
 
@@ -16,7 +17,7 @@ public class Model{
 	 * @return a new Model
 	 */
 	public Model(int newState){
-		game = new ClientGame("vim","emacs");
+		game = new ClientGame(Constants.me,Constants.them);
 	}
 
 	/** unserializes an input xml string gamestate into a model

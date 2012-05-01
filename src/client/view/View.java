@@ -97,7 +97,8 @@ public class View{
 			GL11.glColor3f(.1f,.1f,.5f);
 
 			// reset
-			GL11.glOrtho(-80,80,-80,80,-80,80);
+			//GL11.glOrtho(-80,80,-80,80,-80,80);
+			GLU.gluPerspective(90f,Constants.aspectRatio,10f/*Constants.boardHeight*/,Constants.boardHeight*3);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
 			Project.gluLookAt(Constants.boardWidth/2,Constants.viewHeight,Constants.boardHeight, Constants.boardWidth/2,0,Constants.boardHeight/2, 0,1,0);

@@ -20,12 +20,12 @@ public class GameDrawer{
 		ClientPlayer p2 = model.getGame().getPlayer(2);
 		if(game!=null){
 			drawGame(game);
-		}
-		if(p1!=null){
-			drawPlayer1(p1);
-		}
-		if(p2!=null){
-			drawPlayer2(p2);
+			if(p1!=null){
+				drawPlayer1(p1);
+			}
+			if(p2!=null){
+				drawPlayer2(p2);
+			}
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class GameDrawer{
 		float[] activeColor = {.45f,.43f,.97f};
 		float[] graveColor = {.15f,.13f,.17f};
 
-		drawQuad(0,0,Constants.cardRise,Constants.boardWidth,Constants.boardHeight,gameColor);
+		drawQuad(0,0,0,Constants.boardWidth,Constants.boardHeight,gameColor);
 
 		drawQuad(Constants.meDeckX,Constants.locationRise,Constants.meDeckY,Constants.outerCardWidth,Constants.outerCardHeight,deckColor);
 		drawQuad(Constants.meHandX,Constants.locationRise,Constants.meHandY,Constants.activeWidth,Constants.outerCardHeight,handColor);
@@ -56,24 +56,24 @@ public class GameDrawer{
 	 * @param player the player to draw
 	 */
 	private void drawPlayer1(ClientPlayer player){
-
+		float[] color = {.1f,.7f,.2f};
+		float playerHealth = (float)player.getHealth();
+		float red = (Constants.startHealth-playerHealth) / 50f;
+		float[] healthColor = {red,playerHealth/50f,0f};
+		drawQuad(Constants.mePlayerX,Constants.locationRise,Constants.mePlayerY,Constants.playerPlateWidth,Constants.playerPlateHeight,color);
+		drawQuad(Constants.mePlayerInfoX,Constants.locationRise,Constants.mePlayerInfoY,Constants.playerPlateWidth,Constants.playerPlateHeight,healthColor);
 	}
 
 	/** Draws player 2
 	 * @param player the player to draw
 	 */
 	private void drawPlayer2(ClientPlayer player){
-
-	}
-
-	/** Draws a player
-	 * @param player the ClientPlayer to draw
-	 * @param playerNum the number the player is in the game
-	 */
-	private void drawPlayer(ClientPlayer player, int playerNum){
-		float[] colors = {1f,.3f,.3f};
-		drawQuad(0,0,0,Constants.playerPlateWidth,Constants.playerPlateHeight,colors);
-		drawQuad(0,0,0,Constants.playerPlateWidth,Constants.playerPlateHeight,colors);
+		float[] color = {.7f,.1f,.2f};
+		float playerHealth = (float)player.getHealth();
+		float red = (Constants.startHealth-playerHealth) / 50f;
+		float[] healthColor = {red,playerHealth/50f,0f};
+		drawQuad(Constants.themPlayerX,Constants.locationRise,Constants.themPlayerY,Constants.playerPlateWidth,Constants.playerPlateHeight,color);
+		drawQuad(Constants.themPlayerInfoX,Constants.locationRise,Constants.themPlayerInfoY,Constants.playerPlateWidth,Constants.playerPlateHeight,healthColor);
 	}
 
 	/** Draws an individual Card

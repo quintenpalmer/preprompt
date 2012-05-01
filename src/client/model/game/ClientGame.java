@@ -27,7 +27,7 @@ public class ClientGame{
 	 * @return the player
 	 */
 	public ClientPlayer getPlayer(int which){
-		if(which==2){
+		if(which==1){
 			return playerme;
 		}
 		else if(which==2){
