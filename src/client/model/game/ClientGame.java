@@ -43,21 +43,21 @@ public class ClientGame{
 	*/
 	public String xmlOutput(){
 		String xml = "";
-		xml += "<player1>"; 
+		xml += "<mePlayer>"; 
 		xml += playerme.xmlOutput();
-		xml += "</player1>";
-		xml += "<player2>"; 
+		xml += "</mePlayer>"; 
+		xml += "<themPlayer>"; 
 		xml += playerthem.xmlOutput();
-		xml += "</player2>"; 
+		xml += "</themPlayer>"; 
 		return xml;
 	}
 
 	/** used to unserialze the xml element into a ClientGame
-	* @param ele the element of the sax xml parser
+	* @param xml the string that represents the game state
 	*/
-	public void xmlInput(Element ele){
+	public void xmlInput(String xml){
 		Parser parser = new Parser();
-		playerme.xmlInput(parser.eleParseElement(ele,"player"));
-		playerthem.xmlInput(parser.eleParseElement(ele,"player"));
+		playerme.xmlInput(parser.parseElement(xml,"mePlayer"));
+		playerthem.xmlInput(parser.parseElement(xml,"themPlayer"));
 	}
 }

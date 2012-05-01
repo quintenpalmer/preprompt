@@ -15,15 +15,15 @@ public class HostHandler{
 		String command = request.getCommand();
 		String startInfo = "1 1 2 2";
 		if(command.equals("new")){
-			model.addGame(startInfo);
-			return model.xmlOutput();
+			model.addGame(1,1,2,2);
+			return model.xmlOutput(1);
 		}
 		else if(command.equals("perform")){
 			performAction(model, request.getAction());
-			return model.xmlOutput();
+			return model.xmlOutput(1);
 		}
 		else if(command.equals("view")){
-			return model.xmlOutput();
+			return model.xmlOutput(1);
 		}
 		else{
 			return "Nice Try!";

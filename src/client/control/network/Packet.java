@@ -32,7 +32,7 @@ public class Packet{
 		}
 
 		// Use stdIn to run requests from the terminal
-		//BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+		// BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 		String fromServer;
 
 		out.println(command);

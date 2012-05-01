@@ -2,8 +2,6 @@ package client.model;
 
 import client.model.game.ClientGame;
 import shared.model.constants.Constants;
-import shared.control.Parser;
-import org.w3c.dom.Element;
 
 /** The Model of the M-V-C Pattern
 * Stores the state of the game
@@ -24,9 +22,7 @@ public class Model{
 	 * @param xml the string representation of the game state
 	 */
 	public void xmlInput(String xml){
-		Parser parser = new Parser();
-		Element ele = parser.parseElement(xml,"game");
-		game.xmlInput(ele);
+		game.xmlInput(xml);
 	}
 	
 	/** serializes the game to an xml string that represents the game state

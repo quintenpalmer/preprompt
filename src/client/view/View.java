@@ -1,6 +1,7 @@
 package client.view;
 
 import client.model.Model;
+import client.control.ClientControl;
 import shared.model.constants.Constants;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -163,9 +164,9 @@ public class View{
 						break;
 					case(Keyboard.KEY_C): in -= 5f;
 						break;
-					case(Keyboard.KEY_F): in -= 5f;//ClientControl.sendRequest(model, "new 1 1 2 2");
+					case(Keyboard.KEY_F): ClientControl.sendRequest(model, "new 1 1 2 2");
 						break;
-					case(Keyboard.KEY_G): in += 5f;//ClientControl.sendRequest(model, "perform 1 1 draw");
+					case(Keyboard.KEY_G): ClientControl.sendRequest(model, "perform 1 1 draw");
 						break;
 					default: System.out.println("NOKEY");
 				}

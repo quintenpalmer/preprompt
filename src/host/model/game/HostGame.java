@@ -28,4 +28,50 @@ public class HostGame{
 		player2 = new HostPlayer(uid2);
 	}
 
+	/** serializes the game into an xml string that represents the game state
+	 * @param uid the user id of the player requesting the game state
+	 * @return the xml string
+	 */
+	public String xmlOutput(int uid){
+		String xml = "";
+		xml += "<mePlayer>";
+		xml += getSelfFromUid(uid).xmlOutput();
+		xml += "</mePlayer>";
+		xml += "<themPlayer>";
+		xml += getEnemyFromUid(uid).xmlOutput();
+		xml += "</themPlayer>";
+		return xml;
+	}
+
+	/** Returns the "me" player given this uid
+	 * @param uid the user/player id of the "me" player
+	 * @return The "me" player
+	 */
+	public HostPlayer getSelfFromUid(int uid){
+		if(player1.getUid()==uid){
+			return player1;
+		}
+		else if(player2.getUid()==uid){
+			return player2;
+		}
+		else{
+			return null;
+		}
+	}
+
+	/** Returns the "them" player given this uid
+	 * @param uid the user/player id of the "me" player
+	 * @return The "them" player
+	 */
+	public HostPlayer getEnemyFromUid(int uid){
+		if(player1.getUid()==uid){
+			return player2;
+		}
+		else if(player2.getUid()==uid){
+			return player1;
+		}
+		else{
+			return null;
+		}
+	}
 }
