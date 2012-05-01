@@ -22,19 +22,33 @@ public class ClientGame{
 		playerthem = new ClientPlayer(player2name);
 	}
 
+	/** Gets one of the players (1 is self, 2 is enemy)
+	 * @param which Which player (1 is self, 2 is enemy)
+	 * @return the player
+	 */
+	public ClientPlayer getPlayer(int which){
+		if(which==2){
+			return playerme;
+		}
+		else if(which==2){
+			return playerthem;
+		}
+		else{
+			return null;
+		}
+	}
+
 	/** used to serialize the game into the xml format
 	* @return String that uniquely represents the ClientGame
 	*/
 	public String xmlOutput(){
 		String xml = "";
-		xml += "<game>";
 		xml += "<player1>"; 
 		xml += playerme.xmlOutput();
 		xml += "</player1>";
 		xml += "<player2>"; 
 		xml += playerthem.xmlOutput();
 		xml += "</player2>"; 
-		xml += "</game>";
 		return xml;
 	}
 

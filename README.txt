@@ -107,6 +107,9 @@ java -cp build host.Main
 For the client select the Main.java in the client package and select "Run as Java Application"
 For the host select the Main.java in the host package and select "Run as Java Application"
 
+If this does not work, see the second half of Compiling the Code in 2.2 where it describes 
+how to get the native libraries working.
+
 4     THE CODE
 ________________________________________
 4.1   GENERAL

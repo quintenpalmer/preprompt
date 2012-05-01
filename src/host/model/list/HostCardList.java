@@ -6,8 +6,9 @@ import shared.control.Parser;
 import shared.model.list.CardList;
 import host.model.card.HostCard;
 
+/** The model for the list of cards for the host
+*/
 public class HostCardList implements CardList{
-
 	// an array of all of the cards in this HostCardList
 	HostCard[] cards = null;
 	// the number of cards currently in the HostCardList

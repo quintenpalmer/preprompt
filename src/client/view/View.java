@@ -1,6 +1,7 @@
 package client.view;
 
 import client.model.Model;
+import shared.model.constants.Constants;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -30,21 +31,18 @@ public class View{
 	int mouseY = 0;
 	boolean finished = false;
 
-
 	float in = 0.0f;
 
 	float xspin = 0.0f;
 	float yspin = 0.0f;
 	float zspin = 0.0f;
 
-	Project project;
-
 	/** Initializes all of the GL requirements
-	* Sets up GL for displaying 3D graphics in a 800x600 window)
-	*/
+	 * Sets up GL for displaying 3D graphics
+	 */
 	public void init(){
 		try {
-			Display.setDisplayMode(new DisplayMode(800,600));
+			Display.setDisplayMode(new DisplayMode(Constants.windowWidthInt,Constants.windowHeightInt));
 			Display.create();
 		}catch (LWJGLException e) {
 			e.printStackTrace();
@@ -56,7 +54,7 @@ public class View{
 		GL11.glPointSize(1.0f);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity( );
-		GLU.gluOrtho2D(0.0f,800.0f,0.0f,600.0f);
+		GLU.gluOrtho2D(0.0f,Constants.windowWidth,0.0f,Constants.windowHeight);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
 
@@ -86,9 +84,8 @@ public class View{
 	}
 
 	/** The GL to be run on each tick
-	* Displays in a 128 x 128 x 128 spaces
-	* with diffuse and ambient lights
-	*/
+	 * with diffuse and ambient lights
+	 */
 	public void run(Model model) throws IOException{
 		while (!finished) {
 			if(Display.isCloseRequested()){
@@ -100,11 +97,10 @@ public class View{
 			GL11.glColor3f(.1f,.1f,.5f);
 
 			// reset
-			GL11.glOrtho(-64,64,-64,64,-64,64);
+			GL11.glOrtho(-80,80,-80,80,-80,80);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
-			Project.gluLookAt(10,0,10,0,0,0,0,1,0);
-			
+			Project.gluLookAt(Constants.boardWidth/2,Constants.viewHeight,Constants.boardHeight, Constants.boardWidth/2,0,Constants.boardHeight/2, 0,1,0);
 
 			GL11.glPushMatrix();
 				GL11.glTranslatef(in,0.0f,0.0f);
@@ -121,54 +117,54 @@ public class View{
 	}
 
 	/** closes the GL when finished
-	*/
+	 */
 	public void finish(){
 		Display.destroy();
 	}
 
 	/** Handles the mouse input
-	* Currently rotates the space based on mouse movement
-	*/
+	 * Currently rotates the space based on mouse movement
+	 */
 	public void handleMouse(Model model) throws IOException{
 		int currentMouseX = Mouse.getX();
 		int currentMouseY = Mouse.getY();
 		if(Mouse.isButtonDown(0)){
-			yspin += currentMouseX - mouseX;
-			zspin += currentMouseY - mouseY;
+			//yspin += currentMouseX - mouseX;
+			xspin += currentMouseY - mouseY;
 		}
 		mouseX = currentMouseX;
 		mouseY = currentMouseY;
 	}
 
 	/** Handles the key input
-	* Currently rotates/displaces the space based on keyboard input
-	* 'x' closes the program
-	*/
+	 * Currently rotates/displaces the space based on keyboard input
+	 * 'x' closes the program
+	 */
 	public void handleKey(Model model) throws IOException{
 		while(Keyboard.next()){
 			if(Keyboard.getEventKeyState()){
 				switch(Keyboard.getEventKey()){
-					case(Keyboard.KEY_A): yspin += 2.5f;
+					case(Keyboard.KEY_A): yspin += 5f;
 						break;
-					case(Keyboard.KEY_D): yspin -= 2.5f;
+					case(Keyboard.KEY_D): yspin -= 5f;
 						break;
-					case(Keyboard.KEY_Q): xspin += 2.5f;
+					case(Keyboard.KEY_Q): xspin += 5f;
 						break;
-					case(Keyboard.KEY_E): xspin -= 2.5f;
+					case(Keyboard.KEY_E): xspin -= 5f;
 						break;
-					case(Keyboard.KEY_W): zspin += 2.5f;
+					case(Keyboard.KEY_W): zspin += 5f;
 						break;
-					case(Keyboard.KEY_S): zspin -= 2.5f;
+					case(Keyboard.KEY_S): zspin -= 5f;
 						break;
 					case(Keyboard.KEY_X): finished = true;
 						break;
-					case(Keyboard.KEY_Z): in += .5f;
+					case(Keyboard.KEY_Z): in += 5f;
 						break;
-					case(Keyboard.KEY_C): in -= .5f;
+					case(Keyboard.KEY_C): in -= 5f;
 						break;
-					case(Keyboard.KEY_F): in -= .5f;//ClientControl.sendRequest(model, "new 1 1 2 2");
+					case(Keyboard.KEY_F): in -= 5f;//ClientControl.sendRequest(model, "new 1 1 2 2");
 						break;
-					case(Keyboard.KEY_G): in += .5f;//ClientControl.sendRequest(model, "perform 1 1 draw");
+					case(Keyboard.KEY_G): in += 5f;//ClientControl.sendRequest(model, "perform 1 1 draw");
 						break;
 					default: System.out.println("NOKEY");
 				}

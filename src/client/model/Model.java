@@ -12,25 +12,36 @@ public class Model{
 	ClientGame game;
 
 	/** constructor for the Model
-	* @param newState the new state
-	* @return a new Model
-	*/
+	 * @param newState the new state
+	 * @return a new Model
+	 */
 	public Model(int newState){
 		game = new ClientGame("vim","emacs");
 	}
 
 	/** unserializes an input xml string gamestate into a model
-	* @param xml the string representation of the game state
-	*/
+	 * @param xml the string representation of the game state
+	 */
 	public void xmlInput(String xml){
 		Parser parser = new Parser();
 		Element ele = parser.parseElement(xml,"game");
 		game.xmlInput(ele);
 	}
+	
+	/** serializes the game to an xml string that represents the game state
+	 * @return the string that represents the game state
+	 */
+	public String xmlOutput(){
+		String xml = "";
+		xml += "<game>";
+		xml += game.xmlOutput();
+		xml += "</game>";
+		return xml;
+	}
 
 	/** Gets the game of the model
-	* @return the game of the model
-	*/
+	 * @return the game of the model
+	 */
 	public ClientGame getGame(){
 		return game;
 	}
