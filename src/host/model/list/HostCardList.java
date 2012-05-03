@@ -8,15 +8,15 @@ import host.model.card.HostCard;
 
 /** The model for the list of cards for the host
 */
-public class HostCardList implements CardList{
+public class HostCardList{
 	// an array of all of the cards in this HostCardList
 	HostCard[] cards = null;
 	// the number of cards currently in the HostCardList
-	int length=0;
+	int size=0;
 
-	public HostCardList(int newLength){
-		length = newLength;
-		cards = new HostCard[length];
+	public HostCardList(int newSize){
+		size = newSize;
+		cards = new HostCard[size];
 	}
 
 	/** initializes the CardList to a list of 20 cards
@@ -29,27 +29,27 @@ public class HostCardList implements CardList{
 	}
 
 	public HostCard pop(){
-		HostCard card = this.cards[this.length-1];
-		this.cards[this.length]=null;
-		this.length--;
+		HostCard card = this.cards[this.size-1];
+		this.cards[this.size]=null;
+		this.size--;
 		return card;
 	}
 
 	public void push(HostCard card){
-		card.setLocation(length);
-		this.cards[this.length]=card;
-		this.length++;
+		card.setLocation(size);
+		this.cards[this.size]=card;
+		this.size++;
 	}
 
 	public HostCard remove(int cardNumber){
 		int i=0;
 		int j=0;
-		for(i=0;i<this.length;i++){
+		for(i=0;i<this.size;i++){
 			if(this.cards[i].getLocation()==cardNumber){
 				HostCard card = this.cards[i];
 				this.cards[i]=null;
-				this.length--;
-				for(j=i;j<this.length;j++){
+				this.size--;
+				for(j=i;j<this.size;j++){
 					this.cards[j]=this.cards[j+1];
 				}
 				return card;
@@ -67,8 +67,8 @@ public class HostCardList implements CardList{
 	*/
 	public void xmlInput(Element ele){
 		Parser parser = new Parser();
-		length = parser.eleParseInt(ele,"number");	
-		for(int i=0;i<length;i++){
+		size = parser.eleParseInt(ele,"number");	
+		for(int i=0;i<size;i++){
 			cards[i] = new HostCard(i);
 			cards[i].xmlInput(parser.eleParseElement(ele,"cards"));
 		}
@@ -91,11 +91,11 @@ public class HostCardList implements CardList{
 		}
 		xml += "</visible>";
 
-		xml += "<number>" + length + "</number>";
-		if(viewable && length > 0){
+		xml += "<number>" + size + "</number>";
+		if(viewable && size > 0){
 			xml += "<cards>";
-			if(length>0){
-				for(int i=0;i<length;i++){
+			if(size>0){
+				for(int i=0;i<size;i++){
 					xml += view(i).xmlOutput();
 				}
 			}
@@ -112,11 +112,11 @@ public class HostCardList implements CardList{
 	public String xmlOutput() {
 		String xml = "";
 		xml += "<visible>true</visible>";
-		xml += "<number>" + length + "</number>";
-		if(length > 0){
+		xml += "<number>" + size + "</number>";
+		if(size > 0){
 			xml += "<cards>";
-			if(length>0){
-				for(int i=0;i<length;i++){
+			if(size>0){
+				for(int i=0;i<size;i++){
 					xml += view(i).xmlOutput();
 				}
 			}

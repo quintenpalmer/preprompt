@@ -1,8 +1,5 @@
 package client.model.player;
 
-import org.w3c.dom.Element;
-import shared.control.Parser;
-import shared.model.constants.Constants;
 import shared.model.player.Player;
 
 /** ClientPlayer is the model of a player

@@ -1,6 +1,7 @@
 package host.model.game;
 
 import host.model.player.HostPlayer;
+import host.model.deck.HostDeck;
 
 /** There is one HostGame on the server 
 * per game session between two players
@@ -9,6 +10,9 @@ public class HostGame{
 
 	HostPlayer player1;
 	HostPlayer player2;
+
+	HostDeck deck1;
+	HostDeck deck2;
 
 	/** Creates a host version of a game 
 	* using the input to load the players from the database
