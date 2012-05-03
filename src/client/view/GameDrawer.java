@@ -6,6 +6,7 @@ import client.model.player.ClientPlayer;
 import client.model.player.ClientPlayerContainer;
 import client.model.deck.ClientDeck;
 import client.model.card.ClientCard;
+import client.model.display.DisplayInfo;
 import org.lwjgl.opengl.GL11;
 import shared.model.constants.Constants;
 
@@ -18,6 +19,7 @@ public class GameDrawer{
 	*/
 	public void draw(Model model){
 		ClientGame game = model.getGame();
+		drawRhomb(5f);
 		if(game!=null){
 			ClientPlayerContainer pc1 = game.getPlayer(1);
 			ClientPlayerContainer pc2 = game.getPlayer(2);
@@ -27,7 +29,7 @@ public class GameDrawer{
 				ClientPlayer p1 = pc1.getPlayer();
 				ClientDeck d1 = pc1.getDeck();
 				drawPlayer1(p1);
-				drawDeck2(d1);
+				drawDeck1(d1);
 			}
 			if(pc2!=null){
 				ClientPlayer p2 = pc2.getPlayer();
@@ -125,4 +127,69 @@ public class GameDrawer{
 			GL11.glEnd();
 		GL11.glPopMatrix();
 	}
+
+	private void drawRhomb(float size){
+		GL11.glPushMatrix();
+		DisplayInfo.tick();
+		GL11.glTranslatef(-10f,0f,0f);
+		GL11.glRotatef((float)DisplayInfo.getRhot(),0f,1f,0f);
+		GL11.glScalef(size,size,size);
+        for (int i = 0; i < 12; i++) {
+            //GL11.glBegin(GL11.GL_LINE_LOOP);
+			GL11.glBegin(GL11.GL_QUADS);
+            GL11.glNormal3d(rdod_n[i][0], rdod_n[i][1], rdod_n[i][2]);
+            for (int j = 0; j <= 3; j++) {
+                GL11.glVertex3d(rdod_r[rdod_v[i][j]][0], rdod_r[rdod_v[i][j]][1], rdod_r[rdod_v[i][j]][2]);
+            }
+            GL11.glEnd();
+        }
+		GL11.glPopMatrix();
+	}
+
+	private static final double rdod_r[][] = {
+            {0.0, 0.0, 1.0},
+            {0.707106781187, 0.000000000000, 0.5},
+            {0.000000000000, 0.707106781187, 0.5},
+            {-0.707106781187, 0.000000000000, 0.5},
+            {0.000000000000, -0.707106781187, 0.5},
+            {0.707106781187, 0.707106781187, 0.0},
+            {-0.707106781187, 0.707106781187, 0.0},
+            {-0.707106781187, -0.707106781187, 0.0},
+            {0.707106781187, -0.707106781187, 0.0},
+            {0.707106781187, 0.000000000000, -0.5},
+            {0.000000000000, 0.707106781187, -0.5},
+            {-0.707106781187, 0.000000000000, -0.5},
+            {0.000000000000, -0.707106781187, -0.5},
+            {0.0, 0.0, -1.0}
+    };
+
+    private static final int rdod_v[][] = {
+            {0, 1, 5, 2},
+            {0, 2, 6, 3},
+            {0, 3, 7, 4},
+            {0, 4, 8, 1},
+            {5, 10, 6, 2},
+            {6, 11, 7, 3},
+            {7, 12, 8, 4},
+            {8, 9, 5, 1},
+            {5, 9, 13, 10},
+            {6, 10, 13, 11},
+            {7, 11, 13, 12},
+            {8, 12, 13, 9}
+    };
+
+    private static final double rdod_n[][] = {
+            {0.353553390594, 0.353553390594, 0.5},
+            {-0.353553390594, 0.353553390594, 0.5},
+            {-0.353553390594, -0.353553390594, 0.5},
+            {0.353553390594, -0.353553390594, 0.5},
+            {0.000000000000, 1.000000000000, 0.0},
+            {-1.000000000000, 0.000000000000, 0.0},
+            {0.000000000000, -1.000000000000, 0.0},
+            {1.000000000000, 0.000000000000, 0.0},
+            {0.353553390594, 0.353553390594, -0.5},
+            {-0.353553390594, 0.353553390594, -0.5},
+            {-0.353553390594, -0.353553390594, -0.5},
+            {0.353553390594, -0.353553390594, -0.5}
+    };
 }

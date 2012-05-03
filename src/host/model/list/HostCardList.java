@@ -1,8 +1,5 @@
 package host.model.list;
 
-import org.w3c.dom.Element;
-
-import shared.control.Parser;
 import host.model.card.HostCard;
 
 /** The model for the list of cards for the host

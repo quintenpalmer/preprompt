@@ -114,6 +114,7 @@ public class View{
 			handleKey(model);
 			handleMouse(model);
 			//GL11.glFlush();
+			Display.sync(Constants.Framerate);
 			Display.update();
 		}
 	}

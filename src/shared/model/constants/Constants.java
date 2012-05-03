@@ -105,6 +105,9 @@ public class Constants{
 	// aspect ratio (width/height)
 	public static final float aspectRatio = windowWidth/windowHeight;
 
+	// Framerate to display at
+	public static final int Framerate = 60;
+
 
 	/* Temp and Testing
 	 */

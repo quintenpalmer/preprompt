@@ -1,9 +1,6 @@
 package host.model.deck;
 
 import host.model.list.HostCardList;
-import shared.model.player.PlayerType;
-import shared.control.Parser;
-import org.w3c.dom.Element;
 
 /** A HostDeck is a list of all of a player's card
  * including their hand, grave, active cards, and the remaing stack of cards to draw from
