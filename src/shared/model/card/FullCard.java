@@ -50,8 +50,7 @@ public class FullCard extends Card{
 	/** used to unserialze the xml element into a FullCard
 	* @param ele the element of the sax xml parser
 	*/
-	public void xmlInput(Element ele){
-		Parser parser = new Parser();
+	public void xmlInput(Parser parser, Element ele){
 		name = parser.eleParseString(ele,"name");
 		location = parser.eleParseInt(ele,"location");
 	}

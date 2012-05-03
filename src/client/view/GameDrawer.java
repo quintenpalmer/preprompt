@@ -3,6 +3,8 @@ package client.view;
 import client.model.Model;
 import client.model.game.ClientGame;
 import client.model.player.ClientPlayer;
+import client.model.player.ClientPlayerContainer;
+import client.model.deck.ClientDeck;
 import client.model.card.ClientCard;
 import org.lwjgl.opengl.GL11;
 import shared.model.constants.Constants;
@@ -16,15 +18,22 @@ public class GameDrawer{
 	*/
 	public void draw(Model model){
 		ClientGame game = model.getGame();
-		ClientPlayer p1 = model.getGame().getPlayer(1);
-		ClientPlayer p2 = model.getGame().getPlayer(2);
 		if(game!=null){
+			ClientPlayerContainer pc1 = game.getPlayer(1);
+			ClientPlayerContainer pc2 = game.getPlayer(2);
+
 			drawGame(game);
-			if(p1!=null){
+			if(pc1!=null){
+				ClientPlayer p1 = pc1.getPlayer();
+				ClientDeck d1 = pc1.getDeck();
 				drawPlayer1(p1);
+				drawDeck2(d1);
 			}
-			if(p2!=null){
+			if(pc2!=null){
+				ClientPlayer p2 = pc2.getPlayer();
+				ClientDeck d2 = pc2.getDeck();
 				drawPlayer2(p2);
+				drawDeck2(d2);
 			}
 		}
 	}
@@ -74,6 +83,18 @@ public class GameDrawer{
 		float[] healthColor = {red,playerHealth/50f,0f};
 		drawQuad(Constants.themPlayerX,Constants.locationRise,Constants.themPlayerY,Constants.playerPlateWidth,Constants.playerPlateHeight,color);
 		drawQuad(Constants.themPlayerInfoX,Constants.locationRise,Constants.themPlayerInfoY,Constants.playerPlateWidth,Constants.playerPlateHeight,healthColor);
+	}
+
+	/** Draws player 1's deck
+	 * @param deck the deck to draw
+	 */
+	private void drawDeck1(ClientDeck deck){
+	}
+
+	/** Draws player 2's deck
+	 * @param deck the deck to draw
+	 */
+	private void drawDeck2(ClientDeck deck){
 	}
 
 	/** Draws an individual Card

@@ -1,7 +1,7 @@
 package client.model.game;
 
-import client.model.player.ClientPlayer;
-import client.model.deck.ClientDeck;
+import client.model.player.ClientPlayerContainer;
+import shared.model.player.PlayerType;
 import shared.control.Parser;
 
 /** The ClientGame is the client's representation of the game
@@ -12,26 +12,23 @@ import shared.control.Parser;
 */
 public class ClientGame{
 
-	ClientPlayer playerMe;
-	ClientPlayer playerThem;
-
-	ClientDeck playerMeDeck;
-	ClientDeck playerThemDeck;
+	ClientPlayerContainer playerMe;
+	ClientPlayerContainer playerThem;
 
 	/** Constructor for the ClientGame
 	* @param player1name the name of the self player
 	* @param player2name the name of the enemy player
 	*/
 	public ClientGame(String player1name, String player2name) {
-		playerMe = new ClientPlayer(player1name);
-		playerThem = new ClientPlayer(player2name);
+		playerMe = new ClientPlayerContainer(player1name, PlayerType.me);
+		playerThem = new ClientPlayerContainer(player2name, PlayerType.them);
 	}
 
 	/** Gets one of the players (1 is me, 2 is them)
 	 * @param which Which player (1 is me, 2 is them)
 	 * @return the player
 	 */
-	public ClientPlayer getPlayer(int which){
+	public ClientPlayerContainer getPlayer(int which){
 		if(which==1){
 			return playerMe;
 		}
@@ -43,26 +40,26 @@ public class ClientGame{
 		}
 	}
 
-	/** used to serialize the game into the xml format
-	* @return String that uniquely represents the ClientGame
-	*/
-	public String xmlOutput(){
-		String xml = "";
-		xml += "<mePlayer>"; 
-		xml += playerMe.xmlOutput();
-		xml += "</mePlayer>"; 
-		xml += "<themPlayer>"; 
-		xml += playerThem.xmlOutput();
-		xml += "</themPlayer>"; 
-		return xml;
+	/** used to unserialze the xml element into a ClientGame
+	 * @param parser the parser used to parse the element
+	 * @param xml the string that represents the game state
+	 */
+	public void xmlInput(Parser parser, String xml){
+		playerMe.xmlInput(parser,parser.parseElement(xml,"playerMe"));
+		playerThem.xmlInput(parser,parser.parseElement(xml,"playerThem"));
 	}
 
-	/** used to unserialze the xml element into a ClientGame
-	* @param xml the string that represents the game state
-	*/
-	public void xmlInput(String xml){
-		Parser parser = new Parser();
-		playerMe.xmlInput(parser.parseElement(xml,"mePlayer"));
-		playerThem.xmlInput(parser.parseElement(xml,"themPlayer"));
+	/** serializes the game into an xml string
+	 * @return the xml string
+	 */
+	public String xmlOutput(){
+		String xml = "";
+		xml += "<playerMe>";
+		xml += playerMe.xmlOutput();
+		xml += "</playerMe>";
+		xml += "<playerThem>";
+		xml += playerThem.xmlOutput();
+		xml += "</playerThem>";
+		return xml;
 	}
 }

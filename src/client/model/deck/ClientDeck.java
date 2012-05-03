@@ -23,7 +23,7 @@ public class ClientDeck{
 	 * @return the new ClientDeck
 	 */
 	public ClientDeck(int numCards, PlayerType pType){
-		stack = new ClientNonVisibleCardList(numCards);
+		stack = new ClientNonVisibleCardList(0);
 		active = new ClientVisibleCardList(0);
 		grave = new ClientVisibleCardList(0);
 		if(pType==PlayerType.me){
@@ -35,34 +35,33 @@ public class ClientDeck{
 	}
 
 	/** serializes the deck into an xml string
-	 * @param pType the type of player this deck corresponds to
 	 * @return the xml string
 	 */
-	public String xmlOutput(PlayerType pType){
+	public String xmlOutput(){
 		String xml = "";
 		xml += "<stack>";
 		xml += stack.xmlOutput();
 		xml += "</stack>";
 		xml += "<hand>";
-		xml += stack.xmlOutput();
+		xml += hand.xmlOutput();
 		xml += "</hand>";
 		xml += "<active>";
-		xml += stack.xmlOutput();
+		xml += active.xmlOutput();
 		xml += "</active>";
 		xml += "<grave>";
-		xml += stack.xmlOutput();
+		xml += grave.xmlOutput();
 		xml += "</grave>";
 		return xml;
 	}
 
 	/** reads in a dom element and populates the deck
+	 * @param parser the parser used to parse the element
 	 * @param ele the element to populate off of
 	 */
-	public void xmlInput(Element ele){
-		Parser parser = new Parser();
-		stack.xmlInput(parser.eleParseElement(ele,"stack"));
-		hand.xmlInput(parser.eleParseElement(ele,"hand"));
-		active.xmlInput(parser.eleParseElement(ele,"active"));
-		grave.xmlInput(parser.eleParseElement(ele,"grave"));
+	public void xmlInput(Parser parser, Element ele){
+		stack.xmlInput(parser, parser.eleParseElement(ele,"stack"));
+		hand.xmlInput(parser, parser.eleParseElement(ele,"hand"));
+		active.xmlInput(parser, parser.eleParseElement(ele,"active"));
+		grave.xmlInput(parser, parser.eleParseElement(ele,"grave"));
 	}
 }

@@ -30,10 +30,10 @@ public class Player{
 	}
 
 	/** used to unserialze the xml element into a ClientPlayer
+	 * @param parser2 
 	* @param ele the element of the sax xml parser
 	*/
-	public void xmlInput(Element ele){
-		Parser parser = new Parser();
+	public void xmlInput(Parser parser, Element ele){
 		name = parser.eleParseString(ele,"name");
 		health = parser.eleParseInt(ele,"health");
 	}

@@ -6,7 +6,6 @@ import shared.model.player.Player;
 * on the host
 */
 public class HostPlayer extends Player{
-	int uid;
 
 	/** Constructor for the HostPlayer
 	* @param uid the user id of the player to create
@@ -14,14 +13,6 @@ public class HostPlayer extends Player{
 	*/
 	public HostPlayer(int newUid){
 		super("player" + newUid);
-		uid = newUid;
 		// TODO GET THE DATABASE WORKING SO THIS CAN BE POPULATED
-	}
-
-	/** Getter for the user/player id
-	 * @return the player's id
-	 */
-	public int getUid(){
-		return uid;
 	}
 }

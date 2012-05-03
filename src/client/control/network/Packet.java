@@ -42,6 +42,7 @@ public class Packet{
 		in.close();
 		socket.close();
 		socket.close();
+		//System.out.println(fromServer);
 		return fromServer;
 	}
 }

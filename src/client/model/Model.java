@@ -1,6 +1,7 @@
 package client.model;
 
 import client.model.game.ClientGame;
+import shared.control.Parser;
 import shared.model.constants.Constants;
 
 /** The Model of the M-V-C Pattern
@@ -22,11 +23,12 @@ public class Model{
 	 * @param xml the string representation of the game state
 	 */
 	public void xmlInput(String xml){
-		game.xmlInput(xml);
+		Parser parser = new Parser();
+		game.xmlInput(parser, xml);
 	}
-	
-	/** serializes the game to an xml string that represents the game state
-	 * @return the string that represents the game state
+
+	/** serializes the model into an xml string
+	 * @return the xml string
 	 */
 	public String xmlOutput(){
 		String xml = "";
@@ -35,7 +37,7 @@ public class Model{
 		xml += "</game>";
 		return xml;
 	}
-
+	
 	/** Gets the game of the model
 	 * @return the game of the model
 	 */

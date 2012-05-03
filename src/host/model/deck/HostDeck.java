@@ -27,38 +27,23 @@ public class HostDeck{
 	}
 
 	/** serializes the deck into an xml string
-	 * @param pType the type of player this deck corresponds to
+	 * @param full whether or not to get a full client
 	 * @return the xml string
 	 */
-	public String xmlOutput(PlayerType pType){
-		boolean who = false;
-		if(pType==PlayerType.me){
-			who = true;
-		}
+	public String xmlOutput(boolean full){
 		String xml = "";
 		xml += "<stack>";
 		xml += stack.xmlOutput(false);
 		xml += "</stack>";
 		xml += "<hand>";
-		xml += stack.xmlOutput(who);
+		xml += hand.xmlOutput(full);
 		xml += "</hand>";
 		xml += "<active>";
-		xml += stack.xmlOutput(true);
+		xml += active.xmlOutput(true);
 		xml += "</active>";
 		xml += "<grave>";
-		xml += stack.xmlOutput(true);
+		xml += grave.xmlOutput(true);
 		xml += "</grave>";
 		return xml;
-	}
-
-	/** reads in a dom element and populates the deck
-	 * @param ele the element to populate off of
-	 */
-	public void xmlInput(Element ele){
-		Parser parser = new Parser();
-		stack.xmlInput(parser.eleParseElement(ele,"stack"));
-		hand.xmlInput(parser.eleParseElement(ele,"hand"));
-		active.xmlInput(parser.eleParseElement(ele,"active"));
-		grave.xmlInput(parser.eleParseElement(ele,"grave"));
 	}
 }

@@ -19,14 +19,14 @@ public class ClientVisibleCardList extends ClientCardList{
 	}
 
 	/** reads in an dom Element and populates the card list
-	 * appropriately
+	 * @param parser the parser used to parse the element
 	 * @param ele the dom Element
 	 */
-	public void xmlInput(Element ele){
-		Parser parser = new Parser();
+	public void xmlInput(Parser parser, Element ele){
 		size = parser.eleParseInt(ele,"size");
+		cards = new ClientVisibleCard[size];
 		for(int i=0;i<size;i++){
-			cards[i].xmlInput(parser.eleParseElement(ele,"card"));
+			cards[i].xmlInput(parser, parser.eleParseElement(ele,"card"));
 		}
 	}
 
@@ -35,6 +35,7 @@ public class ClientVisibleCardList extends ClientCardList{
 	 */
 	public String xmlOutput(){
 		String xml = "";
+		xml += "<visible>true</visible>";
 		xml += "<size>" + size + "</size>";
 		for(int i=0;i<size;i++){
 			xml += "<card>";

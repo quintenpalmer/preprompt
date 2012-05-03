@@ -1,18 +1,14 @@
 package host.model.game;
 
-import host.model.player.HostPlayer;
-import host.model.deck.HostDeck;
+import host.model.player.HostPlayerContainer;
 
 /** There is one HostGame on the server 
 * per game session between two players
 */
 public class HostGame{
 
-	HostPlayer player1;
-	HostPlayer player2;
-
-	HostDeck deck1;
-	HostDeck deck2;
+	HostPlayerContainer player1;
+	HostPlayerContainer player2;
 
 	/** Creates a host version of a game 
 	* using the input to load the players from the database
@@ -28,8 +24,8 @@ public class HostGame{
 		// player2 = Database.getPlayer(uid2);
 		// deck1 = Database.getDeck(uid1,did1);
 		// deck2 = Database.getDeck(uid1,did2);
-		player1 = new HostPlayer(uid1);
-		player2 = new HostPlayer(uid2);
+		player1 = new HostPlayerContainer(uid1,did1);
+		player2 = new HostPlayerContainer(uid2,did2);
 	}
 
 	/** serializes the game into an xml string that represents the game state
@@ -38,12 +34,12 @@ public class HostGame{
 	 */
 	public String xmlOutput(int uid){
 		String xml = "";
-		xml += "<mePlayer>";
-		xml += getSelfFromUid(uid).xmlOutput();
-		xml += "</mePlayer>";
-		xml += "<themPlayer>";
-		xml += getEnemyFromUid(uid).xmlOutput();
-		xml += "</themPlayer>";
+		xml += "<playerMe>";
+		xml += getMeFromUid(uid).xmlOutput(true);
+		xml += "</playerMe>";
+		xml += "<playerThem>";
+		xml += getThemFromUid(uid).xmlOutput(false);
+		xml += "</playerThem>";
 		return xml;
 	}
 
@@ -51,7 +47,7 @@ public class HostGame{
 	 * @param uid the user/player id of the "me" player
 	 * @return The "me" player
 	 */
-	public HostPlayer getSelfFromUid(int uid){
+	public HostPlayerContainer getMeFromUid(int uid){
 		if(player1.getUid()==uid){
 			return player1;
 		}
@@ -67,7 +63,7 @@ public class HostGame{
 	 * @param uid the user/player id of the "me" player
 	 * @return The "them" player
 	 */
-	public HostPlayer getEnemyFromUid(int uid){
+	public HostPlayerContainer getThemFromUid(int uid){
 		if(player1.getUid()==uid){
 			return player2;
 		}

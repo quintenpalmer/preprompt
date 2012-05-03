@@ -3,7 +3,6 @@ package host.model.list;
 import org.w3c.dom.Element;
 
 import shared.control.Parser;
-import shared.model.list.CardList;
 import host.model.card.HostCard;
 
 /** The model for the list of cards for the host
@@ -17,14 +16,9 @@ public class HostCardList{
 	public HostCardList(int newSize){
 		size = newSize;
 		cards = new HostCard[size];
-	}
-
-	/** initializes the CardList to a list of 20 cards
-	*/
-	// @TODO REMOVE THIS SO THAT YOU DON'T NEED TO START WITH 20 GARBAGE CARDS
-	public void init(){
-		for(int i=0;i<20;i++){
-			this.push(new HostCard(i));
+		// @TODO REMOVE THIS SO THAT YOU DON'T NEED TO START WITH 20 GARBAGE CARDS
+		for(int i=0;i<size;i++){
+			this.cards[i]=new HostCard(i);
 		}
 	}
 
@@ -62,24 +56,12 @@ public class HostCardList{
 		return cards[index];
 	}
 
-	/** Unserializes the xml input into a CardList
-	* @param ele the element to unserialize
-	*/
-	public void xmlInput(Element ele){
-		Parser parser = new Parser();
-		size = parser.eleParseInt(ele,"number");	
-		for(int i=0;i<size;i++){
-			cards[i] = new HostCard(i);
-			cards[i].xmlInput(parser.eleParseElement(ele,"cards"));
-		}
-	}
-
 	/** Serializes the CardList to an xml string
-	* Only contains the individual cards if the CardList both
-	* is viewable and contains more than 0 cards
-	* @param viewable whether or not this card list can be viewed
-	* @return the unique xml string that represents this CardList
-	*/
+	 * Only contains the individual cards if the CardList both
+	 * is viewable and contains more than 0 cards
+	 * @param viewable whether or not this card list can be viewed
+	 * @return the unique xml string that represents this CardList
+	 */
 	public String xmlOutput(boolean viewable){
 		String xml = "";
 		xml += "<visible>";
@@ -91,29 +73,8 @@ public class HostCardList{
 		}
 		xml += "</visible>";
 
-		xml += "<number>" + size + "</number>";
+		xml += "<size>" + size + "</size>";
 		if(viewable && size > 0){
-			xml += "<cards>";
-			if(size>0){
-				for(int i=0;i<size;i++){
-					xml += view(i).xmlOutput();
-				}
-			}
-			xml += "</cards>";
-		}
-
-		return xml;
-	}
-
-	/** Serializes the CardList to an xml string
-	* Only contains the individual cards if the CardList has more than 0 cards
-	* @return the unique xml string that represents this CardList
-	*/
-	public String xmlOutput() {
-		String xml = "";
-		xml += "<visible>true</visible>";
-		xml += "<number>" + size + "</number>";
-		if(size > 0){
 			xml += "<cards>";
 			if(size>0){
 				for(int i=0;i<size;i++){

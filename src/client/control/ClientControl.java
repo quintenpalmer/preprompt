@@ -16,5 +16,6 @@ public class ClientControl{
 	public static void sendRequest(Model model, String request) throws IOException{
 		String xml = Packet.sendPacket(request);
 		model.xmlInput(xml);
+		//System.out.println(model.xmlOutput());
 	}
 }

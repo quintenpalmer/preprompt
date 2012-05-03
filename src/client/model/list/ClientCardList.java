@@ -14,11 +14,10 @@ public abstract class ClientCardList{
 	}
 
 	/** reads in an dom Element and populates the card list
-	 * appropriately
+	 * @param parser the parser used to parse the element
 	 * @param ele the dom Element
 	 */
-	public void xmlInput(Element ele){
-		Parser parser = new Parser();
+	public void xmlInput(Parser parser, Element ele){
 		size = parser.eleParseInt(ele,"size");
 	}
 
@@ -27,6 +26,7 @@ public abstract class ClientCardList{
 	 */
 	public String xmlOutput(){
 		String xml = "";
+		xml += "<visible>false</visible>";
 		xml += "<size>" + size + "</size>";
 		return xml;
 	}
