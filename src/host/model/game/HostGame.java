@@ -1,6 +1,7 @@
 package host.model.game;
 
 import host.model.player.HostPlayerContainer;
+import shared.model.player.PlayerType;
 
 /** There is one HostGame on the server 
 * per game session between two players
@@ -35,10 +36,10 @@ public class HostGame{
 	public String xmlOutput(int uid){
 		String xml = "";
 		xml += "<playerMe>";
-		xml += getMeFromUid(uid).xmlOutput(true);
+		xml += getMeFromUid(uid).xmlOutput(PlayerType.me);
 		xml += "</playerMe>";
 		xml += "<playerThem>";
-		xml += getThemFromUid(uid).xmlOutput(false);
+		xml += getThemFromUid(uid).xmlOutput(PlayerType.them);
 		xml += "</playerThem>";
 		return xml;
 	}

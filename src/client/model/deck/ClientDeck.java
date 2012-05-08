@@ -6,11 +6,13 @@ import client.model.list.ClientCardList;
 import client.model.list.ClientVisibleCardList;
 import client.model.list.ClientNonVisibleCardList;
 import shared.model.player.PlayerType;
+import shared.model.deck.ListVisibility;
 
 /** A ClientDeck is a list of all of a player's card
  * including their hand, grave, active cards, and the remaing stack of cards to draw from
  */
 public class ClientDeck{
+	ListVisibility visible;
 	ClientCardList stack;
 	ClientCardList hand;
 	ClientCardList active;
@@ -23,6 +25,7 @@ public class ClientDeck{
 	 * @return the new ClientDeck
 	 */
 	public ClientDeck(int numCards, PlayerType pType){
+		visible = new ListVisibility(pType);
 		stack = new ClientNonVisibleCardList(0);
 		active = new ClientVisibleCardList(0);
 		grave = new ClientVisibleCardList(0);
@@ -39,6 +42,9 @@ public class ClientDeck{
 	 */
 	public String xmlOutput(){
 		String xml = "";
+		xml += "<visible>";
+		xml += visible.xmlOutput();
+		xml += "</visible>";
 		xml += "<stack>";
 		xml += stack.xmlOutput();
 		xml += "</stack>";
@@ -59,6 +65,7 @@ public class ClientDeck{
 	 * @param ele the element to populate off of
 	 */
 	public void xmlInput(Parser parser, Element ele){
+		visible.xmlInput(parser,parser.eleParseElement(ele,"visible"));
 		stack.xmlInput(parser, parser.eleParseElement(ele,"stack"));
 		hand.xmlInput(parser, parser.eleParseElement(ele,"hand"));
 		active.xmlInput(parser, parser.eleParseElement(ele,"active"));

@@ -1,6 +1,7 @@
 package host.model.player;
 
 import host.model.deck.HostDeck;
+import shared.model.player.PlayerType;
 
 /** The HostPlayerContainer contains the player information and the deck of each player
  */
@@ -31,13 +32,13 @@ public class HostPlayerContainer{
 	/** Serializes the player container into an xml string
 	 * @return the xml string
 	 */
-	public String xmlOutput(boolean full){
+	public String xmlOutput(PlayerType pType){
 		String xml = "";
 		xml += "<player>";
 		xml += player.xmlOutput();
 		xml += "</player>";
 		xml += "<deck>";
-		xml += deck.xmlOutput(full);
+		xml += deck.xmlOutput(pType);
 		xml += "</deck>";
 		return xml;
 	}
