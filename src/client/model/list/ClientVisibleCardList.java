@@ -12,10 +12,21 @@ public class ClientVisibleCardList extends ClientCardList{
 
 	/** Constructor for visible card lists
 	 * @param newSize the new size of the card list
+	 * @return the new ClientVisibleCardList
 	 */
 	public ClientVisibleCardList(int newSize){
 		super(newSize);
 		cards = new ClientVisibleCard[size];
+	}
+
+	/** Constructor for visible card lists
+	 * @param parser the parser used to create the new card list
+	 * @param ele the element to parser
+	 * @return the new ClientVisibleCardList
+	 */
+	public ClientVisibleCardList(Parser parser, Element ele){
+		super(0);
+		xmlInput(parser,ele);
 	}
 
 	/** reads in an dom Element and populates the card list

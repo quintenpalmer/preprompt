@@ -9,8 +9,21 @@ import shared.control.Parser;
 public abstract class ClientCardList{
 	int size;
 
+	/** Constructor for card lists
+	 * @param newSize the new size of the card list
+	 * @return the new ClientVisibleCardList
+	 */
 	public ClientCardList(int newSize){
 		size = newSize;
+	}
+
+	/** Constructor for card lists
+	 * @param parser the parser used to create the new card list
+	 * @param ele the element to parser
+	 * @return the new ClientVisibleCardList
+	 */
+	public ClientCardList(Parser parser, Element ele){
+		xmlInput(parser,ele);
 	}
 
 	/** reads in an dom Element and populates the card list

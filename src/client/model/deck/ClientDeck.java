@@ -7,6 +7,7 @@ import client.model.list.ClientVisibleCardList;
 import client.model.list.ClientNonVisibleCardList;
 import shared.model.player.PlayerType;
 import shared.model.deck.ListVisibility;
+import shared.model.deck.CardListType;
 
 /** A ClientDeck is a list of all of a player's card
  * including their hand, grave, active cards, and the remaing stack of cards to draw from
@@ -60,15 +61,19 @@ public class ClientDeck{
 		return xml;
 	}
 
+	public ClientCardList getStack(){
+		return stack;
+	}
+
 	/** reads in a dom element and populates the deck
 	 * @param parser the parser used to parse the element
 	 * @param ele the element to populate off of
 	 */
 	public void xmlInput(Parser parser, Element ele){
 		visible.xmlInput(parser,parser.eleParseElement(ele,"visible"));
-		stack.xmlInput(parser, parser.eleParseElement(ele,"stack"));
-		hand.xmlInput(parser, parser.eleParseElement(ele,"hand"));
-		active.xmlInput(parser, parser.eleParseElement(ele,"active"));
-		grave.xmlInput(parser, parser.eleParseElement(ele,"grave"));
+		stack = visible.createCardList(parser, parser.eleParseElement(ele,"stack"), CardListType.stack);
+		hand = visible.createCardList(parser, parser.eleParseElement(ele,"hand"), CardListType.hand);
+		active = visible.createCardList(parser, parser.eleParseElement(ele,"active"), CardListType.active);
+		grave = visible.createCardList(parser, parser.eleParseElement(ele,"grave"), CardListType.grave);
 	}
 }

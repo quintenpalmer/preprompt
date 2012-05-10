@@ -91,6 +91,15 @@ public class GameDrawer{
 	 * @param deck the deck to draw
 	 */
 	private void drawDeck1(ClientDeck deck){
+		float[] color = {.5f,.1f,.1f};
+		if(deck.getStack().getSize() > 0){
+			drawQuad(Constants.meDeckX,Constants.locationRise,Constants.meDeckY,Constants.cardWidth,Constants.cardHeight,color);
+		}
+		/*
+		drawQuad(Constants.meHandX,Constants.locationRise,Constants.meHandY,Constants.activeWidth,Constants.outerCardHeight,handColor);
+		drawQuad(Constants.meActiveX,Constants.locationRise,Constants.meActiveY,Constants.activeWidth,Constants.outerCardHeight,activeColor);
+		drawQuad(Constants.meGraveX,Constants.locationRise,Constants.meGraveY,Constants.activeWidth,Constants.outerCardHeight,graveColor);
+		*/
 	}
 
 	/** Draws player 2's deck
