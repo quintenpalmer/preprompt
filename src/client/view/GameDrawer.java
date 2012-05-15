@@ -41,7 +41,7 @@ public class GameDrawer{
 	}
 	
 	/** Draws the backdrop for the game
-	 * @param card a ClientCard to be drawn
+	 * @param game the game to be drawn
 	 */
 	private void drawGame(ClientGame game){
 		float[] gameColor = {.39f,.32f,.28f};
@@ -55,19 +55,19 @@ public class GameDrawer{
 		drawQuad(Constants.meDeckX,Constants.locationRise,Constants.meDeckY,Constants.outerCardWidth,Constants.outerCardHeight,deckColor);
 		drawQuad(Constants.meHandX,Constants.locationRise,Constants.meHandY,Constants.activeWidth,Constants.outerCardHeight,handColor);
 		drawQuad(Constants.meActiveX,Constants.locationRise,Constants.meActiveY,Constants.activeWidth,Constants.outerCardHeight,activeColor);
-		drawQuad(Constants.meGraveX,Constants.locationRise,Constants.meGraveY,Constants.activeWidth,Constants.outerCardHeight,graveColor);
+		drawQuad(Constants.meGraveX,Constants.locationRise,Constants.meGraveY,Constants.outerCardWidth,Constants.outerCardHeight,graveColor);
 
 		drawQuad(Constants.themDeckX,Constants.locationRise,Constants.themDeckY,Constants.outerCardWidth,Constants.outerCardHeight,deckColor);
 		drawQuad(Constants.themHandX,Constants.locationRise,Constants.themHandY,Constants.activeWidth,Constants.outerCardHeight,handColor);
 		drawQuad(Constants.themActiveX,Constants.locationRise,Constants.themActiveY,Constants.activeWidth,Constants.outerCardHeight,activeColor);
-		drawQuad(Constants.themGraveX,Constants.locationRise,Constants.themGraveY,Constants.activeWidth,Constants.outerCardHeight,graveColor);
+		drawQuad(Constants.themGraveX,Constants.locationRise,Constants.themGraveY,Constants.outerCardWidth,Constants.outerCardHeight,graveColor);
 	}
 
 	/** Draws player 1
 	 * @param player the player to draw
 	 */
 	private void drawPlayer1(ClientPlayer player){
-		float[] color = {.1f,.7f,.2f};
+		float[] color = {.0f,.0f,.0f};
 		float playerHealth = (float)player.getHealth();
 		float red = (Constants.startHealth-playerHealth) / 50f;
 		float[] healthColor = {red,playerHealth/50f,0f};
@@ -79,7 +79,7 @@ public class GameDrawer{
 	 * @param player the player to draw
 	 */
 	private void drawPlayer2(ClientPlayer player){
-		float[] color = {.7f,.1f,.2f};
+		float[] color = {1f,1f,1f};
 		float playerHealth = (float)player.getHealth();
 		float red = (Constants.startHealth-playerHealth) / 50f;
 		float[] healthColor = {red,playerHealth/50f,0f};
@@ -91,14 +91,14 @@ public class GameDrawer{
 	 * @param deck the deck to draw
 	 */
 	private void drawDeck1(ClientDeck deck){
-		float[] color = {.5f,.1f,.1f};
+		float[] colors = {.5f,.1f,.1f};
 		if(deck.getStack().getSize() > 0){
-			drawQuad(Constants.meDeckX,Constants.locationRise,Constants.meDeckY,Constants.cardWidth,Constants.cardHeight,color);
+			drawQuad(Constants.meDeckX,Constants.cardRise,Constants.meDeckY,Constants.cardWidth,Constants.cardHeight,colors);
 		}
 		/*
-		drawQuad(Constants.meHandX,Constants.locationRise,Constants.meHandY,Constants.activeWidth,Constants.outerCardHeight,handColor);
-		drawQuad(Constants.meActiveX,Constants.locationRise,Constants.meActiveY,Constants.activeWidth,Constants.outerCardHeight,activeColor);
-		drawQuad(Constants.meGraveX,Constants.locationRise,Constants.meGraveY,Constants.activeWidth,Constants.outerCardHeight,graveColor);
+		drawQuad(Constants.meHandX,Constants.cardRise,Constants.meHandY,Constants.activeWidth,Constants.outerCardHeight,handColor);
+		drawQuad(Constants.meActiveX,Constants.cardRise,Constants.meActiveY,Constants.activeWidth,Constants.outerCardHeight,activeColor);
+		drawQuad(Constants.meGraveX,Constants.cardRise,Constants.meGraveY,Constants.activeWidth,Constants.outerCardHeight,graveColor);
 		*/
 	}
 
@@ -106,6 +106,10 @@ public class GameDrawer{
 	 * @param deck the deck to draw
 	 */
 	private void drawDeck2(ClientDeck deck){
+		float[] colors = {.5f,.1f,.1f};
+		if(deck.getStack().getSize() > 0){
+			drawQuad(Constants.themDeckX,Constants.cardRise,Constants.themDeckY,Constants.cardWidth,Constants.cardHeight,colors);
+		}
 	}
 
 	/** Draws an individual Card
