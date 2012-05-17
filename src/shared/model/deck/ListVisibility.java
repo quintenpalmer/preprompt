@@ -1,5 +1,6 @@
 package shared.model.deck;
 
+import shared.model.list.CLType;
 import shared.model.player.PlayerType;
 import shared.control.Parser;
 import org.w3c.dom.Element;
@@ -18,14 +19,14 @@ public class ListVisibility{
 	 */
 	public ListVisibility(PlayerType pType){
 		visible = new boolean[4];
-		visible[CardListType.stack.getIndex()] = false;
-		visible[CardListType.active.getIndex()] = true;
-		visible[CardListType.grave.getIndex()] = true;
+		visible[CLType.stack.i()] = false;
+		visible[CLType.active.i()] = true;
+		visible[CLType.grave.i()] = true;
 		if(pType == PlayerType.me){
-			visible[CardListType.hand.getIndex()] = true;
+			visible[CLType.hand.i()] = true;
 		}
 		else{
-			visible[CardListType.hand.getIndex()] = false;
+			visible[CLType.hand.i()] = false;
 		}
 	}
 
@@ -50,10 +51,10 @@ public class ListVisibility{
 	 */
 	public String xmlOutput(){
 		String xml = "";
-		xml += "<" + CardListType.stack.getString() + ">" + visible[CardListType.stack.getIndex()] + "</" + CardListType.stack.getString() + ">";
-		xml += "<" + CardListType.hand.getString() + ">" + visible[CardListType.hand.getIndex()] + "</" + CardListType.hand.getString() + ">";
-		xml += "<" + CardListType.active.getString() + ">" + visible[CardListType.active.getIndex()] + "</" + CardListType.active.getString() + ">";
-		xml += "<" + CardListType.grave.getString() + ">" + visible[CardListType.grave.getIndex()] + "</" + CardListType.grave.getString() + ">";
+		xml += "<" + CLType.stack.str() + ">" + visible[CLType.stack.i()] + "</" + CLType.stack.str() + ">";
+		xml += "<" + CLType.hand.str() + ">" + visible[CLType.hand.i()] + "</" + CLType.hand.str() + ">";
+		xml += "<" + CLType.active.str() + ">" + visible[CLType.active.i()] + "</" + CLType.active.str() + ">";
+		xml += "<" + CLType.grave.str() + ">" + visible[CLType.grave.i()] + "</" + CLType.grave.str() + ">";
 		return xml;
 	}
 
@@ -62,10 +63,10 @@ public class ListVisibility{
 	 * @param ele the element to parse
 	 */
 	public void xmlInput(Parser parser, Element ele){
-		visible[CardListType.stack.getIndex()] = parser.eleParseBoolean(ele,CardListType.stack.getString());
-		visible[CardListType.hand.getIndex()] = parser.eleParseBoolean(ele,CardListType.hand.getString());
-		visible[CardListType.active.getIndex()] = parser.eleParseBoolean(ele,CardListType.active.getString());
-		visible[CardListType.grave.getIndex()] = parser.eleParseBoolean(ele,CardListType.grave.getString());
+		visible[CLType.stack.i()] = parser.eleParseBoolean(ele,CLType.stack.str());
+		visible[CLType.hand.i()] = parser.eleParseBoolean(ele,CLType.hand.str());
+		visible[CLType.active.i()] = parser.eleParseBoolean(ele,CLType.active.str());
+		visible[CLType.grave.i()] = parser.eleParseBoolean(ele,CLType.grave.str());
 	}
 
 	/** Creates a new CardList depending on the visibility of the cardList to create
@@ -74,8 +75,8 @@ public class ListVisibility{
 	 * @param which which CardList to create
 	 * @return the CardList
 	 */
-	public ClientCardList createCardList(Parser parser, Element ele, CardListType which){
-		if(visible[which.getIndex()]){
+	public ClientCardList createCardList(Parser parser, Element ele, CLType which){
+		if(visible[which.i()]){
 			return new ClientVisibleCardList(parser,ele);
 		}
 		else{

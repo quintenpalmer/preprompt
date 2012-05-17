@@ -7,8 +7,8 @@ import org.w3c.dom.Element;
 /** Represents the player of the game
 */
 public class Player{
-	String name;
-	int health;
+	protected String name;
+	protected int health;
 
 	/** Constructs the Player
 	* @param newUid the id of player to construct

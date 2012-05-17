@@ -42,4 +42,18 @@ public class HostPlayerContainer{
 		xml += "</deck>";
 		return xml;
 	}
+
+	/** Getter for the player
+	 * @return the client player
+	 */
+	public HostPlayer getPlayer(){
+		return player;
+	}
+
+	/** Getter for the deck
+	 * @return the client deck
+	 */
+	public HostDeck getDeck(){
+		return deck;
+	}
 }

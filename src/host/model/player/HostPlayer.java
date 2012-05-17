@@ -15,4 +15,8 @@ public class HostPlayer extends Player{
 		super("player" + newUid);
 		// TODO GET THE DATABASE WORKING SO THIS CAN BE POPULATED
 	}
+
+	public void changeHealth(int amount){
+		health += amount;
+	}
 }

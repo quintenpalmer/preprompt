@@ -1,6 +1,7 @@
 package host.model.deck;
 
 import host.model.list.HostCardList;
+import shared.model.list.CLType;
 import shared.model.player.PlayerType;
 import shared.model.deck.ListVisibility;
 
@@ -8,12 +9,9 @@ import shared.model.deck.ListVisibility;
  * including their hand, grave, active cards, and the remaing stack of cards to draw from
  */
 public class HostDeck{
+	HostCardList[] cardList;
 	ListVisibility meVisible;
 	ListVisibility themVisible;
-	HostCardList stack;
-	HostCardList hand;
-	HostCardList active;
-	HostCardList grave;
 
 	/** Constructor for the deck, makes an 
 	 * empty deck with the given number of cards
@@ -23,10 +21,10 @@ public class HostDeck{
 	public HostDeck(int numCards){
 		meVisible = new ListVisibility(PlayerType.me);
 		themVisible = new ListVisibility(PlayerType.them);
-		stack = new HostCardList(numCards);
-		active = new HostCardList(0);
-		grave = new HostCardList(0);
-		hand = new HostCardList(0);
+		cardList[CLType.stack.i()] = new HostCardList(numCards);
+		cardList[CLType.hand.i()] = new HostCardList(0);
+		cardList[CLType.active.i()] = new HostCardList(0);
+		cardList[CLType.grave.i()] = new HostCardList(0);
 	}
 
 	/** serializes the deck into an xml string
@@ -46,17 +44,25 @@ public class HostDeck{
 		xml += tempVis.xmlOutput();
 		xml += "</visible>";
 		xml += "<stack>";
-		xml += stack.xmlOutput(tempVis.getVisible(0));
+		xml += cardList[CLType.stack.i()].xmlOutput(tempVis.getVisible(0));
 		xml += "</stack>";
 		xml += "<hand>";
-		xml += hand.xmlOutput(tempVis.getVisible(1));
+		xml += cardList[CLType.hand.i()].xmlOutput(tempVis.getVisible(1));
 		xml += "</hand>";
 		xml += "<active>";
-		xml += active.xmlOutput(tempVis.getVisible(2));
+		xml += cardList[CLType.active.i()].xmlOutput(tempVis.getVisible(2));
 		xml += "</active>";
 		xml += "<grave>";
-		xml += grave.xmlOutput(tempVis.getVisible(3));
+		xml += cardList[CLType.grave.i()].xmlOutput(tempVis.getVisible(3));
 		xml += "</grave>";
 		return xml;
+	}
+	
+	/** Gets the card list
+	 * @param list the type of card list to get
+	 * @return the card list
+	 */
+	public HostCardList getCL(CLType list){
+		return cardList[list.i()];
 	}
 }
