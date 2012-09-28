@@ -96,11 +96,11 @@ public class Constants{
 	public static final float locationRise = .5f;
 
 	// width of window
-	public static final int windowWidthInt = 1700;
-	public static final float windowWidth = 1700f;
+	public static final int windowWidthInt = 800;
+	public static final float windowWidth = 800f;
 	// height of window
-	public static final int windowHeightInt = 900;
-	public static final float windowHeight = 900f;
+	public static final int windowHeightInt = 400;
+	public static final float windowHeight = 400f;
 
 	// aspect ratio (width/height)
 	public static final float aspectRatio = windowWidth/windowHeight;

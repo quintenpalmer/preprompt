@@ -21,13 +21,18 @@ public class HostCardList{
 
 	public HostCard pop(){
 		HostCard card = this.cards[this.size-1];
-		this.cards[this.size]=null;
+		this.cards[this.size-1]=null;
 		this.size--;
 		return card;
 	}
 
 	public void push(HostCard card){
 		card.setLocation(size);
+		HostCard[] copy = new HostCard[size+1];
+		for(int i=0;i<size;i++){
+			copy[i] = cards[i];
+		}
+		this.cards = copy;
 		this.cards[this.size]=card;
 		this.size++;
 	}

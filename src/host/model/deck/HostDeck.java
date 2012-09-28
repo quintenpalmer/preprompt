@@ -1,6 +1,7 @@
 package host.model.deck;
 
 import host.model.list.HostCardList;
+import host.model.card.HostCard;
 import shared.model.list.CLType;
 import shared.model.player.PlayerType;
 import shared.model.deck.ListVisibility;
@@ -21,6 +22,7 @@ public class HostDeck{
 	public HostDeck(int numCards){
 		meVisible = new ListVisibility(PlayerType.me);
 		themVisible = new ListVisibility(PlayerType.them);
+		cardList = new HostCardList[4];
 		cardList[CLType.stack.i()] = new HostCardList(numCards);
 		cardList[CLType.hand.i()] = new HostCardList(0);
 		cardList[CLType.active.i()] = new HostCardList(0);
@@ -64,5 +66,18 @@ public class HostDeck{
 	 */
 	public HostCardList getCL(CLType list){
 		return cardList[list.i()];
+	}
+
+	/** moves a card from one card list to another
+	 * @param cardList1 the card list to move from
+	 * @param cardList2 the card list to move to
+	 */
+	public void move(int cardList1, int cardList2){
+		HostCard card = cardList[cardList1].pop();
+		cardList[cardList2].push(card);
+	}
+
+	public void draw(){
+		this.move(CLType.stack.i(),CLType.hand.i());
 	}
 }

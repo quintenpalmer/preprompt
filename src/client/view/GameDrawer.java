@@ -95,8 +95,11 @@ public class GameDrawer{
 		if(deck.getStack().getSize() > 0){
 			drawQuad(Constants.meDeckX,Constants.cardRise,Constants.meDeckY,Constants.cardWidth,Constants.cardHeight,colors);
 		}
+		//int i=0;
+		for(int i=0;i<deck.getHand().getSize();i++){
+			drawQuad(Constants.meHandX+Constants.outerCardWidth*i,Constants.cardRise,Constants.meHandY,Constants.cardWidth,Constants.cardHeight,colors);
+		}
 		/*
-		drawQuad(Constants.meHandX,Constants.cardRise,Constants.meHandY,Constants.activeWidth,Constants.outerCardHeight,handColor);
 		drawQuad(Constants.meActiveX,Constants.cardRise,Constants.meActiveY,Constants.activeWidth,Constants.outerCardHeight,activeColor);
 		drawQuad(Constants.meGraveX,Constants.cardRise,Constants.meGraveY,Constants.activeWidth,Constants.outerCardHeight,graveColor);
 		*/

@@ -35,4 +35,8 @@ public class Model{
 		xml += "</game>";
 		return xml;
 	}
+
+	public void draw(int uid){
+		game.draw(uid);
+	}
 }

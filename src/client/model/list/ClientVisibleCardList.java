@@ -37,6 +37,7 @@ public class ClientVisibleCardList extends ClientCardList{
 		size = parser.eleParseInt(ele,"size");
 		cards = new ClientVisibleCard[size];
 		for(int i=0;i<size;i++){
+			cards[i] = new ClientVisibleCard(i);
 			cards[i].xmlInput(parser, parser.eleParseElement(ele,"card"));
 		}
 	}

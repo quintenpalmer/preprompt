@@ -65,6 +65,10 @@ public class ClientDeck{
 		return stack;
 	}
 
+	public ClientCardList getHand(){
+		return hand;
+	}
+
 	/** reads in a dom element and populates the deck
 	 * @param parser the parser used to parse the element
 	 * @param ele the element to populate off of

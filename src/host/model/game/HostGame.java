@@ -75,4 +75,18 @@ public class HostGame{
 			return null;
 		}
 	}
+
+	public void draw(int uid){
+		HostPlayerContainer player;
+		if(player1.getUid()==uid){
+			player = player1;
+		}
+		else if(player2.getUid()==uid){
+			player = player2;
+		}
+		else{
+			player = null;
+		}
+		player.getDeck().draw();
+	}	
 }
