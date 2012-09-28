@@ -32,6 +32,9 @@ public class HostHandler{
 
 	private static void performAction(Model model, String action){
 		//TODO use old code to perform actions WITHIN THE CONTROLLER, NOT IN THE MODEL
+		if(action.equals("draw")){
+			model.draw(1);
+		}
 	}
 
 }
