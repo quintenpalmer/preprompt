@@ -4,15 +4,15 @@ import java.io.*;
 import java.net.*;
 
 /** The packet serves as the class that 
-* sends the request to the server and 
-* receives the game state back
-*/
+ *	sends the request to the server and 
+ *	receives the game state back
+ */
 public class Packet{
 
 	/** sends the packet to the server and receives the server's response
-	* @param command the command to send to the server
-	* @return the xml game state received from the server
-	*/
+	 *	@param command the command to send to the server
+	 *	@return the xml game state received from the server
+	 */
 	public static String sendPacket(String command) throws IOException{
 		Socket socket=null;
 		PrintWriter out=null;

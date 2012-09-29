@@ -5,22 +5,21 @@ import shared.control.Parser;
 import shared.model.constants.Constants;
 
 /** The Model of the M-V-C Pattern
-* Stores the state of the game
-*/
+ *	Stores the state of the game
+ */
 public class Model{
-	// The state of the model
 	ClientGame game;
 
 	/** constructor for the Model
-	 * @param newState the new state
-	 * @return a new Model
+	 *	@param newState the new state
+	 *	@return a new Model
 	 */
 	public Model(int newState){
 		game = new ClientGame(Constants.me,Constants.them);
 	}
 
 	/** unserializes an input xml string gamestate into a model
-	 * @param xml the string representation of the game state
+	 *	@param xml the string representation of the game state
 	 */
 	public void xmlInput(String xml){
 		Parser parser = new Parser();
@@ -28,7 +27,7 @@ public class Model{
 	}
 
 	/** serializes the model into an xml string
-	 * @return the xml string
+	 *	@return the xml string
 	 */
 	public String xmlOutput(){
 		String xml = "";
@@ -39,7 +38,7 @@ public class Model{
 	}
 	
 	/** Gets the game of the model
-	 * @return the game of the model
+	 *	@return the game of the model
 	 */
 	public ClientGame getGame(){
 		return game;
