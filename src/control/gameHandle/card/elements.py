@@ -1,0 +1,15 @@
+
+class Elements:
+	Fire = 0
+	Water = 1
+	Nature = 2
+	Death = 3
+	
+elements = {}
+elements['f'] = Elements.Fire
+elements['w'] = Elements.Water
+elements['n'] = Elements.Nature
+elements['d'] = Elements.Death
+
+def getElementFromString(string):
+	return elements[string]
