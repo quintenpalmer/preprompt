@@ -14,9 +14,15 @@ class InstantList:
 			instant.applyTo(action)
 
 class Instant:
-	def __init__(self):
-		self.effect = None
-		self.conds = []
+	def __init__(self,effect=None,conds=None):
+		if effect == None:
+			self.effect = None
+		else:
+			self.effect = effect
+		if conds == None
+			self.conds = []
+		else:
+			self.conds = conds
 
 	def setEffect(self,effect):
 		self.effect = effect
@@ -35,5 +41,8 @@ class Instant:
 			self.effect.applyTo(action,game)
 
 class DummyInstantList:
+	def isValid(self,game):
+		return False
+
 	def applyTo(self,action,game):
 		pass

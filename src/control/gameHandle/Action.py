@@ -23,6 +23,8 @@ class SubAction:
 	def act(self):
 		self.me.player.health += self.heal
 		self.them.player.health -= self.damage
+		if self.moves:
+			print "i would be moving you from" + str(self.src) + "," + str(self.dst)
 
 	def accountForBoard(self):
 		pass
