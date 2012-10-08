@@ -1,0 +1,3 @@
+#!/bin/bash
+cd $pyp
+all -i
