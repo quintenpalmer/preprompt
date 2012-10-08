@@ -15,6 +15,6 @@ class GameControl:
 		cardEffect = player.collection.lists[playReq.cardList].cards[playReq.cardNum].effect
 		action = Action(self.game,playReq.uid,cardEffect)
 		action.accountForBoard()
-		action.go()
+		action.act()
 		#uid,i,args = None
 		#action = Action(self.getMeFromUid(uid).collection.hand[i].effect,args)

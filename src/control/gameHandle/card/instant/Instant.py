@@ -9,7 +9,7 @@ class InstantList:
 	def addInstant(self,instant):
 		self.instants.append(instant)
 
-	applyTo(self,action,game):
+	def applyTo(self,action,game):
 		for instant in self.instants:
 			instant.applyTo(action)
 
@@ -32,8 +32,8 @@ class Instant:
 
 	def applyTo(self,action,game):
 		if self.isValid(game):
-			self.effect.applyTo(action)
+			self.effect.applyTo(action,game)
 
-class DummyInstant:
-	def applyTo(self,action,action):
+class DummyInstantList:
+	def applyTo(self,action,game):
 		pass
