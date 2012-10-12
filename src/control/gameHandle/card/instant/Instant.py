@@ -1,6 +1,5 @@
 from src.control.gameHandle.card.effects import DirectDamage
 from src.control.gameHandle.card.conds import Valid
-from src.control.gameHandle.card.lookups.Lookups import InstantLookUp
 
 class InstantList:
 	def __init__(self):
@@ -15,11 +14,8 @@ class InstantList:
 
 class Instant:
 	def __init__(self,effect=None,conds=None):
-		if effect == None:
-			self.effect = None
-		else:
-			self.effect = effect
-		if conds == None
+		self.effect = effect
+		if conds == None:
 			self.conds = []
 		else:
 			self.conds = conds
@@ -30,15 +26,15 @@ class Instant:
 	def addCond(self,cond):
 		self.conds.append(cond)
 
-	def isValid(self,game):
+	def isValid(self,action,game,uid):
 		valid = True
 		for cond in self.conds:
-			valid = valid and cond.isValid(game)
+			valid = valid and cond.isValid(action,game,uid)
 		return valid
 
 	def applyTo(self,action,game):
-		if self.isValid(game):
-			self.effect.applyTo(action,game)
+		if self.isValid(action,game,uid):
+			self.effect.applyTo(action,game,uid)
 
 class DummyInstantList:
 	def isValid(self,game):
