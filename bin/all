@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+import subprocess as sub
+import sys
+
+allowInit = True
+write = False
+if len(sys.argv) > 1:
+	for arg in sys.argv:
+		if arg == '-i':
+			allowInit = False
+		if arg == '-o':
+			write = True
+start = 0
+
+out = sub.Popen(['ls','-pAR'],stdin=sub.PIPE,stdout=sub.PIPE,stderr=sub.STDOUT)
+out = out.stdout.read()
+full = []
+excludes = ['crx','deb','zip','class','pyc','jar','dylib','jnilib','so','dll']
+concat = ''
+for line in out.split('\n'):
+	if line[-1:]==':':
+		if line=='.:':
+			concat = ''
+		else:
+			concat = line[:-1].lstrip('.').lstrip('/')+'/'
+	else:
+		if line.strip()!='' and not '/' in line and line.strip()!='alldata.txt' and line.split('.')[-1] not in excludes:
+			full.append(concat+line)
+if write:
+	f = open('alldata.txt','w')
+for line in full[start:]:
+	if "__init__.py" in line:
+		#print "-"*30
+		if allowInit:
+			print line
+	else:
+		print line
+	if write:
+		f.write('-'*30+'\n')
+		f.write(line+'\n')
+		f.write('-'*10+'\n')
+		f.write(sub.check_output(['cat',line])+'\n')
+	#sub.call(['vi',line])
+	#q = raw_input("hit q to quit")
+	#if q == 'q':
+	#	break
+if write:
+	f.close()

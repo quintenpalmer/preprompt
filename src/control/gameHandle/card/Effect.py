@@ -1,11 +1,11 @@
 from src.control.gameHandle.card.instant.Instant import InstantList
-from src.control.gameHandle.card.persist.Persist import PersistList
+from src.control.gameHandle.card.persist.Persist import PersistCondList
 from src.control.gameHandle.card.pactivate.PersistActivate import PersistActivateList
 
 class Effect:
 	def __init__(self):
 		self.instants = InstantList()
-		self.persists = PersistList()
+		self.persists = PersistCondList()
 		self.pactivates = PersistActivateList()
 
 	def onActivate(self,game,uid):

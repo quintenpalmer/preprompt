@@ -3,10 +3,13 @@ class Action:
 	def __init__(self):
 		self.subActions = []
 	def addAction(self,game,uid,cardEffect):
-		self.subActions.append(SubAction(game,uid,cardEffect)
+		self.subActions.append(SubAction(game,uid,cardEffect))
 	def act(self):
 		for subAction in self.subActions:
+			subAction.accountForBoard()
+		for subAction in self.subActions:
 			subAction.act()
+
 class SubAction:
 	def __init__(self,game,uid,cardEffect):
 		self.me = game.getMeFromUid(uid)
@@ -21,6 +24,7 @@ class SubAction:
 		cardEffect.applyTo(self)
 
 	def act(self):
+		self.accountForBoard()
 		self.me.player.health += self.heal
 		self.them.player.health -= self.damage
 		if self.moves:

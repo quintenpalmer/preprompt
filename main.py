@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from src.model.Model import Model
 from src.model.clist import cltypes
-from src.control.gameHandle.play.Play import PlayReq, PlayArgs
+from src.control.gameHandle.play.Play import PlayArgs
 #from control import Controller
 #from src.view import Display
 
@@ -12,8 +12,8 @@ if __name__ == '__main__':
 	#model.out(26)
 	model.games[gameId1].draw(26)
 	#model.out(26)
-	playReq = PlayReq(uid=26,cardList=cltypes.hand,cardNum=0,playArgs=PlayArgs(model.games[gameId1].game,uid=13,targetCard=0))
-	model.games[gameId1].play(playReq)
+	playArgs = PlayArgs(game=model.games[gameId1].game,srcUid=26,srcCard=0,srcList=cltypes.hand,tgtUid=13,tgtCard=0,tgtList=cltypes.active)
+	model.games[gameId1].play(playArgs)
 	model.out(26)
 	model.stopGame(gameId1)
 	#model.out(26)

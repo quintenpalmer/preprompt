@@ -10,6 +10,10 @@ elements['f'] = Elements.Fire
 elements['w'] = Elements.Water
 elements['n'] = Elements.Nature
 elements['d'] = Elements.Death
+elements['fire'] = Elements.Fire
+elements['water'] = Elements.Water
+elements['nature'] = Elements.Nature
+elements['death'] = Elements.Death
 
 def getElementFromString(string):
 	return elements[string]

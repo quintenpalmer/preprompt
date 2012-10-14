@@ -1,4 +1,4 @@
-from src.control import databaseReader
+from src.control.load import databaseReader
 from src.control.gameHandle.GameControl import GameControl
 
 class Model:

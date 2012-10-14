@@ -22,7 +22,7 @@ def getInstant(lookup):
 		lookup = lookup.split(',')
 		print lookup
 		try:
-			instant.instants.append(InstantLookUp[lookup]):
+			instant.instants.append(InstantLookUp[lookup])
 		except KeyError:
 			return DummyInstant()
 			#return DirectDamage(lookup[2],lookup[3])
