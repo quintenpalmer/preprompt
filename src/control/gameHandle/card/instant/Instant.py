@@ -1,5 +1,3 @@
-#from src.control.gameHandle.card.effects import DirectDamage
-#from src.control.gameHandle.card.conds import Valid
 
 class InstantList:
 	def __init__(self):

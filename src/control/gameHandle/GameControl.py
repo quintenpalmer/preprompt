@@ -12,11 +12,9 @@ class GameControl:
 
 	def play(self,playArgs):
 		me = self.game.getMeFromUid(playArgs.srcUid)
-		#args = playArgs.playArgs
 		cardEffect = me.collection.lists[playArgs.srcList].cards[playArgs.srcCard].effect
 		action = Action()
 		action.addAction(self.game,playArgs.srcUid,cardEffect)
 		#action.accountForBoard()
+		#TODO SEND TGT PARAMETERS TO ACTION
 		action.act()
-		#uid,i,args = None
-		#action = Action(self.getMeFromUid(uid).collection.hand[i].effect,args)

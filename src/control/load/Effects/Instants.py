@@ -26,3 +26,7 @@ def getInstant(lookup):
 		except KeyError:
 			return DummyInstant()
 			#return DirectDamage(lookup[2],lookup[3])
+
+class Valid:
+	def isValid(self,game,uid):
+		return True
