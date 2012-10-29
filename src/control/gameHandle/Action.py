@@ -1,3 +1,4 @@
+from src.model.clist import cltypes
 
 class Action:
 	def __init__(self):
@@ -31,4 +32,7 @@ class SubAction:
 			print "i would be moving you from" + str(self.src) + "," + str(self.dst)
 
 	def accountForBoard(self):
-		pass
+		for card in self.me.collection.lists[cltypes.active].cards:
+			print 3
+		for card in self.them.collection.lists[cltypes.active].cards:
+			print 2

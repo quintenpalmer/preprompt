@@ -6,7 +6,7 @@ class InstantList:
 	def addInstant(self,instant):
 		self.instants.append(instant)
 
-	def applyTo(self,action,game):
+	def applyTo(self,action):
 		for instant in self.instants:
 			instant.applyTo(action)
 
@@ -24,15 +24,15 @@ class Instant:
 	def addCond(self,cond):
 		self.conds.append(cond)
 
-	def isValid(self,action,game,uid):
+	def isValid(self,action):
 		valid = True
 		for cond in self.conds:
-			valid = valid and cond.isValid(action,game,uid)
+			valid = valid and cond.isValid(action,action.game,action.me.player.uid)
 		return valid
 
-	def applyTo(self,action,game):
-		if self.isValid(action,game,uid):
-			self.effect.applyTo(action,game,uid)
+	def applyTo(self,action):
+		if self.isValid(action):
+			self.effect.applyTo(action)
 
 class DummyInstantList:
 	def isValid(self,game):

@@ -1,4 +1,6 @@
 from src.control.gameHandle.card.elements import getElementFromString
+from src.control.gameHandle.card.instant.Instant import InstantList
+from src.control.gameHandle.card.instant.Instant import Instant
 
 class DirectDamage:
 	def __init__(self,element,amount):
@@ -9,13 +11,15 @@ class DirectDamage:
 		action.element = self.element
 		action.damage = self.amount
 
-def getInstant(lookup):
+def getDirectDamage(element,amount):
 	iList = InstantList()
 	instant = Instant()
-	instant.setEffect(DirectDamage('f',3))
+	instant.setEffect(DirectDamage(element,amount))
 	instant.addCond(Valid())
 	iList.addInstant(instant)
 	return iList
+
+def getInstant(lookup):
 	print lookup
 	instant = InstantList()
 	for look in lookup:
@@ -28,5 +32,5 @@ def getInstant(lookup):
 			#return DirectDamage(lookup[2],lookup[3])
 
 class Valid:
-	def isValid(self,game,uid):
+	def isValid(self,action,game,uid):
 		return True
