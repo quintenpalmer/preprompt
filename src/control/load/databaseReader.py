@@ -4,8 +4,8 @@ from src.model.player.Player import Player
 from src.model.card.Card import Card
 from src.model.collection.Collection import Collection
 
-from src.control.load.effects.Instants import getDirectDamage
-from src.control.load.effects.Persists import SitsForever
+from src.control.load.Effects import getDirectDamage
+from src.control.load.Effects import getSitsNTurns
 
 def getGame(startInfo):
 	uids = startInfo[0]
@@ -16,9 +16,9 @@ def getGame(startInfo):
 	for i in xrange(0,2):
 		player = Player(uids[i])
 		cards = []
-		#name = cardNames[2]
-		#effect = SitsForever()
-		#cards.append(Card(name,effect))
+		name = cardNames[2]
+		effect = getSitsNTurns('water',3)
+		cards.append(Card(name,effect))
 		for j in xrange(0,39):
 			name = cardNames[i]
 			effect = getDirectDamage('fire',4)

@@ -1,5 +1,6 @@
 from src.model.player.PlayerContainer import PlayerContainer
 from src.model.player import PlayerType
+from src.model.phase.Turn import Turn
 
 class Game:
 	def __init__(self,player1=None,player2=None):
@@ -12,6 +13,7 @@ class Game:
 			self.players.append(player2)
 		else:
 			self.players.append(PlayerContainer())
+		self.turn = Turn()
 
 	def getMeFromUid(self,uid):
 		if self.players[0].player.uid == uid:

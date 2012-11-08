@@ -14,7 +14,13 @@ class GameControl:
 		me = self.game.getMeFromUid(playArgs.srcUid)
 		cardEffect = me.collection.lists[playArgs.srcList].cards[playArgs.srcCard].effect
 		action = Action()
-		action.addAction(self.game,playArgs.srcUid,cardEffect)
+		action.addAction(self.game,playArgs.srcUid,cardEffect.instants)
 		#action.accountForBoard()
 		#TODO SEND TGT PARAMETERS TO ACTION
 		action.act()
+
+	def phase(self)
+		pass
+
+	def turn(self):
+		pass

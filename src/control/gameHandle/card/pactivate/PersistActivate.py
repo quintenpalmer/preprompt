@@ -3,6 +3,9 @@ class PersistActivateList:
 	def __init__(self):
 		self.persistActivates = []
 
+	def addTrigger(self,pactivate):
+		self.persistActivates.append(pactivate)
+
 	def onAct(self,action,game,uid):
 		for pactivate in self.persistActivates:
 			pactivate.onAct(action,game,uid)
@@ -15,7 +18,7 @@ class PersistActivate:
 		else:
 			self.conds = conds
 
-	def onAct(self,action,game,uid):	
+	def onAct(self,action,game,uid):
 		if self.isValid(action,game,uid):
 			self.effect.applyTo(action,game)
 
@@ -25,7 +28,7 @@ class PersistActivate:
 			valid = valid and cond.isValid(action,game,uid)
 		return valid
 	
-	def addEffect(self,effect):
+	def setEffect(self,effect):
 		self.effect = effect
 
 	def addCond(self,cond):
