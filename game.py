@@ -1,9 +1,8 @@
-#!/usr/bin/env python
 from src.model.Model import Model
 from src.model.clist import cltypes
 from src.control.gameHandle.play.Play import PlayArgs
 from src.control.load.databaseReader import Config_Player, Config_Args
-#from control import Controller
+#from src.control import Controller
 #from src.view import Display
 
 if __name__ == '__main__':
