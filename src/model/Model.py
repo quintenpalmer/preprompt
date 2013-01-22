@@ -2,12 +2,12 @@ from src.control.load import databaseReader
 from src.control.gameHandle.GameControl import GameControl
 
 class Model:
-	def __init__(self,tmp):
+	def __init__(self):
 		self.games = {}
 		self.freeIds = range(0,100)
 
-	def startGame(self,startInfo):
-		game = databaseReader.getGame(startInfo)
+	def startGame(self,config_args):
+		game = databaseReader.getGame(config_args)
 		gameId = self.popId()
 		self.games[gameId] = GameControl(game)
 		return gameId

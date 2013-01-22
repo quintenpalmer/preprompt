@@ -19,7 +19,7 @@ class GameControl:
 		#TODO SEND TGT PARAMETERS TO ACTION
 		action.act()
 
-	def phase(self)
+	def phase(self):
 		pass
 
 	def turn(self):

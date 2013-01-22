@@ -2,20 +2,40 @@
 from src.model.Model import Model
 from src.model.clist import cltypes
 from src.control.gameHandle.play.Play import PlayArgs
+from src.control.load.databaseReader import Config_Player, Config_Args
 #from control import Controller
 #from src.view import Display
 
 if __name__ == '__main__':
-	data = 1
-	model = Model(data)
-	gameId1 = model.startGame(((26,13),(1,2)))
-	#model.out(26)
-	model.games[gameId1].draw(26)
-	#model.out(26)
-	playArgs = PlayArgs(game=model.games[gameId1].game,srcUid=26,srcCard=0,srcList=cltypes.hand,tgtUid=13,tgtCard=0,tgtList=cltypes.active)
+	# Make the model to start (this HAS to happen)
+	model = Model()
+	# Make the config players (what will be loaded from the db
+	p1uid = 26
+	p2uid = 13
+	config_player1 = Config_Player(p1uid,1,'Prompt')
+	config_player2 = Config_Player(p2uid,2,'Post')
+
+	# Make the game
+	gameId1 = model.startGame(Config_Args(config_player1,config_player2))
+
+	# Draw a card
+	model.games[gameId1].draw(p1uid)
+
+	# Play a card from player 1's hand targetting player 2's first active card
+	playArgs = PlayArgs(
+		game=model.games[gameId1].game,
+		srcUid=p1uid,
+		srcCard=0,
+		srcList=cltypes.hand,
+		tgtUid=p2uid,
+		tgtCard=0,
+		tgtList=cltypes.active)
 	model.games[gameId1].play(playArgs)
-	model.out(26)
+
+	# Print the game from player 1's perspective
+	model.out(p1uid)
+	# Stop the game
 	model.stopGame(gameId1)
-	#model.out(26)
+
 	#control = Controller(model)
 	#disp = Display(model)
