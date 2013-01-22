@@ -1,6 +1,6 @@
-from src.control.gameHandle.card.elements import getElementFromString
-from src.control.gameHandle.card.instant.Instant import InstantList
-from src.control.gameHandle.card.instant.Instant import Instant
+from src.control.game_logic.card_effect.elements import getElementFromString
+from src.control.game_logic.card_effect.instant.Instant import InstantList
+from src.control.game_logic.card_effect.instant.Instant import Instant
 
 class DirectDamage:
 	def __init__(self,element,amount):

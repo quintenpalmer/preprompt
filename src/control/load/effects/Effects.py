@@ -1,4 +1,4 @@
-from src.control.gameHandle.card.elements import getElementFromString
+from src.control.game_logic.card_effect.elements import getElementFromString
 
 class DirectDamage:
 	def __init__(self,element,amount):

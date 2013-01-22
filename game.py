@@ -1,6 +1,6 @@
 from src.model.Model import Model
 from src.model.clist import cltypes
-from src.control.gameHandle.play.Play import PlayArgs
+from src.control.game_logic.play.Play import PlayArgs
 from src.control.load.databaseReader import Config_Player, Config_Args
 #from src.control import Controller
 #from src.view import Display

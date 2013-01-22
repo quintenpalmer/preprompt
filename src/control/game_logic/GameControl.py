@@ -1,6 +1,6 @@
 from src.model.player import PlayerType
-from src.control.gameHandle.Action import Action
-from src.control.gameHandle.Action import SubAction
+from src.control.game_logic.Action import Action
+from src.control.game_logic.Action import SubAction
 
 class GameControl:
 	def __init__(self,game):

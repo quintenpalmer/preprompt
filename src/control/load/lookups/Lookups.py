@@ -1,4 +1,4 @@
-from src.control.gameHandle.card.instant.Instants import *
+from src.control.game_logic.card_effect.instant.Instants import *
 
 InstantLookUp = {}
 InstantLookUp['dd'] = DirectDamage

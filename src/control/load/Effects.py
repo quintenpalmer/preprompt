@@ -1,10 +1,10 @@
-from src.control.gameHandle.card.elements import getElementFromString
-from src.control.gameHandle.card.instant.Instant import InstantList
-from src.control.gameHandle.card.instant.Instant import Instant
-from src.control.gameHandle.card.persist.Persist import PersistCondList
-from src.control.gameHandle.card.pactivate.PersistActivate import PersistActivate
-from src.control.gameHandle.card.pactivate.PersistActivate import PersistActivateList
-from src.control.gameHandle.card.Effect import Effect
+from src.control.game_logic.card_effect.elements import getElementFromString
+from src.control.game_logic.card_effect.instant.Instant import InstantList
+from src.control.game_logic.card_effect.instant.Instant import Instant
+from src.control.game_logic.card_effect.persist.Persist import PersistCondList
+from src.control.game_logic.card_effect.pactivate.PersistActivate import PersistActivate
+from src.control.game_logic.card_effect.pactivate.PersistActivate import PersistActivateList
+from src.control.game_logic.card_effect.Effect import Effect
 
 def getDirectDamage(element,amount):
 	instants = InstantList()

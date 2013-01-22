@@ -1,6 +1,6 @@
-from src.control.gameHandle.card.instant.Instant import InstantList
-from src.control.gameHandle.card.persist.Persist import PersistCondList
-from src.control.gameHandle.card.pactivate.PersistActivate import PersistActivateList
+from src.control.game_logic.card_effect.instant.Instant import InstantList
+from src.control.game_logic.card_effect.persist.Persist import PersistCondList
+from src.control.game_logic.card_effect.pactivate.PersistActivate import PersistActivateList
 
 class Effect:
 	def __init__(self,instants,persists,pactivates,elements):

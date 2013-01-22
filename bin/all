@@ -4,18 +4,37 @@ import sys
 
 allowInit = True
 write = False
+list_all = False
+user_excluded_files = []
+user_excluded_directories = []
+dash_a_flag = ''
 if len(sys.argv) > 1:
 	for arg in sys.argv:
 		if arg == '-i':
 			allowInit = False
-		if arg == '-o':
+		elif arg == '-a':
+			list_all = True
+		elif arg == '-o':
 			write = True
+		elif arg[:3] == '-f=':
+			user_excluded_files.extend(arg[3:].split(','))
+		elif arg[:3] == '-d=':
+			user_excluded_directories.extend(arg[3:].split(','))
 start = 0
+print user_excluded_files
+print user_excluded_directories
 
-out = sub.Popen(['ls','-pAR'],stdin=sub.PIPE,stdout=sub.PIPE,stderr=sub.STDOUT)
+dash_a_flag = ''
+if list_all:
+	dash_a_flag = 'a'
+
+out = sub.Popen(['ls','-pR'+dash_a_flag],stdin=sub.PIPE,stdout=sub.PIPE,stderr=sub.STDOUT)
 out = out.stdout.read()
 full = []
-excludes = ['crx','deb','zip','class','pyc','jar','dylib','jnilib','so','dll']
+exclude_files = ['crx','deb','zip','class','pyc','jar','dylib','jnilib','so','dll']
+exclude_files.extend(user_excluded_files)
+exclude_directories = ['.git']
+exclude_directories.extend(user_excluded_directories)
 concat = ''
 for line in out.split('\n'):
 	if line[-1:]==':':
@@ -24,7 +43,7 @@ for line in out.split('\n'):
 		else:
 			concat = line[:-1].lstrip('.').lstrip('/')+'/'
 	else:
-		if line.strip()!='' and not '/' in line and line.strip()!='alldata.txt' and line.split('.')[-1] not in excludes:
+		if line.strip()!='' and not '/' in line and line.strip()!='alldata.txt' and line.split('.')[-1] not in exclude_files:
 			full.append(concat+line)
 if write:
 	f = open('alldata.txt','w')
@@ -40,9 +59,11 @@ for line in full[start:]:
 		f.write(line+'\n')
 		f.write('-'*10+'\n')
 		f.write(sub.check_output(['cat',line])+'\n')
-	#sub.call(['vi',line])
-	#q = raw_input("hit q to quit")
-	#if q == 'q':
-	#	break
+	'''
+	sub.call(['vi',line])
+	q = raw_input("hit q to quit")
+	if q == 'q':
+		break
+	'''
 if write:
 	f.close()
