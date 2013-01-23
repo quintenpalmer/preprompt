@@ -32,12 +32,13 @@ class Game:
 			raise Exception("Not the uid of a player playing this game")
 
 	def xmlOutput(self,uid):
-		outStr = ""
+		outStr = "<game>"
 		outStr += "<me>"
 		outStr += self.getMe_FromUid(uid).xmlOutput(Player_Type.me)
 		outStr += "</me>"
 		outStr += "<them>"
 		outStr += self.getThem_FromUid(uid).xmlOutput(Player_Type.them)
 		outStr += "</them>"
+		outStr += "</game>"
 		return outStr
 

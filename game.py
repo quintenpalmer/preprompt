@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	model.games[gameId1].play(playArgs)
 
 	# Print the game from player 1's perspective
-	model.out(p1uid)
+	print model.out(p1uid)
 	# Stop the game
 	model.stopGame(gameId1)
 

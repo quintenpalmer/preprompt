@@ -21,7 +21,7 @@ def getGame(config_args):
 		name = cardNames[2]
 		effect = getSits_NTurns('water',3)
 		cards.append(Card(name,effect))
-		for j in xrange(0,39):
+		for j in xrange(0,9):
 			name = cardNames[i]
 			effect = getDirect_Damage('fire',4)
 			cards.append(Card(name,effect))

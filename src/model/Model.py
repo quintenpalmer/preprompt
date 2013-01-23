@@ -27,4 +27,4 @@ class Model:
 
 	def out(self,uid):
 		for val in self.games.itervalues():
-			print val.game.xmlOutput(uid)
+			return val.game.xmlOutput(uid)
