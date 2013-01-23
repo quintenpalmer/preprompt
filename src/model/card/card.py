@@ -4,12 +4,12 @@ class Card:
 		self.name = name
 		self.effect = effect
 
-	def xmlOutput(self):
-		outStr = ""
-		outStr +="<name>"
-		outStr += self.name
-		outStr +="</name>"
-		return outStr
+	def xml_output(self):
+		out_str = ""
+		out_str +="<name>"
+		out_str += self.name
+		out_str +="</name>"
+		return out_str
 
 	def play(self,args):
 		self.effect(args)

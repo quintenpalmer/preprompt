@@ -1,6 +1,6 @@
-from src.model.player.Player_Container import Player_Container
-from src.model.player import Player_Type
-from src.model.phase.Turn import Turn
+from src.model.player.player_container import Player_Container
+from src.model.player import player_type
+from src.model.phase.turn import Turn
 
 class Game:
 	def __init__(self,player1=None,player2=None):
@@ -15,7 +15,7 @@ class Game:
 			self.players.append(Player_Container())
 		self.turn = Turn()
 
-	def getMe_FromUid(self,uid):
+	def get_me_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
 			return self.players[0]
 		elif self.players[1].player.uid == uid:
@@ -23,7 +23,7 @@ class Game:
 		else:
 			raise Exception("Not the uid of a player playing this game")
 
-	def getThem_FromUid(self,uid):
+	def get_them_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
 			return self.players[1]
 		elif self.players[1].player.uid == uid:
@@ -31,14 +31,14 @@ class Game:
 		else:
 			raise Exception("Not the uid of a player playing this game")
 
-	def xmlOutput(self,uid):
-		outStr = "<game>"
-		outStr += "<me>"
-		outStr += self.getMe_FromUid(uid).xmlOutput(Player_Type.me)
-		outStr += "</me>"
-		outStr += "<them>"
-		outStr += self.getThem_FromUid(uid).xmlOutput(Player_Type.them)
-		outStr += "</them>"
-		outStr += "</game>"
-		return outStr
+	def xml_output(self,uid):
+		out_str = "<game>"
+		out_str += "<me>"
+		out_str += self.get_me_from_uid(uid).xml_output(player_type.me)
+		out_str += "</me>"
+		out_str += "<them>"
+		out_str += self.get_them_from_uid(uid).xml_output(player_type.them)
+		out_str += "</them>"
+		out_str += "</game>"
+		return out_str
 

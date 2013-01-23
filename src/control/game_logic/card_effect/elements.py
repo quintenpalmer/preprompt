@@ -4,7 +4,7 @@ class Elements:
 	Water = 1
 	Nature = 2
 	Death = 3
-	
+
 elements = {}
 elements['f'] = Elements.Fire
 elements['w'] = Elements.Water
@@ -15,5 +15,5 @@ elements['water'] = Elements.Water
 elements['nature'] = Elements.Nature
 elements['death'] = Elements.Death
 
-def getElement_FromString(string):
+def get_element_from_string(string):
 	return elements[string]

@@ -1,6 +1,6 @@
 from src.model.clist import cltypes
-from src.model.clist.Card_List import Card_List
-from src.model.player import Player_Type
+from src.model.clist.card_list import Card_List
+from src.model.player import player_type
 
 class Collection:
 	def __init__(self,cards=None):
@@ -11,20 +11,20 @@ class Collection:
 		if cards != None:
 			self.lists[cltypes.deck] = Card_List(cards)
 
-	def xmlOutput(self,playerType):
-		if playerType == Player_Type.me:
+	def xml_output(self,my_player_type):
+		if my_player_type == player_type.me:
 			index = 0
-		elif playerType == Player_Type.them:
+		elif my_player_type == player_type.them:
 			index = 1
-		outStr = ""
-		outStr += "<lists>"
+		out_str = ""
+		out_str += "<lists>"
 		for i in cltypes.full:
-			outStr += "<"+cltypes.names[i]+">"
+			out_str += "<"+cltypes.names[i]+">"
 			full = self.visibility.visible[i][index]
-			outStr += self.lists[i].xmlOutput(full)
-			outStr += "</"+cltypes.names[i]+">"
-		outStr += "</lists>"
-		return outStr
+			out_str += self.lists[i].xml_output(full)
+			out_str += "</"+cltypes.names[i]+">"
+		out_str += "</lists>"
+		return out_str
 
 	def draw(self):
 		card = self.lists[cltypes.deck].pop()

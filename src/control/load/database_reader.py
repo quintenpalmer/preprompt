@@ -1,32 +1,32 @@
-from src.model.game.Game import Game
-from src.model.player.Player_Container import Player_Container
-from src.model.player.Player import Player
-from src.model.card.Card import Card
-from src.model.collection.Collection import Collection
+from src.model.game.game import Game
+from src.model.player.player_container import Player_Container
+from src.model.player.player import Player
+from src.model.card.card import Card
+from src.model.collection.collection import Collection
 
-from src.control.load.Effects import getDirect_Damage
-from src.control.load.Effects import getSits_NTurns
+from src.control.load.effects import get_direct_damage
+from src.control.load.effects import get_sits_nTurns
 
-def getGame(config_args):
+def get_game(config_args):
 	player1 = config_args.config_player1
 	player2 = config_args.config_player2
 	uids = [player1.uid,player2.uid]
 	dids = [player1.did,player2.did]
 	#TODO GET PLAYER DECK INFO FROM DATABASE
-	cardNames = ['farts','fresh','persist']
+	card_names = ['farts','fresh','persist']
 	players = []
 	for i in xrange(0,2):
 		player = Player(uids[i])
 		cards = []
-		name = cardNames[2]
-		effect = getSits_NTurns('water',3)
+		name = card_names[2]
+		effect = get_sits_nTurns('water',3)
 		cards.append(Card(name,effect))
 		for j in xrange(0,9):
-			name = cardNames[i]
-			effect = getDirect_Damage('fire',4)
+			name = card_names[i]
+			effect = get_direct_damage('fire',4)
 			cards.append(Card(name,effect))
-		playerCollection = Collection(cards)
-		players.append(Player_Container(player,playerCollection))
+		player_collection = Collection(cards)
+		players.append(Player_Container(player,player_collection))
 
 	return Game(players[0],players[1])
 

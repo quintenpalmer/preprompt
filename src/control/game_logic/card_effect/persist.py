@@ -1,5 +1,5 @@
 
-class Persist_CondList:
+class Persist_Cond_list:
 	def __init__(self):
 		self.conds = []
 
@@ -8,19 +8,19 @@ class Persist_CondList:
 			cond.tick(game,uid)
 
 	def persists(self,game,uid):
-		doesPersist = True
+		does_persist = True
 		for cond in self.conds:
-			doesPersist = doesPersist and cond.persists
-		return doesPersist
+			does_persist = does_persist and cond.persists
+		return does_persist
 
 	def reset(self,game,uid):
 		for cond in self.conds:
 			cond.reset(game,uid)
 
-	def addCond(self,pcond):
+	def add_cond(self,pcond):
 		self.conds.append(pcond)
 
-class Dummy_PersistCond_List:
+class Dummy_Persist_cond_list:
 	def tick(self,game,uid):
 		pass
 	def persists(self,game,uid):
