@@ -1,20 +1,20 @@
 from src.model.clist import cltypes
-from src.model.clist.CardList import CardList
-from src.model.player import PlayerType
+from src.model.clist.Card_List import Card_List
+from src.model.player import Player_Type
 
 class Collection:
 	def __init__(self,cards=None):
 		self.lists = []
 		self.visibility = cltypes.Visibility()
 		for i in xrange(0,cltypes.size):
-			self.lists.append(CardList())
+			self.lists.append(Card_List())
 		if cards != None:
-			self.lists[cltypes.deck] = CardList(cards)
+			self.lists[cltypes.deck] = Card_List(cards)
 
 	def xmlOutput(self,playerType):
-		if playerType == PlayerType.me:
+		if playerType == Player_Type.me:
 			index = 0
-		elif playerType == PlayerType.them:
+		elif playerType == Player_Type.them:
 			index = 1
 		outStr = ""
 		outStr += "<lists>"

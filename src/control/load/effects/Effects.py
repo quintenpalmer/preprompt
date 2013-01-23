@@ -1,8 +1,8 @@
-from src.control.game_logic.card_effect.elements import getElementFromString
+from src.control.game_logic.card_effect.elements import getElement_FromString
 
-class DirectDamage:
+class Direct_Damage:
 	def __init__(self,element,amount):
-		self.element = getElementFromString(element)
+		self.element = getElement_FromString(element)
 		self.amount = int(amount)
 
 	def applyTo(self,action):

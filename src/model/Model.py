@@ -1,5 +1,5 @@
-from src.control.load import databaseReader
-from src.control.game_logic.GameControl import GameControl
+from src.control.load import database_reader
+from src.control.game_logic.Game_Control import Game_Control
 
 class Model:
 	def __init__(self):
@@ -7,9 +7,9 @@ class Model:
 		self.freeIds = range(0,100)
 
 	def startGame(self,config_args):
-		game = databaseReader.getGame(config_args)
+		game = database_reader.getGame(config_args)
 		gameId = self.popId()
-		self.games[gameId] = GameControl(game)
+		self.games[gameId] = Game_Control(game)
 		return gameId
 
 	def stopGame(self,gameId):

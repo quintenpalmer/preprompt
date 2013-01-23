@@ -15,5 +15,5 @@ elements['water'] = Elements.Water
 elements['nature'] = Elements.Nature
 elements['death'] = Elements.Death
 
-def getElementFromString(string):
+def getElement_FromString(string):
 	return elements[string]

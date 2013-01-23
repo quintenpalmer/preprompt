@@ -1,5 +1,5 @@
 
-class PlayerContainer:
+class Player_Container:
 	def __init__(self,player,collection):
 		self.player = player
 		self.collection = collection

@@ -1,5 +1,5 @@
 
-class InstantList:
+class Instant_List:
 	def __init__(self):
 		self.instants = []
 
@@ -34,7 +34,7 @@ class Instant:
 		if self.isValid(action):
 			self.effect.applyTo(action)
 
-class DummyInstantList:
+class Dummy_InstantList:
 	def isValid(self,game):
 		return False
 

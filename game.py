@@ -1,7 +1,7 @@
 from src.model.Model import Model
 from src.model.clist import cltypes
-from src.control.game_logic.play.Play import PlayArgs
-from src.control.load.databaseReader import Config_Player, Config_Args
+from src.control.game_logic.play.Play import Play_Args
+from src.control.load.database_reader import Config_Player, Config_Args
 #from src.control import Controller
 #from src.view import Display
 
@@ -21,7 +21,7 @@ if __name__ == '__main__':
 	model.games[gameId1].draw(p1uid)
 
 	# Play a card from player 1's hand targetting player 2's first active card
-	playArgs = PlayArgs(
+	playArgs = Play_Args(
 		game=model.games[gameId1].game,
 		srcUid=p1uid,
 		srcCard=0,

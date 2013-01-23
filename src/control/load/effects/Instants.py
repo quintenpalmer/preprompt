@@ -1,35 +1,35 @@
-from src.control.game_logic.card_effect.elements import getElementFromString
-from src.control.game_logic.card_effect.instant.Instant import InstantList
+from src.control.game_logic.card_effect.elements import getElement_FromString
+from src.control.game_logic.card_effect.instant.Instant import Instant_List
 from src.control.game_logic.card_effect.instant.Instant import Instant
 
-class DirectDamage:
+class Direct_Damage:
 	def __init__(self,element,amount):
-		self.element = getElementFromString(element)
+		self.element = getElement_FromString(element)
 		self.amount = int(amount)
 
 	def applyTo(self,action):
 		action.element = self.element
 		action.damage = self.amount
 
-def getDirectDamage(element,amount):
-	iList = InstantList()
+def getDirect_Damage(element,amount):
+	iList = Instant_List()
 	instant = Instant()
-	instant.setEffect(DirectDamage(element,amount))
+	instant.setEffect(Direct_Damage(element,amount))
 	instant.addCond(Valid())
 	iList.addInstant(instant)
 	return iList
 
 def getInstant(lookup):
 	print lookup
-	instant = InstantList()
+	instant = Instant_List()
 	for look in lookup:
 		lookup = lookup.split(',')
 		print lookup
 		try:
-			instant.instants.append(InstantLookUp[lookup])
-		except KeyError:
-			return DummyInstant()
-			#return DirectDamage(lookup[2],lookup[3])
+			instant.instants.append(Instant_LookUp[lookup])
+		except Key_Error:
+			return Dummy_Instant()
+			#return Direct_Damage(lookup[2],lookup[3])
 
 class Valid:
 	def isValid(self,action,game,uid):

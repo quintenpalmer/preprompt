@@ -1,5 +1,5 @@
 
-class PersistActivateList:
+class Persist_ActivateList:
 	def __init__(self):
 		self.persistActivates = []
 
@@ -10,7 +10,7 @@ class PersistActivateList:
 		for pactivate in self.persistActivates:
 			pactivate.onAct(action,game,uid)
 
-class PersistActivate:
+class Persist_Activate:
 	def __init__(self,effect=None,conds=None):
 		self.effect = effect
 		if conds == None:
@@ -34,6 +34,6 @@ class PersistActivate:
 	def addCond(self,cond):
 		self.conds.append(cond)
 
-class DummyPersistActivateList:
+class Dummy_PersistActivate_List:
 	def onAct(self,action,game,uid):
 		pass

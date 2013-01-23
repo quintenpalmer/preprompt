@@ -1,5 +1,5 @@
 
-class PersistCondList:
+class Persist_CondList:
 	def __init__(self):
 		self.conds = []
 
@@ -20,7 +20,7 @@ class PersistCondList:
 	def addCond(self,pcond):
 		self.conds.append(pcond)
 
-class DummyPersistCondList:
+class Dummy_PersistCond_List:
 	def tick(self,game,uid):
 		pass
 	def persists(self,game,uid):

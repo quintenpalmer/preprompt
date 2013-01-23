@@ -1,6 +1,6 @@
 from src.model.clist import cltypes
 
-class PlayArgs:
+class Play_Args:
 	def __init__(self,game,srcUid,srcCard,srcList,tgtUid,tgtCard,tgtList):
 		self.game = game
 		self.srcUid = srcUid
