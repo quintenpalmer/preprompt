@@ -1,6 +1,7 @@
 from src.model.player.player_container import Player_Container
 from src.model.player import player_type
 from src.model.phase.turn import Turn
+from random import randint
 
 class Game:
 	def __init__(self,player1=None,player2=None):
@@ -13,7 +14,12 @@ class Game:
 			self.players.append(player2)
 		else:
 			self.players.append(Player_Container())
-		self.turn = Turn()
+		self.current_turn_owner = self.decide_first_player()
+
+	def decide_first_player(self):
+		who = randint(0,1)
+		who = 0
+		return self.players[who].player.uid
 
 	def get_me_from_uid(self,uid):
 		if self.players[0].player.uid == uid:

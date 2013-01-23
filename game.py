@@ -1,6 +1,6 @@
 from src.model.model import Model
 from src.model.clist import cltypes
-from src.control.game_logic.play.play import Play_Args
+from src.control.game_logic.play import Play_Args
 from src.control.load.database_reader import Config_Player, Config_Args
 #from src.control import Controller
 #from src.view import Display
@@ -8,7 +8,7 @@ from src.control.load.database_reader import Config_Player, Config_Args
 if __name__ == '__main__':
 	# Make the model to start (this HAS to happen)
 	model = Model()
-	# Make the config players (what will be loaded from the db
+	# Make the config players (what will be loaded from the db)
 	p1uid = 26
 	p2uid = 13
 	config_player1 = Config_Player(p1uid,1,'Prompt')
@@ -32,9 +32,9 @@ if __name__ == '__main__':
 	model.games[game_id1].play(play_args)
 
 	# Print the game from player 1's perspective
-	print model.out(p1uid)
+	print model.out(game_id1,p1uid)
 	# Stop the game
-	model.stop_game(game_id1)
+	#model.stop_game(game_id1)
 
 	#control = Controller(model)
 	#disp = Display(model)

@@ -76,15 +76,3 @@ class In_Valid_persist:
 class Do_Nothing:
 	def apply_to(self,action):
 		pass
-
-def get_instant(lookup):
-	print lookup
-	instant = Instant_List()
-	for look in lookup:
-		lookup = lookup.split(',')
-		print lookup
-		try:
-			instant.instants.append(Instant_Look_up[lookup])
-		except Key_Error:
-			return Dummy_Instant()
-			#return Direct_Damage(lookup[2],lookup[3])

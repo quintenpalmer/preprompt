@@ -4,8 +4,8 @@ from src.model.player.player import Player
 from src.model.card.card import Card
 from src.model.collection.collection import Collection
 
-from src.control.load.effects import get_direct_damage
-from src.control.load.effects import get_sits_nTurns
+from src.control.load.loaded_effects import get_direct_damage
+from src.control.load.loaded_effects import get_sits_nTurns
 
 def get_game(config_args):
 	player1 = config_args.config_player1
