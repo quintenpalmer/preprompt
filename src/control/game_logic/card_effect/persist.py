@@ -1,7 +1,10 @@
 
 class Persist_Cond_list:
-	def __init__(self):
-		self.conds = []
+	def __init__(self,cond):
+		if type(cond) == list:
+			self.conds = cond
+		else:
+			self.conds = [cond]
 
 	def tick(self,game,uid):
 		for cond in self.conds:
@@ -19,11 +22,3 @@ class Persist_Cond_list:
 
 	def add_cond(self,pcond):
 		self.conds.append(pcond)
-
-class Dummy_Persist_cond_list:
-	def tick(self,game,uid):
-		pass
-	def persists(self,game,uid):
-		return True
-	def reset(self,game,uid):
-		pass

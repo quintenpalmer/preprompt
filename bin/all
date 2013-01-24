@@ -21,8 +21,8 @@ if len(sys.argv) > 1:
 		elif arg[:3] == '-d=':
 			user_excluded_directories.extend(arg[3:].split(','))
 start = 0
-print user_excluded_files
-print user_excluded_directories
+#print user_excluded_files
+#print user_excluded_directories
 
 dash_a_flag = ''
 if list_all:
@@ -49,7 +49,6 @@ if write:
 	f = open('alldata.txt','w')
 for line in full[start:]:
 	if "__init__.py" in line:
-		#print "-"*30
 		if allowInit:
 			print line
 	else:

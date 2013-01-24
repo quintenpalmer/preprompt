@@ -1,8 +1,11 @@
 from src.model.phase import phase
 
 class Instant_List:
-	def __init__(self,valid_phase):
-		self.instants = []
+	def __init__(self,instant,valid_phase):
+		if type(instant) == list:
+			self.instants = instant
+		else:
+			self.instants = [instant]
 		self.valid_phase = valid_phase
 
 	def add_instant(self,instant):
@@ -13,13 +16,12 @@ class Instant_List:
 			instant.apply_to(action)
 
 class Instant:
-	def __init__(self,effect=None,conds=None):
+	def __init__(self,effect,conds):
 		self.effect = effect
-		self.phases = phase.main
-		if conds == None:
-			self.conds = []
-		else:
+		if type(conds) == list:
 			self.conds = conds
+		else:
+			self.conds = [conds]
 
 	def set_effect(self,effect):
 		self.effect = effect

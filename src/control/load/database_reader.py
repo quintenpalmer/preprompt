@@ -15,16 +15,16 @@ def get_game(config_args):
 	#TODO GET PLAYER DECK INFO FROM DATABASE
 	card_names = ['farts','fresh','persist']
 	players = []
-	for i in xrange(0,2):
+	for i in range(0,2):
 		player = Player(uids[i])
 		cards = []
-		name = card_names[2]
-		effect = get_sits_nTurns('water',3)
-		cards.append(Card(name,effect))
-		for j in xrange(0,9):
+		for j in range(0,9):
 			name = card_names[i]
 			effect = get_direct_damage('fire',4)
 			cards.append(Card(name,effect))
+		name = card_names[2]
+		effect = get_sits_nTurns('water',3)
+		cards.append(Card(name,effect))
 		player_collection = Collection(cards)
 		players.append(Player_Container(player,player_collection))
 

@@ -7,10 +7,10 @@ class Effect:
 		self.instants = instants
 		self.persists = persists
 		self.pactivates = pactivates
-		if type(elements) is list or type(elements) is tuple:
-			self.elements = tuple(elements)
+		if type(elements) is list:
+			self.elements = list(elements)
 		else:
-			self.elements = (elements)
+			self.elements = [elements]
 
 	def on_activate(self,game,uid):
 		self.instants(game,uid)
