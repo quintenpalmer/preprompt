@@ -1,6 +1,5 @@
 from src.model.player.player_container import Player_Container
 from src.model.player import player_type
-from src.model.phase.turn import Turn
 from src.model.phase.phase import Phase
 
 class Game:
