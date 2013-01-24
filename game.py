@@ -16,20 +16,26 @@ if __name__ == '__main__':
 
 	# Make the game
 	game_id1 = model.start_game(Config_Args(config_player1,config_player2))
+	game = model.games[game_id1]
 
 	# Draw a card
-	model.games[game_id1].draw(p1uid)
+	game.draw(p1uid)
+
+	# Move out of the draw-phase
+	game.change_phase()
+	# Move out of the pre-phase
+	game.change_phase()
 
 	# Play a card from player 1's hand targetting player 2's first active card
 	play_args = Play_Args(
-		game=model.games[game_id1].game,
+		game=game.game,
 		src_uid=p1uid,
 		src_card=0,
 		src_list=cltypes.hand,
 		tgt_uid=p2uid,
 		tgt_card=0,
 		tgt_list=cltypes.active)
-	model.games[game_id1].play(play_args)
+	game.play(play_args)
 
 	# Print the game from player 1's perspective
 	print model.out(game_id1,p1uid)

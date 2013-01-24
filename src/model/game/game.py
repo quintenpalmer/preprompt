@@ -1,7 +1,7 @@
 from src.model.player.player_container import Player_Container
 from src.model.player import player_type
 from src.model.phase.turn import Turn
-from random import randint
+from src.model.phase.phase import Phase
 
 class Game:
 	def __init__(self,player1=None,player2=None):
@@ -14,12 +14,7 @@ class Game:
 			self.players.append(player2)
 		else:
 			self.players.append(Player_Container())
-		self.current_turn_owner = self.decide_first_player()
-
-	def decide_first_player(self):
-		who = randint(0,1)
-		who = 0
-		return self.players[who].player.uid
+		self.phase = Phase(2)
 
 	def get_me_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
@@ -36,6 +31,15 @@ class Game:
 			return self.players[0]
 		else:
 			raise Exception("Not the uid of a player playing this game")
+
+	def change_phase(self):
+		self.phase.change_phase()
+
+	def change_turn(self):
+		self.phase.change_turn()
+
+	def get_current_turn_owner(self):
+		return self.players[self.phase.current_turn_owner].player.uid
 
 	def xml_output(self,uid):
 		out_str = "<game>"

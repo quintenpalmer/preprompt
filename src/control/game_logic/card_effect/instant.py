@@ -1,7 +1,9 @@
+from src.model.phase import phase
 
 class Instant_List:
-	def __init__(self):
+	def __init__(self,valid_phase):
 		self.instants = []
+		self.valid_phase = valid_phase
 
 	def add_instant(self,instant):
 		self.instants.append(instant)
@@ -13,6 +15,7 @@ class Instant_List:
 class Instant:
 	def __init__(self,effect=None,conds=None):
 		self.effect = effect
+		self.phases = phase.main
 		if conds == None:
 			self.conds = []
 		else:

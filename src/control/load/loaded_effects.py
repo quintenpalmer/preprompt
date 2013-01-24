@@ -5,9 +5,10 @@ from src.control.game_logic.card_effect.persist import Persist_Cond_list
 from src.control.game_logic.card_effect.persist_activate import Persist_Activate
 from src.control.game_logic.card_effect.persist_activate import Persist_Activate_list
 from src.control.game_logic.card_effect.effect import Effect
+from src.model.phase import phase
 
 def get_direct_damage(element,amount):
-	instants = Instant_List()
+	instants = Instant_List(phase.main)
 	instant = Instant()
 	instant.set_effect(Direct_Damage(element,amount))
 	instant.add_cond(Valid_Activate())
@@ -24,7 +25,7 @@ def get_direct_damage(element,amount):
 	return Effect(instants,persists,pactivates,element)
 
 def get_sits_nTurns(element,amount):
-	instants = Instant_List()
+	instants = Instant_List(phase.main)
 	instant = Instant()
 	instant.set_effect(Do_Nothing())
 	instant.add_cond(Valid_Activate())
