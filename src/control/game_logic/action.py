@@ -33,6 +33,6 @@ class Sub_Action:
 
 	def account_for_board(self):
 		for card in self.me.collection.lists[cltypes.active].cards:
-			print 3
+			print "my card"
 		for card in self.them.collection.lists[cltypes.active].cards:
-			print 2
+			print "their card"
