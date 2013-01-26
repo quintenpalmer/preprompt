@@ -18,10 +18,10 @@ class Phase:
 		self.current_phase += 1
 		if self.current_phase > last:
 			raise Exception("Phase went past the last one")
-	def change_turn(self):
+	def change_turn(self,num_players):
 		if self.current_phase == post:
 			self.current_turn_owner += 1
-			if self.current_turn_owner > players[-1]:
+			if self.current_turn_owner > num_players: 
 				self.current_turn_owner = 0
 		else:
 			raise Exception("Can only end your turn during the post phase")

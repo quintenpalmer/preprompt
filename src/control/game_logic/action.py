@@ -23,6 +23,12 @@ class Sub_Action:
 		self.src = None
 		self.dst = None
 		card_effect.apply_to(self)
+		self.base_damage = self.damage
+		self.base_heal = self.heal
+		self.base_moves = self.moves
+		self.base_src = self.src
+		self.base_dst = self.dst
+		
 
 	def act(self):
 		self.account_for_board()
