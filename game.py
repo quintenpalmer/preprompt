@@ -25,9 +25,9 @@ if __name__ == '__main__':
 	game.draw(p1uid)
 
 	# Move out of the draw-phase
-	game.change_phase()
+	game.step_phase()
 	# Move out of the pre-phase
-	game.change_phase()
+	game.step_phase()
 
 	# Play a card from player 1's hand targetting player 2's first active card
 	play_args = Play_Args(
@@ -41,12 +41,12 @@ if __name__ == '__main__':
 	game.play(play_args)
 
 	# Change the phase
-	game.change_phase()
-	game.change_turn()
+	game.step_phase()
+	game.toggle_turn()
 
 	game.draw(p2uid)
-	game.change_phase()
-	game.change_phase()
+	game.step_phase()
+	game.step_phase()
 
 	play_args = Play_Args(
 		game=game,

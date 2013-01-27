@@ -1,4 +1,3 @@
-from src.model.phase import phase
 
 class Instant_List:
 	def __init__(self,instant,valid_phase):
