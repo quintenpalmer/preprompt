@@ -49,8 +49,16 @@ class Game:
 		out_str += "</game>"
 		return out_str
 
+	def setup(self):
+		for player in self.players:
+			for i in range(5):
+				player.collection.draw()
+
 	def draw(self,uid):
-		self.get_me_from_uid(uid).collection.draw()
+		if self.get_current_turn_owner() == uid:
+			self.get_me_from_uid(uid).collection.draw()
+		else:
+			raise Exception("Player cannot conduct draw during this turn")
 
 	def play(self,play_args):
 		if self.get_current_turn_owner() == play_args.src_uid:
@@ -65,7 +73,7 @@ class Game:
 			else:
 				raise Exception("Not the correct phase to play that card")
 		else:
-			raise Exception("Not that player's turn")
+			raise Exception("Not that correct turn for that player to play that card")
 
 	def change_phase(self):
 		self.phase.change_phase()

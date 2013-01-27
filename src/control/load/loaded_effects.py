@@ -9,6 +9,17 @@ from src.model.phase import phase
 from src.control.game_logic.card_effect.effect_types import Abstract_Instant_Effect, Abstract_Instant_Cond
 from src.control.game_logic.card_effect.effect_types import Abstract_Persist_Cond
 
+from src.model.card.card import Card
+
+def lookup_table(lookup_string):
+	tmp = lookup_string.split('-')
+	element_type = tmp[0]
+	effect_type = tmp[1]
+	params = tmp[2]
+	print element_type
+	print effect_type
+	return Card(tmp[1],get_direct_damage(element_type,params[0]))
+
 def get_direct_damage(element,amount):
 	instants = Instant_List(Instant(Direct_Damage(element,amount),Valid_Activate()),phase.main)
 	persists = Persist_Cond_list(In_Valid_persist())

@@ -1,11 +1,9 @@
 from src.model.game.game import Game
 from src.model.player.player_container import Player_Container
 from src.model.player.player import Player
-from src.model.card.card import Card
 from src.model.collection.collection import Collection
 
-from src.control.load.loaded_effects import get_direct_damage
-from src.control.load.loaded_effects import get_sits_nTurns
+from src.control.load.loaded_effects import lookup_table 
 
 def get_game(config_args):
 	player1 = config_args.config_player1
@@ -18,13 +16,11 @@ def get_game(config_args):
 	for i in range(0,2):
 		player = Player(uids[i])
 		cards = []
-		for j in range(0,9):
-			name = card_names[i]
-			effect = get_direct_damage('fire',4)
-			cards.append(Card(name,effect))
-		name = card_names[2]
-		effect = get_sits_nTurns('water',3)
-		cards.append(Card(name,effect))
+		f = open('data/'+str(uids[i])+'/'+str(dids[i])+'.cards','r')
+		deck = [x.strip() for x in f.readlines()[0].split(',')]
+		f.close()
+		for lookup_string in deck:
+			cards.append(lookup_table(lookup_string))
 		player_collection = Collection(cards)
 		players.append(Player_Container(player,player_collection))
 

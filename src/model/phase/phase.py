@@ -23,6 +23,7 @@ class Phase:
 			self.current_turn_owner += 1
 			if self.current_turn_owner > num_players: 
 				self.current_turn_owner = 0
+			self.current_phase = draw
 		else:
 			raise Exception("Can only end your turn during the post phase")
 	def is_given_phase(self,given_phase):
