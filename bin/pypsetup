@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "export pyp=`pwd`" >> ~/.bashrc
 echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
 echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc

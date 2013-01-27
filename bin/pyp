@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd $pyp
-PYTHONDONTWRITEBYTECODE=1 python game.py #| xmllint --format -
+PYTHONDONTWRITEBYTECODE=1 python game.py
