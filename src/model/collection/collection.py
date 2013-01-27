@@ -29,3 +29,11 @@ class Collection:
 	def draw(self):
 		card = self.lists[cltypes.deck].pop()
 		self.lists[cltypes.hand].push(card)
+
+	def play_to_active(self,card_id):
+		card = self.lists[cltypes.hand].pop(card_id)
+		self.lists[cltypes.active].push(card)
+
+	def play_to_grave(self,card_id):
+		card = self.lists[cltypes.hand].pop(card_id)
+		self.lists[cltypes.grave].push(card)

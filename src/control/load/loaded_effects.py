@@ -11,6 +11,18 @@ from src.control.game_logic.card_effect.effect_types import Abstract_Persist_Con
 
 from src.model.card.card import Card
 
+def get_direct_damage(element,amount):
+	instants = Instant_List(Instant(Direct_Damage(element,amount),Valid_Activate()),phase.main)
+	persists = Persist_Cond_list(False,In_Valid_persist())
+	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),Valid_Activate()))
+	return Effect(instants,persists,pactivates,element)
+
+def get_sits_n_turns(element,amount):
+	instants = Instant_List(Instant(Do_Nothing(),Valid_Activate()),phase.main)
+	persists = Persist_Cond_list(True,Timed_Persist(amount))
+	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),[Valid_Activate()]))
+	return Effect(instants,persists,pactivates,element)
+
 def lookup_table(lookup_string):
 	tmp = lookup_string.split('-')
 	element_type = tmp[0]
@@ -18,19 +30,12 @@ def lookup_table(lookup_string):
 	params = tmp[2]
 	print element_type
 	print effect_type
-	return Card(tmp[1],get_direct_damage(element_type,params[0]))
+	return Card(tmp[1],ntoe[effect_type](element_type,params[0]))
 
-def get_direct_damage(element,amount):
-	instants = Instant_List(Instant(Direct_Damage(element,amount),Valid_Activate()),phase.main)
-	persists = Persist_Cond_list(In_Valid_persist())
-	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),Valid_Activate()))
-	return Effect(instants,persists,pactivates,element)
-
-def get_sits_nTurns(element,amount):
-	instants = Instant_List(Instant(Do_Nothing(),Valid_Activate()),phase.main)
-	persists = Persist_Cond_list([Timed_Persist(amount)])
-	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),[Valid_Activate()]))
-	return Effect(instants,persists,pactivates,element)
+# name to effect mapping
+ntoe = {}
+ntoe['damage'] = get_direct_damage
+ntoe['persists'] = get_sits_n_turns
 
 class Timed_Persist(Abstract_Persist_Cond):
 	def __init__(self,amount):
@@ -67,3 +72,4 @@ class In_Valid_persist(Abstract_Persist_Cond):
 class Do_Nothing(Abstract_Instant_Effect):
 	def apply_to(self,action):
 		pass
+

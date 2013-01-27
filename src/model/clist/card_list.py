@@ -25,13 +25,8 @@ class Card_List:
 		out_str += "</cards>"
 		return out_str
 
-	def pop(self):
-		if len(self.cards) > 0:
-			card = self.cards[0]
-			self.cards = self.cards[1:]
-			return card
-		else:
-			return None
+	def pop(self,index=-1):
+		return self.cards.pop(index)
 
 	def push(self,card):
 		self.cards.append(card)

@@ -10,6 +10,7 @@ class Action:
 			sub_action.account_for_board()
 		for sub_action in self.sub_actions:
 			sub_action.act()
+		return True
 
 class Sub_Action:
 	def __init__(self,game,uid,card_effect):

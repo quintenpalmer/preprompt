@@ -68,7 +68,11 @@ class Game:
 				action.add_action(self,play_args.src_uid,card_effect.instants)
 				#action.account_for_board()
 				#TODO SEND TGT PARAMETERS TO ACTION
-				action.act()
+				success = action.act()
+				if card_effect.persists.does_persist and success:
+					me.collection.play_to_active(play_args.src_card)
+				else:
+					me.collection.play_to_grave(play_args.src_card)
 			else:
 				raise Exception("Not the correct phase to play that card")
 		else:

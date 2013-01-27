@@ -1,6 +1,7 @@
 
 class Persist_Cond_list:
-	def __init__(self,cond):
+	def __init__(self,does_persist,cond):
+		self.does_persist = does_persist
 		if type(cond) == list:
 			self.conds = cond
 		else:
@@ -11,7 +12,7 @@ class Persist_Cond_list:
 			cond.tick(game,uid)
 
 	def persists(self,game,uid):
-		does_persist = True
+		does_persist = self.does_persist
 		for cond in self.conds:
 			does_persist = does_persist and cond.persists
 		return does_persist
