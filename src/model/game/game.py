@@ -44,6 +44,9 @@ class Game:
 		out_str += "</game>"
 		return out_str
 
+	def __repr__(self):
+		return "Game: Player:"+self.players[0].player.name+" Player:"+self.players[1].player.name+" State:"+str(self.control_state.phase)
+
 	def setup(self):
 		self.verify_setup_super_phase()
 		for player in self.players:

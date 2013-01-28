@@ -31,7 +31,7 @@ class Instant:
 	def is_valid(self,action):
 		valid = True
 		for cond in self.conds:
-			valid = valid and cond.is_valid(action,action.game,action.me.player.uid)
+			valid = valid and cond.is_valid(action)
 		return valid
 
 	def apply_to(self,action):

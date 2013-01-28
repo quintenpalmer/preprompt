@@ -30,6 +30,7 @@ if __name__ == '__main__':
 	game.step_phase()
 
 	# Play a card from player 1's hand targetting player 2's first active card
+	print game
 	play_args = Play_Args(
 		game=game,
 		src_uid=p1uid,

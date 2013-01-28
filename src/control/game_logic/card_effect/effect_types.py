@@ -7,6 +7,13 @@ class Abstract_Instant_Effect:
 	def apply_to(self,action):
 		pass
 
+class Abstract_Trigger_Effect:
+	__metaclass__ = abc.ABCMeta
+
+	@abc.abstractmethod
+	def apply_to(self,action):
+		pass
+
 class Abstract_Instant_Cond:
 	__metaclass__ = abc.ABCMeta
 
@@ -18,13 +25,13 @@ class Abstract_Persist_Cond:
 	__metaclass__ = abc.ABCMeta
 
 	@abc.abstractmethod
-	def tick(self,action,game,uid):
+	def tick(self,action):
 		pass
 
 	@abc.abstractmethod
-	def persists(self,action,game,uid):
+	def persists(self,action):
 		pass
 
 	@abc.abstractmethod
-	def reset(self,action,game,uid):
+	def reset(self,action):
 		pass

@@ -6,8 +6,7 @@ from src.control.game_logic.card_effect.persist_activate import Persist_Activate
 from src.control.game_logic.card_effect.persist_activate import Persist_Activate_list
 from src.control.game_logic.card_effect.effect import Effect
 from src.model.state.control_state import phase
-from src.control.game_logic.card_effect.effect_types import Abstract_Instant_Effect, Abstract_Instant_Cond
-from src.control.game_logic.card_effect.effect_types import Abstract_Persist_Cond
+from src.control.game_logic.card_effect.effect_types import Abstract_Instant_Effect, Abstract_Instant_Cond, Abstract_Persist_Cond, Abstract_Trigger_Effect
 
 from src.model.card.card import Card
 
@@ -17,10 +16,19 @@ def get_direct_damage(element,amount):
 	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),Valid_Activate()))
 	return Effect(instants,persists,pactivates,element)
 
-def get_sits_n_turns(element,amount):
+def get_sits_n_turns(element,duration):
 	instants = Instant_List(Instant(Do_Nothing(),Valid_Activate()),phase.main)
-	persists = Persist_Cond_list(True,Timed_Persist(amount))
-	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),[Valid_Activate()]))
+	persists = Persist_Cond_list(True,Timed_Persist(duration))
+	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),Valid_Activate()))
+	return Effect(instants,persists,pactivates,element)
+
+def alters_m_sits_n_turns(element,args):
+	tmp = args.split('/')
+	duration = tmp[0]
+	amount = tmp[1]
+	instants = Instant_List(Instant(Do_Nothing(),Valid_Activate()),phase.main)
+	persists = Persist_Cond_list(True,Timed_Persist(duration))
+	pactivates = Persist_Activate_list(Persist_Activate(Add_Damage(element,amount),Valid_Activate()))
 	return Effect(instants,persists,pactivates,element)
 
 def lookup_table(lookup_string):
@@ -30,22 +38,23 @@ def lookup_table(lookup_string):
 	params = tmp[2]
 	print element_type
 	print effect_type
-	return Card(tmp[1],ntoe[effect_type](element_type,params[0]))
+	return Card(tmp[1],ntoe[effect_type](element_type,params))
 
 # name to effect mapping
 ntoe = {}
 ntoe['damage'] = get_direct_damage
 ntoe['persists'] = get_sits_n_turns
+ntoe['alter'] = alters_m_sits_n_turns
 
 class Timed_Persist(Abstract_Persist_Cond):
 	def __init__(self,amount):
 		self.current_turns = amount
 		self.start_turns = amount
-	def tick(self,game,uid):
+	def tick(self,action):
 		self.current_turns -= 1
-	def persists(self,game,uid):
+	def persists(self,action):
 		return self.turns >= 0
-	def reset(self,game,uid):
+	def reset(self,action):
 		self.current_turns = self.start_turns
 
 class Direct_Damage(Abstract_Instant_Effect):
@@ -57,16 +66,24 @@ class Direct_Damage(Abstract_Instant_Effect):
 		action.element = self.element
 		action.damage = self.amount
 
+class Add_Damage(Abstract_Trigger_Effect):
+	def __init__(self,element,amount):
+		self.element = get_element_from_string(element)
+		self.amount = int(amount)
+
+	def apply_to(self,action):
+		action.damage += self.amount
+
 class Valid_Activate(Abstract_Instant_Cond):
-	def is_valid(self,action,game,uid):
+	def is_valid(self,action):
 		return True
 
 class In_Valid_persist(Abstract_Persist_Cond):
-	def tick(self,game,uid):
+	def tick(self,action):
 		pass
-	def persists(self,game,uid):
+	def persists(self,action):
 		return False
-	def reset(self,game,uid):
+	def reset(self,action):
 		pass
 
 class Do_Nothing(Abstract_Instant_Effect):

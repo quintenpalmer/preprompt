@@ -40,6 +40,6 @@ class Sub_Action:
 
 	def account_for_board(self):
 		for card in self.me.collection.lists[cltypes.active].cards:
-			print "my card"
+			print 'my card:',card.effect.pactivates.on_act(self)
 		for card in self.them.collection.lists[cltypes.active].cards:
-			print "their card"
+			print 'their card:',card.effect.pactivates.on_act(self)
