@@ -41,6 +41,17 @@ if __name__ == '__main__':
 		tgt_list=cltypes.active)
 	game.play(play_args)
 
+	# Play a card from player 1's hand targetting player 2's first active card
+	play_args = Play_Args(
+		game=game,
+		src_uid=p1uid,
+		src_card=0,
+		src_list=cltypes.hand,
+		tgt_uid=p2uid,
+		tgt_card=0,
+		tgt_list=cltypes.active)
+	game.play(play_args)
+
 	# Change the phase
 	game.step_phase()
 	game.toggle_turn()
