@@ -8,6 +8,7 @@ list_all = False
 user_excluded_files = []
 user_excluded_directories = []
 dash_a_flag = ''
+root = '.'
 if len(sys.argv) > 1:
 	for arg in sys.argv:
 		if arg == '-i':
@@ -20,6 +21,8 @@ if len(sys.argv) > 1:
 			user_excluded_files.extend(arg[3:].split(','))
 		elif arg[:3] == '-d=':
 			user_excluded_directories.extend(arg[3:].split(','))
+		else:
+			root = arg
 start = 0
 #print user_excluded_files
 #print user_excluded_directories
@@ -28,7 +31,7 @@ dash_a_flag = ''
 if list_all:
 	dash_a_flag = 'a'
 
-out = sub.Popen(['ls','-pR'+dash_a_flag],stdin=sub.PIPE,stdout=sub.PIPE,stderr=sub.STDOUT)
+out = sub.Popen(['ls','-pR'+dash_a_flag,root],stdin=sub.PIPE,stdout=sub.PIPE,stderr=sub.STDOUT)
 out = out.stdout.read()
 full = []
 exclude_files = ['crx','deb','zip','class','pyc','jar','dylib','jnilib','so','dll']
