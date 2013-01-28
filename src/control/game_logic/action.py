@@ -7,8 +7,6 @@ class Action:
 		self.sub_actions.append(Sub_Action(game,uid,card_effect))
 	def act(self):
 		for sub_action in self.sub_actions:
-			sub_action.account_for_board()
-		for sub_action in self.sub_actions:
 			sub_action.act()
 		return True
 
@@ -40,6 +38,6 @@ class Sub_Action:
 
 	def account_for_board(self):
 		for card in self.me.collection.lists[cltypes.active].cards:
-			print 'my card:',card.effect.pactivates.on_act(self)
+			card.effect.pactivates.on_act(self,0)
 		for card in self.them.collection.lists[cltypes.active].cards:
-			print 'their card:',card.effect.pactivates.on_act(self)
+			card.effect.pactivates.on_act(self,1)

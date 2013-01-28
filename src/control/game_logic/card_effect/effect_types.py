@@ -7,13 +7,6 @@ class Abstract_Instant_Effect:
 	def apply_to(self,action):
 		pass
 
-class Abstract_Trigger_Effect:
-	__metaclass__ = abc.ABCMeta
-
-	@abc.abstractmethod
-	def apply_to(self,action):
-		pass
-
 class Abstract_Instant_Cond:
 	__metaclass__ = abc.ABCMeta
 
@@ -34,4 +27,18 @@ class Abstract_Persist_Cond:
 
 	@abc.abstractmethod
 	def reset(self,action):
+		pass
+
+class Abstract_Trigger_Effect:
+	__metaclass__ = abc.ABCMeta
+
+	@abc.abstractmethod
+	def apply_to(self,action):
+		pass
+
+class Abstract_Trigger_Cond:
+	__metaclass__ = abc.ABCMeta
+
+	@abc.abstractmethod
+	def is_valid(self,action,game_owner):
 		pass

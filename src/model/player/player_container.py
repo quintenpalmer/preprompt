@@ -13,3 +13,5 @@ class Player_Container:
 		out_str += self.collection.xml_output(player_type)
 		out_str += "</collection>"
 		return out_str
+	def __repr__(self):
+		return "Player: "+self.player.name+","+str(self.player.health)

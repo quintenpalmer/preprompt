@@ -6,29 +6,30 @@ from src.control.game_logic.card_effect.persist_activate import Persist_Activate
 from src.control.game_logic.card_effect.persist_activate import Persist_Activate_list
 from src.control.game_logic.card_effect.effect import Effect
 from src.model.state.control_state import phase
-from src.control.game_logic.card_effect.effect_types import Abstract_Instant_Effect, Abstract_Instant_Cond, Abstract_Persist_Cond, Abstract_Trigger_Effect
+from src.control.game_logic.card_effect.effect_types import Abstract_Instant_Effect, Abstract_Instant_Cond, Abstract_Persist_Cond, Abstract_Trigger_Effect, Abstract_Trigger_Cond
 
 from src.model.card.card import Card
 
 def get_direct_damage(element,amount):
 	instants = Instant_List(Instant(Direct_Damage(element,amount),Valid_Activate()),phase.main)
 	persists = Persist_Cond_list(False,In_Valid_persist())
-	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),Valid_Activate()))
+	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing_Trigger(),Valid_Trigger_Cond()))
 	return Effect(instants,persists,pactivates,element)
 
 def get_sits_n_turns(element,duration):
 	instants = Instant_List(Instant(Do_Nothing(),Valid_Activate()),phase.main)
 	persists = Persist_Cond_list(True,Timed_Persist(duration))
-	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing(),Valid_Activate()))
+	pactivates = Persist_Activate_list(Persist_Activate(Do_Nothing_Trigger(),Valid_Trigger_Cond()))
 	return Effect(instants,persists,pactivates,element)
 
 def alters_m_sits_n_turns(element,args):
 	tmp = args.split('/')
 	duration = tmp[0]
 	amount = tmp[1]
+	who = [int(t) for t in tmp[2]]
 	instants = Instant_List(Instant(Do_Nothing(),Valid_Activate()),phase.main)
 	persists = Persist_Cond_list(True,Timed_Persist(duration))
-	pactivates = Persist_Activate_list(Persist_Activate(Add_Damage(element,amount),Valid_Activate()))
+	pactivates = Persist_Activate_list(Persist_Activate(Add_Damage(element,amount),On_Damager(who)))
 	return Effect(instants,persists,pactivates,element)
 
 def lookup_table(lookup_string):
@@ -74,6 +75,21 @@ class Add_Damage(Abstract_Trigger_Effect):
 	def apply_to(self,action):
 		action.damage += self.amount
 
+class On_Damager(Abstract_Trigger_Cond):
+	def __init__(self,who):
+		self.who = who
+
+	def is_valid(self,action,card_owner):
+		if action.base_damage > 0:
+			if card_owner in self.who:
+				return True
+		return False
+
+class Valid_Trigger_Cond(Abstract_Trigger_Cond):
+	def is_valid(self,action,card_owner):
+		return True
+		
+
 class Valid_Activate(Abstract_Instant_Cond):
 	def is_valid(self,action):
 		return True
@@ -84,6 +100,10 @@ class In_Valid_persist(Abstract_Persist_Cond):
 	def persists(self,action):
 		return False
 	def reset(self,action):
+		pass
+
+class Do_Nothing_Trigger(Abstract_Trigger_Effect):
+	def apply_to(self,action):
 		pass
 
 class Do_Nothing(Abstract_Instant_Effect):
