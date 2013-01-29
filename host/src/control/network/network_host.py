@@ -14,8 +14,8 @@ class Listener:
 
 	def listen_for_requests(self,model):
 		while True:
-			request = self.listen_for_request(model)
-			if request == 'bye':
+			resp = self.listen_for_request(model)
+			if 'done' in resp:
 				break
 		
 	def listen_for_request(self,model):

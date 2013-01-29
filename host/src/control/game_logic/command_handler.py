@@ -1,17 +1,17 @@
 from src.control.load.database_reader import Config_Player, Config_Args
 from src.control.game_logic.play import Play_Args
-from xml.dom.minidom import parseString
+from src.control.serializer import serialize
 
 def handle(request,model):
 	request = request.split(' ')
-	print request
+	#print request
 	command = request.pop(0)
 	if command == 'test':
-		return 'ok'
+		return serialize(['ok'])
 	elif command == 'exit':
-		return 'bye'
+		return serialize(['done'])
 	elif command == 'new':
-		return str(model.start_game(Config_Args(Config_Player(request[0],request[1]),Config_Player(request[2],request[3]))))+' ok'
+		return serialize(['new_game',str(model.start_game(Config_Args(Config_Player(request[0],request[1]),Config_Player(request[2],request[3]))))])
 	else:
 		game_id = int(request.pop(0))
 		game = model.get_game_from_id(game_id)
@@ -34,5 +34,8 @@ def handle(request,model):
 		elif command == 'turn':
 			game.toggle_turn()
 		elif command == 'out':
-			print parseString(model.out(game_id,src_uid)).toprettyxml(indent='  ')
-		return 'ok'
+			return serialize(['xml',model.out(game_id,src_uid)])
+			pass
+		else:
+			return serialize(['no_such_command'])
+		return serialize(['ok',])

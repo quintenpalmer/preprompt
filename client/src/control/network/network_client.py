@@ -8,7 +8,7 @@ def send_request(request):
 	s.connect((host,port))
 
 	s.send(request)
-	response = s.recv(1024)
+	response = s.recv(16384)
 	s.close()
 	return response
 
