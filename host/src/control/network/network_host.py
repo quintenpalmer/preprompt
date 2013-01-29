@@ -1,7 +1,7 @@
 from src.control.game_logic.command_handler import handle
 
 import socket
-import util
+from src import util
 
 class Listener:
 	def __init__(self):

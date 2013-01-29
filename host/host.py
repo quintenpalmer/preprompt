@@ -1,6 +1,6 @@
 from src.control.network.network_host import Listener
 from src.model.model import Model
-from util import make_logger
+from src.util import make_logger
 #from src.view import Display
 
 if __name__ == '__main__':

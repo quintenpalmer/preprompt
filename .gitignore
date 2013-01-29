@@ -1,7 +1,7 @@
 *.py[co]
 
 # Logs
-host/log/*
+host/var/log/*
 
 # Packages
 *.egg
