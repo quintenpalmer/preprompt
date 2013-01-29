@@ -1,7 +1,7 @@
 from src.control.game_logic.command_handler import handle
 
 import socket
-
+import util
 
 class Listener:
 	def __init__(self):
@@ -20,8 +20,12 @@ class Listener:
 		
 	def listen_for_request(self,model):
 		c,addr = self.s.accept()
+		util.logger.debug('Established Connection from %s',str(addr))
 		request = c.recv(1024)
+		util.logger.info('Recieved Request from %s',str(addr))
 		ret = handle(request,model)
+		util.logger.debug('Handled Request to %s',str(addr))
 		c.send(ret)
+		util.logger.info('Sent Response to %s',str(addr))
 		c.close()
 		return ret
