@@ -15,12 +15,17 @@ class Model:
 		return game_id
 
 	def stop_game(self,game_id):
-		#print game_id,self.all_ids
-		if game_id in self.all_ids:
+		try:
 			del self.games[game_id]
 			self.push_id(game_id)
-		else:
-			raise Exception("That never was and is not a valid game id")
+		except IndexError:
+			raise Exception("That is not a valid game id")
+
+	def get_game_from_id(self,game_id):
+		try:
+			return self.games[game_id]
+		except IndexError:
+			raise Exception("That is not a valid game id")
 
 	def pop_id(self):
 		if len(self.free_ids) > 0:

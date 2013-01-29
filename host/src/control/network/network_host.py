@@ -1,3 +1,4 @@
+from src.control.game_logic.command_handler import handle
 
 import socket
 
@@ -11,16 +12,16 @@ class Listener:
 		self.s.bind((host,port))
 		self.s.listen(1)
 
-	def listen_for_requests(self):
+	def listen_for_requests(self,model):
 		while True:
-			request = self.listen_for_request()
-			print request
-			if request == 'exit':
+			request = self.listen_for_request(model)
+			if request == 'bye':
 				break
 		
-	def listen_for_request(self):
+	def listen_for_request(self,model):
 		c,addr = self.s.accept()
-		ret = c.recv(1024)
-		c.send('hi')
+		request = c.recv(1024)
+		ret = handle(request,model)
+		c.send(ret)
 		c.close()
 		return ret

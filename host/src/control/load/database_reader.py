@@ -32,7 +32,6 @@ class Config_Args:
 		self.config_player2 = config_player2
 
 class Config_Player:
-	def __init__(self,uid,did,name):
+	def __init__(self,uid,did):
 		self.uid = uid
 		self.did = did
-		self.name = name
