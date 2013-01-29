@@ -1,8 +1,8 @@
 #!/bin/bash
 
 cd $pyp/host
-PYTHONDONTWRITEBYTECODE=1 python host.py&
+python -B host.py&
 sleep .1
 cd $pyp/client
-PYTHONDONTWRITEBYTECODE=1 python client.py
+python -B client.py
 sleep .1

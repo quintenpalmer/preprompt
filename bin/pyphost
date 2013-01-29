@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd $pyp/host
-PYTHONDONTWRITEBYTECODE=1 python host.py
+python -B host.py

@@ -14,7 +14,7 @@ names[grave]='grave'
 names[special]='special'
 names[other]='other'
 
-size = 6
+size = len(names)+1
 
 full = range(0,size)
 

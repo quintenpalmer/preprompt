@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd $pyp/client
-PYTHONDONTWRITEBYTECODE=1 python client.py
+python -B client.py
