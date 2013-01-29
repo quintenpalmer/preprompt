@@ -1,5 +1,8 @@
 *.py[co]
 
+# Logs
+host/log/*
+
 # Packages
 *.egg
 *.egg-info
