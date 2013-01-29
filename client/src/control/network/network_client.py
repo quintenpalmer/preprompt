@@ -1,15 +1,14 @@
 
 import socket
+host = 'localhost'
+port = 52690
 
-class Requester:
-	def send_request(self,request):
-		self.s = socket.socket()
-		host = 'localhost'
-		port = 52690
-		self.s.connect((host,port))
+def send_request(request):
+	s = socket.socket()
+	s.connect((host,port))
 
-		self.s.send(request)
-		response = self.s.recv(1024)
-		self.s.close()
-		return response
+	s.send(request)
+	response = s.recv(1024)
+	s.close()
+	return response
 

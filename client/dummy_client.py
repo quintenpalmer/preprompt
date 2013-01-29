@@ -1,6 +1,5 @@
 
-from src.control.network.network_client import Requester
+from src.control.network.network_client import send_request
 
 if __name__ == '__main__':
-	requester = Requester()
-	requester.send_request('exit')
+	send_request('exit')
