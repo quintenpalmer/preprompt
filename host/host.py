@@ -2,13 +2,15 @@ from src.model.model import Model
 from src.model.clist import cltypes
 from src.control.game_logic.play import Play_Args
 from src.control.load.database_reader import Config_Player, Config_Args
-#from src.control import Controller
+from src.control.network.network_host import Listener
 #from src.view import Display
 from xml.dom.minidom import parseString
 
 if __name__ == '__main__':
 	# Make the model to start (this HAS to happen)
 	model = Model()
+	listener = Listener()
+	listener.listen_for_requests()
 	# Make the config players (what will be loaded from the db)
 	p1uid = 26
 	p2uid = 13

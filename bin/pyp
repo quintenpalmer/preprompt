@@ -2,5 +2,7 @@
 
 cd $pyp/host
 PYTHONDONTWRITEBYTECODE=1 python host.py&
+sleep .1
 cd $pyp/client
 PYTHONDONTWRITEBYTECODE=1 python client.py
+sleep .1
