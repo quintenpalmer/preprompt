@@ -17,15 +17,16 @@ class View:
 			command = raw_input("Type a command to go: ")
 			if command == 'example':
 				self.example_start()
+			elif len(command) >= 4 and command[:4] == 'eval':
+				print eval(command[5:])
 			else:
 				self.do(command)
 			draw_game(self.model.current_game)
 	def example_start(self):
 		self.do('test')
-		self.do('new 26 0 13 1')
-		gid = '0'
-		xml_string = '<game><data>1</data></game>'
-		self.model.add_game(gid,xml_string)
+		resp = self.do('new 26 0 13 1')
+		self.model.add_game(resp)
+		'''
 		self.do('setup '+gid+' 26')
 		self.do('draw '+gid+' 26')
 		self.do('phase '+gid+' 26')
@@ -42,3 +43,4 @@ class View:
 		self.do('phase '+gid+' 13')
 		self.do('turn '+gid+' 13')
 		self.do('out '+gid+' 26')
+		'''

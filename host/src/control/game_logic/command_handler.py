@@ -11,7 +11,8 @@ def handle(request,model):
 	elif command == 'exit':
 		return serialize(['done'])
 	elif command == 'new':
-		return serialize(['new_game',str(model.start_game(Config_Args(Config_Player(request[0],request[1]),Config_Player(request[2],request[3]))))])
+		game_id = model.start_game(Config_Args(Config_Player(request[0],request[1]),Config_Player(request[2],request[3])))
+		return serialize(['new_game',str(game_id),model.out(game_id,request[0])])
 	else:
 		game_id = int(request.pop(0))
 		game = model.get_game_from_id(game_id)
