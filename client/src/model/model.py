@@ -1,4 +1,4 @@
-from src.model.game.game import Game
+from src.model.game import Game
 from src.control.xml_parser import parse_xml, parse_int, parse_element
 
 class Model:

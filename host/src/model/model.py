@@ -1,6 +1,5 @@
 from src.control.load import database_reader
-#from src.control.game_logic.game_control import Game_Control
-from src.model.game.game import Game
+from src.model.game import Game
 
 class Model:
 	def __init__(self):

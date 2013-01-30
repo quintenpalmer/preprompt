@@ -1,5 +1,5 @@
-from src.model.clist import cltypes
-from src.model.clist.card_list import Card_List
+from src.model import cltypes
+from src.model.card_list import Card_List
 from src.model.player import player_type
 
 class Collection:

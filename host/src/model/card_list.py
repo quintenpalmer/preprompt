@@ -1,6 +1,5 @@
-from src.model.card.card import Card
+from src.model.card import Card, Empty_Card
 from src.model.player import player_type
-from src.model.card import empty_card
 
 class Card_List:
 	def __init__(self,cards=None):
@@ -20,7 +19,7 @@ class Card_List:
 			if full:
 				out_str += card.xml_output()
 			else:
-				out_str += empty_card.xml_output()
+				out_str += Empty_Card().xml_output()
 			out_str += "</card>"
 		out_str += "</cards>"
 		return out_str

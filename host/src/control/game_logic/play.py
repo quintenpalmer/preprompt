@@ -1,4 +1,4 @@
-from src.model.clist import cltypes
+from src.model import cltypes
 
 class Play_Args:
 	def __init__(self,game,src_uid,src_card,src_list,tgt_uid,tgt_card,tgt_list):

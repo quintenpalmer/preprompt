@@ -1,4 +1,4 @@
-from src.model.clist import cltypes
+from src.model import cltypes
 
 class Action:
 	def __init__(self):

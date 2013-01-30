@@ -1,7 +1,6 @@
-from src.model.game.game import Game
-from src.model.player.player_container import Player_Container
-from src.model.player.player import Player
-from src.model.collection.collection import Collection
+from src.model.game import Game
+from src.model.player import Player_Container, Player
+from src.model.collection import Collection
 
 from src.control.load.loaded_effects import lookup_table 
 

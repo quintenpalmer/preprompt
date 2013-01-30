@@ -1,9 +1,6 @@
-from src.model.player.player_container import Player_Container
+from src.model.player import Player_Container
 from src.model.player import player_type
-from src.model.state.control_state import Control_State
-from src.model.state.control_state import super_phase
-
-from src.model.player import player_type
+from src.model.control_state import Control_State,super_phase
 
 from src.control.game_logic.action import Action
 

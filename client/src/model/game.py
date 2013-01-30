@@ -1,6 +1,6 @@
 from src.control.xml_parser import parse_xml, parse_element
 
-from src.model.player.player_container import Player_Container
+from src.model.player import Player_Container
 
 class Game:
 	def __init__(self,element):

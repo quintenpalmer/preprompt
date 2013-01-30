@@ -13,3 +13,11 @@ class Card:
 
 	def play(self,args):
 		self.effect(args)
+
+class Empty_Card:
+	def xml_output(self):
+		out_str = ""
+		out_str += "<type>"
+		out_str += "empty"
+		out_str += "</type>"
+		return out_str
