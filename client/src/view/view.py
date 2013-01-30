@@ -26,7 +26,7 @@ class View:
 		self.do('test')
 		resp = self.do('new 26 0 13 1')
 		self.model.add_game(resp)
-		'''
+		gid = str(self.model.current_game[0])
 		self.do('setup '+gid+' 26')
 		self.do('draw '+gid+' 26')
 		self.do('phase '+gid+' 26')
@@ -43,4 +43,3 @@ class View:
 		self.do('phase '+gid+' 13')
 		self.do('turn '+gid+' 13')
 		self.do('out '+gid+' 26')
-		'''
