@@ -16,6 +16,9 @@ sdist
 develop-eggs
 .installed.cfg
 
+# swap save files
+*.swp
+
 # Installer logs
 pip-log.txt
 

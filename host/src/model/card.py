@@ -6,6 +6,9 @@ class Card:
 
 	def xml_output(self):
 		out_str = ""
+		out_str += "<type>"
+		out_str += "full"
+		out_str += "</type>"
 		out_str +="<name>"
 		out_str += self.name
 		out_str +="</name>"

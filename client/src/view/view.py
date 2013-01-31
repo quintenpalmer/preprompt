@@ -1,5 +1,5 @@
 import time
-from src.control.network.network_client import send_request
+from src.control.network import send_request
 from src.view.game_drawer import draw_game
 from xml.dom.minidom import parseString
 
