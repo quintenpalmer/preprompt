@@ -9,6 +9,8 @@ class View:
 	def do(self,param):
 		resp = send_request(param)
 		time.sleep(.01)
+		if param[:3] == 'out':
+			self.model.update_game(resp)
 		#print '\n'.join(parseString(resp).toprettyxml(indent='  ').split('\n')[1:][:-1])
 		return resp
 	def run(self):

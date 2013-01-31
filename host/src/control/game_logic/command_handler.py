@@ -35,7 +35,7 @@ def handle(request,model):
 		elif command == 'turn':
 			game.toggle_turn()
 		elif command == 'out':
-			return serialize(['xml',model.out(game_id,src_uid)])
+			return serialize(['xml',str(game_id),model.out(game_id,src_uid)])
 			pass
 		else:
 			return serialize(['no_such_command'])

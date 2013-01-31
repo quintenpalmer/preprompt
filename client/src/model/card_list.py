@@ -8,3 +8,6 @@ class Card_List:
 		#TODO right now will just get n copies of the first card!
 		for i in range(size):
 			self.cards.append(Card(parse_element(element,'cards')))
+
+		def __iter__(self):
+			return self.cards
