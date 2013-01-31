@@ -1,7 +1,8 @@
 *.py[co]
 
 # Logs
-*.log
+pyphost.log
+pypclient.log
 
 # Packages
 *.egg
