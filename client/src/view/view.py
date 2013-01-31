@@ -9,7 +9,7 @@ class View:
 	def do(self,param):
 		resp = send_request(param)
 		time.sleep(.01)
-		print '\n'.join(parseString(resp).toprettyxml(indent='  ').split('\n')[1:][:-1])
+		#print '\n'.join(parseString(resp).toprettyxml(indent='  ').split('\n')[1:][:-1])
 		return resp
 	def run(self):
 		command = ''
@@ -21,7 +21,7 @@ class View:
 				print eval(command[5:])
 			else:
 				self.do(command)
-			draw_game(self.model.current_game)
+			draw_game(self.model.current_game[1])
 	def example_start(self):
 		self.do('test')
 		resp = self.do('new 26 0 13 1')
