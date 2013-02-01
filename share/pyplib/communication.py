@@ -53,4 +53,4 @@ def generate_request(command,model,params=[]):
 		func_params = arg[2]
 		request += '<' + tag + '>' + str(func(model,params,func_params)) + '</' + tag + '>'
 	request += '</request>'
-	return request#send_request(request)
+	return request

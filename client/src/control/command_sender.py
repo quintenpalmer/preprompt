@@ -3,7 +3,7 @@ from pyplib.communication import generate_request,command_mapping
 from src.control.network import send_request
 from src.view.game_drawer import draw_game
 
-def build_and_send_request(command,model,params=[]):
+def build_and_send_and_process_request(command,model,params=[]):
 	super_command = command_mapping[command]
 	resp = send_request(generate_request(command,model,params))
 	if super_command == 'meta':

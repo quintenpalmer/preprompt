@@ -1,30 +1,38 @@
 
 def draw_game(game):
-	out = 'Enemy: ' + game.them.player.name+'\n'
-	out += '[deck]\t'
+	out = '='*70+'\n'
+	out += 'Enemy: ' + game.them.player.name+' Health: '+str(game.them.player.health)+'\n'
+	out += '[[DECK]]\t'
 	for card in game.them.collection.hand.cards:
-		out += card.name
+		out += '['+card.name+']'
 		for i in range(10-len(card.name)):
 			out += ' '
 	out += '\n'
-	out += '[grave]\t' 
+	if len(game.them.collection.grave.cards) == 0:
+		out += '[[GRAVE]]\t'
+	else:
+		out += '[['+game.them.collection.grave.cards[0].name+']]\t' 
 	for card in game.them.collection.active.cards:
-		out += card.name
+		out += '['+card.name+']'
 		for i in range(10-len(card.name)):
 			out += ' '
 	out += '\n'
-	out += '\n'
-	out += '[grave]\t' 
+	if len(game.me.collection.grave.cards) == 0:
+		out += '[[GRAVE]]\t'
+	else:
+		out += '[['+game.me.collection.grave.cards[0].name+']]\t' 
 	for card in game.me.collection.active.cards:
-		out += card.name
+		out += '['+card.name+']'
 		for i in range(10-len(card.name)):
 			out += ' '
 	out += '\n'
-	out += '[deck]\t'
+	out += '[[DECK]]\t'
 	for card in game.me.collection.hand.cards:
-		out += card.name
+		out += '['+card.name+']'
 		for i in range(10-len(card.name)):
 			out += ' '
 	out += '\n'
-	out += 'You: ' + game.me.player.name+'\n'
+	out += 'You: ' + game.me.player.name+' Health: '+str(game.me.player.health)+'\n'
+	out += '-'*70
+
 	print out
