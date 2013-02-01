@@ -1,5 +1,5 @@
 from src.model.collection import Collection
-from src.control.xml_parser import parse_element, parse_string, parse_int
+from pyplib.xml_parser import parse_element, parse_string, parse_int
 
 class Player_Container:
 	def __init__(self,element):

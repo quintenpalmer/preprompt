@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd $pyp/host
-python -B host.py
+PYTHONPATH=$PYTHONPATH:$pyp/share python -B host.py

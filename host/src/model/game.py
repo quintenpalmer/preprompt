@@ -17,7 +17,7 @@ class Game:
 		elif self.players[1].player.uid == uid:
 			return self.players[1]
 		else:
-			raise Exception("Not the uid of a player playing this game")
+			raise Exception("Not the uid of a player playing this game:"+str(uid))
 
 	def get_them_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
@@ -25,7 +25,7 @@ class Game:
 		elif self.players[1].player.uid == uid:
 			return self.players[0]
 		else:
-			raise Exception("Not the uid of a player playing this game")
+			raise Exception("Not the uid of a player playing this game:"+str(uid))
 
 	def get_current_turn_owner(self):
 		return self.players[self.control_state.turn_owner].player.uid

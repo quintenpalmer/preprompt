@@ -1,4 +1,4 @@
-from src.control.game_logic.command_handler import handle
+from src.control.command_handler import handle
 
 import socket
 from src import util
@@ -15,7 +15,7 @@ class Listener:
 	def listen_for_requests(self,model):
 		while True:
 			resp = self.listen_for_request(model)
-			if 'done' in resp:
+			if 'exit' in resp:
 				break
 		
 	def listen_for_request(self,model):

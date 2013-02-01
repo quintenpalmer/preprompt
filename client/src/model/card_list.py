@@ -1,5 +1,5 @@
 from src.model.card import Card
-from src.control.xml_parser import parse_int, parse_element
+from pyplib.xml_parser import parse_int, parse_element
 
 class Card_List:
 	def __init__(self,element):

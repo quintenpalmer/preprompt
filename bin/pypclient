@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd $pyp/client
-python -B client.py
+PYTHONPATH=$PYTHONPATH:$pyp/share python -B client.py

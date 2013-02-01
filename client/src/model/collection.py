@@ -1,4 +1,4 @@
-from src.control.xml_parser import parse_element
+from pyplib.xml_parser import parse_element
 from src.model.card_list import Card_List
 
 class Collection:

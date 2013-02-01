@@ -1,12 +1,12 @@
-from src.control.game_logic.card_effect.elements import get_element_from_string
-from src.control.game_logic.card_effect.instant import Instant_List
-from src.control.game_logic.card_effect.instant import Instant
-from src.control.game_logic.card_effect.persist import Persist_Cond_list
-from src.control.game_logic.card_effect.persist_activate import Persist_Activate
-from src.control.game_logic.card_effect.persist_activate import Persist_Activate_list
-from src.control.game_logic.card_effect.effect import Effect
+from src.control.card_effect.elements import get_element_from_string
+from src.control.card_effect.instant import Instant_List
+from src.control.card_effect.instant import Instant
+from src.control.card_effect.persist import Persist_Cond_list
+from src.control.card_effect.persist_activate import Persist_Activate
+from src.control.card_effect.persist_activate import Persist_Activate_list
+from src.control.card_effect.effect import Effect
+from src.control.card_effect.abstract_effects import Abstract_Instant_Effect, Abstract_Instant_Cond, Abstract_Persist_Cond, Abstract_Trigger_Effect, Abstract_Trigger_Cond
 from src.model.control_state import phase
-from src.control.game_logic.card_effect.abstract_effects import Abstract_Instant_Effect, Abstract_Instant_Cond, Abstract_Persist_Cond, Abstract_Trigger_Effect, Abstract_Trigger_Cond
 
 from src.model.card import Card
 

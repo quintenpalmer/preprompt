@@ -1,8 +1,7 @@
 #!/bin/bash
 
 cd $pyp/host
-python -B host.py&
+PYTHONPATH=$PYTHONPATH:$pyp/share python -B host.py&
 sleep .1
 cd $pyp/client
-python -B client.py
-sleep .1
+PYTHONPATH=$PYTHONPATH:$pyp/share python -B client.py
