@@ -6,6 +6,9 @@ def parse_xml(xml_string):
 def parse_element(element,tag):
 	return element.getElementsByTagName(tag).item(0)
 
+def parse_elements(element,tag):
+	return list(element.getElementsByTagName(tag))
+
 def parse_string(element,tag):
 	return element.getElementsByTagName(tag).item(0).firstChild.nodeValue
 

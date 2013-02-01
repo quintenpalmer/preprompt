@@ -1,4 +1,3 @@
-from pyplib.communication import generate_request
 from src.control.command_sender import build_and_send_request
 
 class View:
