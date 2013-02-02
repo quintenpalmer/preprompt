@@ -1,8 +1,15 @@
-def draw(model):
+import sys
+
+def init_screen():
+	#sys.stdout.write('\n'*11)
+	pass
+def draw(model,message):
+	#sys.stdout.write('\33[10A]                                        \r')
+	sys.stdout.write(message+'\n')
 	if model.current_game_id != None:
-		draw_game(model.get_current_game())
+		sys.stdout.write(draw_game(model.get_current_game()))
 	else:
-		print "No current game!"
+		sys.stdout.write("No current game!"+'\n'*1)#0)
 
 def draw_game(game):
 	out = '='*70+'\n'
@@ -39,5 +46,6 @@ def draw_game(game):
 	out += '\n'
 	out += 'You: ' + game.me.player.name+' Health: '+str(game.me.player.health)+'\n'
 	out += '-'*70
+	out += '\n'
 
-	print out
+	return out

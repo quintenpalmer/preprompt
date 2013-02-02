@@ -8,8 +8,8 @@ def send_request(request):
 	s.connect((host,port))
 	s.send(request)
 	response = s.recv(16384)
-	print request
-	print response
+	#print request
+	#print response
 	s.close()
 	return response
 

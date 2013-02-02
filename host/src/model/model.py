@@ -1,17 +1,12 @@
 from src.control.load import database_reader
 from src.model.game import Game
 
-class Model_Error(Exception):
-	def __init__(self,message,status):
-		self.message = message
-		self.status  = status
-	def __str__(self):
-		return self.message
+from src.model.errors import Model_Error
 
 class Model:
-	def __init__(self):
+	def __init__(self,num_games):
 		self.games = {}
-		self.free_ids = range(0,100)
+		self.free_ids = range(0,num_games)
 		self.all_ids = list(self.free_ids)
 
 	def start_game(self,config_args):

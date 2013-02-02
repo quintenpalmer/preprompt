@@ -13,24 +13,22 @@ class Model:
 	def update_game(self,resp):
 		self.ele = parse_xml(resp)
 		resp_status = parse_string(self.ele,'resp_status')
-		print resp_status
-		resp_type = parse_string(self.ele,'resp_type')
-		print resp_type
 		if resp_status == 'ok':
-			game_id = parse_int(self.ele,'param_0')
-			game_state = parse_element(self.ele,'param_1')
-			print game_state
+			resp_type = parse_string(self.ele,'resp_type')
+			game_id = parse_int(self.ele,'game_id')
+			game_state = parse_element(self.ele,'game_xml')
 			self.games[game_id] = Game(game_state)
 			self.current_game_id = game_id
+			return resp_type.title()+' was successful!'
 		else:
-			error_message = parse_string(self.ele,'resp_type')
+			error_message = parse_string(self.ele,'error_message')
 			if resp_status == 'bad_xml_request':
 				util.logger.warning('Last Request had bad xml data: '+error_message)
 			elif resp_status == 'invalid_game_action':
 				util.logger.warning('Last Request had an invalid game action: '+error_message)
 			elif resp_status == 'invalid_model_action':
 				util.logger.warning('Last Request had an invalid model action: '+error_message)
-			print "Something went wrong"
+			return 'Received error message: '+error_message
 
 	def get_current_game(self):
 		return self.games[self.current_game_id]

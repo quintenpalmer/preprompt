@@ -1,15 +1,16 @@
 #from src.control.command_sender import build_and_send_and_process_request
 from pyplib.client_host import *
-from src.view.drawer import draw
+from src.view.drawer import draw,init_screen
 
 class View:
 	def __init__(self,model):
 		self.model = model
+		init_screen()
 	def run(self):
-		#self.request_new()
-		command = ''
+		self.current_message = 'Welcome!'
+		draw(self.model,self.current_message)
+		command = raw_input("Type a command to go: ")
 		while command != 'exit':
-			command = raw_input("Type a command to go: ")
 			if command == 'example':
 				self.example_start()
 			elif command == 'new':
@@ -34,35 +35,36 @@ class View:
 				self.model.logged_in_uid = self.model.get_current_game().them.player.uid
 				self.request_out()
 			else:
-				print 'not a valid command'
-			draw(self.model)
+				self.current_message = 'Not a valid command: '+command
+			draw(self.model,self.current_message)
+			command = raw_input("Type a command to go: ")
 	def request_new(self,me_did=0,them_uid=13,them_did=1):
 		resp = request_new(self.model.logged_in_uid,me_did,them_uid,them_did)
-		self.model.update_game(resp)
+		self.current_message = self.model.update_game(resp)
 	def request_setup(self):
 		resp = request_setup(self.model.current_game_id,self.model.logged_in_uid)
-		self.model.update_game(resp)
+		self.current_message = self.model.update_game(resp)
 	def request_draw(self):
 		resp = request_draw(self.model.current_game_id,self.model.logged_in_uid)
-		self.model.update_game(resp)
+		self.current_message = self.model.update_game(resp)
 	def request_phase(self):
 		resp = request_phase(self.model.current_game_id,self.model.logged_in_uid)
-		self.model.update_game(resp)
+		self.current_message = self.model.update_game(resp)
 	def request_turn(self):
 		resp = request_turn(self.model.current_game_id,self.model.logged_in_uid)
-		self.model.update_game(resp)
+		self.current_message = self.model.update_game(resp)
 	def request_play(self,src_list=1,src_card=0,target_uid=13,target_list=2,target_card=0):
 		resp = request_play(self.model.current_game_id,self.model.logged_in_uid,src_list,src_card,target_uid,target_list,target_card)
-		self.model.update_game(resp)
+		self.current_message = self.model.update_game(resp)
 	def request_test(self):
 		resp = request_test(self.model.version)
-		print resp
+		self.current_message = resp
 	def request_exit(self):
 		resp = request_exit(0)
-		print resp
+		self.current_message = resp
 	def request_out(self):
 		resp = request_out(self.model.current_game_id,self.model.logged_in_uid)
-		self.model.update_game(resp)
+		self.current_message = self.model.update_game(resp)
 	def example_start(self):
 		self.request_test()
 		self.request_new()

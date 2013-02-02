@@ -2,6 +2,8 @@ from src.model import cltypes
 from src.model.card_list import Card_List
 from src.model.player import player_type
 
+from src.model.errors import Game_Action_Error
+
 class Collection:
 	def __init__(self,cards=None):
 		self.lists = []
@@ -27,7 +29,10 @@ class Collection:
 		return out_str
 
 	def draw(self):
-		card = self.lists[cltypes.deck].pop()
+		try:
+			card = self.lists[cltypes.deck].pop()
+		except IndexError:
+			raise Game_Action_Error('That player has no more cards in his/her deck')
 		self.lists[cltypes.hand].push(card)
 
 	def play_to_active(self,card_id):

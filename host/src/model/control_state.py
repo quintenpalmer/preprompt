@@ -1,5 +1,7 @@
 from random import randint
 
+from src.model.errors import Game_Action_Error
+
 class phase:
 	draw = 0
 	pre = 1
@@ -24,20 +26,21 @@ class Control_State:
 	def step_phase(self):
 		self.phase += 1
 		if self.phase > phase.last:
-			raise Exception("Phase went past the last one")
+			self.phase = phase.last
+			raise Game_Action_Error("Phase went past the last one")
 	def toggle_turn(self,num_players):
 		if self.phase == phase.post:
 			self.turn_owner += 1
-			if self.turn_owner > num_players: 
+			if self.turn_owner >= num_players: 
 				self.turn_owner = 0
 			self.phase = phase.draw
 		else:
-			raise Exception("Can only end your turn during the post phase")
+			raise Game_Action_Error("Can only end your turn during the post phase")
 	def exit_setup_phase(self):
 		if self.super_phase == super_phase.setup:
 			self.super_phase = super_phase.main
 		else:
-			raise Exception("Can only be performed in setup super phase")
+			raise Game_Action_Error("Can only be performed in setup super phase")
 			
 
 	def is_given_phase(self,given_phase):

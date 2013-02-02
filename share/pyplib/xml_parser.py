@@ -15,7 +15,7 @@ def parse_xml(xml_string):
 def parse_element(element,tag):
 	ele = element.getElementsByTagName(tag).item(0)
 	if ele == None:
-		raise XML_Parser_Error('The tag %s was not present in that element'%(tag,))
+		raise XML_Parser_Error('The tag %s was not present in the element %s!'%(tag,element.toxml()))
 	return ele
 
 def parse_elements(element,tag):

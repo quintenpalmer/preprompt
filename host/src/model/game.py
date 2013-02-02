@@ -4,11 +4,7 @@ from src.model.control_state import Control_State,super_phase
 
 from src.control.game_logic.action import Action
 
-class Game_Action_Error(Exception):
-	def __init__(self,message):
-		self.message = message
-	def __str__(self):
-		return self.message
+from src.model.errors import Game_Action_Error
 
 class Game:
 	def __init__(self,player1,player2):
@@ -68,7 +64,10 @@ class Game:
 		self.verify_main_super_phase('play')
 		if self.get_current_turn_owner() == play_args.src_uid:
 			me = self.get_me_from_uid(play_args.src_uid)
-			card_effect = me.collection.lists[play_args.src_list].cards[play_args.src_card].effect
+			try:
+				card_effect = me.collection.lists[play_args.src_list].cards[play_args.src_card].effect
+			except IndexError:
+				raise Game_Action_Error("There are no more cards in that player's %s"%(play_args.src_list,))
 			if self.control_state.is_given_phase(card_effect.instants.valid_phase):
 				action = Action()
 				action.add_action(self,play_args.src_uid,card_effect.instants)
