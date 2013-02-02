@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd $pyp/client
+PYTHONPATH=$PYTHONPATH:$pyp/share python -B bad_client.py

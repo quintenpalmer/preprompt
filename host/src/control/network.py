@@ -1,6 +1,6 @@
-from src.control.command_handler import handle
-
 import socket
+
+from src.control.command_handler import handle
 from src import util
 
 class Listener:
