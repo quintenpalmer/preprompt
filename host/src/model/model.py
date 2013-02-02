@@ -1,6 +1,13 @@
 from src.control.load import database_reader
 from src.model.game import Game
 
+class Model_Error(Exception):
+	def __init__(self,message,status):
+		self.message = message
+		self.status  = status
+	def __str__(self):
+		return self.message
+
 class Model:
 	def __init__(self):
 		self.games = {}
@@ -10,6 +17,11 @@ class Model:
 	def start_game(self,config_args):
 		game_id = self.pop_id()
 		game = database_reader.get_game(config_args)
+		try:
+			save_files = open('data/games/'+str(game_id)+'.save','w')
+		except IOError:
+			util.logger.error("Error writing game data")
+			raise Model_Error("Save File %s could not be opened"%(str(game_id),),"internal_error")
 		self.games[game_id] = game
 		return game_id
 
@@ -18,19 +30,19 @@ class Model:
 			del self.games[game_id]
 			self.push_id(game_id)
 		except IndexError:
-			raise Exception("That is not a valid game id")
+			raise Model_Error("%s is not a valid game id"%(str(game_id),),"invalid_game_id")
 
 	def get_game_from_id(self,game_id):
 		try:
 			return self.games[game_id]
 		except IndexError:
-			raise Exception("That is not a valid game id")
+			raise Model_Error("%s is not a valid game id"%(str(game_id),),"invalid_game_id")
 
 	def pop_id(self):
 		if len(self.free_ids) > 0:
 			return self.free_ids.pop(0)
 		else:
-			raise Exception("No room for more games")
+			raise Model_Error("No More room for games","game_count_limit")
 
 	def push_id(self,push_id):
 		self.free_ids.append(push_id)

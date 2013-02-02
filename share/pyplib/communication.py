@@ -32,7 +32,7 @@ command_mapping['exit'] = 'sys'
 command_mapping['test'] = 'sys'
 
 command_args = {}
-command_args['new'] = (('player1_uid',get_param,0),('player1_did',get_param,1),('player2_uid',get_param,2),('player2_did',get_param,3))
+command_args['new'] = (('p1_uid',get_param,0),('p1_did',get_param,1),('p2_uid',get_param,2),('p2_did',get_param,3))
 command_args['setup'] = (('game_id',get_game_id,0),('player_id',get_game_uid,0))
 command_args['draw'] = (('game_id',get_game_id,0),('player_id',get_game_uid,0))
 command_args['phase'] = (('game_id',get_game_id,0),('player_id',get_game_uid,0))

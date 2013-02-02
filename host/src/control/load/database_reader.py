@@ -15,7 +15,7 @@ def get_game(config_args):
 	for i in range(0,2):
 		player = Player(uids[i])
 		cards = []
-		f = open('player_data/'+str(uids[i])+'/'+str(dids[i])+'.cards','r')
+		f = open('data/players/'+str(uids[i])+'/'+str(dids[i])+'.cards','r')
 		deck = [x.strip() for x in f.readlines()[0].split(',')]
 		f.close()
 		for lookup_string in deck:

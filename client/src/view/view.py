@@ -1,10 +1,12 @@
-from src.control.command_sender import build_and_send_and_process_request
+#from src.control.command_sender import build_and_send_and_process_request
+from pyplib.client_host import *
+from src.view.drawer import draw
 
 class View:
 	def __init__(self,model):
 		self.model = model
 	def run(self):
-		self.request_new()
+		#self.request_new()
 		command = ''
 		while command != 'exit':
 			command = raw_input("Type a command to go: ")
@@ -33,45 +35,54 @@ class View:
 				self.request_out()
 			else:
 				print 'not a valid command'
-	def request_new(self):
-		build_and_send_and_process_request('new',self.model,[self.model.logged_in_uid,0,13,1])
+			draw(self.model)
+	def request_new(self,me_did=0,them_uid=13,them_did=1):
+		resp = request_new(self.model.logged_in_uid,me_did,them_uid,them_did)
+		self.model.update_game(resp)
 	def request_setup(self):
-		build_and_send_and_process_request('setup',self.model)
+		resp = request_setup(self.model.current_game_id,self.model.logged_in_uid)
+		self.model.update_game(resp)
 	def request_draw(self):
-		build_and_send_and_process_request('draw',self.model)
+		resp = request_draw(self.model.current_game_id,self.model.logged_in_uid)
+		self.model.update_game(resp)
 	def request_phase(self):
-		build_and_send_and_process_request('phase',self.model)
+		resp = request_phase(self.model.current_game_id,self.model.logged_in_uid)
+		self.model.update_game(resp)
 	def request_turn(self):
-		build_and_send_and_process_request('turn',self.model)
-	def request_play(self):
-		build_and_send_and_process_request('play',self.model,[1,0,13,2,0])
+		resp = request_turn(self.model.current_game_id,self.model.logged_in_uid)
+		self.model.update_game(resp)
+	def request_play(self,src_list=1,src_card=0,target_uid=13,target_list=2,target_card=0):
+		resp = request_play(self.model.current_game_id,self.model.logged_in_uid,src_list,src_card,target_uid,target_list,target_card)
+		self.model.update_game(resp)
 	def request_test(self):
-		build_and_send_and_process_request('test',self.model)
+		resp = request_test(self.model.version)
+		print resp
 	def request_exit(self):
-		build_and_send_and_process_request('exit',self.model)
+		resp = request_exit(0)
+		print resp
 	def request_out(self):
-		build_and_send_and_process_request('out',self.model)
+		resp = request_out(self.model.current_game_id,self.model.logged_in_uid)
+		self.model.update_game(resp)
 	def example_start(self):
-		build_and_send_and_process_request('test',self.model)
-		build_and_send_and_process_request('new',self.model,[26,0,13,1])
-		build_and_send_and_process_request('setup',self.model)
-		build_and_send_and_process_request('draw',self.model)
-		build_and_send_and_process_request('phase',self.model)
-		build_and_send_and_process_request('phase',self.model)
-		build_and_send_and_process_request('play',self.model,[1,0,13,2,0])
-		build_and_send_and_process_request('play',self.model,[1,0,13,2,0])
-		build_and_send_and_process_request('phase',self.model)
-		build_and_send_and_process_request('turn',self.model)
+		self.request_test()
+		self.request_new()
+		self.request_setup()
+		self.request_draw()
+		self.request_phase()
+		self.request_phase()
+		self.request_play()
+		self.request_play()
+		self.request_phase()
+		self.request_turn()
 		print '*'*50
 		print 'SWAPPING PLAYERS'
 		print '*'*50
 		self.model.logged_in_uid = self.model.get_current_game().them.player.uid
 		self.request_out()
-		build_and_send_and_process_request('draw',self.model)
-		build_and_send_and_process_request('phase',self.model)
-		build_and_send_and_process_request('phase',self.model)
-		build_and_send_and_process_request('play',self.model,[1,0,13,2,0])
-		build_and_send_and_process_request('play',self.model,[1,0,13,2,0])
-		build_and_send_and_process_request('phase',self.model)
-		build_and_send_and_process_request('turn',self.model)
-		build_and_send_and_process_request('out',self.model)
+		self.request_draw()
+		self.request_phase()
+		self.request_phase()
+		self.request_play(target_uid=26)
+		self.request_play(target_uid=26)
+		self.request_phase()
+		self.request_turn()

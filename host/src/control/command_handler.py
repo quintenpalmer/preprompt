@@ -2,36 +2,42 @@ from src.control.load.database_reader import Config_Player, Config_Args
 from src.control.game_logic.play import Play_Args
 from src.control.serializer import serialize
 from pyplib.xml_parser import parse_xml,parse_string,parse_int,XML_Parser_Error
-from pyplib.communication import command_args
+from src.model.game import Game_Action_Error
+from src.model.model import Model_Error
+from pyplib.communication import command_mapping
 from src import util
 
-def xml_handle(request,model):
+def handle(request,model):
 	try:
 		ele = parse_xml(request)
 		#print ele.toprettyxml()
-		super_command = parse_string(ele,'request_type')
 		command = parse_string(ele,'command')
-		if super_command == 'meta':
+		request_type = command_mapping[command]
+		if request_type == 'meta':
 			if command == 'new':
-				player1_uid = parse_int(ele,'player1_uid')
-				player1_did = parse_int(ele,'player1_did')
-				player2_uid = parse_int(ele,'player2_uid')
-				player2_did = parse_int(ele,'player2_did')
-				game_id = model.start_game(Config_Args(Config_Player(player1_uid,player1_did),Config_Player(player2_uid,player2_did)))
-				return serialize(['ok','new_game',str(game_id),model.out(game_id,player1_uid)])
-		elif super_command == 'sys':
+				p1_uid = parse_int(ele,'p1_uid')
+				p1_did = parse_int(ele,'p1_did')
+				p2_uid = parse_int(ele,'p2_uid')
+				p2_did = parse_int(ele,'p2_did')
+				game_id = model.start_game(Config_Args(
+					Config_Player(p1_uid,p1_did),
+					Config_Player(p2_uid,p2_did)))
+				return serialize(['ok',command,str(game_id),model.out(game_id,p1_uid)])
+		elif request_type == 'sys':
 			if command == 'test':
-				return serialize(['ok','0'])
+				return serialize(['ok',command,'0'])
 			elif command == 'exit':
-				return serialize(['ok','exit'])
-		elif super_command == 'perform':
+				return serialize(['ok',command,'exit'])
+		elif request_type == 'perform':
 			game_id = parse_int(ele,'game_id')
 			game = model.get_game_from_id(game_id)
 			player_id = parse_int(ele,'player_id')
 			if command == 'setup':
 				game.setup()
+				return serialize(['ok','setup',str(game_id),model.out(game_id,player_id)])
 			elif command == 'draw':
 				game.draw(player_id)
+				return serialize(['ok','draw',str(game_id),model.out(game_id,player_id)])
 			elif command == 'play':
 				game.play(Play_Args(
 					game=game,
@@ -41,57 +47,25 @@ def xml_handle(request,model):
 					tgt_uid=parse_int(ele,'target_uid'),
 					tgt_card=parse_int(ele,'target_list'),
 					tgt_list=parse_int(ele,'target_card')))
+				return serialize(['ok',command,str(game_id),model.out(game_id,player_id)])
 			elif command == 'phase':
 				game.step_phase()
+				return serialize(['ok',command,str(game_id),model.out(game_id,player_id)])
 			elif command == 'turn':
 				game.toggle_turn()
+				return serialize(['ok',command,str(game_id),model.out(game_id,player_id)])
 			elif command == 'out':
-				return serialize(['ok','xml',str(game_id),model.out(game_id,player_id)])
+				return serialize(['ok',command,str(game_id),model.out(game_id,player_id)])
 			else:
-				return serialize(['no_such_command'])
-			return serialize(['ok',])
-	except XML_Parser_Error:
-		util.logger.warn('Recieved bad xml')
-		return serialize(['bad_xml_request'])
-
-def handle(request,model):
-	return xml_handle(request,model)
-
-def space_delim_handle(request,model):
-	request = request.split(' ')
-	print request
-	command = request.pop(0)
-	if command == 'test':
-		return serialize(['ok'])
-	elif command == 'exit':
-		return serialize(['exit'])
-	elif command == 'new':
-		game_id = model.start_game(Config_Args(Config_Player(request[0],request[1]),Config_Player(request[2],request[3])))
-		return serialize(['new_game',str(game_id),model.out(game_id,request[0])])
-	else:
-		game_id = int(request.pop(0))
-		game = model.get_game_from_id(game_id)
-		src_uid = request.pop(0)
-		if command == 'setup':
-			game.setup()
-		elif command == 'draw':
-			game.draw(src_uid)
-		elif command == 'play':
-			game.play(Play_Args(
-				game=game,
-				src_uid=src_uid,
-				src_list=int(request.pop(0)),
-				src_card=int(request.pop(0)),
-				tgt_uid=int(request.pop(0)),
-				tgt_card=int(request.pop(0)),
-				tgt_list=int(request.pop(0))))
-		elif command == 'phase':
-			game.step_phase()
-		elif command == 'turn':
-			game.toggle_turn()
-		elif command == 'out':
-			return serialize(['xml',str(game_id),model.out(game_id,src_uid)])
-			pass
+				return serialize(['no_such_perform_action',command])
 		else:
-			return serialize(['no_such_command'])
-		return serialize(['ok',])
+			return serialize(['no_such_command_type',request_type])
+	except XML_Parser_Error as e:
+		util.logger.warn('Recieved bad xml: '+str(e))
+		return serialize(['bad_xml_request',str(e)])
+	except Game_Action_Error as e:
+		util.logger.warn('Invalid game action: '+str(e))
+		return serialize(['invalid_game_action',str(e)])
+	except Model_Error as e:
+		util.logger.warn('Invalid Model operation: '+str(e))
+		return serialize(['invalid_model_operation',str(e)])
