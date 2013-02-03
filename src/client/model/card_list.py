@@ -6,6 +6,3 @@ class Card_List:
 		self.cards = []
 		for card_element in parse_elements(element,'card'):
 			self.cards.append(Card(card_element))
-
-		def __iter__(self):
-			return self.cards

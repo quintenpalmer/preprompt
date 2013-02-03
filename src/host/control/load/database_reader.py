@@ -15,14 +15,14 @@ def get_game(config_args):
 	card_names = ['farts','fresh','persist']
 	players = []
 	for i in range(0,2):
-		player = Player(uids[i])
+		player = Player(uid=uids[i])
 		cards = []
 		f = open(environ['pyp']+'/data/players/'+str(uids[i])+'/'+str(dids[i])+'.cards','r')
 		deck = [x.strip() for x in f.readlines()[0].split(',')]
 		f.close()
 		for lookup_string in deck:
 			cards.append(lookup_table(lookup_string))
-		player_collection = Collection(cards)
-		players.append(Player_Container(player,player_collection))
+		player_collection = Collection(cards=cards)
+		players.append(Player_Container(player=player,collection=player_collection))
 
-	return Game(players[0],players[1])
+	return Game(player1=players[0],player2=players[1])

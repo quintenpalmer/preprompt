@@ -15,11 +15,14 @@ class Model:
 			game_file_dir = environ['pyp']+'/data/games/'
 			game_file_names = listdir(game_file_dir)
 			for game_file_name in game_file_names:
-				game_file = open(game_file_dir+game_file_name,'r')
-				xml = game_file.readlines()
-				print xml
-				game_file.close()
-		except IOError:
+				if game_file_name != '__init__.py':
+					game_id = int(game_file_name.split('.')[0])
+					game_file = open(game_file_dir+game_file_name,'r')
+					xml_string = game_file.readlines()[0]
+					self.games[game_id] = Game(xml_string=xml_string)
+					self.free_ids.remove(game_id)
+					game_file.close()
+		except IOError, ValueError:
 			util.logger.error("Error reading game data")
 			raise Model_Error("Save File could not be opened","internal_error")
 			

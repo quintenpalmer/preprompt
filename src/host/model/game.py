@@ -1,16 +1,31 @@
-from model.player import Player_Container, player_type
+from model.player import Player_Container
+from model import player_type
 from model.control_state import Control_State,super_phase,phase
 
 from control.game_logic.action import Action
 
 from model.errors import Game_Action_Error
 
+from pyplib.xml_parser import parse_xml, parse_element
+
 class Game:
-	def __init__(self,player1,player2):
-		self.players = []
-		self.players.append(player1)
-		self.players.append(player2)
-		self.control_state = Control_State()
+	def __init__(self,**kwargs):
+		if kwargs.has_key('player1') and kwargs.has_key('player2'):
+			player1 = kwargs['player1']
+			player2 = kwargs['player2']
+			self.players = []
+			self.players.append(player1)
+			self.players.append(player2)
+			self.control_state = Control_State()
+		elif kwargs.has_key('xml_string'):
+			raw_element = parse_xml(kwargs['xml_string'])
+			element = parse_element(raw_element,'game')
+			self.players = []
+			self.players.append(Player_Container(element=parse_element(element,'me')))
+			self.players.append(Player_Container(element=parse_element(element,'them')))
+			self.control_state = Control_State(element=parse_element(element,'control_state'))
+		else:
+			raise Game_Action_Error("Game Instantiated without correct args")
 
 	def get_me_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
@@ -44,10 +59,12 @@ class Game:
 			me_player_type = player_type.full
 			them_player_type = player_type.full
 			me_uid = self.players[0].player.uid
+			full = True
 		else:
 			me_player_type = player_type.me
 			them_player_type = player_type.them
 			me_uid = uid
+			full = False
 
 		me_index = self.get_index_from_uid(me_uid)
 		them_uid = self.get_them_from_uid(me_uid).player.uid
@@ -56,7 +73,7 @@ class Game:
 		xml = '<game>'
 		xml += '<me>%s</me>'%self.get_me_from_uid(me_uid).xml_output(me_player_type)
 		xml += '<them>%s</them>'%self.get_them_from_uid(me_uid).xml_output(them_player_type)
-		xml += '<control_state>%s</control_state>'%self.control_state.xml_output(me_uid,me_index,them_uid,them_index)
+		xml += '<control_state>%s</control_state>'%self.control_state.xml_output(me_uid,me_index,them_uid,them_index,full)
 		xml += '</game>'
 		return xml
 

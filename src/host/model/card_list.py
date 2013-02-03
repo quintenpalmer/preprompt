@@ -1,12 +1,27 @@
 from model.card import Card, Empty_Card
-from model.player import player_type
+from model import player_type
+
+from model.errors import Game_Action_Error
+
+from pyplib.xml_parser import parse_elements
 
 class Card_List:
-	def __init__(self,cards=None):
-		self.cards = []
-		if not cards == None:
-			for card in cards:
-				self.cards.append(card)
+	def __init__(self,**kwargs):
+		if len(kwargs) == 0:
+			self.cards = []
+		elif kwargs.has_key('cards'):
+			cards = kwargs['cards']
+			self.cards = []
+			if not cards == None:
+				for card in cards:
+					self.cards.append(card)
+		elif kwargs.has_key('element'):
+			element = kwargs['element']
+			self.cards = []
+			for card_element in parse_elements(element,'card'):
+				self.cards.append(Card(element=card_element))
+		else:
+			raise Game_Action_Error("Card_List was instantiated with improper parameters: %s"%kwargs)
 
 	def xml_output(self,full):
 		xml = '<cards>'

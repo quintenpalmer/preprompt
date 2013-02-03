@@ -37,7 +37,7 @@ def lookup_table(lookup_string):
 	element_type = tmp[0]
 	effect_type = tmp[1]
 	params = tmp[2]
-	return Card(tmp[1],ntoe[effect_type](element_type,params))
+	return Card(name=tmp[1],effect=ntoe[effect_type](element_type,params))
 
 # name to effect mapping
 ntoe = {}

@@ -1,5 +1,6 @@
 from random import randint
 
+from pyplib.xml_parser import parse_int, parse_bool
 from model.errors import Game_Action_Error
 
 class phase:
@@ -18,18 +19,31 @@ class super_phase:
 	end = 2
 
 class Control_State:
-	def __init__(self):
-		self.super_phase = super_phase.setup
-		self.phase = phase.first
-		self.turn_owner = self.decide_first_player()
-		self.has_drawn = False
-	def xml_output(self,me_uid,me_index,them_uid,them_index):
-		if self.turn_owner == me_index:
-			uid = me_uid
-		elif self.turn_owner == them_index:
-			uid = them_uid
+	def __init__(self,**kwargs):
+		if len(kwargs) == 0:
+			self.super_phase = super_phase.setup
+			self.phase = phase.first
+			self.turn_owner = self.decide_first_player()
+			self.has_drawn = False
+		elif kwargs.has_key('element'):
+			element = kwargs['element']
+			self.super_phase = parse_int(element,'super_phase')
+			self.phase = parse_int(element,'phase')
+			self.turn_owner = parse_int(element,'turn_owner')
+			self.has_drawn = parse_bool(element,'has_drawn')
 		else:
-			uid = 0
+			raise Game_Action_Error("Control State started with an invalid kwarg")
+
+	def xml_output(self,me_uid,me_index,them_uid,them_index,full):
+		if not full:
+			if self.turn_owner == me_index:
+				uid = me_uid
+			elif self.turn_owner == them_index:
+				uid = them_uid
+			else:
+				uid = 0
+		else:
+			uid = self.turn_owner
 		xml = '<super_phase>%s</super_phase>'%str(self.super_phase)
 		xml += '<phase>%s</phase>'%str(self.phase)
 		xml += '<turn_owner>%s</turn_owner>'%str(uid)

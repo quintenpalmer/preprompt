@@ -1,17 +1,30 @@
 from model import cltypes
 from model.card_list import Card_List
-from model.player import player_type
+from model import player_type
 
 from model.errors import Game_Action_Error
 
+from pyplib.xml_parser import parse_element
+
 class Collection:
-	def __init__(self,cards=None):
-		self.lists = []
-		self.visibility = cltypes.Visibility()
-		for i in xrange(0,cltypes.size):
-			self.lists.append(Card_List())
-		if cards != None:
-			self.lists[cltypes.deck] = Card_List(cards)
+	def __init__(self,**kwargs):
+		if kwargs.has_key('cards'):
+			cards = kwargs['cards']
+			self.lists = []
+			self.visibility = cltypes.Visibility()
+			for i in xrange(0,cltypes.size):
+				self.lists.append(Card_List())
+			self.lists[cltypes.deck] = Card_List(cards=cards)
+		elif kwargs.has_key('element'):
+			element = kwargs['element']
+			#TODO parse cards and flattened visibility if from a full flattening
+			self.deck    = Card_List(element=parse_element(element,'deck'))
+			self.hand    = Card_List(element=parse_element(element,'hand'))
+			self.active  = Card_List(element=parse_element(element,'active'))
+			self.grave   = Card_List(element=parse_element(element,'grave'))
+			self.special = Card_List(element=parse_element(element,'special'))
+		else:
+			raise Game_Action_Error("Collection construction had improper kwargs")
 
 	def xml_output(self,my_player_type):
 		print my_player_type
