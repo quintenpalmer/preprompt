@@ -23,8 +23,17 @@ class Control_State:
 		self.phase = phase.first
 		self.turn_owner = self.decide_first_player()
 		self.has_drawn = False
-	def xml_output(self):
+	def xml_output(self,me_uid,me_index,them_uid,them_index):
+		if self.turn_owner == me_index:
+			uid = me_uid
+		elif self.turn_owner == them_index:
+			uid = them_uid
+		else:
+			uid = 0
 		xml = '<super_phase>%s</super_phase>'%str(self.super_phase)
+		xml += '<phase>%s</phase>'%str(self.phase)
+		xml += '<turn_owner>%s</turn_owner>'%str(uid)
+		xml += '<has_drawn>%s</has_drawn>'%str(self.has_drawn)
 		return xml
 		
 	def step_phase(self):

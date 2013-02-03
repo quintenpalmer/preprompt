@@ -29,6 +29,14 @@ class Game:
 		else:
 			raise Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
 
+	def get_index_from_uid(self,uid):
+		if self.players[0].player.uid == uid:
+			return 0
+		elif self.players[1].player.uid == uid:
+			return 1
+		else:
+			raise Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
+
 	def get_current_turn_owner(self):
 		return self.players[self.control_state.turn_owner].player.uid
 
@@ -36,7 +44,11 @@ class Game:
 		xml = '<game>'
 		xml += '<me>%s</me>'%self.get_me_from_uid(uid).xml_output(player_type.me)
 		xml += '<them>%s</them>'%self.get_them_from_uid(uid).xml_output(player_type.them)
-		xml += '<state>%s</state>'%self.control_state.xml_output()
+		me_uid = uid
+		me_index = self.get_index_from_uid(me_uid)
+		them_uid = self.get_them_from_uid(uid).player.uid
+		them_index = self.get_index_from_uid(them_uid)
+		xml += '<control_state>%s</control_state>'%self.control_state.xml_output(me_uid,me_index,them_uid,them_index)
 		xml += '</game>'
 		return xml
 
