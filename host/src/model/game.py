@@ -1,6 +1,6 @@
 from src.model.player import Player_Container
 from src.model.player import player_type
-from src.model.control_state import Control_State,super_phase
+from src.model.control_state import Control_State,super_phase,phase
 
 from src.control.game_logic.action import Action
 
@@ -11,7 +11,7 @@ class Game:
 		self.players = []
 		self.players.append(player1)
 		self.players.append(player2)
-		self.control_state = Control_State(len(self.players))
+		self.control_state = Control_State()
 
 	def get_me_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
@@ -33,15 +33,12 @@ class Game:
 		return self.players[self.control_state.turn_owner].player.uid
 
 	def xml_output(self,uid):
-		out_str = "<game>"
-		out_str += "<me>"
-		out_str += self.get_me_from_uid(uid).xml_output(player_type.me)
-		out_str += "</me>"
-		out_str += "<them>"
-		out_str += self.get_them_from_uid(uid).xml_output(player_type.them)
-		out_str += "</them>"
-		out_str += "</game>"
-		return out_str
+		xml = '<game>'
+		xml += '<me>%s</me>'%self.get_me_from_uid(uid).xml_output(player_type.me)
+		xml += '<them>%s</them>'%self.get_them_from_uid(uid).xml_output(player_type.them)
+		xml += '<state>%s</state>'%self.control_state.xml_output()
+		xml += '</game>'
+		return xml
 
 	def __repr__(self):
 		return "Game: Player:"+self.players[0].player.name+" Player:"+self.players[1].player.name+" State:"+str(self.control_state.phase)
@@ -56,7 +53,14 @@ class Game:
 	def draw(self,uid):
 		self.verify_main_super_phase('draw')
 		if self.get_current_turn_owner() == uid:
-			self.get_me_from_uid(uid).collection.draw()
+			if self.control_state.is_given_phase(phase.draw):
+				if not self.control_state.has_drawn:
+					self.get_me_from_uid(uid).collection.draw()
+					self.control_state.has_drawn = True
+				else:
+					raise Game_Action_Error("Player has already drawn their card")
+			else:
+				raise Game_Action_Error("Can only draw during the draw phase")
 		else:
 			raise Game_Action_Error("Player cannot conduct draw during this turn")
 

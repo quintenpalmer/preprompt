@@ -5,22 +5,14 @@ class Card:
 		self.effect = effect
 
 	def xml_output(self):
-		out_str = ""
-		out_str += "<type>"
-		out_str += "full"
-		out_str += "</type>"
-		out_str +="<name>"
-		out_str += self.name
-		out_str +="</name>"
-		return out_str
+		xml = '<type>full</type>'
+		xml += '<name>%s</name>'%self.name
+		return xml
 
 	def play(self,args):
 		self.effect(args)
 
 class Empty_Card:
 	def xml_output(self):
-		out_str = ""
-		out_str += "<type>"
-		out_str += "empty"
-		out_str += "</type>"
-		return out_str
+		xml = "<type>empty</type>"
+		return xml

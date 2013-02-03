@@ -18,11 +18,15 @@ class super_phase:
 	end = 2
 
 class Control_State:
-	def __init__(self,num_players):
-		self.players = range(num_players)
+	def __init__(self):
 		self.super_phase = super_phase.setup
 		self.phase = phase.first
 		self.turn_owner = self.decide_first_player()
+		self.has_drawn = False
+	def xml_output(self):
+		xml = '<super_phase>%s</super_phase>'%str(self.super_phase)
+		return xml
+		
 	def step_phase(self):
 		self.phase += 1
 		if self.phase > phase.last:
@@ -34,6 +38,7 @@ class Control_State:
 			if self.turn_owner >= num_players: 
 				self.turn_owner = 0
 			self.phase = phase.draw
+			self.has_drawn = False
 		else:
 			raise Game_Action_Error("Can only end your turn during the post phase")
 	def exit_setup_phase(self):
@@ -41,10 +46,10 @@ class Control_State:
 			self.super_phase = super_phase.main
 		else:
 			raise Game_Action_Error("Can only be performed in setup super phase")
-			
 
 	def is_given_phase(self,given_phase):
 		return self.phase==given_phase
+
 	def decide_first_player(self):
 		who = randint(0,1)
 		who = 0

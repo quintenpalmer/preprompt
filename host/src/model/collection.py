@@ -14,19 +14,21 @@ class Collection:
 			self.lists[cltypes.deck] = Card_List(cards)
 
 	def xml_output(self,my_player_type):
+		print my_player_type
 		if my_player_type == player_type.me:
 			index = 0
 		elif my_player_type == player_type.them:
 			index = 1
-		out_str = ""
-		out_str += "<lists>"
+		else:
+			raise Game_Action_Error('Player Type %s does not exist'%my_player_type)
+		xml = '<lists>'
 		for i in cltypes.full:
-			out_str += "<"+cltypes.names[i]+">"
+			xml += '<'+cltypes.names[i]+'>'
 			full = self.visibility.visible[i][index]
-			out_str += self.lists[i].xml_output(full)
-			out_str += "</"+cltypes.names[i]+">"
-		out_str += "</lists>"
-		return out_str
+			xml += self.lists[i].xml_output(full)
+			xml += '</'+cltypes.names[i]+'>'
+		xml += '</lists>'
+		return xml
 
 	def draw(self):
 		try:

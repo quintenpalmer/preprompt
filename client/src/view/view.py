@@ -8,9 +8,10 @@ class View:
 		init_screen()
 	def run(self):
 		self.current_message = 'Welcome!'
-		draw(self.model,self.current_message)
-		command = raw_input("Type a command to go: ")
+		command = ''
 		while command != 'exit':
+			draw(self.model,self.current_message)
+			command = raw_input("Type a command to go: ")
 			if command == 'example':
 				self.example_start()
 			elif command == 'new':
@@ -36,8 +37,6 @@ class View:
 				self.request_out()
 			else:
 				self.current_message = 'Not a valid command: '+command
-			draw(self.model,self.current_message)
-			command = raw_input("Type a command to go: ")
 	def request_new(self,me_did=0,them_uid=13,them_did=1):
 		resp = request_new(self.model.logged_in_uid,me_did,them_uid,them_did)
 		self.current_message = self.model.update_game(resp)

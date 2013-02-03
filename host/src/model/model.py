@@ -43,4 +43,4 @@ class Model:
 		self.free_ids.append(push_id)
 
 	def out(self,game_id,uid):
-		return self.games[game_id].xml_output(uid)
+		return self.get_game_from_id(game_id).xml_output(uid)
