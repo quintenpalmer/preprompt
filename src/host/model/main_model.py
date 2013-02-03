@@ -4,19 +4,33 @@ from model.game import Game
 from model.errors import Model_Error
 
 import util
-from os import environ
+from os import environ,listdir
 
 class Model:
 	def __init__(self,num_games):
 		self.games = {}
 		self.free_ids = range(0,num_games)
 		self.all_ids = list(self.free_ids)
+		try:
+			game_file_dir = environ['pyp']+'/data/games/'
+			game_file_names = listdir(game_file_dir)
+			for game_file_name in game_file_names:
+				game_file = open(game_file_dir+game_file_name,'r')
+				xml = game_file.readlines()
+				print xml
+				game_file.close()
+		except IOError:
+			util.logger.error("Error reading game data")
+			raise Model_Error("Save File could not be opened","internal_error")
+			
 
 	def start_game(self,config_args):
 		game_id = self.pop_id()
 		game = database_reader.get_game(config_args)
 		try:
-			save_files = open(environ['pyp']+'/data/games/'+str(game_id)+'.save','w')
+			game_file = open(environ['pyp']+'/data/games/'+str(game_id)+'.save','w')
+			game_file.write(game.xml_output(0))
+			game_file.close()
 		except IOError:
 			util.logger.error("Error writing game data")
 			raise Model_Error("Save File %s could not be opened"%(str(game_id),),"internal_error")

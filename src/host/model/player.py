@@ -22,5 +22,6 @@ class Player:
 		return xml
 
 class player_type:
-	me = 0
-	them = 1
+	full = 0
+	me = 1
+	them = 2

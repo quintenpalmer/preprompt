@@ -15,10 +15,12 @@ class Collection:
 
 	def xml_output(self,my_player_type):
 		print my_player_type
-		if my_player_type == player_type.me:
+		if my_player_type == player_type.full:
 			index = 0
-		elif my_player_type == player_type.them:
+		elif my_player_type == player_type.me:
 			index = 1
+		elif my_player_type == player_type.them:
+			index = 2
 		else:
 			raise Game_Action_Error('Player Type %s does not exist'%my_player_type)
 		xml = '<lists>'

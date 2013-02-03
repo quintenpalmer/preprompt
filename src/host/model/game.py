@@ -40,13 +40,22 @@ class Game:
 		return self.players[self.control_state.turn_owner].player.uid
 
 	def xml_output(self,uid):
-		xml = '<game>'
-		xml += '<me>%s</me>'%self.get_me_from_uid(uid).xml_output(player_type.me)
-		xml += '<them>%s</them>'%self.get_them_from_uid(uid).xml_output(player_type.them)
-		me_uid = uid
+		if uid == 0:
+			me_player_type = player_type.full
+			them_player_type = player_type.full
+			me_uid = self.players[0].player.uid
+		else:
+			me_player_type = player_type.me
+			them_player_type = player_type.them
+			me_uid = uid
+
 		me_index = self.get_index_from_uid(me_uid)
-		them_uid = self.get_them_from_uid(uid).player.uid
+		them_uid = self.get_them_from_uid(me_uid).player.uid
 		them_index = self.get_index_from_uid(them_uid)
+
+		xml = '<game>'
+		xml += '<me>%s</me>'%self.get_me_from_uid(me_uid).xml_output(me_player_type)
+		xml += '<them>%s</them>'%self.get_them_from_uid(me_uid).xml_output(them_player_type)
 		xml += '<control_state>%s</control_state>'%self.control_state.xml_output(me_uid,me_index,them_uid,them_index)
 		xml += '</game>'
 		return xml

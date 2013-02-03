@@ -7,3 +7,6 @@ pypclient.log
 
 # Swap save files
 *.swp
+
+# Game save files
+*.save
