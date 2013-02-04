@@ -1,11 +1,11 @@
 from model.game import Game
 from pyplib.xml_parser import parse_xml, parse_int, parse_element, parse_string
 import util
+from model.errors import Model_Error
 
 class Model:
 	def __init__(self):
 		self.games = {}
-		self.game_ids = []
 		self.logged_in_uid = 26
 		self.current_game_id = None
 		self.version = 0
@@ -31,4 +31,7 @@ class Model:
 			return 'Received error message: '+error_message
 
 	def get_current_game(self):
-		return self.games[self.current_game_id]
+		try:
+			return self.games[self.current_game_id]
+		except KeyError:
+			raise Model_Error('The current_game_id is not the id of a real game!')

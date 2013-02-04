@@ -29,6 +29,15 @@ class Main_Loop:
 				self.request_play()
 			elif command == 'exit':
 				self.request_exit()
+			elif command == 'out':
+				self.request_out()
+			elif command[:4] == 'curr':
+				try:
+					self.model.current_game_id = int(command[5:])
+				except ValueError:
+					self.current_message = 'Invalid gameId %s'%command
+			elif command == 'list':
+				self.current_message = str(self.model.games.keys())
 			elif len(command) >= 4 and command[:4] == 'eval':
 				print eval(command[5:])
 			elif command == 'swap':

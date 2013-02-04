@@ -27,7 +27,7 @@ def parse_string(element,tag):
 def parse_bool(element,tag):
 	try:
 		string_repr = parse_string(element,tag)
-		return bool(string_repr)
+		return string_repr == 'True'
 	except ValueError:
 		raise XML_Parser_Error('That tag "%s" contains "%s" which is not a bool'%(tag,string_repr))
 

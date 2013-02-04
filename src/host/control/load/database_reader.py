@@ -4,7 +4,7 @@ from model.collection import Collection
 
 from control.load.loaded_effects import lookup_table 
 
-from os import environ
+import os
 
 def get_game(config_args):
 	player1 = config_args.config_player1
@@ -17,7 +17,8 @@ def get_game(config_args):
 	for i in range(0,2):
 		player = Player(uid=uids[i])
 		cards = []
-		f = open(environ['pyp']+'/data/players/'+str(uids[i])+'/'+str(dids[i])+'.cards','r')
+		path = os.path.join(os.environ['pyp'],'data','players',str(uids[i]),str(dids[i])+'.cards')
+		f = open(path,'r')
 		deck = [x.strip() for x in f.readlines()[0].split(',')]
 		f.close()
 		for lookup_string in deck:

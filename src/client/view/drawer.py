@@ -1,15 +1,17 @@
 import sys
 
+from model.errors import Model_Error
+
 def init_screen():
 	#sys.stdout.write('\n'*11)
 	pass
 def draw(model,message):
 	#sys.stdout.write('\33[10A]                                        \r')
 	sys.stdout.write(message+'\n')
-	if model.current_game_id != None:
+	try:
 		sys.stdout.write(draw_game(model.get_current_game()))
-	else:
-		sys.stdout.write("No current game!"+'\n'*1)#0)
+	except Model_Error as e:
+		sys.stdout.write("No current game! "+str(e)+'\n'*1)#0)
 
 def draw_game(game):
 	out = '='*70+'\n'

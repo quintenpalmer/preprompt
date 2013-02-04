@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cd $pyp/src/host
-PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B test.py

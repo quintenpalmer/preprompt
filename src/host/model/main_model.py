@@ -4,7 +4,7 @@ from model.game import Game
 from model.errors import Model_Error
 
 import util
-from os import environ,listdir
+import os
 
 class Model:
 	def __init__(self,num_games):
@@ -12,12 +12,12 @@ class Model:
 		self.free_ids = range(0,num_games)
 		self.all_ids = list(self.free_ids)
 		try:
-			game_file_dir = environ['pyp']+'/data/games/'
-			game_file_names = listdir(game_file_dir)
+			game_file_dir = os.path.join(os.environ['pyp'],'data','games')
+			game_file_names = os.listdir(game_file_dir)
 			for game_file_name in game_file_names:
 				if game_file_name != '__init__.py':
 					game_id = int(game_file_name.split('.')[0])
-					game_file = open(game_file_dir+game_file_name,'r')
+					game_file = open(os.path.join(game_file_dir,game_file_name),'r')
 					xml_string = game_file.readlines()[0]
 					self.games[game_id] = Game(xml_string=xml_string)
 					self.free_ids.remove(game_id)
@@ -25,13 +25,13 @@ class Model:
 		except IOError, ValueError:
 			util.logger.error("Error reading game data")
 			raise Model_Error("Save File could not be opened","internal_error")
-			
 
 	def start_game(self,config_args):
 		game_id = self.pop_id()
 		game = database_reader.get_game(config_args)
 		try:
-			game_file = open(environ['pyp']+'/data/games/'+str(game_id)+'.save','w')
+			path = os.path.join(os.environ['pyp'],'data','games',str(game_id)+'.save')
+			game_file = open(path,'w')
 			game_file.write(game.xml_output(0))
 			game_file.close()
 		except IOError:
