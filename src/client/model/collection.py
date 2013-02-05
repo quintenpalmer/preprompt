@@ -8,6 +8,3 @@ class Collection:
 		self.active  = Card_List(parse_element(element,'active'))
 		self.grave   = Card_List(parse_element(element,'grave'))
 		self.special = Card_List(parse_element(element,'special'))
-
-	def __iter__(self):
-		pass

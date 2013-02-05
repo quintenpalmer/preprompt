@@ -1,5 +1,5 @@
 from pyplib.xml_parser import parse_elements,parse_element,parse_int,parse_string
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from control.load.lstructs import get_effect_from_xml_name
 
 class Instant_List:
@@ -14,7 +14,7 @@ class Instant_List:
 				self.instants.append(Instant(element=ele))
 			self.valid_phase = parse_int(element,'valid_phase')
 		else:
-			raise Game_Action_Error("Instant_List instantiated with invalid constructor %s"%kwargs.keys())
+			raise PP_Game_Action_Error("Instant_List instantiated with invalid constructor %s"%kwargs.keys())
 
 	def apply_to(self,action):
 		for instant in self.instants:
@@ -33,7 +33,6 @@ class Instant:
 			self.conds = kwargs['conds']
 		elif kwargs.has_key('element'):
 			element = kwargs['element']
-			#TODO parse the correct effects and conds
 			effect_element = parse_element(element,'effect')
 			name = parse_string(effect_element,'name')
 			self.effect = get_effect_from_xml_name(name)(element=effect_element)
@@ -42,7 +41,7 @@ class Instant:
 				name = parse_string(ele,'name')
 				self.conds.append(get_effect_from_xml_name(name)(element=ele))
 		else:
-			raise Game_Action_Error("Instant instantiated with invalid constructor %s"%kwargs.keys())
+			raise PP_Game_Action_Error("Instant instantiated with invalid constructor %s"%kwargs.keys())
 
 	def is_valid(self,action):
 		valid = True

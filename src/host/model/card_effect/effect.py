@@ -1,7 +1,7 @@
 from model.card_effect.instant import Instant_List
 from model.card_effect.persist import Persist_Cond_list
 from model.card_effect.persist_activate import Persist_Activate_list
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_string,parse_element,parse_elements
 
 class Effect:
@@ -20,8 +20,7 @@ class Effect:
 			for element in parse_elements(element,'elementals'):
 				self.elementals.append(parse_string(element,'elemental'))
 		else:
-			raise Game_Action_Error("Card Effect instantiated with improper constructor%s"%str(kwargs.keys()))
-			
+			raise PP_Game_Action_Error("Card Effect instantiated with improper constructor%s"%str(kwargs.keys()))
 
 	def on_activate(self,game,uid):
 		self.instants(game,uid)

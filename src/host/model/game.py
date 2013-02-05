@@ -2,7 +2,7 @@ from model.player import Player_Container
 from model import player_type
 from model.control_state import Control_State,super_phase,phase
 from control.action import Action
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_xml, parse_element
 
 class Game:
@@ -22,7 +22,7 @@ class Game:
 			self.players.append(Player_Container(element=parse_element(element,'them')))
 			self.control_state = Control_State(element=parse_element(element,'control_state'))
 		else:
-			raise Game_Action_Error("Game Instantiated without correct args")
+			raise PP_Game_Action_Error("Game Instantiated without correct args")
 
 	def get_me_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
@@ -30,7 +30,7 @@ class Game:
 		elif self.players[1].player.uid == uid:
 			return self.players[1]
 		else:
-			raise Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
+			raise PP_Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
 
 	def get_them_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
@@ -38,7 +38,7 @@ class Game:
 		elif self.players[1].player.uid == uid:
 			return self.players[0]
 		else:
-			raise Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
+			raise PP_Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
 
 	def get_index_from_uid(self,uid):
 		if self.players[0].player.uid == uid:
@@ -46,7 +46,7 @@ class Game:
 		elif self.players[1].player.uid == uid:
 			return 1
 		else:
-			raise Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
+			raise PP_Game_Action_Error("Not the uid of a player playing this game:"+str(uid))
 
 	def get_current_turn_owner(self):
 		return self.players[self.control_state.turn_owner].player.uid
@@ -92,11 +92,11 @@ class Game:
 					self.get_me_from_uid(uid).collection.draw()
 					self.control_state.has_drawn = True
 				else:
-					raise Game_Action_Error("Player has already drawn their card")
+					raise PP_Game_Action_Error("Player has already drawn their card")
 			else:
-				raise Game_Action_Error("Can only draw during the draw phase")
+				raise PP_Game_Action_Error("Can only draw during the draw phase")
 		else:
-			raise Game_Action_Error("Player cannot conduct draw during this turn")
+			raise PP_Game_Action_Error("Player cannot conduct draw during this turn")
 
 	def play(self,play_args):
 		self.verify_main_super_phase('play')
@@ -105,7 +105,7 @@ class Game:
 			try:
 				card_effect = me.collection.lists[play_args.src_list].cards[play_args.src_card].effect
 			except IndexError:
-				raise Game_Action_Error("There are no more cards in that player's %s"%(play_args.src_list,))
+				raise PP_Game_Action_Error("There are no more cards in that player's %s"%(play_args.src_list,))
 			if self.control_state.is_given_phase(card_effect.instants.valid_phase):
 				action = Action()
 				action.add_action(self,play_args.src_uid,card_effect.instants)
@@ -117,9 +117,9 @@ class Game:
 				else:
 					me.collection.play_to_grave(play_args.src_card)
 			else:
-				raise Game_Action_Error("Not the correct phase to play that card")
+				raise PP_Game_Action_Error("Not the correct phase to play that card")
 		else:
-			raise Game_Action_Error("Not that correct turn for that player to play that card")
+			raise PP_Game_Action_Error("Not that correct turn for that player to play that card")
 
 	def step_phase(self):
 		self.verify_main_super_phase('phase')
@@ -131,8 +131,8 @@ class Game:
 
 	def verify_main_super_phase(self,action):
 		if not self.control_state.super_phase == super_phase.main:
-			raise Game_Action_Error("%s can only be performed in the regular gameplay super phase"%(action,))
+			raise PP_Game_Action_Error("%s can only be performed in the regular gameplay super phase"%(action,))
 
 	def verify_setup_super_phase(self,action):
 		if not self.control_state.super_phase == super_phase.setup:
-			raise Game_Action_Error("%s can only be performed in the setup super phase"%(action,))
+			raise PP_Game_Action_Error("%s can only be performed in the setup super phase"%(action,))

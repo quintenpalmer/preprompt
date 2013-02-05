@@ -27,7 +27,6 @@ class Sub_Action:
 		self.base_moves = self.moves
 		self.base_src = self.src
 		self.base_dst = self.dst
-		
 
 	def act(self):
 		self.account_for_board()

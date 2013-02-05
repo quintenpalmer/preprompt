@@ -1,9 +1,7 @@
 from model import cltypes
 from model.card_list import Card_List
 from model import player_type
-
-from model.errors import Game_Action_Error
-
+from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_element
 
 class Collection:
@@ -26,7 +24,7 @@ class Collection:
 			self.lists[cltypes.other] = Card_List(element=parse_element(element,'other'))
 			self.visibility = cltypes.Visibility(element=parse_element(element,'visibilities'))
 		else:
-			raise Game_Action_Error("Collection construction had improper kwargs %s"%kwargs.keys())
+			raise PP_Game_Action_Error("Collection construction had improper kwargs %s"%kwargs.keys())
 
 	def xml_output(self,my_player_type):
 		if my_player_type == player_type.full:
@@ -39,7 +37,7 @@ class Collection:
 			index = 2
 			full = False
 		else:
-			raise Game_Action_Error('Player Type %s does not exist'%my_player_type)
+			raise PP_Game_Action_Error('Player Type %s does not exist'%my_player_type)
 		xml = '<lists>'
 		for i in cltypes.full:
 			xml += '<'+cltypes.names[i]+'>'
@@ -57,7 +55,7 @@ class Collection:
 		try:
 			card = self.lists[cltypes.deck].pop()
 		except IndexError:
-			raise Game_Action_Error('That player has no more cards in his/her deck')
+			raise PP_Game_Action_Error('That player has no more cards in his/her deck')
 		self.lists[cltypes.hand].push(card)
 
 	def play_to_active(self,card_id):

@@ -4,7 +4,7 @@ from model.card_effect.persist import Persist_Cond_list
 from model.card_effect.persist_activate import Persist_Activate_list,Persist_Activate
 from model.card_effect.effect import Effect
 from model.control_state import phase
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from model.card import Card
 
 def get_direct_damage(elemental,amount):
@@ -46,4 +46,4 @@ def get_effect_from_name(name):
 	try:
 		return ntoe[name]
 	except KeyError:
-		raise Game_Action_Error("Could not load effect name %s"%str(name))
+		raise PP_Game_Action_Error("Could not load effect name %s"%str(name))

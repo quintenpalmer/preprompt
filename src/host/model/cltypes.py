@@ -1,5 +1,4 @@
-from model.errors import Game_Action_Error
-
+from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_bool,parse_element
 
 deck = 0
@@ -55,7 +54,7 @@ class Visibility:
 			other_element = parse_element(element,names[other])
 			self.visible[other] = (True,parse_bool(other_element,'me_vis'),parse_bool(other_element,'them_vis'))
 		else:
-			raise Game_Action_Error("Visibility instantiated with invalid constructor %s"%str(kwargs))
+			raise PP_Game_Action_Error("Visibility instantiated with invalid constructor %s"%str(kwargs))
 
 	def xml_output(self):
 		xml = ''

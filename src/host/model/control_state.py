@@ -1,7 +1,6 @@
 from random import randint
-
 from pyplib.xml_parser import parse_int, parse_bool
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 
 class phase:
 	draw = 0
@@ -32,7 +31,7 @@ class Control_State:
 			self.turn_owner = parse_int(element,'turn_owner')
 			self.has_drawn = parse_bool(element,'has_drawn')
 		else:
-			raise Game_Action_Error("Control State started with an invalid kwarg")
+			raise PP_Game_Action_Error("Control State started with an invalid kwarg")
 
 	def xml_output(self,me_uid,me_index,them_uid,them_index,full):
 		if not full:
@@ -49,12 +48,12 @@ class Control_State:
 		xml += '<turn_owner>%s</turn_owner>'%str(uid)
 		xml += '<has_drawn>%s</has_drawn>'%str(self.has_drawn)
 		return xml
-		
+
 	def step_phase(self):
 		self.phase += 1
 		if self.phase > phase.last:
 			self.phase = phase.last
-			raise Game_Action_Error("Phase went past the last one")
+			raise PP_Game_Action_Error("Phase went past the last one")
 	def toggle_turn(self,num_players):
 		if self.phase == phase.post:
 			self.turn_owner += 1
@@ -63,12 +62,12 @@ class Control_State:
 			self.phase = phase.draw
 			self.has_drawn = False
 		else:
-			raise Game_Action_Error("Can only end your turn during the post phase")
+			raise PP_Game_Action_Error("Can only end your turn during the post phase")
 	def exit_setup_phase(self):
 		if self.super_phase == super_phase.setup:
 			self.super_phase = super_phase.main
 		else:
-			raise Game_Action_Error("Can only be performed in setup super phase")
+			raise PP_Game_Action_Error("Can only be performed in setup super phase")
 
 	def is_given_phase(self,given_phase):
 		return self.phase==given_phase

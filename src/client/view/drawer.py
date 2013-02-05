@@ -1,6 +1,5 @@
+from pyplib.errors import PP_Model_Error
 import sys
-
-from model.errors import Model_Error
 
 def init_screen():
 	#sys.stdout.write('\n'*11)
@@ -10,7 +9,7 @@ def draw(model,message):
 	sys.stdout.write(message+'\n')
 	try:
 		sys.stdout.write(draw_game(model.get_current_game()))
-	except Model_Error as e:
+	except PP_Model_Error as e:
 		sys.stdout.write("No current game! "+str(e)+'\n'*1)#0)
 
 def draw_game(game):

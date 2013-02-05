@@ -1,15 +1,9 @@
-from control.load.load_config import Config_Player, Config_Args
-from control.play import Play_Args
-
 import util
-
-from pyplib.host_client import *
-from pyplib.communication import get_request_type
+from control.play import Play_Args
+from control.load.lstructs import Config_Player, Config_Args
 from pyplib.xml_parser import parse_xml,parse_string,parse_int
-
-from pyplib.xml_parser import XML_Parser_Error
-from model.errors import Game_Action_Error
-from model.errors import Model_Error
+from pyplib.errors import PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error
+from pyplib.host_client import *
 
 def handle(request,model):
 	try:
@@ -68,9 +62,19 @@ def handle(request,model):
 	except XML_Parser_Error as e:
 		util.logger.warn('Recieved bad xml: '+str(e))
 		return respond_error_caught('bad_xml_request',str(e))
-	except Game_Action_Error as e:
+	except PP_Game_Action_Error as e:
 		util.logger.warn('Invalid game action: '+str(e))
 		return respond_error_caught('invalid_game_action',str(e))
-	except Model_Error as e:
+	except PP_Model_Error as e:
 		util.logger.warn('Invalid Model operation: '+str(e))
 		return respond_error_caught('invalid_model_operation',str(e))
+
+def get_request_type(command):
+	if command == 'new':
+		return 'meta'
+	elif command == 'setup' or command == 'draw' or command == 'phase' or command == 'turn' or command == 'play' or command == 'out':
+		return 'perform'
+	elif command == 'exit' or command == 'test':
+		return 'sys'
+	else:
+		return 'unknown'

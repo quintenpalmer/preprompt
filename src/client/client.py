@@ -1,8 +1,7 @@
+import util
 from view.main_loop import Main_Loop
 from model.main_model import Model
-import util
-from pyplib.client_host import request_exit
-from pyplib.client_host import send_request
+from pyplib.client_host import request_exit,send_request
 import sys
 
 if __name__ == '__main__':

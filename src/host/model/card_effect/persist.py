@@ -1,5 +1,5 @@
 from pyplib.xml_parser import parse_element,parse_elements,parse_bool,parse_string
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from control.load.lstructs import get_effect_from_xml_name
 
 class Persist_Cond_list:
@@ -9,14 +9,13 @@ class Persist_Cond_list:
 			self.conds = kwargs['conds']
 		elif kwargs.has_key('element'):
 			element = kwargs['element']
-			#TODO parse the correct effects and conds
 			self.does_persist = parse_bool(element,'does_persist')
 			self.conds = []
 			for ele in parse_elements(element,'cond'):
 				name = parse_string(ele,'name')
 				self.conds.append(get_effect_from_xml_name(name)(element=ele))
 		else:
-			raise Game_Action_Error("Persist_Cond_List instantiated with invalid constructor %s"%kwargs.keys())
+			raise PP_Game_Action_Error("Persist_Cond_List instantiated with invalid constructor %s"%kwargs.keys())
 
 	def tick(self,game,uid):
 		for cond in self.conds:

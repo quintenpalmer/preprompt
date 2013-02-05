@@ -1,7 +1,6 @@
 import socket
-
-from control.command_handler import handle
 import util
+from control.command_handler import handle
 
 class Listener:
 	def __init__(self):
@@ -17,7 +16,7 @@ class Listener:
 			resp = self.listen_for_request(model)
 			if 'exit' in resp:
 				break
-		
+
 	def listen_for_request(self,model):
 		c,addr = self.s.accept()
 		util.logger.debug('Established Connection from %s',str(addr))

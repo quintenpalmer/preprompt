@@ -1,5 +1,4 @@
-from pyplib.xml_parser import parse_xml, parse_element
-
+from pyplib.xml_parser import parse_element
 from model.player import Player_Container
 from model.control_state import Control_State
 

@@ -1,8 +1,6 @@
 from model.card import Card, Empty_Card
 from model import player_type
-
-from model.errors import Game_Action_Error
-
+from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_elements
 
 class Card_List:
@@ -21,7 +19,7 @@ class Card_List:
 			for card_element in parse_elements(element,'card'):
 				self.cards.append(Card(element=card_element))
 		else:
-			raise Game_Action_Error("Card_List was instantiated with improper parameters: %s"%kwargs)
+			raise PP_Game_Action_Error("Card_List was instantiated with improper parameters: %s"%kwargs)
 
 	def xml_output(self,full,vis):
 		xml = '<cards>'

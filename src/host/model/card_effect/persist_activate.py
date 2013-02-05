@@ -1,5 +1,5 @@
 from pyplib.xml_parser import parse_elements,parse_element,parse_string
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from control.load.lstructs import get_effect_from_xml_name
 
 class Persist_Activate_list:
@@ -12,7 +12,7 @@ class Persist_Activate_list:
 			for ele in parse_elements(element,'pactivate'):
 				self.persist_activates.append(Persist_Activate(element=ele))
 		else:
-			raise Game_Action_Error("Persist_Actiate_List instantiated with invalid constructor %s"%kwargs.keys())
+			raise PP_Game_Action_Error("Persist_Actiate_List instantiated with invalid constructor %s"%kwargs.keys())
 
 	def on_act(self,action,card_owner):
 		for pactivate in self.persist_activates:
@@ -31,7 +31,6 @@ class Persist_Activate:
 			self.conds = kwargs['conds']
 		elif kwargs.has_key('element'):
 			element = kwargs['element']
-			#TODO parse the correct effects and conds
 			effect_element = parse_element(element,'effect')
 			name = parse_string(effect_element,'name')
 			self.effect = get_effect_from_xml_name(name)(element=effect_element)
@@ -40,7 +39,7 @@ class Persist_Activate:
 				name = parse_string(ele,'name')
 				self.conds.append(get_effect_from_xml_name(name)(element=ele))
 		else:
-			raise Game_Action_Error("Persist_Actiate instantiated with invalid constructor %s"%kwargs.keys())
+			raise PP_Game_Action_Error("Persist_Actiate instantiated with invalid constructor %s"%kwargs.keys())
 
 
 	def on_act(self,action,card_owner):

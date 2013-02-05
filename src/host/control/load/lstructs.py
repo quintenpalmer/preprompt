@@ -1,7 +1,17 @@
 from model.card_effect.abstract_effects import Abstract_Instant_Effect, Abstract_Instant_Cond, Abstract_Persist_Cond, Abstract_Trigger_Effect, Abstract_Trigger_Cond
 from pyplib.xml_parser import parse_int,parse_elements
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from model.card_effect.elementals import get_elemental_from_string
+
+class Config_Args:
+	def __init__(self,config_player1,config_player2):
+		self.config_player1 = config_player1
+		self.config_player2 = config_player2
+
+class Config_Player:
+	def __init__(self,uid,did):
+		self.uid = uid
+		self.did = did
 
 class Direct_Damage(Abstract_Instant_Effect):
 	def __init__(self,**kwargs):
@@ -13,7 +23,7 @@ class Direct_Damage(Abstract_Instant_Effect):
 			self.elemental = parse_int(element,'elemental')
 			self.amount = parse_int(element,'amount')
 		else:
-			raise Game_Action_Error('Direct_Damage instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Direct_Damage instantiated with invalid constructor %s'%kwargs.keys())
 
 	def apply_to(self,action):
 		action.elemental = self.elemental
@@ -32,7 +42,7 @@ class Do_Nothing(Abstract_Instant_Effect):
 		elif kwargs.has_key('element'):
 			pass
 		else:
-			raise Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def apply_to(self,action):
 		pass
 	def xml_output(self):
@@ -45,7 +55,7 @@ class Valid_Activate(Abstract_Instant_Cond):
 		elif kwargs.has_key('element'):
 			pass
 		else:
-			raise Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def is_valid(self,action):
 		return True
 	def xml_output(self):
@@ -61,7 +71,7 @@ class Timed_Persist(Abstract_Persist_Cond):
 			self.current_turns = parse_int(element,'current_turns')
 			self.start_turns = parse_int(element,'start_turns')
 		else:
-			raise Game_Action_Error('Timed_Persist instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Timed_Persist instantiated with invalid constructor %s'%kwargs.keys())
 	def tick(self,action):
 		self.current_turns -= 1
 	def persists(self,action):
@@ -81,7 +91,7 @@ class In_Valid_persist(Abstract_Persist_Cond):
 		elif kwargs.has_key('element'):
 			pass
 		else:
-			raise Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def tick(self,action):
 		pass
 	def persists(self,action):
@@ -101,7 +111,7 @@ class Add_Damage(Abstract_Trigger_Effect):
 			self.elemental = parse_int(element,'elemental')
 			self.amount = parse_int(element,'amount')
 		else:
-			raise Game_Action_Error('Add_Damage instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Add_Damage instantiated with invalid constructor %s'%kwargs.keys())
 
 	def apply_to(self,action):
 		action.damage += self.amount
@@ -119,7 +129,7 @@ class Do_Nothing_Trigger(Abstract_Trigger_Effect):
 		elif kwargs.has_key('element'):
 			pass
 		else:
-			raise Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def apply_to(self,action):
 		pass
 	def xml_output(self):
@@ -132,7 +142,7 @@ class Valid_Trigger_Cond(Abstract_Trigger_Cond):
 		elif kwargs.has_key('element'):
 			pass
 		else:
-			raise Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def is_valid(self,action,card_owner):
 		return True
 	def xml_output(self):
@@ -148,7 +158,7 @@ class On_Damager(Abstract_Trigger_Cond):
 			for who in parse_elements(element,'who'):
 				self.who.append(parse_int(element,'who'))
 		else:
-			raise Game_Action_Error('On_Damager instantiated with invalid constructor %s'%kwargs.keys())
+			raise PP_Game_Action_Error('On_Damager instantiated with invalid constructor %s'%kwargs.keys())
 
 	def is_valid(self,action,card_owner):
 		if action.base_damage > 0:
@@ -177,4 +187,4 @@ def get_effect_from_xml_name(xml_name):
 	try:
 		return xntoe[xml_name]
 	except KeyError:
-		raise Game_Action_Error("Could not load effect from the xml tag %s"%str(xml_name))
+		raise PP_Game_Action_Error("Could not load effect from the xml tag %s"%str(xml_name))

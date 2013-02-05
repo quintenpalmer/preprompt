@@ -1,7 +1,6 @@
 import logging
 import logging.config
-
-import os 
+import os
 
 logger = None
 def make_logger():

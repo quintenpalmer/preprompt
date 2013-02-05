@@ -1,10 +1,5 @@
 from xml.dom.minidom import parseString
-
-class XML_Parser_Error(Exception):
-	def __init__(self,message):
-		self.message = message
-	def __str__(self):
-		return self.message
+from pyplib.errors import XML_Parser_Error
 
 def parse_xml(xml_string):
 	try:

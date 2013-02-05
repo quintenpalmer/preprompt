@@ -1,4 +1,4 @@
-from model.errors import Game_Action_Error
+from pyplib.errors import PP_Game_Action_Error
 from model.collection import Collection
 
 from pyplib.xml_parser import parse_element, parse_string, parse_int
@@ -15,7 +15,7 @@ class Player_Container:
 			self.player = Player(element=parse_element(element,'player'))
 			self.collection = Collection(element=parse_element(element,'collection'))
 		else:
-			raise Game_Action_Error("Game Instantiated without correct args")
+			raise PP_Game_Action_Error("Game Instantiated without correct args")
 
 	def xml_output(self,player_type):
 		xml = '<player>%s</player>'%self.player.xml_output(player_type)
