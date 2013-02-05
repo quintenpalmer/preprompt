@@ -23,12 +23,11 @@ class Model:
 						xml_string = game_file.readlines()[0]
 					except IndexError:	
 						util.logger.warn("File %s has no data in it"%str(game_file_name))
-					#try:
-					if True:
+					try:
 						self.games[game_id] = Game(xml_string=xml_string)
 						self.free_ids.remove(game_id)
-					#except XML_Parser_Error as e:
-					#	util.logger.warn("Error loading %s's xml %s"%(str(game_file_name),str(e)))
+					except XML_Parser_Error as e:
+						util.logger.warn("Error loading %s's xml %s"%(str(game_file_name),str(e)))
 					game_file.close()
 		except IOError, ValueError:
 			util.logger.error("Error reading game data")
