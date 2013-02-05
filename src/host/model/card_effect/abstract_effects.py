@@ -1,20 +1,27 @@
 import abc
 
-class Abstract_Instant_Effect:
+class Abstract_Serializable:
+	__metaclass__ = abc.ABCMeta
+
+	@abc.abstractmethod
+	def xml_output(self):
+		pass
+
+class Abstract_Instant_Effect(Abstract_Serializable):
 	__metaclass__ = abc.ABCMeta
 
 	@abc.abstractmethod
 	def apply_to(self,action):
 		pass
 
-class Abstract_Instant_Cond:
+class Abstract_Instant_Cond(Abstract_Serializable):
 	__metaclass__ = abc.ABCMeta
 
 	@abc.abstractmethod
 	def is_valid(self,action):
 		pass
 
-class Abstract_Persist_Cond:
+class Abstract_Persist_Cond(Abstract_Serializable):
 	__metaclass__ = abc.ABCMeta
 
 	@abc.abstractmethod
@@ -29,14 +36,14 @@ class Abstract_Persist_Cond:
 	def reset(self,action):
 		pass
 
-class Abstract_Trigger_Effect:
+class Abstract_Trigger_Effect(Abstract_Serializable):
 	__metaclass__ = abc.ABCMeta
 
 	@abc.abstractmethod
 	def apply_to(self,action):
 		pass
 
-class Abstract_Trigger_Cond:
+class Abstract_Trigger_Cond(Abstract_Serializable):
 	__metaclass__ = abc.ABCMeta
 
 	@abc.abstractmethod

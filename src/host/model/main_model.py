@@ -1,7 +1,8 @@
-from control.load import database_reader
+from control import database_reader
 from model.game import Game
 
 from model.errors import Model_Error
+from pyplib.xml_parser import XML_Parser_Error
 
 import util
 import os
@@ -18,9 +19,15 @@ class Model:
 				if game_file_name != '__init__.py':
 					game_id = int(game_file_name.split('.')[0])
 					game_file = open(os.path.join(game_file_dir,game_file_name),'r')
-					xml_string = game_file.readlines()[0]
-					self.games[game_id] = Game(xml_string=xml_string)
-					self.free_ids.remove(game_id)
+					try:
+						xml_string = game_file.readlines()[0]
+					except IndexError:	
+						util.logger.warn("File %s has no data in it"%str(game_file_name))
+					try:
+						self.games[game_id] = Game(xml_string=xml_string)
+						self.free_ids.remove(game_id)
+					except XML_Parser_Error as e:
+						util.logger.warn("Error loading %s's xml %s"%(str(game_file_name),str(e)))
 					game_file.close()
 		except IOError, ValueError:
 			util.logger.error("Error reading game data")

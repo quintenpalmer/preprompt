@@ -17,29 +17,34 @@ class Collection:
 			self.lists[cltypes.deck] = Card_List(cards=cards)
 		elif kwargs.has_key('element'):
 			element = kwargs['element']
-			#TODO parse cards and flattened visibility if from a full flattening
-			self.deck    = Card_List(element=parse_element(element,'deck'))
-			self.hand    = Card_List(element=parse_element(element,'hand'))
-			self.active  = Card_List(element=parse_element(element,'active'))
-			self.grave   = Card_List(element=parse_element(element,'grave'))
-			self.special = Card_List(element=parse_element(element,'special'))
+			self.lists = range(cltypes.size)
+			self.lists[cltypes.deck] = Card_List(element=parse_element(element,'deck'))
+			self.lists[cltypes.hand] = Card_List(element=parse_element(element,'hand'))
+			self.lists[cltypes.active] = Card_List(element=parse_element(element,'active'))
+			self.lists[cltypes.grave] = Card_List(element=parse_element(element,'grave'))
+			self.lists[cltypes.special] = Card_List(element=parse_element(element,'special'))
+			self.lists[cltypes.other] = Card_List(element=parse_element(element,'other'))
+			self.visibility = cltypes.Visibility(element=parse_element(element,'visibilities'))
 		else:
-			raise Game_Action_Error("Collection construction had improper kwargs")
+			raise Game_Action_Error("Collection construction had improper kwargs %s"%kwargs.keys())
 
 	def xml_output(self,my_player_type):
 		if my_player_type == player_type.full:
 			index = 0
+			full = True
 		elif my_player_type == player_type.me:
 			index = 1
+			full = False
 		elif my_player_type == player_type.them:
 			index = 2
+			full = False
 		else:
 			raise Game_Action_Error('Player Type %s does not exist'%my_player_type)
 		xml = '<lists>'
 		for i in cltypes.full:
 			xml += '<'+cltypes.names[i]+'>'
-			full = self.visibility.visible[i][index]
-			xml += self.lists[i].xml_output(full)
+			vis = self.visibility.visible[i][index]
+			xml += self.lists[i].xml_output(full,vis)
 			xml += '</'+cltypes.names[i]+'>'
 		xml += '</lists>'
 		if index == 0:

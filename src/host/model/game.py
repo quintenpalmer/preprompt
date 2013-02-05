@@ -1,11 +1,8 @@
 from model.player import Player_Container
 from model import player_type
 from model.control_state import Control_State,super_phase,phase
-
-from control.game_logic.action import Action
-
+from control.action import Action
 from model.errors import Game_Action_Error
-
 from pyplib.xml_parser import parse_xml, parse_element
 
 class Game:

@@ -23,12 +23,12 @@ class Card_List:
 		else:
 			raise Game_Action_Error("Card_List was instantiated with improper parameters: %s"%kwargs)
 
-	def xml_output(self,full):
+	def xml_output(self,full,vis):
 		xml = '<cards>'
 		for card in self.cards:
 			xml += '<card>'
-			if full:
-				xml += card.xml_output()
+			if vis:
+				xml += card.xml_output(full)
 			else:
 				xml += Empty_Card().xml_output()
 			xml += '</card>'

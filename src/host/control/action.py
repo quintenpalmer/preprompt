@@ -14,7 +14,7 @@ class Sub_Action:
 	def __init__(self,game,uid,card_effect):
 		self.me = game.get_me_from_uid(uid)
 		self.them = game.get_them_from_uid(uid)
-		self.element = None
+		self.elemental = None
 		self.game = game
 		self.damage = 0
 		self.heal = 0

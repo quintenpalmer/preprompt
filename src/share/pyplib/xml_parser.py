@@ -10,7 +10,7 @@ def parse_xml(xml_string):
 	try:
 		return parseString(xml_string)
 	except Exception:
-		raise XML_Parser_Error('Error parsing the input string from the user')
+		raise XML_Parser_Error('Error parsing the input string from the user%s'%xml_string)
 
 def parse_element(element,tag):
 	ele = element.getElementsByTagName(tag).item(0)

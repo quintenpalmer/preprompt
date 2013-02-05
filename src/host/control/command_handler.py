@@ -1,5 +1,5 @@
 from control.load.load_config import Config_Player, Config_Args
-from control.game_logic.play import Play_Args
+from control.play import Play_Args
 
 import util
 
