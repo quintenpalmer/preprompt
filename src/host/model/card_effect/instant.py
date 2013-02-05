@@ -1,5 +1,6 @@
-from pyplib.xml_parser import parse_elements,parse_element,parse_int
+from pyplib.xml_parser import parse_elements,parse_element,parse_int,parse_string
 from model.errors import Game_Action_Error
+from control.load.lstructs import get_effect_from_xml_name
 
 class Instant_List:
 	def __init__(self,**kwargs):
@@ -33,10 +34,13 @@ class Instant:
 		elif kwargs.has_key('element'):
 			element = kwargs['element']
 			#TODO parse the correct effects and conds
-			self.effect = None
+			effect_element = parse_element(element,'effect')
+			name = parse_string(effect_element,'name')
+			self.effect = get_effect_from_xml_name(name)(element=effect_element)
 			self.conds = []
 			for ele in parse_elements(element,'cond'):
-				self.conds.append(None)
+				name = parse_string(ele,'name')
+				self.conds.append(get_effect_from_xml_name(name)(element=ele))
 		else:
 			raise Game_Action_Error("Instant instantiated with invalid constructor %s"%kwargs.keys())
 
