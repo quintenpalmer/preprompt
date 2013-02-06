@@ -2,13 +2,13 @@ from model import cltypes
 from model.card_list import Card_List
 from model import player_type
 from pyplib.errors import PP_Game_Action_Error
-from pyplib.xml_parser import parse_element
+from pyplib.xml_parser import parse_element,parse_bool
 
 class Collection:
 	def __init__(self,**kwargs):
 		if kwargs.has_key('cards'):
 			cards = kwargs['cards']
-			self.visibility = cltypes.Visibility()
+			self.visibility = Visibility()
 			self.lists = []
 			for i in xrange(0,cltypes.size):
 				self.lists.append(Card_List())
@@ -22,7 +22,7 @@ class Collection:
 			self.lists[cltypes.grave] = Card_List(element=parse_element(element,'grave'))
 			self.lists[cltypes.special] = Card_List(element=parse_element(element,'special'))
 			self.lists[cltypes.other] = Card_List(element=parse_element(element,'other'))
-			self.visibility = cltypes.Visibility(element=parse_element(element,'visibilities'))
+			self.visibility = Visibility(element=parse_element(element,'visibilities'))
 		else:
 			raise PP_Game_Action_Error("Collection construction had improper kwargs %s"%kwargs.keys())
 
@@ -65,3 +65,40 @@ class Collection:
 	def play_to_grave(self,card_id):
 		card = self.lists[cltypes.hand].pop(card_id)
 		self.lists[cltypes.grave].push(card)
+
+class Visibility:
+	def __init__(self,**kwargs):
+		if len(kwargs) == 0:
+			self.visible = range(0,cltypes.size)
+			self.visible[cltypes.deck] = (True,False,False)
+			self.visible[cltypes.hand] = (True,True,False)
+			self.visible[cltypes.active] = (True,True,True)
+			self.visible[cltypes.grave] = (True,True,True)
+			self.visible[cltypes.special] = (True,False,False)
+			self.visible[cltypes.other] = (True,True,False)
+		elif kwargs.has_key('element'):
+			element = kwargs['element']
+			self.visible = range(0,cltypes.size)
+			deck_element = parse_element(element,cltypes.names[cltypes.deck])
+			self.visible[cltypes.deck] = (True,parse_bool(deck_element,'me_vis'),parse_bool(deck_element,'them_vis'))
+			hand_element = parse_element(element,cltypes.names[cltypes.hand])
+			self.visible[cltypes.hand] = (True,parse_bool(hand_element,'me_vis'),parse_bool(hand_element,'them_vis'))
+			active_element = parse_element(element,cltypes.names[cltypes.active])
+			self.visible[cltypes.active] = (True,parse_bool(active_element,'me_vis'),parse_bool(active_element,'them_vis'))
+			grave_element = parse_element(element,cltypes.names[cltypes.grave])
+			self.visible[cltypes.grave] = (True,parse_bool(grave_element,'me_vis'),parse_bool(grave_element,'them_vis'))
+			special_element = parse_element(element,cltypes.names[cltypes.special])
+			self.visible[cltypes.special] = (True,parse_bool(special_element,'me_vis'),parse_bool(special_element,'them_vis'))
+			other_element = parse_element(element,cltypes.names[cltypes.other])
+			self.visible[cltypes.other] = (True,parse_bool(other_element,'me_vis'),parse_bool(other_element,'them_vis'))
+		else:
+			raise PP_Game_Action_Error("Visibility instantiated with invalid constructor %s"%str(kwargs))
+
+	def xml_output(self):
+		xml = ''
+		for i,vis in enumerate(self.visible):
+			xml += '<'+cltypes.names[i]+'>'
+			xml += '<me_vis>'+str(vis[1])+'</me_vis>'
+			xml += '<them_vis>'+str(vis[2])+'</them_vis>'
+			xml += '</'+cltypes.names[i]+'>'
+		return xml

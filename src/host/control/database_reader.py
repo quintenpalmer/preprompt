@@ -1,7 +1,7 @@
 from model.game import Game
 from model.player import Player_Container, Player
 from model.collection import Collection
-from control.load.loaded_effects import lookup_table
+from control.loaded_effects import lookup_table
 from pyplib.errors import PP_Load_Error
 import os
 

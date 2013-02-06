@@ -1,6 +1,6 @@
 from pyplib.xml_parser import parse_elements,parse_element,parse_int,parse_string
 from pyplib.errors import PP_Game_Action_Error
-from control.load.lstructs import get_effect_from_xml_name
+from control.lstructs import get_effect_from_xml_name
 
 class Instant_List:
 	def __init__(self,**kwargs):

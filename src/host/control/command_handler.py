@@ -1,6 +1,6 @@
 import util
 from model.play import Play_Args
-from control.load.lstructs import Config_Player, Config_Args
+from control.lstructs import Config_Player, Config_Args
 from pyplib.xml_parser import parse_xml,parse_string,parse_int
 from pyplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error
 from pyplib.host_client import *

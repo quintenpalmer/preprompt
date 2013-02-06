@@ -1,19 +1,18 @@
 
-class Elementals:
-	Fire = 0
-	Water = 1
-	Nature = 2
-	Death = 3
+fire = 0
+water = 1
+nature = 2
+death = 3
 
 elementals = {}
-elementals['f'] = Elementals.Fire
-elementals['w'] = Elementals.Water
-elementals['n'] = Elementals.Nature
-elementals['d'] = Elementals.Death
-elementals['fire'] = Elementals.Fire
-elementals['water'] = Elementals.Water
-elementals['nature'] = Elementals.Nature
-elementals['death'] = Elementals.Death
+elementals['f'] = fire
+elementals['w'] = water
+elementals['n'] = nature
+elementals['d'] = death
+elementals['fire'] = fire
+elementals['water'] = water
+elementals['nature'] = nature
+elementals['death'] = death
 
 def get_elemental_from_string(string):
 	return elementals[string]
