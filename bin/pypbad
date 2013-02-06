@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cd $pyp/src/client
-PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py b

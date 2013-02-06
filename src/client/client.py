@@ -6,14 +6,18 @@ import sys
 
 if __name__ == '__main__':
 	if len(sys.argv) == 1:
+		print "Client: Starting!"
 		util.make_logger()
 		util.logger.info('Started Client')
 		model = Model()
 		main = Main_Loop(model)
 		main.run()
+		print "Client: Exiting!"
 	else:
 		if sys.argv[1] == 'b':
 			request = '<request'
-			print send_request(request)
+			send_request(request)
+			print "Client: Sent bad data!"
 		elif sys.argv[1] == 'd':
-			print request_exit(0)
+			request_exit(0)
+			print "Client: Sent shutdown to server!"

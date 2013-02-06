@@ -1,8 +1,0 @@
-#!/bin/bash
-echo "" >> ~/.bashrc
-echo "# !!! PyPrompt Setup !!!" >> ~/.bashrc
-echo "" >> ~/.bashrc
-echo "export pyp=`pwd`" >> ~/.bashrc
-echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
-echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
-echo "alias pypcd=\"cd \$pyp\"" >> ~/.bashrc

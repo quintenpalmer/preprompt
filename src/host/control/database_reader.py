@@ -52,13 +52,10 @@ def get_game(config_args):
 def verify_deck(cards):
 	if len(cards) < 40:
 		raise PP_Load_Error("Not enough cards in the player's deck, only %s, needs 40"%str(len(cards)))
-	for card in cards:
-		print card.name
 
 def get_card_key_text_from_id(card_id):
 	try:
 		text = card_id_to_card_text[int(card_id)]
-		print '->',text
 		return text
 	except ValueError:
 		raise PP_Load_Error("Player deck data contained card id %s which is not an int"%str(card_id))
