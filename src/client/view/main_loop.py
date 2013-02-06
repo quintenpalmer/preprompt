@@ -38,11 +38,24 @@ class Main_Loop:
 					self.current_message = 'Invalid gameId %s'%command
 			elif command == 'list':
 				self.current_message = str(self.model.games.keys())
-			elif len(command) >= 4 and command[:4] == 'eval':
-				print eval(command[5:])
 			elif command == 'swap':
 				self.model.logged_in_uid = self.model.get_current_game().them.player.uid
 				self.request_out()
+			elif command[:4] == 'help':
+				self.current_message = '''Valid commands are:
+test     send a test service
+exit     close the client (and host)
+new      start a new game
+setup    run the setup for the current game
+draw     draw your card (only valid in the draw phase)
+phase    swap to the next phase of your turn
+turn     swap to the other player's turn
+play     play your last card
+out      get the current game from the host
+curr <i> change the current game id to game id <i>
+list     get a list of this client's game_ids
+swap     swap to playing as the other player
+				'''
 			else:
 				self.current_message = 'Not a valid command: '+command
 	def request_new(self,me_did=0,them_uid=13,them_did=1):

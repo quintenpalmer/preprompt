@@ -1,22 +1,23 @@
 import util
-from control.play import Play_Args
+from model.play import Play_Args
 from control.load.lstructs import Config_Player, Config_Args
 from pyplib.xml_parser import parse_xml,parse_string,parse_int
 from pyplib.errors import PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error
 from pyplib.host_client import *
+from control.game_manipulator import Manipulator
+import os
 
 def handle(request,model):
 	try:
 		ele = parse_xml(request)
-		#print ele.toprettyxml()
 		command = parse_string(ele,'command')
 		request_type = get_request_type(command)
 		if request_type == 'sys':
 			if command == 'test':
 				version = parse_int(ele,'version')
-				return respond_test(model.version)
+				ret =  respond_test(model.version)
 			elif command == 'exit':
-				return respond_exit()
+				ret =  respond_exit()
 		elif request_type == 'meta':
 			if command == 'new':
 				p1_uid = parse_int(ele,'p1_uid')
@@ -26,19 +27,20 @@ def handle(request,model):
 				game_id = model.start_game(Config_Args(
 					Config_Player(p1_uid,p1_did),
 					Config_Player(p2_uid,p2_did)))
-				return respond_action(command,game_id,model.out(game_id,p1_uid))
+				ret =  respond_action(command,game_id,model.out(game_id,p1_uid))
 		elif request_type == 'perform':
 			game_id = parse_int(ele,'game_id')
 			game = model.get_game_from_id(game_id)
 			player_id = parse_int(ele,'player_id')
+			manipulator = Manipulator(game)
 			if command == 'setup':
-				game.setup()
-				return respond_action(command,game_id,model.out(game_id,player_id))
+				manipulator.setup()
+				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'draw':
-				game.draw(player_id)
-				return respond_action(command,game_id,model.out(game_id,player_id))
+				manipulator.draw(player_id)
+				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'play':
-				game.play(Play_Args(
+				manipulator.play(Play_Args(
 					game=game,
 					src_uid=player_id,
 					src_list=parse_int(ele,'src_list'),
@@ -46,19 +48,28 @@ def handle(request,model):
 					tgt_uid=parse_int(ele,'target_uid'),
 					tgt_card=parse_int(ele,'target_list'),
 					tgt_list=parse_int(ele,'target_card')))
-				return respond_action(command,game_id,model.out(game_id,player_id))
+				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'phase':
-				game.step_phase()
-				return respond_action(command,game_id,model.out(game_id,player_id))
+				manipulator.step_phase()
+				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'turn':
-				game.toggle_turn()
-				return respond_action(command,game_id,model.out(game_id,player_id))
+				manipulator.toggle_turn()
+				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'out':
-				return respond_action(command,game_id,model.out(game_id,player_id))
+				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			else:
-				return respond_bad_action('congrats_finding_a_bug',command)
+				ret = respond_bad_action('congrats_finding_a_bug',command)
+			try:
+				path = os.path.join(os.environ['pyp'],'data','games',str(game_id)+'.save')
+				game_file = open(path,'w')
+				game_file.write(game.xml_output(0))
+				game_file.close()
+			except IOError:
+				util.logger.error("Error writing game data")
+				raise PP_Load_Error("Save File %s could not be opened"%str(game_id))
 		else:
-			return respond_bad_action('unknown_action',command)
+			ret =  respond_bad_action('unknown_action',command)
+		return ret
 	except XML_Parser_Error as e:
 		util.logger.warn('Recieved bad xml: '+str(e))
 		return respond_error_caught('bad_xml_request',str(e))
@@ -72,9 +83,9 @@ def handle(request,model):
 def get_request_type(command):
 	if command == 'new':
 		return 'meta'
-	elif command == 'setup' or command == 'draw' or command == 'phase' or command == 'turn' or command == 'play' or command == 'out':
+	elif command in ('setup','draw','phase','turn','play','out'):
 		return 'perform'
-	elif command == 'exit' or command == 'test':
+	elif command in ('exit','test'):
 		return 'sys'
 	else:
 		return 'unknown'

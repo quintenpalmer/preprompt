@@ -1,7 +1,7 @@
 from model.player import Player_Container
 from model import player_type
 from model.control_state import Control_State,super_phase,phase
-from control.action import Action
+from model.action import Action
 from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_xml, parse_element
 
@@ -74,65 +74,10 @@ class Game:
 		xml += '</game>'
 		return xml
 
-	def __repr__(self):
-		return "Game: Player:"+self.players[0].player.name+" Player:"+self.players[1].player.name+" State:"+str(self.control_state.phase)
-
-	def setup(self):
-		self.verify_setup_super_phase('setup')
-		for player in self.players:
-			for i in range(5):
-				player.collection.draw()
-		self.control_state.exit_setup_phase()
-
-	def draw(self,uid):
-		self.verify_main_super_phase('draw')
-		if self.get_current_turn_owner() == uid:
-			if self.control_state.is_given_phase(phase.draw):
-				if not self.control_state.has_drawn:
-					self.get_me_from_uid(uid).collection.draw()
-					self.control_state.has_drawn = True
-				else:
-					raise PP_Game_Action_Error("Player has already drawn their card")
-			else:
-				raise PP_Game_Action_Error("Can only draw during the draw phase")
-		else:
-			raise PP_Game_Action_Error("Player cannot conduct draw during this turn")
-
-	def play(self,play_args):
-		self.verify_main_super_phase('play')
-		if self.get_current_turn_owner() == play_args.src_uid:
-			me = self.get_me_from_uid(play_args.src_uid)
-			try:
-				card_effect = me.collection.lists[play_args.src_list].cards[play_args.src_card].effect
-			except IndexError:
-				raise PP_Game_Action_Error("There are no more cards in that player's %s"%(play_args.src_list,))
-			if self.control_state.is_given_phase(card_effect.instants.valid_phase):
-				action = Action()
-				action.add_action(self,play_args.src_uid,card_effect.instants)
-				#action.account_for_board()
-				#TODO SEND TGT PARAMETERS TO ACTION
-				success = action.act()
-				if card_effect.persists.does_persist and success:
-					me.collection.play_to_active(play_args.src_card)
-				else:
-					me.collection.play_to_grave(play_args.src_card)
-			else:
-				raise PP_Game_Action_Error("Not the correct phase to play that card")
-		else:
-			raise PP_Game_Action_Error("Not that correct turn for that player to play that card")
-
-	def step_phase(self):
-		self.verify_main_super_phase('phase')
-		self.control_state.step_phase()
-
-	def toggle_turn(self):
-		self.verify_main_super_phase('turn')
-		self.control_state.toggle_turn(len(self.players))
-
 	def verify_main_super_phase(self,action):
 		if not self.control_state.super_phase == super_phase.main:
-			raise PP_Game_Action_Error("%s can only be performed in the regular gameplay super phase"%(action,))
+			raise PP_Game_Action_Error("%s can only be performed in the regular gameplay super phase"%action)
 
 	def verify_setup_super_phase(self,action):
 		if not self.control_state.super_phase == super_phase.setup:
-			raise PP_Game_Action_Error("%s can only be performed in the setup super phase"%(action,))
+			raise PP_Game_Action_Error("%s can only be performed in the setup super phase"%action)
