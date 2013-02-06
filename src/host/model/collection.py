@@ -54,9 +54,9 @@ class Collection:
 	def draw(self):
 		try:
 			card = self.lists[cltypes.deck].pop()
+			self.lists[cltypes.hand].push(card)
 		except IndexError:
 			raise PP_Game_Action_Error('That player has no more cards in his/her deck')
-		self.lists[cltypes.hand].push(card)
 
 	def play_to_active(self,card_id):
 		card = self.lists[cltypes.hand].pop(card_id)

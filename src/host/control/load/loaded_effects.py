@@ -21,6 +21,7 @@ def get_sits_n_turns(elemental,duration):
 
 def alters_m_sits_n_turns(elemental,args):
 	tmp = args.split('/')
+	print tmp
 	duration = int(tmp[0])
 	amount = int(tmp[1])
 	who = [int(t) for t in tmp[2]]

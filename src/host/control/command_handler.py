@@ -2,7 +2,7 @@ import util
 from model.play import Play_Args
 from control.load.lstructs import Config_Player, Config_Args
 from pyplib.xml_parser import parse_xml,parse_string,parse_int
-from pyplib.errors import PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error
+from pyplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error
 from pyplib.host_client import *
 from control.game_manipulator import Manipulator
 import os
@@ -79,6 +79,9 @@ def handle(request,model):
 	except PP_Model_Error as e:
 		util.logger.warn('Invalid Model operation: '+str(e))
 		return respond_error_caught('invalid_model_operation',str(e))
+	except PP_Load_Error as e:
+		util.logger.warn('Load Error: '+str(e))
+		return respond_error_caught('too_few_cards_in_deck',str(e))
 
 def get_request_type(command):
 	if command == 'new':
