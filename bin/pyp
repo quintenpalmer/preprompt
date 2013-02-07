@@ -18,6 +18,9 @@ if [ $# == 1 ]; then
 	elif [ $1 == client ]; then
 		cd $pyp/src/client
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py
+	elif [ $1 == drop ]; then
+		cd $pyp/src/host
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py c
 	elif [ $1 == list ]; then
 		cd $pyp
 		all -i
@@ -27,7 +30,7 @@ if [ $# == 1 ]; then
 	elif [ $1 == dc ]; then
 		cd $pyp/src/client
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py d
-	elif [ $1 == rrm ]; then
+	elif [ $1 == pyc ]; then
 		cd $pyp
 		rrm
 	elif [ $1 == setup ]; then

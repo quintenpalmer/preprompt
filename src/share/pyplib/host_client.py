@@ -18,6 +18,15 @@ def respond_exit():
 	resp += '</resp>'
 	return resp
 
+def respond_list(model):
+	resp = '<resp>'
+	resp += '<resp_status>ok</resp_status>'
+	resp += '<resp_type>list</resp_type>'
+	for game_id in model.games.keys():
+		resp += '<game_id>%s</game_id>'%str(game_id)
+	resp += '</resp>'
+	return resp
+
 def respond_action(command,game_id,game_xml):
 	resp = '<resp>'
 	resp += '<resp_status>ok</resp_status>'

@@ -11,7 +11,7 @@ class Model:
 		self.all_ids = list(self.free_ids)
 		self.version = 0
 		try:
-			game_file_dir = os.path.join(os.environ['pyp'],'data','games')
+			game_file_dir = os.path.join(os.environ['pyp'],'opt','postprompt','data','games')
 			game_file_names = os.listdir(game_file_dir)
 			for game_file_name in game_file_names:
 				if game_file_name != '__init__.py':
@@ -35,7 +35,7 @@ class Model:
 		game_id = self.pop_id()
 		game = database_reader.get_game(config_args)
 		try:
-			path = os.path.join(os.environ['pyp'],'data','games',str(game_id)+'.save')
+			path = os.path.join(os.environ['pyp'],'opt','postprompt','data','games',str(game_id)+'.save')
 			game_file = open(path,'w')
 			game_file.write(game.xml_output(0))
 			game_file.close()

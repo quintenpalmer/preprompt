@@ -18,6 +18,8 @@ def handle(request,model):
 				ret =  respond_test(model.version)
 			elif command == 'exit':
 				ret =  respond_exit()
+			elif command == 'list':
+				ret = respond_list(model)
 		elif request_type == 'meta':
 			if command == 'new':
 				p1_uid = parse_int(ele,'p1_uid')
@@ -60,7 +62,7 @@ def handle(request,model):
 			else:
 				ret = respond_bad_action('congrats_finding_a_bug',command)
 			try:
-				path = os.path.join(os.environ['pyp'],'data','games',str(game_id)+'.save')
+				path = os.path.join(os.environ['pyp'],'opt','postprompt','data','games',str(game_id)+'.save')
 				game_file = open(path,'w')
 				game_file.write(game.xml_output(0))
 				game_file.close()
@@ -88,7 +90,7 @@ def get_request_type(command):
 		return 'meta'
 	elif command in ('setup','draw','phase','turn','play','out'):
 		return 'perform'
-	elif command in ('exit','test'):
+	elif command in ('exit','test','list'):
 		return 'sys'
 	else:
 		return 'unknown'

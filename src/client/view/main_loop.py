@@ -31,13 +31,15 @@ class Main_Loop:
 				self.request_exit()
 			elif command == 'out':
 				self.request_out()
+			elif command == 'listall':
+				self.request_list()
+			elif command == 'list':
+				self.current_message = str(self.model.games.keys())
 			elif command[:4] == 'curr':
 				try:
 					self.model.current_game_id = int(command[5:])
 				except ValueError:
 					self.current_message = 'Invalid gameId %s'%command
-			elif command == 'list':
-				self.current_message = str(self.model.games.keys())
 			elif command == 'swap':
 				self.model.logged_in_uid = self.model.get_current_game().them.player.uid
 				self.request_out()
@@ -85,6 +87,9 @@ swap     swap to playing as the other player
 	def request_out(self):
 		resp = request_out(self.model.current_game_id,self.model.logged_in_uid)
 		self.current_message = self.model.update_game(resp)
+	def request_list(self):
+		resp = request_list()
+		self.current_message = resp
 	def example_start(self):
 		self.request_test()
 		self.request_new()
