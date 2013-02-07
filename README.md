@@ -1,7 +1,7 @@
-pyprompt
+PostPrompt
 ========
 
-postprompt card game in python
+PostPrompt virtual card game in python
 
 How to
 ---
@@ -43,6 +43,7 @@ TODO:
 Client:
  - Frontend written for web browser
  - Make requests and responses async
+
 Host:
  - Add more card effects
  - Limit copies of a card
