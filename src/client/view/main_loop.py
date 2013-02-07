@@ -11,6 +11,9 @@ class Main_Loop:
 		while command != 'exit':
 			draw(self.model,self.current_message)
 			command = raw_input("Type a command to go: ")
+			if command == '!!':
+				command = self.last_command
+			self.last_command = command
 			if command == 'example':
 				self.example_start()
 			elif command == 'new':
