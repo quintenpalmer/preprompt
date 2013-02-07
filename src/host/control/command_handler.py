@@ -52,15 +52,15 @@ def handle(request,model):
 					tgt_list=parse_int(ele,'target_card')))
 				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'phase':
-				manipulator.step_phase()
+				manipulator.step_phase(player_id)
 				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'turn':
-				manipulator.toggle_turn()
+				manipulator.toggle_turn(player_id)
 				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'out':
 				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			else:
-				ret = respond_bad_action('congrats_finding_a_bug',command)
+				ret = respond_bad_action('congrats_on_finding_a_bug',command)
 			try:
 				path = os.path.join(os.environ['pyp'],'opt','postprompt','data','games',str(game_id)+'.save')
 				game_file = open(path,'w')

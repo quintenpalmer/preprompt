@@ -81,3 +81,7 @@ class Game:
 	def verify_setup_super_phase(self,action):
 		if not self.control_state.super_phase == super_phase.setup:
 			raise PP_Game_Action_Error("%s can only be performed in the setup super phase"%action)
+
+	def verify_current_turn_owner(self,uid,action):
+		if not self.get_current_turn_owner() == uid:
+			raise PP_Game_Action_Error("Player %s cannot conduct %s during this turn"%(str(uid),action))

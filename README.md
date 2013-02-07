@@ -41,13 +41,13 @@ TODO:
 ---
 
 Client:
- - Frontend written for web browser
  - Make requests and responses async
+ - Frontend written for web browser
 
 Host:
+ - Need to have tickers for persistant cards
+ - Make requests and responses async
+ - Make host require 2 new requests to start a game (a game between the two users)
  - Add more card effects
  - Limit copies of a card
  - Add real database for player decks, card effects, and maybe save data
- - Make host require 2 new requests to start a game (a game between the two users)
- - Make requests and responses async
- - Need to have tickers for persistant cards
