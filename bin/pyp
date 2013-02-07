@@ -35,7 +35,7 @@ if [ $# == 1 ]; then
 		rrm
 	elif [ $1 == setup ]; then
 		echo "" >> ~/.bashrc
-		echo "# PyPrompt Setup" >> ~/.bashrc
+		echo "# Postprompt Setup" >> ~/.bashrc
 		echo "" >> ~/.bashrc
 		echo "export pyp=`pwd`" >> ~/.bashrc
 		echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
