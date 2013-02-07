@@ -1,0 +1,12 @@
+# Compiled python files
+*.py[co]
+
+# Logs
+pyphost.log
+pypclient.log
+
+# Swap save files
+*.swp
+
+# Game save files
+*.save
