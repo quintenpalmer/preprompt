@@ -5,12 +5,13 @@ import os
 logger = None
 def make_logger():
 	global logger
-	path = os.path.join(os.environ['pyp'],'etc','pyphost_logger.conf')
+	path = os.path.join(os.environ['pyp'],'root','etc','pyphost_logger.conf')
+	print path
 	logging.config.fileConfig(path)
 	logger = logging.getLogger('pypBasic')
 
 def clear_saves():
-	base_dir = os.path.join(os.environ['pyp'],'opt','postprompt','data','games')
+	base_dir = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','games')
 	paths = os.listdir(base_dir)
 	print paths
 	for path in paths:

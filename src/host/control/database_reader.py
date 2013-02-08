@@ -10,7 +10,7 @@ card_id_to_card_text = {}
 def load_card_key_text():
 	if card_id_to_card_text == {}:
 		try:
-			path = os.path.join(os.environ['pyp'],'opt','postprompt','data','cards','relation.table')
+			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','cards','relation.table')
 			f = open(path,'r')
 			for line in f.readlines():
 				key,val = line.split(':')
@@ -35,7 +35,7 @@ def get_game(config_args):
 		player = Player(uid=uids[i])
 		cards = []
 		try:
-			path = os.path.join(os.environ['pyp'],'opt','postprompt','data','players',str(uids[i]),str(dids[i])+'.cards')
+			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','players',str(uids[i]),str(dids[i])+'.cards')
 			f = open(path,'r')
 			deck = [x.strip() for x in f.readlines()[0].split(',')]
 			f.close()
