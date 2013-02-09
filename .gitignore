@@ -4,6 +4,7 @@
 # Logs
 pyphost.log
 pypclient.log
+pypweb.log
 
 # Swap save files
 *.swp
