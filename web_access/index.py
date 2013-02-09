@@ -1,7 +1,7 @@
 from wsgiref.simple_server import make_server
 from cgi import parse_qs, escape
 
-from page_builder import gen_content, gen_head, gen_dummy, gen_not_found
+from page_builder import gen_head, gen_dummy, gen_not_found, gen_home, gen_game, gen_about, gen_account
 from request_handler import handle_request
 import util
 import os
@@ -14,15 +14,41 @@ def simple_app(environ,start_response):
 	except ValueError:
 		request_body_size = 0
 
-	head = gen_head()
-	html = head%gen_dummy()
-
 	requested_path = environ['PATH_INFO'].lstrip('/')
+
+	head = gen_head(requested_path)
+	html = head%gen_dummy()
+	status = '200 OK'
+	headers = [('Content-Type','text/html')]
+
 	requested_root = requested_path.split('/')[0]
-	if requested_path != '':
+	if requested_path == '':
+		status = '200 OK'
+		headers = [('Content-Type','text/html')]
+		html = head%gen_home()
+	elif requested_path == 'game':
+		request_body = environ['wsgi.input'].read(request_body_size)
+		posts = parse_qs(request_body)
+		command = posts.get('command',[''])[0]
+
+		output = escape(handle_request(command))
+
+		util.logger.info('%s processed'%command)
+		html = head%gen_game()%output
+		status = '200 OK'
+		headers = [('Content-Type','text/html'),('Content-Length',str(len(html)))]
+	elif requested_path == 'about':
+		status = '200 OK'
+		headers = [('Content-Type','text/html')]
+		html = head%gen_about()
+	elif requested_path == 'account':
+		status = '200 OK'
+		headers = [('Content-Type','text/html')]
+		html = head%gen_account()
+	elif requested_path != '':
 		if requested_root in os.listdir('.'):
 			status = '200 OK'
-			headers = [('Content-Type','text/css',)]
+			headers = [('Content-Type','text/plain')]
 			f = open(requested_path,'rb')
 			util.logger.info('specific web page requested')
 			html = f.read()
@@ -32,17 +58,6 @@ def simple_app(environ,start_response):
 			headers = [('Content-Type','text/html'),]
 			html = head%gen_not_found()
 			util.logger.info('request for non-existant page: %s',requested_path)
-	else:
-		request_body = environ['wsgi.input'].read(request_body_size)
-		posts = parse_qs(request_body)
-		command = posts.get('command',[''])[0]
-
-		output = escape(handle_request(command))
-
-		util.logger.info('%s processed'%command)
-		html = head%gen_content()%output
-		status = '200 OK'
-		headers = [('Content-Type','text/html'),('Content-Length',str(len(html)))]
 
 	start_response(status,headers)
 	return [html]
