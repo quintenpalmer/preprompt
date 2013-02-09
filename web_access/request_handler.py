@@ -1,6 +1,7 @@
 from pyplib.client_host import *
 
 def handle_request(command):
+	command = command.lower()
 	if command == 'test':
 		return request_test(0)
 	elif command == 'exit':

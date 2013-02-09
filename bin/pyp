@@ -36,12 +36,19 @@ if [ $# == 1 ]; then
 	elif [ $1 == web ]; then
 		cd $pyp/web_access
 		python -B index.py
+	elif [ $1 == fullweb ]; then
+		cd $pyp/src/host
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py&
+		sleep .5
+		cd $pyp/web_access
+		python -B index.py
 	elif [ $1 == setup ]; then
 		echo "" >> ~/.bashrc
 		echo "# Postprompt Setup" >> ~/.bashrc
 		echo "" >> ~/.bashrc
 		echo "export pyp=`pwd`" >> ~/.bashrc
 		echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
+		echo "export PYTHONPATH=$pyp/src/share" >> ~/.bashrc
 		echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
 		echo "run 'source ~/.bashrc' to have this take effect"
 	elif [ $1 == "--help" ]; then
