@@ -6,6 +6,9 @@ pyphost.log
 pypclient.log
 pypweb.log
 
+# User encrypted passwords
+*.scr
+
 # Swap save files
 *.swp
 

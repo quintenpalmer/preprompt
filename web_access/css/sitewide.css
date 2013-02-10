@@ -7,6 +7,16 @@
 	background-color:#222;
 }
 
+#login{
+	float:left;
+	padding-left:50px;
+}
+
+#register {
+	float:right;
+	padding-right:50px;
+}
+
 #content {
 	width:794px;
 	min-height:990px;
@@ -128,3 +138,27 @@ body {
 	margin:auto;
 	color:#fb3;
 }
+
+#manage tr td {
+	text-align:center;
+}
+
+#manage tr td a {
+	display:block;
+	background-image:url("/quinten/images/icons/button.png");
+	font-size:35px;
+	color:#bbb;
+}
+
+#manage tr td a:hover {
+	background-image:url("/quinten/images/icons/button-active.png");
+	color:#eee;
+}
+
+#manage tr td a span {
+	width:300px;
+	height:80px;
+	display:block;
+	padding-top:20px;
+}
+

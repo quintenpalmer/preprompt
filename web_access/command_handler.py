@@ -36,20 +36,3 @@ def handle_request(command):
 			return request_play(game_id,player_id,src_list,src_card,target_uid,target_list,target_card)
 		else:
 			return "Not a valid command"
-	
-def linux_time(request):
-	try:
-		command = request.split(' ')[0]
-	except IndexError:
-		command = ''
-	try:
-		if command == 'ls':
-			to_run = ['ls',request[2:].strip() or '.']
-			return check_output(to_run)
-		elif command == 'cat':
-			to_run = ['cat',request[3:].strip() or '.']
-			return check_output(to_run)
-		else:
-			return 'not a valid command'
-	except CalledProcessError:
-		return 'error running command'
