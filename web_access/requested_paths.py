@@ -69,10 +69,10 @@ def get_requested_path(requested_path,environ):
 		elif sub_path == 'login':
 			uname = posts.get('luname',[''])[0]
 			password = posts.get('lpass',[''])[0]
-			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','users')
-			file_path = os.path.join(path,uname+'.scr')
+			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','tables','credentials')
+			file_path = os.path.join(path,uname+'.stable')
 			try:
-				if uname+'.scr' in os.listdir(path):
+				if uname+'.stable' in os.listdir(path):
 					f = open(file_path,'rb')
 					passhash = f.readlines()[0]
 					if md5(password).digest() == passhash:
@@ -93,7 +93,7 @@ def get_requested_path(requested_path,environ):
 			if password != password_verify:
 				html = gen_password_mismatch()
 			else:
-				path = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','users',uname+'.scr')
+				path = os.path.join(os.environ['pyp'],'root','opt','postprompt','tables','credentials',uname+'.stable')
 				if os.path.exists(path):
 					html = gen_username_exists()%uname
 				else:

@@ -62,7 +62,7 @@ def handle(request,model):
 			else:
 				ret = respond_bad_action('congrats_on_finding_a_bug',command)
 			try:
-				path = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','games',str(game_id)+'.save')
+				path = os.path.join(os.environ['pyp'],'root','opt','postprompt','tables','games',str(game_id)+'.save')
 				game_file = open(path,'w')
 				game_file.write(game.xml_output(0))
 				game_file.close()

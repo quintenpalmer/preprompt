@@ -11,7 +11,7 @@ def make_logger():
 	logger = logging.getLogger('pypBasic')
 
 def clear_saves():
-	base_dir = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','games')
+	base_dir = os.path.join(os.environ['pyp'],'root','opt','postprompt','tables','games')
 	paths = os.listdir(base_dir)
 	print paths
 	for path in paths:

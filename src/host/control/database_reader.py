@@ -10,7 +10,8 @@ card_id_to_card_text = {}
 def load_card_key_text():
 	if card_id_to_card_text == {}:
 		try:
-			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','cards','relation.table')
+			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','tables','cards','relation.table')
+			print path
 			f = open(path,'r')
 			for line in f.readlines():
 				key,val = line.split(':')
@@ -35,11 +36,16 @@ def get_game(config_args):
 		player = Player(uid=uids[i])
 		cards = []
 		try:
-			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','data','players',str(uids[i]),str(dids[i])+'.cards')
+			path = os.path.join(os.environ['pyp'],'root','opt','postprompt','tables','decks',str(uids[i])+'.table')
+			print path
 			f = open(path,'r')
-			deck = [x.strip() for x in f.readlines()[0].split(',')]
+			decks = {}
+			for line in f.readlines():
+				key,val = line.split(':')
+				decks[int(key)] = val.strip().split(',')
+			deck = decks[dids[i]]
 			f.close()
-		except IOError,IndexError:
+		except IOError or IndexError or KeyError:
 			raise PP_Load_Error("Could not load the player's deck")
 		for card_id in deck:
 			cards.append(lookup_table(get_card_key_text_from_id(card_id)))
