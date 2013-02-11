@@ -38,21 +38,20 @@ def simple_app(environ,start_response):
 		status,headers,html = get_requested_path(requested_path,environ)
 		html = head%html
 	elif requested_root in ('css','images'):
+		filename = os.path.join(*requested_path)
 		try:
 			status = '200 OK'
-			last_modified = format_date_time(os.path.getmtime(os.path.join(*requested_path)))
+			last_modified = format_date_time(os.path.getmtime(filename))
 			file_type = requested_path[-1].split('.')[-1]
 			if file_type == 'png' or file_type == 'ico':
 				headers.append(('Content-Type','image/png'))
-				headers.append(('Last-Modified',last_modified))
-				#('Connection','Keep-Alive')]
-				#('Keep-Alive','timeout=2')],'max=200')]
 			elif file_type == 'css':
 				headers.append(('Content-Type','text/css'))
-				headers.append(('Last-Modified',last_modified))
-				#('Connection','Keep-Alive'),
-				#('Keep-Alive','timeout=2')]#,'max=200')]
-			f = open(os.path.join(*requested_path),'rb')
+			headers.append(('Last-Modified',last_modified))
+			headers.append(('ETag',str(uuid.uuid3(uuid.NAMESPACE_DNS,filename))))
+			#('Connection','Keep-Alive'),
+			#('Keep-Alive','timeout=2')]#,'max=200')]
+			f = open(filename,'rb')
 			util.logger.info('specific web page requested')
 			html = f.read()
 			f.close()
