@@ -1,7 +1,7 @@
 from wsgiref.simple_server import make_server
 from wsgiref.handlers import format_date_time
 from datetime import datetime
-from time import mktime
+from time import mktime,ctime,asctime,localtime
 import uuid
 
 from page_builder import gen_head, gen_not_found
@@ -19,7 +19,7 @@ def simple_app(environ,start_response):
 		html = head%gen_not_found()
 	def valid_filetype(path):
 		if '.' in requested_path[-1]:
-			if not requested_path[-1].split('.')[-1] in ('png','css','ico'):
+			if not requested_path[-1].split('.')[-1] in ('png','css','ico','ttf'):
 				return False
 		return True
 
@@ -37,16 +37,22 @@ def simple_app(environ,start_response):
 	elif is_requesting_path(requested_path):
 		status,headers,html = get_requested_path(requested_path,environ)
 		html = head%html
-	elif requested_root in ('css','images'):
+	elif requested_root in ('css','images','fonts'):
 		filename = os.path.join(*requested_path)
 		try:
 			status = '200 OK'
 			last_modified = format_date_time(os.path.getmtime(filename))
+			print ctime(os.path.getmtime(filename))
+			print asctime(localtime(os.path.getmtime(filename)))
+			print os.path.getmtime(filename)
+			print last_modified
 			file_type = requested_path[-1].split('.')[-1]
 			if file_type == 'png' or file_type == 'ico':
 				headers.append(('Content-Type','image/png'))
 			elif file_type == 'css':
 				headers.append(('Content-Type','text/css'))
+			elif file_type == 'ttf':
+				headers.append(('Content-Type','text/plain'))
 			headers.append(('Last-Modified',last_modified))
 			headers.append(('ETag',str(uuid.uuid3(uuid.NAMESPACE_DNS,filename))))
 			#('Connection','Keep-Alive'),

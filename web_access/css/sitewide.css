@@ -1,6 +1,13 @@
-#output {
-	white-space:pre-wrap;
-	color:#bbb;
+a, a:visited {
+	color:#fca;
+	text-decoration:none;
+}
+
+@font-face {
+    font-family: 'DejaVuSans';
+    src: url('/fonts/DejaVuSans.ttf');
+    font-weight: normal;
+    font-style: normal;
 }
 
 .all {
@@ -57,62 +64,18 @@
 }
 
 
-#menu li.menu-home a {
+#menu li.menu-item a {
 	display:block;
-	background-image:url("/images/menu/menu.png");
+	background-image:url("/images/icons/menu.png");
 	color:#fa4;
 }
-#menu li.menu-home a:hover {
+#menu li.menu-item a:hover {
 	color:white;
-	background-image:url("/images/menu/menu-active.png");
+	background-image:url("/images/icons/menu-active.png");
 }
-#menu li.menu-home-current a {
+#menu li.menu-item-current a {
 	display:block;
-	background-image:url("/images/menu/menu-current.png");
-}
-
-
-#menu li.menu-game a {
-	display:block;
-	background-image:url("/images/menu/menu.png");
-	color:#fa4;
-}
-#menu li.menu-game a:hover {
-	color:white;
-	background-image:url("/images/menu/menu-active.png");
-}
-#menu li.menu-game-current a {
-	display:block;
-	background-image:url("/images/menu/menu-current.png");
-}
-
-
-#menu li.menu-about a {
-	display:block;
-	background-image:url("/images/menu/menu.png");
-	color:#fa4;
-}
-#menu li.menu-about a:hover {
-	color:white;
-	background-image:url("/images/menu/menu-active.png");
-}
-#menu li.menu-about-current a {
-	display:block;
-	background-image:url("/images/menu/menu-current.png");
-}
-
-#menu li.menu-account a {
-	display:block;
-	background-image:url("/images/menu/menu.png");
-	color:#fa4;
-}
-#menu li.menu-account a:hover {
-	color:white;
-	background-image:url("/images/menu/menu-active.png");
-}
-#menu li.menu-account-current a {
-	display:block;
-	background-image:url("/images/menu/menu-current.png");
+	background-image:url("/images/icons/menu-current.png");
 }
 
 #logo {
@@ -132,7 +95,7 @@
 
 body {
 	font-family:'DejaVuSans', serif;
-	background:url("/images/back.png") repeat;
+	background:url("/images/icons/back.png") repeat;
 	background-color:#000;
 	width:1000px;
 	margin:auto;
@@ -145,13 +108,13 @@ body {
 
 #manage tr td a {
 	display:block;
-	background-image:url("/quinten/images/icons/button.png");
+	background-image:url("/images/icons/button.png");
 	font-size:35px;
 	color:#bbb;
 }
 
 #manage tr td a:hover {
-	background-image:url("/quinten/images/icons/button-active.png");
+	background-image:url("/images/icons/button-active.png");
 	color:#eee;
 }
 

@@ -41,16 +41,16 @@ def gen_menu(url):
 	html="""
 	<div id="menubar">
 	<ul class="menu" id="menu">
-	<li class="menu-home%s">
+	<li class="menu-item%s">
 	<a href="/"><span>Home</span></a>
 	</li>
-	<li class="menu-game%s">
+	<li class="menu-item%s">
 	<a href="/game"><span>Game</span></a>
 	</li>
-	<li class="menu-about%s">
+	<li class="menu-item%s">
 	<a href="/about"><span>About</span></a>
 	</li>
-	<li class="menu-account%s">
+	<li class="menu-item%s">
 	<a href="/account"><span>Account</span></a>
 	</li>
 	</ul>
