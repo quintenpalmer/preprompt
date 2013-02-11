@@ -1,4 +1,0 @@
-#!/bin/bash
-cd $postprompt
-javac -cp src:bin/lwjgl.jar:bin/lwjgl_util.jar:bin/jinput.jar -d build src/client/Main.java
-javac -cp src -d build src/host/Main.java
