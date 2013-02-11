@@ -1,15 +1,14 @@
-from page_builder import *
 from cgi import parse_qs, escape
-from command_handler import handle_request
 from hashlib import md5
+import util
+import os
 
 from wsgiref.handlers import format_date_time
 from datetime import datetime
 from time import mktime
 
-import Cookie
-import util
-import os
+from command_handler import handle_request
+from page_builder import *
 
 def is_requesting_path(url):
 	return url[0] in ('','game','about','account')

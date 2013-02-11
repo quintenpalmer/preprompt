@@ -3,14 +3,11 @@ from wsgiref.handlers import format_date_time
 from datetime import datetime
 from time import mktime,ctime,asctime,localtime
 import uuid
-
-from page_builder import gen_head, gen_not_found
-from requested_paths import is_requesting_path, get_requested_path
-from Cookie import SmartCookie
-import util
 import os
 
-from subprocess import check_output,CalledProcessError
+from python.page_builder import gen_head, gen_not_found
+from python.requested_paths import is_requesting_path, get_requested_path
+from python import util
 
 def simple_app(environ,start_response):
 	def gen_404():
@@ -42,10 +39,6 @@ def simple_app(environ,start_response):
 		try:
 			status = '200 OK'
 			last_modified = format_date_time(os.path.getmtime(filename))
-			print ctime(os.path.getmtime(filename))
-			print asctime(localtime(os.path.getmtime(filename)))
-			print os.path.getmtime(filename)
-			print last_modified
 			file_type = requested_path[-1].split('.')[-1]
 			if file_type == 'png' or file_type == 'ico':
 				headers.append(('Content-Type','image/png'))
