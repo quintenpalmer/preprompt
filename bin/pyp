@@ -45,7 +45,7 @@ if [ $# == 1 ]; then
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py&
 		sleep .5
 		cd $pyp/web_access
-		python -B index.py
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B index.py
 	elif [ $1 == setup ]; then
 		echo "" >> ~/.bashrc
 		echo "# Postprompt Setup" >> ~/.bashrc
