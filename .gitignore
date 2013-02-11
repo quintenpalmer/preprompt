@@ -7,7 +7,7 @@ pypclient.log
 pypweb.log
 
 # User encrypted passwords
-*.scr
+*.stable
 
 # Swap save files
 *.swp
