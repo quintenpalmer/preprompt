@@ -60,6 +60,7 @@ def get_requested_path(requested_path,environ):
 		html = gen_about()
 	elif requested_root == 'account':
 		sub_path = get_next(requested_path)
+		print sub_path
 		if sub_path == '':
 			if logged_in:
 				html = gen_account()%uname

@@ -28,8 +28,9 @@ def simple_app(environ,start_response):
 	requested_root = requested_path[0]
 	file_type = requested_path[-1].split('.')[-1]
 	print file_type
+	#print file_type
 	#print requested_path
-	if '..' in requested_path or file_type not in ('about','game','account','','png','css'):
+	if '..' in requested_path or file_type not in ('about','play','game','account','login','register','','png','css'):
 		status,headers,html = gen_404()
 		util.logger.info('request for .. or .py page: %s',os.path.join(*requested_path))
 	elif is_requesting_path(requested_path):
@@ -39,7 +40,7 @@ def simple_app(environ,start_response):
 		try:
 			status = '200 OK'
 			last_modified = format_date_time(os.path.getmtime(os.path.join(*requested_path)))
-			print last_modified
+			#print last_modified
 			if file_type == 'png':
 				headers = [('Content-Type','image/png'),
 							('Last-Modified',last_modified),
@@ -61,7 +62,7 @@ def simple_app(environ,start_response):
 		status,headers,html = gen_404()
 		util.logger.info('request for non-existant page: %s',os.path.join(*requested_path))
 
-	print headers
+	#print headers
 	start_response(status,headers)
 	return [html]
 
