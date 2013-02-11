@@ -2,6 +2,11 @@ from page_builder import *
 from cgi import parse_qs, escape
 from command_handler import handle_request
 from hashlib import md5
+
+from wsgiref.handlers import format_date_time
+from datetime import datetime
+from time import mktime
+
 import Cookie
 import util
 import os
@@ -77,7 +82,7 @@ def get_requested_path(requested_path,environ):
 					f = open(file_path,'rb')
 					passhash = f.readlines()[0]
 					if md5(password).digest() == passhash:
-						headers.append(('Set-Cookie','uname='+uname+'; path=/'))
+						headers.append(('Set-Cookie','uname='+uname+'; path=/; expires='+format_date_time(mktime(datetime.now().timetuple())+172800)))
 						html = gen_welcome()%uname
 					else:
 						html = gen_improper_login()%uname
@@ -106,6 +111,11 @@ def get_requested_path(requested_path,environ):
 					except IOError:
 						status = '500 Internal Error'
 						html = gen_internal_error()
+		elif sub_path == 'logout':
+			print format_date_time(mktime(datetime.now().timetuple()))
+			print format_date_time(mktime(datetime.now().timetuple())-172800)
+			headers.append(('Set-Cookie','uname=Deleted; path=/; expires='+format_date_time(mktime(datetime.now().timetuple())-172800)))
+			html = gen_success_logout()
 		else:
 			html = gen_not_found()
 	return status,headers,html

@@ -91,7 +91,9 @@ def gen_game():
 def gen_req_login():
 	html="""<p>
 	Need to be logged in to do that!
-	<a href="/account/login">Login</a> <a href="/account/register">Register</a>
+	</p>
+	<p>
+	<a href="/account">Login</a> <a href="/account">Register</a>
 	</p>
 """
 	return html
@@ -212,6 +214,9 @@ def gen_success_account():
 	html="""<p>
 		Congrats %s on making your account!
 	</p>
+	<p>
+		<a href="/account">Login</a>
+	</p>
 """
 	return html
 
@@ -231,9 +236,19 @@ def gen_game_splash():
 """
 	return html
 
+def gen_success_logout():
+	html="""<p>
+	You have successfully logged out
+	</p>
+"""
+	return html
+
 def gen_account():
 	html="""<p>
-	Welcome to the account management page %s!
+		Welcome to the account management page %s!
+	</p>
+	<p>
+		<a href="/account/logout">Logout</a>
 	</p>
 """
 	return html
