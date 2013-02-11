@@ -1,0 +1,3 @@
+#!/bin/bash
+cd $postprompt
+java -cp build host.Main

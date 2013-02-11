@@ -1,0 +1,3 @@
+#!/bin/bash
+vi $1
+javac -cp src:bin/lwjgl.jar:bin/lwjgl_util.jar:bin/jinput.jar -d build $1

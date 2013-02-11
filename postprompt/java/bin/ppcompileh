@@ -1,0 +1,3 @@
+#!/bin/bash
+cd $postprompt
+javac -cp src -d build src/host/Main.java

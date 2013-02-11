@@ -1,0 +1,16 @@
+# Compiled python files
+*.py[co]
+
+# Logs
+pyphost.log
+pypclient.log
+pypweb.log
+
+# User encrypted passwords
+*.stable
+
+# Swap save files
+*.swp
+
+# Game save files
+*.save

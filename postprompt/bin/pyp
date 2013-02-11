@@ -1,0 +1,66 @@
+#!/bin/bash
+
+help(){
+echo "Valid Commands are:"
+echo "host     start the host"
+echo "client   start the client"
+echo "bad      start the bad client (sends bad data to host)"
+echo "list     lists all of the files"
+echo "dc       sends a shut down to the host"
+echo "rrm      removes all pyc files"
+echo "setup    sets up the bashrc (must source ~/.bashrc afterwards)"
+}
+
+if [ $# == 1 ]; then
+	if [ $1 == host ]; then
+		cd $pyp/src/host
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py
+	elif [ $1 == client ]; then
+		cd $pyp/src/client
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py
+	elif [ $1 == drop ]; then
+		cd $pyp/src/host
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py c
+	elif [ $1 == list ]; then
+		cd $pyp
+		all -i
+	elif [ $1 == bad ]; then
+		cd $pyp/src/client
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py b
+	elif [ $1 == dc ]; then
+		cd $pyp/src/client
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py d
+	elif [ $1 == pyc ]; then
+		cd $pyp
+		rrm
+	elif [ $1 == web ]; then
+		cd $pyp/web_access
+		python -B index.py
+	elif [ $1 == fullweb ]; then
+		cd $pyp/src/host
+		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py&
+		sleep .5
+		cd $pyp/web_access
+		python -B index.py
+	elif [ $1 == setup ]; then
+		echo "" >> ~/.bashrc
+		echo "# Postprompt Setup" >> ~/.bashrc
+		echo "" >> ~/.bashrc
+		echo "export pyp=`pwd`" >> ~/.bashrc
+		echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
+		echo "export PYTHONPATH=\$pyp/src/share" >> ~/.bashrc
+		echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
+		echo "run 'source ~/.bashrc' to have this take effect"
+	elif [ $1 == "--help" ]; then
+		help
+	else
+		help
+	fi
+else
+	echo "Starting server in background and client in foreground!"
+	cd $pyp/src/host
+	PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py&
+	sleep .5
+	cd $pyp/src/client
+	PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py
+fi
