@@ -55,6 +55,7 @@ if [ $# == 1 ]; then
 		echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
 		echo "export PYTHONPATH=\$pyp/src/share" >> ~/.bashrc
 		echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
+		echo "alias cdpypr=\"cd \$pyproot\"" >> ~/.bashrc
 		echo "run 'source ~/.bashrc' to have this take effect"
 	elif [ $1 == "--help" ]; then
 		help
