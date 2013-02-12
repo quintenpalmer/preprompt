@@ -1,0 +1,27 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<html>
+<head>
+<link href="/css/sitewide.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/images/logos/logo.ico" rel="icon" type="text/x-icon">
+<link href="{{ STATIC_PREFIX }}/images/logos/logo.ico" rel="shortcut icon" type="text/x-icon">
+<title>PostPrompt</title>
+</head>
+<body>
+	<div id=top>
+		<div id="logo"> 
+			<a href="/">
+			<span>
+				<img src="{{ STATIC_PREFIX }}/images/logos/logo.png" border=0/>
+			</span>
+			</a>
+		</div>
+	</div>
+	{{ menu }}
+	<div class="main">
+		<div class="all" id="content">
+		{{ content }}
+		</div>
+	</div>
+</body>
+</html>

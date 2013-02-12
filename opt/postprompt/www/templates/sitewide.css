@@ -1,0 +1,130 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+a, a:visited {
+	color:#fca;
+	text-decoration:none;
+}
+
+@font-face {
+    font-family: 'DejaVuSans';
+    src: url('{{ STATIC_PREFIX }}/fonts/DejaVuSans.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.all {
+	background-color:#222;
+}
+
+#login{
+	float:left;
+	padding-left:50px;
+}
+
+#register {
+	float:right;
+	padding-right:50px;
+}
+
+#content {
+	width:794px;
+	min-height:990px;
+	float:left;
+	text-align:left;
+	padding-top:20px;
+}
+
+#content p {
+	padding-left:70px;
+	padding-right:70px;
+	padding-bottom:40px;
+}
+
+#content h1 {
+	font-size:150%;
+	font-weight:bold;
+	padding-left:60px;
+	padding-right:60px;
+	padding-bottom:40px;
+}
+
+#menu {
+	padding:0px;
+	margin-left:20px;
+	list-style-type:none;
+}
+#menu li {
+	float:left;
+	text-align:center;
+}
+
+#menu li a span {
+	width:100px;
+	height:40px;
+	display:block;
+	padding-top:20px;
+}
+
+
+#menu li.menu-item a {
+	display:block;
+	background-image:url("{{ STATIC_PREFIX }}/images/icons/menu.png");
+	color:#fa4;
+}
+#menu li.menu-item a:hover {
+	color:white;
+	background-image:url("{{ STATIC_PREFIX }}/images/icons/menu-active.png");
+}
+#menu li.menu-item-current a {
+	display:block;
+	background-image:url("{{ STATIC_PREFIX }}/images/icons/menu-current.png");
+}
+
+#logo {
+	float:left;
+}
+
+#top {
+	height:130px;
+}
+
+#main {
+	min-height:1000px;
+	text-align:left;
+	border:3px solid #000;
+	border-top:0px solid #000;
+}
+
+body {
+	font-family:'DejaVuSans', serif;
+	background:url("{{ STATIC_PREFIX }}/images/icons/back.png") repeat;
+	background-color:#000;
+	width:1000px;
+	margin:auto;
+	color:#fb3;
+}
+
+#manage tr td {
+	text-align:center;
+}
+
+#manage tr td a {
+	display:block;
+	background-image:url("{{ STATIC_PREFIX }}/images/icons/button.png");
+	font-size:35px;
+	color:#bbb;
+}
+
+#manage tr td a:hover {
+	background-image:url("{{ STATIC_PREFIX }}/images/icons/button-active.png");
+	color:#eee;
+}
+
+#manage tr td a span {
+	width:300px;
+	height:80px;
+	display:block;
+	padding-top:20px;
+}
+
