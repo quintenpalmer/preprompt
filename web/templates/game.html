@@ -1,4 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Game{% endblock %}
 {% block sectionid %}game{% endblock %}
-{% block content %}<p>Everybody play the game!</p>{% endblock %}
+{% block content %}
+	<h1>It's Game Time!</h1>
+	<p>
+		<table id="manage">
+			<tr>
+				<td>
+					<a href="/game/play"><span>Start Playing</span></a>
+				</td>
+				<td>
+					<a href="/game/manage"><span>Manage Decks</span></a>
+				</td>
+			</tr>
+		</table>
+	</p>
+{% endblock %}

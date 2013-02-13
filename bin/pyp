@@ -11,6 +11,7 @@ echo "dc       sends a shut down to the host"
 echo "rrm      removes all pyc files"
 echo "setup    sets up the bashrc (must source ~/.bashrc afterwards)"
 echo "djr      runs the django web server"
+echo "djrr     restarts the django web server"
 echo "djs      generates the django static files"
 echo "web      runs the web server"
 echo "webfull  runs the backend server and the web server"
@@ -41,7 +42,11 @@ if [ $# == 1 ]; then
 		rrm
 	elif [ $1 == djr ]; then
 		cd $pyp/web
-		./manage.py runserver 0.0.0.0:8080
+		./manage.py runserver 0.0.0.0:8080 &
+	elif [ $1 == djrr ]; then
+		kill $(netstat -tupln | grep 8080 | grep -o "[0-9]\{4\}/python" | grep -o "[0-9]\{4\}")
+		cd $pyp/web
+		./manage.py runserver 0.0.0.0:8080 &
 	elif [ $1 == djs ]; then
 		cd $pyp/web
 		./manage.py collectstatic
