@@ -1,0 +1,36 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<html>
+	<head>
+		<link href="{{ STATIC_PREFIX }}css/sitewide.css" rel="stylesheet" type="text/css">
+		<title>{% block title %}PostPrompt the Virtual Card Game{% endblock %} | PostPrompt</title>
+		<meta name="keywords" content="Virtual, Trading, Card, Game, " />                         
+		<meta name="description" content="PostPrompt is a virtual trading card game" />
+		<link href="{{ STATIC_PREFIX }}images/logos/logo.ico" rel="icon" type="text/x-icon">
+		<link href="{{ STATIC_PREFIX }}images/logos/logo.ico" rel="shortcut icon" type="text/x-icon">
+	</head>
+	<body id="{% block sectionid %} generic {% endblock %}" class="default">
+	<div id="container">
+		<div id=top>
+			<div id="logo"> 
+				<a href="/"><span>
+					<img src="{{ STATIC_PREFIX }}/images/logos/logo.png" border=0/>
+				</span></a>
+			</div>
+		</div>
+		<div id="menubar">
+			<ul id="menu-global">
+				<li id="menu-home"><a href="/"><span>Home</span></a></li>
+				<li id="menu-game"><a href="/game"><span>Game</span></a></li>
+				<li id="menu-about"><a href="/about"><span>About</span></a></li>
+				<li id="menu-account"><a href="/account"><span>Account</span></a></li>
+			</ul>
+		</div>
+		<div class="main">
+			<div class="all" id="content">
+			{% block content %}{% endblock %}
+			</div>
+		</div>
+	</div>
+	</body>
+</html>

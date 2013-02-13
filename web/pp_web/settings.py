@@ -68,7 +68,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(os.environ['pyp'],'django','static'),
+	os.path.join(os.environ['pyp'],'web','static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -99,16 +99,16 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'postprompt.urls'
+ROOT_URLCONF = 'pp_web.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'postprompt.wsgi.application'
+WSGI_APPLICATION = 'pp_web.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(os.environ['pyproot'],'opt','postprompt','www','templates')
+	os.path.join(os.environ['pyp'],'web','templates'),
 )
 
 INSTALLED_APPS = (

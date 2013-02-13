@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^game$', 'games.views.game'),
     url(r'^about$', 'games.views.about'),
     url(r'^account$', 'games.views.account'),
-    url(r'^css/([A-Za-z]+.css)$', 'games.views.getcss'),
+    #url(r'^css/([A-Za-z]+.css)$', 'games.views.getcss'),
     # url(r'^postprompt/', include('postprompt.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

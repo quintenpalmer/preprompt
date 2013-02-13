@@ -10,6 +10,8 @@ echo "drop     deletes all of the game save files"
 echo "dc       sends a shut down to the host"
 echo "rrm      removes all pyc files"
 echo "setup    sets up the bashrc (must source ~/.bashrc afterwards)"
+echo "djr      runs the django web server"
+echo "djs      generates the django static files"
 echo "web      runs the web server"
 echo "webfull  runs the backend server and the web server"
 echo "rfile f  resets the file's access and modify time to 1 day ago"
@@ -37,21 +39,27 @@ if [ $# == 1 ]; then
 	elif [ $1 == pyc ]; then
 		cd $pyp
 		rrm
+	elif [ $1 == djr ]; then
+		cd $pyp/web
+		./manage.py runserver 0.0.0.0:8080
+	elif [ $1 == djs ]; then
+		cd $pyp/web
+		./manage.py collectstatic
 	elif [ $1 == web ]; then
-		cd $pyproot/trash/hand_crafted_web
+		cd $pyp/trash/hand_crafted_web
 		python -B index.py
 	elif [ $1 == webfull ]; then
 		cd $pyp/src/host
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py&
 		sleep .5
-		cd $pyproot/trash/hand_crafted_web
+		cd $pyp/trash/hand_crafted_web
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B index.py
 	elif [ $1 == setup ]; then
 		echo "" >> ~/.bashrc
 		echo "# Postprompt Setup" >> ~/.bashrc
 		echo "" >> ~/.bashrc
-		echo "export pyproot=`pwd`" >> ~/.bashrc
-		echo "export pyp=\$pyproot/opt/postprompt/" >> ~/.bashrc
+		echo "export pyp=`pwd`" >> ~/.bashrc
+		echo "export pyproot=\$pyp/root" >> ~/.bashrc
 		echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
 		echo "export PYTHONPATH=\$pyp/src/share" >> ~/.bashrc
 		echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
