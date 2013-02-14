@@ -30,7 +30,8 @@ if [ $# == 1 ]; then
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py c
 	elif [ $1 == list ]; then
 		cd $pyp
-		all -i
+		find *
+		#all.py -i
 	elif [ $1 == bad ]; then
 		cd $pyp/src/client
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py b
@@ -39,7 +40,7 @@ if [ $# == 1 ]; then
 		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py d
 	elif [ $1 == pyc ]; then
 		cd $pyp
-		rrm
+		find . -name "*.pyc" | xargs rm
 	elif [ $1 == djr ]; then
 		cd $pyp/web
 		./manage.py runserver 0.0.0.0:8080 &
@@ -76,8 +77,10 @@ if [ $# == 1 ]; then
 		help
 	fi
 elif [ $# == 2 ]; then
-	if [ $1 == freset ]; then
-		reset_file.py $2
+	if [ $1 == rfile ]; then
+		touch -r $2 -d '-1 day' $2
+		touch -r $2 --time=mtime -d '-1 day' $2
+		#reset_file.py $2
 	fi
 else
 	echo "Starting server in background and client in foreground!"
