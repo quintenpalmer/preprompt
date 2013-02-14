@@ -21,23 +21,22 @@ echo "rfile f  resets the file's access and modify time to 1 day ago"
 if [ $# == 1 ]; then
 	if [ $1 == host ]; then
 		cd $pyp/src/host
-		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py
+		python host.py
 	elif [ $1 == client ]; then
 		cd $pyp/src/client
-		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py
+		python client.py
 	elif [ $1 == drop ]; then
 		cd $pyp/src/host
-		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py c
+		python host.py c
 	elif [ $1 == list ]; then
 		cd $pyp
 		find *
-		#all.py -i
 	elif [ $1 == bad ]; then
 		cd $pyp/src/client
-		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py b
+		python client.py b
 	elif [ $1 == dc ]; then
 		cd $pyp/src/client
-		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py d
+		python client.py d
 	elif [ $1 == pyc ]; then
 		cd $pyp
 		find . -name "*.pyc" | xargs rm
@@ -52,14 +51,14 @@ if [ $# == 1 ]; then
 		cd $pyp/web
 		./manage.py collectstatic
 	elif [ $1 == web ]; then
-		cd $pyp/trash/hand_crafted_web
+		cd $pyp/tmp/hand_crafted_web
 		python -B index.py
 	elif [ $1 == webfull ]; then
 		cd $pyp/src/host
-		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py&
+		python host.py&
 		sleep .5
-		cd $pyp/trash/hand_crafted_web
-		PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B index.py
+		cd $pyp/tmp/hand_crafted_web
+		python index.py
 	elif [ $1 == setup ]; then
 		echo "" >> ~/.bashrc
 		echo "# Postprompt Setup" >> ~/.bashrc

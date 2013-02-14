@@ -6,7 +6,6 @@ logger = None
 def make_logger():
 	global logger
 	path = os.path.join(os.environ['pyproot'],'etc','pyphost_logger.conf')
-	print path
 	logging.config.fileConfig(path)
 	logger = logging.getLogger('pypBasic')
 

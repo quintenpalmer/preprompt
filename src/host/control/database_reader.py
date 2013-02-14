@@ -11,7 +11,6 @@ def load_card_key_text():
 	if card_id_to_card_text == {}:
 		try:
 			path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','cards','relation.table')
-			print path
 			f = open(path,'r')
 			for line in f.readlines():
 				key,val = line.split(':')
@@ -37,7 +36,6 @@ def get_game(config_args):
 		cards = []
 		try:
 			path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','decks',str(uids[i])+'.table')
-			print path
 			f = open(path,'r')
 			decks = {}
 			for line in f.readlines():

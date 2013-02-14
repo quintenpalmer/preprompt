@@ -5,6 +5,9 @@ from time import mktime,ctime,asctime,localtime
 import uuid
 import os
 
+pyplib = os.path.join(os.environ['pyp'],'src','share')
+sys.path.insert(0,pyplib)
+
 from python.page_builder import gen_head, gen_not_found
 from python.requested_paths import is_requesting_path, get_requested_path
 from python import util
