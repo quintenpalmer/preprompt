@@ -4,6 +4,7 @@ from datetime import datetime
 from time import mktime,ctime,asctime,localtime
 import uuid
 import os
+import sys
 
 pyplib = os.path.join(os.environ['pyp'],'src','share')
 sys.path.insert(0,pyplib)

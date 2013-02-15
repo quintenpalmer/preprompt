@@ -42,11 +42,9 @@ if [ $# == 1 ]; then
 		find . -name "*.pyc" | xargs rm
 	elif [ $1 == djr ]; then
 		cd $pyp/web
-		./manage.py runserver 0.0.0.0:8080 &
-	elif [ $1 == djrr ]; then
-		kill $(netstat -tupln | grep 8080 | grep -o "[0-9]\{4\}/python" | grep -o "[0-9]\{4\}")
-		cd $pyp/web
-		./manage.py runserver 0.0.0.0:8080 &
+		./manage.py runserver 0.0.0.0:8080
+	elif [ $1 == djrs ]; then
+		kill $(netstat -tupln | grep 8080 | grep -o "[0-9]*/python" | grep -o "[0-9]*")
 	elif [ $1 == djs ]; then
 		cd $pyp/web
 		./manage.py collectstatic
@@ -79,13 +77,12 @@ elif [ $# == 2 ]; then
 	if [ $1 == rfile ]; then
 		touch -r $2 -d '-1 day' $2
 		touch -r $2 --time=mtime -d '-1 day' $2
-		#reset_file.py $2
 	fi
 else
 	echo "Starting server in background and client in foreground!"
 	cd $pyp/src/host
-	PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B host.py&
+	python host.py&
 	sleep .5
 	cd $pyp/src/client
-	PYTHONPATH=$PYTHONPATH:$pyp/src/share python -B client.py
+	python client.py
 fi

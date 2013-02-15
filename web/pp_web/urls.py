@@ -1,15 +1,16 @@
 from django.conf.urls import patterns, include, url
+from django.shortcuts import render_to_response
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    url(r'^$', 'games.views.index'),
-    url(r'^game$', 'games.views.game'),
-    url(r'^about$', 'games.views.about'),
-    url(r'^account$', 'games.views.account'),
+    url(r'^$', include('home.urls')),
+	url(r'^game/', include('game.urls')),
+	url(r'^account/', include('account.urls')),
+	url(r'^about/', include('about.urls')),
+	url(r'^news/', include('news.urls')),
     #url(r'^css/([A-Za-z]+.css)$', 'games.views.getcss'),
     # url(r'^postprompt/', include('postprompt.foo.urls')),
 

@@ -106,7 +106,8 @@ a:hover {
 #home #menu-home a,
 #game #menu-game a,
 #about #menu-about a,
-#account #menu-account a {
+#account #menu-account a,
+#news #menu-news a {
 	color:white;
 	background-image:url("../images/icons/menu-current.png");
 }
