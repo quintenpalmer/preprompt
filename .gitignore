@@ -9,6 +9,9 @@ pypweb.log
 # User encrypted passwords
 *.stable
 
+# The database
+*database
+
 # Swap save files
 *.swp
 
