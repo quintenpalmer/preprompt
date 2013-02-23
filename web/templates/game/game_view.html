@@ -1,15 +1,13 @@
 {% extends "base_game.html" %}
 {% block content %}
-	<h1>Lets Play!</h1>
+	<h1>Game Time</h1>
 	<p>
-		{% for gid in game_ids %}
 		<table id="manage">
 			<tr>
 				<td>
-					<a href="/game/play/{{ gid }}/"><span>Game {{ gid }}</span></a>
+					<a href="/game/play/{{ gid }}/"><span>{{ game_xml }}</span></a>
 				</td>
 			</tr>
 		</table>
-		{% endfor %}
 	</p>
 {% endblock %}

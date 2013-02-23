@@ -5,5 +5,6 @@ from . import views
 urlpatterns = patterns('',
 	url(r'^$',views.splash),
 	url(r'^play/$',views.play),
+	url(r'^play/(\d+)/$',views.game_view),
 	url(r'^manage/$',views.manage),
 )

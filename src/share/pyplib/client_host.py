@@ -27,9 +27,10 @@ def request_exit(exit_code):
 	request += '</request>'
 	return send_request(request)
 
-def request_list():
+def request_list(uid):
 	request = '<request>'
 	request += '<command>list</command>'
+	request += '<uid>'+str(uid)+'</uid>'
 	request += '</request>'
 	return send_request(request)
 

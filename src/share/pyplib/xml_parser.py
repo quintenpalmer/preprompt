@@ -16,6 +16,9 @@ def parse_element(element,tag):
 def parse_elements(element,tag):
 	return list(element.getElementsByTagName(tag))
 
+def parse_ints(element,tag):
+	return [int(x.firstChild.nodeValue) for x in parse_elements(element,tag)]
+
 def parse_string(element,tag):
 	return parse_element(element,tag).firstChild.nodeValue
 

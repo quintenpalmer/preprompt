@@ -3,6 +3,7 @@
 help(){
 echo "Valid Commands are:"
 echo "host     start the host"
+echo "hostb    start the host in the background"
 echo "client   start the client"
 echo "bad      start the bad client (sends bad data to host)"
 echo "list     lists all of the files"
@@ -22,6 +23,9 @@ if [ $# == 1 ]; then
 	if [ $1 == host ]; then
 		cd $pyp/src/host
 		python host.py
+	elif [ $1 == hostb ]; then
+		cd $pyp/src/host
+		python host.py &
 	elif [ $1 == client ]; then
 		cd $pyp/src/client
 		python client.py

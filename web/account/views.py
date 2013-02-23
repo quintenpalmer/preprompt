@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.conf import settings
+import datetime
 #from django.http import HttpResponse
 
 @login_required
@@ -16,6 +18,11 @@ def require_login(request):
 	c.update(csrf(request))
 	return render_to_response('account/require_login.html',c)
 
+def set_cookie(response,key,value,days_expire=3):
+	max_age = days_expire * 24 * 60 * 60
+	expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+	response.set_cookie(key,value,max_age=max_age,expires=expires,domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE)
+
 def login_user(request):
 	try:
 		username = request.POST['username']
@@ -25,7 +32,9 @@ def login_user(request):
 		if user != None:
 			if user.is_active:
 				login(request,user)
-				return render_to_response('account/profile.html')
+				response = render_to_response('account/profile.html')
+				set_cookie(response,'username',username)
+				return response
 			else:
 				return account_error('Invalid credentials')
 		else:

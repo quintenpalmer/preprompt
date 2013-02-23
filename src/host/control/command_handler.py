@@ -18,8 +18,6 @@ def handle(request,model):
 				ret =  respond_test(model.version)
 			elif command == 'exit':
 				ret =  respond_exit()
-			elif command == 'list':
-				ret = respond_list(model)
 		elif request_type == 'meta':
 			if command == 'new':
 				p1_uid = parse_int(ele,'p1_uid')
@@ -30,6 +28,9 @@ def handle(request,model):
 					Config_Player(p1_uid,p1_did),
 					Config_Player(p2_uid,p2_did)))
 				ret =  respond_action(command,game_id,model.out(game_id,p1_uid))
+			elif command == 'list':
+				uid = parse_string(ele,'uid')
+				ret = respond_list(model,uid)
 		elif request_type == 'perform':
 			game_id = parse_int(ele,'game_id')
 			game = model.get_game_from_id(game_id)
@@ -86,11 +87,11 @@ def handle(request,model):
 		return respond_error_caught('too_few_cards_in_deck',str(e))
 
 def get_request_type(command):
-	if command == 'new':
+	if command in ('new','list'):
 		return 'meta'
 	elif command in ('setup','draw','phase','turn','play','out'):
 		return 'perform'
-	elif command in ('exit','test','list'):
+	elif command in ('exit','test'):
 		return 'sys'
 	else:
 		return 'unknown'

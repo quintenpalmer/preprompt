@@ -18,7 +18,7 @@ def respond_exit():
 	resp += '</resp>'
 	return resp
 
-def respond_list(model):
+def respond_list(model,uid):
 	resp = '<resp>'
 	resp += '<resp_status>ok</resp_status>'
 	resp += '<resp_type>list</resp_type>'

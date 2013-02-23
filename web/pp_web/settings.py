@@ -27,6 +27,9 @@ DATABASES = {
 # In a Windows environment this must be set to your system time zone.
 TIME_ZONE = 'America/New_York'
 
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_COOKIE_HTTPONLY = True
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
