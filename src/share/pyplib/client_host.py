@@ -1,5 +1,4 @@
 import socket
-from pyplib.data_types import *
 host = 'localhost'
 port = 52690
 
