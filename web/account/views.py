@@ -27,7 +27,6 @@ def login_user(request):
 	try:
 		username = request.POST['username']
 		password = request.POST['password']
-		print username,password
 		user = authenticate(username=username,password=password)
 		if user != None:
 			if user.is_active:
@@ -54,7 +53,7 @@ def register_user(request):
 				User.objects.create_user(username,email,password)
 				return render_to_response('account/create.html',{'username':username})
 			else:
-				return nccount_error('Username already exists')
+				return account_error('Username already exists')
 		else:
 			return account_error('Passwords did not match')
 	except KeyError:

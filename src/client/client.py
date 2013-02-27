@@ -12,7 +12,7 @@ if __name__ == '__main__':
 		sys.path.insert(0,pyplib)
 		util.make_logger()
 		util.logger.info('Started Client')
-		model = Model()
+		model = Model(uid=1)
 		main = Main_Loop(model)
 		main.run()
 		print "Client: Exiting!"

@@ -4,9 +4,9 @@ from pyplib.errors import PP_Model_Error
 import util
 
 class Model:
-	def __init__(self):
+	def __init__(self,uid):
 		self.games = {}
-		self.logged_in_uid = 26
+		self.logged_in_uid = uid
 		self.current_game_id = None
 		self.version = 0
 
