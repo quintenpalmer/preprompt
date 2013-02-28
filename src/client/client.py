@@ -1,6 +1,6 @@
-import util
+from pyplib import util
 from view.main_loop import Main_Loop
-from model.main_model import Model
+from pyplib.model.main_model import Model
 from pyplib.client_host import request_exit,send_request
 import sys
 import os
@@ -10,7 +10,7 @@ if __name__ == '__main__':
 		print "Client: Starting!"
 		pyplib = os.path.join(os.environ['pyp'],'src','share')
 		sys.path.insert(0,pyplib)
-		util.make_logger()
+		util.make_logger('client')
 		util.logger.info('Started Client')
 		model = Model(uid=1)
 		main = Main_Loop(model)

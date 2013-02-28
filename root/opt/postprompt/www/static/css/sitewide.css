@@ -5,6 +5,11 @@
     font-style: normal;
 }
 
+/* SETUP */
+
+.all {
+	background-color:#222;
+}
 
 #container {
     position:relative;
@@ -20,21 +25,44 @@ body {
 	font-family:'DejaVuSans', serif;
 }
 
+/* LINKS */
 
-#top {
+a:link, a:visited {
+	color:#fca;
+	text-decoration:none;
+}
+#content-main a:link, #content-main a:visited {
+    color:#fca;
+    text-decoration:none;
+}
+
+a:hover {
+    color:#fcc;
+}
+#content-main a:hover {
+    color:#fcc;
+    text-decoration:none;
+}
+
+/* HEADER */
+
+#header {
+    position:relative;
 	height:130px;
 	clear:both;
 }
 
-.all {
-	background-color:#222;
+#header h1#logo {
+    position:absolute;
+    width:300px;
+    height:120px;
+    margin:0;
+    left:25px;
+    bottom:10px;
+	float:left;
 }
 
-
-a, a:visited {
-	color:#fca;
-	text-decoration:none;
-}
+/* MENU BAR */
 
 #menubar {
 	position:relative;
@@ -78,12 +106,23 @@ a, a:visited {
 #home #menu-home a,
 #game #menu-game a,
 #about #menu-about a,
-#account #menu-account a {
+#account #menu-account a,
+#news #menu-news a {
 	color:white;
 	background-image:url("../images/icons/menu-current.png");
 }
 
-#main {
+#login{
+	float:left;
+	padding-left:50px;
+}
+
+#register {
+	float:right;
+	padding-right:50px;
+}
+
+#content-main {
 	clear:both;
 	min-height:1000px;
 	text-align:left;
@@ -114,10 +153,6 @@ a, a:visited {
 }
 
 
-#logo {
-	float:left;
-}
-
 #manage tr td {
 	text-align:center;
 }
@@ -141,13 +176,21 @@ a, a:visited {
 	padding-top:20px;
 }
 
-#login{
-	float:left;
-	padding-left:50px;
+#card_lists tr td {
+	text-align:center;
+	display:block;
+	background-image:url("../images/cards/card.png");
+	font-size:25px;
+	color:#bbb;
 }
 
-#register {
-	float:right;
-	padding-right:50px;
+#card_lists tr td:hover {
+	background-image:url("../images/cards/card-hover.png");
+	color:#eee;
 }
 
+#card_lists tr td span {
+	width:130px;
+	height:200px;
+	display:block;
+}

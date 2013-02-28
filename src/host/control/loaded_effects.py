@@ -34,7 +34,7 @@ def lookup_table(lookup_string):
 	elemental_type = tmp[0]
 	effect_type = tmp[1]
 	params = tmp[2]
-	return Card(name=tmp[1],effect=get_effect_from_name(effect_type)(elemental_type,params))
+	return Card(name=tmp[1].title(),effect=get_effect_from_name(effect_type)(elemental_type,params))
 
 
 # name to effect mapping

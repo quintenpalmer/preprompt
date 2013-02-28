@@ -25,7 +25,7 @@ def draw_game(game):
 	if len(game.them.collection.grave.cards) == 0:
 		out += '[[GRAVE]]\t'
 	else:
-		out += '[['+game.them.collection.grave.cards[0].name+']]\t' 
+		out += '[['+game.them.collection.grave.cards[0].name+']]\t'
 	for card in game.them.collection.active.cards:
 		out += '['+card.name+']'
 		for i in range(10-len(card.name)):
@@ -34,7 +34,7 @@ def draw_game(game):
 	if len(game.me.collection.grave.cards) == 0:
 		out += '[[GRAVE]]\t'
 	else:
-		out += '[['+game.me.collection.grave.cards[0].name+']]\t' 
+		out += '[['+game.me.collection.grave.cards[0].name+']]\t'
 	for card in game.me.collection.active.cards:
 		out += '['+card.name+']'
 		for i in range(10-len(card.name)):

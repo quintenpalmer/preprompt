@@ -1,4 +1,4 @@
-from model.card import Card
+from card import Card
 from pyplib.xml_parser import parse_elements
 
 class Card_List:

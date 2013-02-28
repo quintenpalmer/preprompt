@@ -27,5 +27,5 @@ class Card:
 
 class Empty_Card:
 	def xml_output(self):
-		xml = "<type>empty</type>"
+		xml = "<type>Empty</type>"
 		return xml

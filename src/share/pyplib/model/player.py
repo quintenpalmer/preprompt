@@ -1,4 +1,4 @@
-from model.collection import Collection
+from collection import Collection
 from pyplib.xml_parser import parse_element, parse_string, parse_int
 
 class Player_Container:

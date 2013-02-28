@@ -2,12 +2,46 @@
 {% block content %}
 	<h1>Game Time</h1>
 	<p>
-		<table id="manage">
+		<table id="card_lists">
 			<tr>
+				{% for card in game.them.collection.hand.cards %}
 				<td>
-					<a href="/game/play/{{ gid }}/"><span>{{ game_xml }}</span></a>
+					<a href="/game/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
 				</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				{% for card in game.them.collection.active.cards%}
+				<td>
+					<a href="/game/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
+				</td>
+				{% empty %}
+				<td>
+					<span></span>
+				</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				{% for card in game.me.collection.active.cards%}
+				<td>
+					<a href="/game/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
+				</td>
+				{% empty %}
+				<td>
+					<span></span>
+				</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				{% for card in game.me.collection.hand.cards%}
+				<td>
+					<a href="/game/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
+				</td>
+				{% endfor %}
 			</tr>
 		</table>
+		<form method="post">{% csrf_token %}
+			<input type="submit" name="command" value="Setup">
+		</form>
 	</p>
 {% endblock %}

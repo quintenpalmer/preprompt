@@ -29,7 +29,6 @@ def get_game(config_args):
 	player2 = config_args.config_player2
 	uids = [player1.uid,player2.uid]
 	dids = [player1.did,player2.did]
-	card_names = ['farts','fresh','persist']
 	players = []
 	for i in range(0,2):
 		player = Player(uid=uids[i])

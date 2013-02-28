@@ -1,7 +1,7 @@
 from pyplib.errors import PP_Model_Error,PP_Load_Error,XML_Parser_Error
 from control import database_reader
 from model.game import Game
-import util
+from pyplib import util
 import os
 
 class Model:

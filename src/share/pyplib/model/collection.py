@@ -1,5 +1,5 @@
+from card_list import Card_List
 from pyplib.xml_parser import parse_element
-from model.card_list import Card_List
 
 class Collection:
 	def __init__(self,element):

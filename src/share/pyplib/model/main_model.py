@@ -1,7 +1,7 @@
-from model.game import Game
+from game import Game
 from pyplib.xml_parser import parse_xml, parse_int, parse_element, parse_string
 from pyplib.errors import PP_Model_Error
-import util
+from pyplib import util
 
 class Model:
 	def __init__(self,uid):

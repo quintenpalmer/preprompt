@@ -1,6 +1,6 @@
 from pyplib.xml_parser import parse_element
-from model.player import Player_Container
-from model.control_state import Control_State
+from player import Player_Container
+from control_state import Control_State
 
 class Game:
 	def __init__(self,element):
