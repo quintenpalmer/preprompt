@@ -39,8 +39,6 @@ def game_view(request,game_id):
 	model = Model(uid)
 	model.update_game(request_out(game_id,uid))
 	game = model.games[int(game_id)]
-	print game
-	print game.them.collection.hand.cards
 	c = {}
 	c.update(csrf(request))
 	c['game']=game
