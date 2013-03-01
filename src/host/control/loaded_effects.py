@@ -30,7 +30,7 @@ def alters_m_sits_n_turns(elemental,args):
 	return Effect(instants=instants,persists=persists,pactivates=pactivates,elemental=elemental)
 
 def lookup_table(lookup_string):
-	tmp = lookup_string.split('-')
+	tmp = lookup_string.split('_')
 	elemental_type = tmp[0]
 	effect_type = tmp[1]
 	params = tmp[2]

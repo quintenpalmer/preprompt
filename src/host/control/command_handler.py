@@ -24,13 +24,15 @@ def handle(request,model):
 				p1_did = parse_int(ele,'p1_did')
 				p2_uid = parse_int(ele,'p2_uid')
 				p2_did = parse_int(ele,'p2_did')
+				if len(model.get_games_from_uid(p1_uid)) > 10:
+					raise PP_Model_Error("player "+str(p1_uid)+" cannot start anymore games")
 				game_id = model.start_game(Config_Args(
 					Config_Player(p1_uid,p1_did),
 					Config_Player(p2_uid,p2_did)))
 				ret =  respond_action(command,game_id,model.out(game_id,p1_uid))
 			elif command == 'list':
-				uid = parse_string(ele,'uid')
-				ret = respond_list(model,uid)
+				uid = parse_int(ele,'uid')
+				ret = respond_list(model.get_games_from_uid(uid))
 		elif request_type == 'perform':
 			game_id = parse_int(ele,'game_id')
 			game = model.get_game_from_id(game_id)

@@ -2,7 +2,8 @@
 {% block content %}
 	<h1>Game Time</h1>
 	<p>
-		<table id="card_lists">
+		<div id="card_lists">
+			<table>
 			<tr>
 				{% for card in game.them.collection.hand.cards %}
 				<td>
@@ -10,28 +11,32 @@
 				</td>
 				{% endfor %}
 			</tr>
+			</table>
+		</div>
+		<div id="card_lists">
+			<table>
 			<tr>
 				{% for card in game.them.collection.active.cards%}
 				<td>
 					<a href="/game/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
 				</td>
-				{% empty %}
-				<td>
-					<span></span>
-				</td>
 				{% endfor %}
 			</tr>
+			</table>
+		</div>
+		<div id="card_lists">
+			<table>
 			<tr>
 				{% for card in game.me.collection.active.cards%}
 				<td>
 					<a href="/game/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
 				</td>
-				{% empty %}
-				<td>
-					<span></span>
-				</td>
 				{% endfor %}
 			</tr>
+			</table>
+		</div>
+		<div id="card_lists">
+			<table>
 			<tr>
 				{% for card in game.me.collection.hand.cards%}
 				<td>
@@ -39,9 +44,27 @@
 				</td>
 				{% endfor %}
 			</tr>
-		</table>
+			</table>
+		</div>
 		<form method="post">{% csrf_token %}
-			<input type="submit" name="command" value="Setup">
+			<table id="manage">
+				<tr>
+					<td>
+						<input type="submit" name="command" value="Setup">
+					</td>
+					<td>
+						<input type="submit" name="command" value="Draw">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" name="command" value="Phase">
+					</td>
+					<td>
+						<input type="submit" name="command" value="Turn">
+					</td>
+				</tr>
+			</table>
 		</form>
 	</p>
 {% endblock %}

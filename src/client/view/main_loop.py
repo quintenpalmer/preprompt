@@ -91,7 +91,7 @@ swap     swap to playing as the other player
 		resp = request_out(self.model.current_game_id,self.model.logged_in_uid)
 		self.current_message = self.model.update_game(resp)
 	def request_list(self):
-		resp = request_list()
+		resp = request_list(self.model.logged_in_uid)
 		self.current_message = resp
 	def example_start(self):
 		self.request_test()

@@ -21,3 +21,9 @@ class PP_Load_Error(Exception):
 		self.message = message
 	def __str__(self):
 		return self.message
+
+class PP_Database_Error(Exception):
+	def __init__(self,message):
+		self.message = message
+	def __str__(self):
+		return self.message

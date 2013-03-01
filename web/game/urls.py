@@ -7,4 +7,6 @@ urlpatterns = patterns('',
 	url(r'^play/$',views.play),
 	url(r'^play/(\d+)/$',views.game_view),
 	url(r'^manage/$',views.manage),
+	url(r'^manage/cards$',views.cards),
+	url(r'^manage/decks$',views.decks),
 )

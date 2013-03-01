@@ -1,0 +1,20 @@
+{% extends "base_game.html" %}
+{% block content %}
+	<h1>Manage your Decks!</h1>
+	<p>
+		<table id="manage">
+			<tr>
+				<td>
+					<a href="/game/manage/decks/new/"><span>New Deck</span></a>
+				</td>
+			</tr>
+		{% for deck in decks %}
+			<tr>
+				<td>
+					<a href="/game/manage/decks/{{ deck }}/"><span>Deck {{ deck }}</span></a>
+				</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</p>
+{% endblock %}

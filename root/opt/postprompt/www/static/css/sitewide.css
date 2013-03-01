@@ -176,7 +176,14 @@ a:hover {
 	padding-top:20px;
 }
 
-#card_lists tr td {
+#card_lists {
+	display:block;
+	background-color:#2e2;
+	width:1300px;
+	height:200px;
+}
+
+#card_lists table tr td {
 	text-align:center;
 	display:block;
 	background-image:url("../images/cards/card.png");
@@ -184,12 +191,12 @@ a:hover {
 	color:#bbb;
 }
 
-#card_lists tr td:hover {
+#card_lists table tr td:hover {
 	background-image:url("../images/cards/card-hover.png");
 	color:#eee;
 }
 
-#card_lists tr td span {
+#card_lists table tr td span {
 	width:130px;
 	height:200px;
 	display:block;

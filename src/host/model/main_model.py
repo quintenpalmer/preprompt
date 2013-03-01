@@ -7,6 +7,7 @@ import os
 class Model:
 	def __init__(self,num_games):
 		self.games = {}
+		self.user_map = {}
 		self.free_ids = range(0,num_games)
 		self.all_ids = list(self.free_ids)
 		self.version = 0
@@ -22,8 +23,8 @@ class Model:
 					except IndexError:
 						util.logger.warn("File %s has no data in it"%str(game_file_name))
 					try:
-						self.games[game_id] = Game(xml_string=xml_string)
 						self.free_ids.remove(game_id)
+						self.book_keep_game(game_id,Game(xml_string=xml_string))
 					except XML_Parser_Error as e:
 						util.logger.warn("Error loading %s's xml %s"%(str(game_file_name),str(e)))
 					game_file.close()
@@ -42,8 +43,21 @@ class Model:
 		except IOError:
 			util.logger.error("Error writing game data")
 			raise PP_Load_Error("Save File %s could not be opened"%str(game_id))
-		self.games[game_id] = game
+		self.book_keep_game(game_id,game)
 		return game_id
+
+	def book_keep_game(self,game_id,game):
+		uid1 = game.players[0].player.uid
+		uid2 = game.players[1].player.uid
+		if self.user_map.has_key(uid1):
+			self.user_map[uid1].append(game_id)
+		else:
+			self.user_map[uid1] = [game_id]
+		if self.user_map.has_key(uid2):
+			self.user_map[uid2].append(game_id)
+		else:
+			self.user_map[uid2] = [game_id]
+		self.games[game_id] = game
 
 	def stop_game(self,game_id):
 		try:
@@ -57,6 +71,12 @@ class Model:
 			return self.games[game_id]
 		except KeyError:
 			raise PP_Model_Error("%s is not a valid game id"%str(game_id))
+
+	def get_games_from_uid(self,uid):
+		try:
+			return self.user_map[uid]
+		except KeyError:
+			return []
 
 	def pop_id(self):
 		if len(self.free_ids) > 0:

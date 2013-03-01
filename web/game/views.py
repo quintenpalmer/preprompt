@@ -1,30 +1,43 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 from pyplib.client_host import *
 from pyplib.xml_parser import parse_xml, parse_ints
 from pyplib.model.main_model import Model
 
-from django.contrib.auth.models import User
-#from django.http import HttpResponse
-
 def splash(request):
-	return render_to_response('game/game.html')
+	return render_to_response('game/splash.html')
 
 def get_user_key(username):
 	return User.objects.get(username=username).id
 
 @login_required
 def play(request):
+	command = request.POST
 	username = request.COOKIES['username']
 	uid = get_user_key(username)
-	print uid
-	gids = parse_ints(parse_xml(request_list(uid)),'game_id')
-	return render_to_response('game/play.html',{'game_ids':gids})
+	print handle_request(command.get('command'),{'player_id':uid})
+	gids = sorted(parse_ints(parse_xml(request_list(uid)),'game_id'))
+	c = {}
+	c.update(csrf(request))
+	c['game_ids']=gids
+	return render_to_response('game/play.html',c)
 
 @login_required
 def manage(request):
 	return render_to_response('game/manage.html')
+
+@login_required
+def cards(request):
+	cards = ['card1']
+	return render_to_response('game/cards.html',{'cards':cards})
+
+@login_required
+def decks(request):
+	decks = ['deck1']
+	return render_to_response('game/decks.html',{'decks':decks})
 
 @login_required
 def perform(request):
@@ -56,7 +69,7 @@ def handle_request(command,req):
 		elif command == 'exit':
 			return request_exit(0)
 		elif command == 'new':
-			p1_uid = 26
+			p1_uid = player_id
 			p1_did = 0
 			p2_uid = 13
 			p2_did = 1
