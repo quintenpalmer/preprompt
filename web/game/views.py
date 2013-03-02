@@ -50,7 +50,8 @@ def game_view(request,game_id):
 	uid = get_user_key(username)
 	print handle_request(command.get('command'),{'game_id':game_id,'player_id':uid})
 	model = Model(uid)
-	model.update_game(request_out(game_id,uid))
+	out = request_out(game_id,uid)
+	model.update_game(out)
 	game = model.games[int(game_id)]
 	c = {}
 	c.update(csrf(request))

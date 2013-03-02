@@ -24,19 +24,31 @@ def insert(table_name,types,values):
 	except sqlite3.OperationalError:
 		raise PP_Database_Error("Database Error (database doesn't exist)")
 
+def update(table_name,set_name,set_value,checks):
+	try:
+		command = 'update '+table_name+' set '+set_name+"='"+set_value+"' where "
+		for key,value in checks:
+			command += str(key)+"="+str(value)+" and "
+		command = command[:-4]
+		cur.execute(command)
+		con.commit()
+	except sqlite3.OperationalError:
+		raise PP_Database_Error("Database Error (database doesn't exist)")
+
 def select(table_name,name,where=None):
 	try:
 		command = 'select '+name+' from '+table_name
 		if where != None:
-			command += ' '
+			command += ' where '
 			for w in where:
-				command += w
+				command += w+' and '
+			command = command[:-4]
 		cur.execute(command)
 		return cur.fetchall()
 	except sqlite3.OperationalError:
 		raise PP_Database_Error("Database Error (database doesn't exist)")
 
-def drop(table_name):
+def delete(table_name):
 	try:
 		command = 'delete from '+table_name
 		cur.execute(command)

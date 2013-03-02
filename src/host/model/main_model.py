@@ -1,8 +1,7 @@
-from pyplib.errors import PP_Model_Error,PP_Load_Error,XML_Parser_Error
+from pyplib.errors import PP_Model_Error,PP_Load_Error,XML_Parser_Error,PP_Database_Error
 from control import database_reader
 from model.game import Game
-from pyplib import util
-import os
+from pyplib import util,database
 
 class Model:
 	def __init__(self,num_games):
@@ -12,22 +11,15 @@ class Model:
 		self.all_ids = list(self.free_ids)
 		self.version = 0
 		try:
-			game_file_dir = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','games')
-			game_file_names = os.listdir(game_file_dir)
-			for game_file_name in game_file_names:
-				if game_file_name != '__init__.py':
-					game_id = int(game_file_name.split('.')[0])
-					game_file = open(os.path.join(game_file_dir,game_file_name),'r')
-					try:
-						xml_string = game_file.readlines()[0]
-					except IndexError:
-						util.logger.warn("File %s has no data in it"%str(game_file_name))
-					try:
-						self.free_ids.remove(game_id)
-						self.book_keep_game(game_id,Game(xml_string=xml_string))
-					except XML_Parser_Error as e:
-						util.logger.warn("Error loading %s's xml %s"%(str(game_file_name),str(e)))
-					game_file.close()
+			games = database.select('game_games','*')
+			for game in games:
+				game_id = game[0]
+				game_xml = game[1]
+				try:
+					self.free_ids.remove(game_id)
+					self.book_keep_game(game_id,Game(xml_string=game_xml))
+				except XML_Parser_Error as e:
+					util.logger.warn("Error loading %s's xml %s"%(str(game_file_name),str(e)))
 		except IOError or ValueError:
 			util.logger.error("Error reading game data")
 			raise PP_Load_Error("Save File could not be opened")
@@ -36,11 +28,8 @@ class Model:
 		game_id = self.pop_id()
 		game = database_reader.get_game(config_args)
 		try:
-			path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','games',str(game_id)+'.save')
-			game_file = open(path,'w')
-			game_file.write(game.xml_output(0))
-			game_file.close()
-		except IOError:
+			database.insert('game_games',(int,str),(game_id,game.xml_output(0)))
+		except PP_Database_Error:
 			util.logger.error("Error writing game data")
 			raise PP_Load_Error("Save File %s could not be opened"%str(game_id))
 		self.book_keep_game(game_id,game)

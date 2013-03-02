@@ -35,15 +35,8 @@ def get_game(config_args):
 		player = Player(uid=uids[i])
 		cards = []
 		try:
-			path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','decks',str(uids[i])+'.table')
-			f = open(path,'r')
-			deck = database.select('game_decks','*',where=('uid='+str(uids[i]),'deck_id='+str(dids[i])))
-			print deck
-			#	key ,val = line.split(':')
-			#	decks[int(key)] = val.strip().split(',')
-			deck = decks[dids[i]]
-			f.close()
-		except IOError or IndexError or KeyError:
+			deck = [int(card_id) for card_id in database.select('game_decks','card_ids',where=('uid='+str(uids[i]),'deck_id='+str(dids[i])))[0][0].split(',')]
+		except Exception:
 			raise PP_Load_Error("Could not load the player's deck")
 		for card_id in deck:
 			cards.append(lookup_table(get_card_key_text_from_id(card_id)))

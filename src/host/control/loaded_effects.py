@@ -4,8 +4,8 @@ from model.card_effect.persist import Persist_Cond_list
 from model.card_effect.persist_activate import Persist_Activate_list,Persist_Activate
 from model.card_effect.effect import Effect
 from model.control_state import phase
-from pyplib.errors import PP_Game_Action_Error
 from model.card import Card
+from pyplib.errors import PP_Game_Action_Error
 
 def get_direct_damage(elemental,amount):
 	instants = Instant_List(instants=[Instant(effect=Direct_Damage(elemental=elemental,amount=amount),conds=[Valid_Activate()])],valid_phase=phase.main)

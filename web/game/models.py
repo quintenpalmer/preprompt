@@ -1,11 +1,9 @@
 from django.db import models
 
 # Create your models here.
-class Game(models.Model):
-	name = models.CharField(max_length=100)
-
-	def __unicode__(self):
-		return self.name
+class Games(models.Model):
+	game_id = models.IntegerField(primary_key=True,unique=True)
+	game_xml = models.CharField(max_length=10000)
 
 class Cards(models.Model):
 	card_name = models.CharField(max_length=64)

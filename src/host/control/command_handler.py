@@ -1,11 +1,10 @@
-from pyplib import util
 from model.play import Play_Args
 from control.lstructs import Config_Player, Config_Args
-from pyplib.xml_parser import parse_xml,parse_string,parse_int
-from pyplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error
-from pyplib.host_client import *
 from control.game_manipulator import Manipulator
-import os
+from pyplib.xml_parser import parse_xml,parse_string,parse_int
+from pyplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error,PP_Database_Error
+from pyplib.host_client import *
+from pyplib import database,util
 
 def handle(request,model):
 	try:
@@ -65,13 +64,10 @@ def handle(request,model):
 			else:
 				ret = respond_bad_action('congrats_on_finding_a_bug',command)
 			try:
-				path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','games',str(game_id)+'.save')
-				game_file = open(path,'w')
-				game_file.write(game.xml_output(0))
-				game_file.close()
-			except IOError:
+				database.update('game_games','game_xml',game.xml_output(0),(('game_id',game_id),))
+			except PP_Database_Error:
 				util.logger.error("Error writing game data")
-				raise PP_Load_Error("Save File %s could not be opened"%str(game_id))
+				raise PP_Load_Error("Database Column %s could not be opened"%str(game_id))
 		else:
 			ret =  respond_bad_action('unknown_action',command)
 		return ret
