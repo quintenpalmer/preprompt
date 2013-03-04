@@ -38,6 +38,9 @@ if [ $# == 1 ]; then
 	elif [ $1 == bad ]; then
 		cd $pyp/src/client
 		python client.py b
+	elif [ $1 == check ]; then
+		cd $pyp/src/client
+		python client.py c
 	elif [ $1 == dc ]; then
 		cd $pyp/src/client
 		python client.py d

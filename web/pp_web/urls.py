@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response
 urlpatterns = patterns('',
     url(r'^$', include('home.urls')),
 	url(r'^game/', include('game.urls')),
+	url(r'^trading/', include('trading.urls')),
 	url(r'^account/', include('account.urls')),
 	url(r'^about/', include('about.urls')),
 	url(r'^news/', include('news.urls')),

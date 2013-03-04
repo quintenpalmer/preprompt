@@ -1,7 +1,8 @@
 from pyplib import util
 from view.main_loop import Main_Loop
 from pyplib.model.main_model import Model
-from pyplib.client_host import request_exit,send_request
+from pyplib.client_host import request_exit,send_request,request_test
+import socket
 import sys
 import os
 
@@ -24,3 +25,9 @@ if __name__ == '__main__':
 		elif sys.argv[1] == 'd':
 			request_exit(0)
 			print "Client: Sent shutdown to server!"
+		elif sys.argv[1] == 'c':
+			try:
+				request_test(0)
+				print "Server is UP!"
+			except socket.error:
+				print "Server is DOWN!"

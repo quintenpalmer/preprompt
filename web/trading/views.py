@@ -9,7 +9,13 @@ from pyplib.model.main_model import Model
 from pyplib import database
 
 def splash(request):
-	return render_to_response('game/splash.html')
+	return render_to_response('trading/splash.html')
+
+@login_required
+def cards(request):
+	uid = get_user_key(request.COOKIES['username'])
+	cards = database.select('game_cards_to_users','card_id',where=('uid='+str(uid),))
+	return render_to_response('trading/cards.html',{'cards':cards})
 
 def get_user_key(username):
 	return User.objects.get(username=username).id
@@ -31,12 +37,6 @@ def manage(request):
 	return render_to_response('game/manage.html')
 
 @login_required
-def cards(request):
-	uid = get_user_key(request.COOKIES['username'])
-	cards = database.select('game_cards_to_users','card_id',where=('uid='+str(uid),))
-	return render_to_response('game/cards.html',{'cards':cards})
-
-@login_required
 def deck(request,deck):
 	uid = get_user_key(request.COOKIES['username'])
 	cards = database.select('game_decks','card_ids',where=('uid='+str(uid,),'deck_id='+str(deck)))[0].split(',')
@@ -45,19 +45,16 @@ def deck(request,deck):
 @login_required
 def deck_new(request):
 	uid = get_user_key(request.COOKIES['username'])
-	decks = sorted(database.select('game_decks','deck_id',where=('uid='+str(uid),)))
-	if len(decks) != 0:
-		deck = str(int(decks[-1])+1)
-	else:
-		deck = 0
-	cards = '1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1'
+	decks = sorted([deck_id[0] for deck_id in database.select('game_decks','deck_id',where=('uid='+str(uid),))])
+	deck = str(int(decks[-1])+1)
+	cards = '1,1,1,5,1,1,2,3,1,4,4,1,1,1,1,1,2,3,1,4,4,1,1,1,1,1,2,3,1,4,4,1,1,1,1,1,2,3,1,4,4'
 	database.insert('game_decks',(int,int,int,str),(None,int(uid),int(deck),cards))
 	return render_to_response('game/deck.html',{'deck':deck,'cards':cards})
 
 @login_required
 def decks(request):
 	uid = get_user_key(request.COOKIES['username'])
-	decks = database.select('game_decks','deck_id',where=('uid='+str(uid),))
+	decks = [deck_id[0] for deck_id in database.select('game_decks','deck_id',where=('uid='+str(uid),))]
 	return render_to_response('game/decks.html',{'decks':decks})
 
 @login_required

@@ -1,0 +1,9 @@
+{% extends "base_game.html" %}
+{% block content %}
+	<h1>Deck {{ deck }}!</h1>
+	<p>
+		{% for card in cards %}
+			{{ card }}
+		{% endfor %}
+	</p>
+{% endblock %}

@@ -10,7 +10,7 @@ pypweb.log
 *.stable
 
 # The database
-*database
+*shared_database
 
 # Swap save files
 *.swp

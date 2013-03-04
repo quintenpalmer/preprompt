@@ -10,11 +10,11 @@ class Cards(models.Model):
 	card_effect = models.CharField(max_length=64)
 
 class Cards_to_Users(models.Model):
-	uid = models.IntegerField(primary_key=True)
+	uid = models.IntegerField()
 	card_id = models.IntegerField()
 
 class Decks(models.Model):
-	uid = models.IntegerField(primary_key=True)
+	uid = models.IntegerField()
 	deck_id = models.IntegerField()
 	card_ids = models.CharField(max_length=400)
 

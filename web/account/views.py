@@ -9,6 +9,9 @@ from django.conf import settings
 import datetime
 #from django.http import HttpResponse
 
+from pyplib import database
+
+
 @login_required
 def profile(request):
 	return render_to_response('account/profile.html')
@@ -51,6 +54,7 @@ def register_user(request):
 		if password == password_verify:
 			if len(User.objects.filter(username=username)) == 0:
 				User.objects.create_user(username,email,password)
+				register_add_cards(username)
 				return render_to_response('account/create.html',{'username':username})
 			else:
 				return account_error('Username already exists')
@@ -63,6 +67,13 @@ def register_user(request):
 
 def account_error(error_text):
 	return render_to_response('account/error.html',{'error_message':error_text})
+
+def register_add_cards(username):
+	print database.select('auth_user','id',where=("username='"+username+"'",))
+	uid = int(database.select('auth_user','id',where=("username='"+username+"'",))[0])
+	print uid
+	for i in range(100):
+		database.insert('game_cards_to_users',(int,int,int),(None,uid,1))
 
 @login_required
 def logout_user(request):
