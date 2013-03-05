@@ -71,9 +71,10 @@ def account_error(error_text):
 def register_add_cards(username):
 	print database.select('auth_user','id',where=("username='"+username+"'",))
 	uid = int(database.select('auth_user','id',where=("username='"+username+"'",))[0])
-	print uid
+	values_list = []
 	for i in range(100):
-		database.insert('game_cards_to_users',(int,int,int),(None,uid,1))
+		values_list.append((None,0,uid))
+	database.insert_batch('game_cards',(int,int,int),values_list)
 
 @login_required
 def logout_user(request):

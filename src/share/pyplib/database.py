@@ -8,6 +8,39 @@ def init():
 	cur = con.cursor()
 	return (con,cur)
 
+def insert_batch(table_name,types,values_list):
+	#try:
+	if True:
+		con,cur = init()
+		class Namespace(): pass
+		ns = Namespace()
+		try:
+			ns.key = str(int(select(table_name,'id')[-1])+1)
+		except PP_Database_Error and IndexError:
+			ns.key = 0
+		def get_next_key(ns_sub):
+			ret = ns_sub.key
+			ns_sub.key += 1
+			return ret
+		for values in values_list:
+			values = tuple([value if value != None else get_next_key(ns) for value in values])
+			if True:
+				command = "insert into "+table_name+" values("
+				for t in types:
+					if t == int:
+						command+="%s,"
+					elif t == str:
+						command+= "'%s',"
+					else:
+						raise Exception ('Unknown data type')
+				command = command[:-1]
+				command += ")"
+				command = command%values
+				cur.execute(command)
+				con.commit()
+	#except sqlite3.OperationalError:
+	#	raise PP_Database_Error("Database Error (database doesn't exist)")
+
 def insert(table_name,types,values):
 	con,cur = init()
 	def get_next_key():

@@ -24,7 +24,7 @@ def load_cards():
 	f = open(path,'r')
 	for line in f.readlines():
 		key,val = line.split(':')
-		database.insert('game_cards',(int,str,str),(key,'name',val.strip()))
+		database.insert('game_card_names',(int,str,str),(key,'name',val.strip()))
 
 if len(sys.argv) > 1:
 	if sys.argv[1] == 'load':
@@ -44,9 +44,9 @@ if len(sys.argv) > 1:
 		if sure == 'y':
 			if sys.argv[2] == 'all':
 				database.delete('game_decks')
-				database.delete('game_cards')
+				database.delete('game_card_names')
 			elif sys.argv[2] == 'cards':
-				database.delete('game_cards')
+				database.delete('game_card_names')
 			elif sys.argv[2] == 'decks':
 				database.delete('game_decks')
 			elif sys.argv[2] == 'users':

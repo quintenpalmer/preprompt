@@ -33,7 +33,7 @@ def manage(request):
 @login_required
 def cards(request):
 	uid = get_user_key(request.COOKIES['username'])
-	cards = database.select('game_cards_to_users','card_id',where=('uid='+str(uid),))
+	cards = database.select('game_cards','card_name_id',where=('uid='+str(uid),))
 	return render_to_response('game/cards.html',{'cards':cards})
 
 @login_required

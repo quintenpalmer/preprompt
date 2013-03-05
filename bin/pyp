@@ -21,10 +21,12 @@ main(){
 		elif [ $1 == djangorun ] || [ $1 == djr ]; then
 			dj r
 		elif [ $1 == setup ]; then
-			setup_database
+			setup_database r
 			setup_bashrc
 		elif [ $1 == database ]; then
-			setup_database
+			setup_database r
+		elif [ $1 == database_reload ]; then
+			setup_database d
 		elif [ $1 == bashrc ]; then
 			setup_bashrc
 		elif [ $1 == both ]; then
@@ -53,6 +55,7 @@ help_text(){
 	echo "    pyc                 Removes all pyc files"
 	echo "    setup               Runs the database and bashrc commands"
 	echo "    database            Runs the commands to create the database and populate it"
+	echo "    database_reload     Deletes the database, then runs database"
 	echo "    bashrc              Sets up the bashrc (must source ~/.bashrc afterwards)"
 	echo "    both                Runs the host in the background and then the client"
 	echo "    help | --help | -h  Displays this help message"
@@ -100,6 +103,9 @@ setup_bashrc(){
 }
 setup_database(){
 	cd $pyp/admin
+	if [ $1 == d ]; then
+		rm ../root/opt/postprompt/shared_database
+	fi
 	../web/manage.py syncdb --noinput
 	./pydbctl.py load all
 }
@@ -110,4 +116,4 @@ dj(){
 	fi
 }
 
-main
+main "$@"
