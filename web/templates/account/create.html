@@ -1,5 +1,13 @@
 {% extends "base_account.html" %}
 {% block content %}
 	<h1>Congrats on making a new account, {{ username}}!</h1>
-	<p><a href="/account/">Go to Login Page</a></p>
+	<p>
+		<table id="manage">
+			<tr>
+				<td>
+					<a href="/account/"><span>Login Page</span></a>
+				</td>
+			</tr>
+		</table>
+	</p>
 {% endblock %}

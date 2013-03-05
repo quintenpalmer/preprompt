@@ -15,7 +15,7 @@ def insert_batch(table_name,types,values_list):
 		class Namespace(): pass
 		ns = Namespace()
 		try:
-			ns.key = str(int(select(table_name,'id')[-1])+1)
+			ns.key = int(select(table_name,'id')[-1])+1
 		except PP_Database_Error and IndexError:
 			ns.key = 0
 		def get_next_key(ns_sub):

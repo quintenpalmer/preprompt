@@ -8,23 +8,37 @@ def reload_decks():
 	database.delete('game_decks')
 	load_decks()
 def load_decks():
-	for deck in os.listdir(os.path.join('tables','decks')):
+	for deck in os.listdir(os.path.join(os.environ['pyproot'],'opt','postprompt','tables','decks')):
 		load_deck(deck)
 def load_deck(deck_file):
 	uid = deck_file.split('.')[0]
-	path = os.path.join('tables','decks',deck_file)
+	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','decks',deck_file)
 	f = open(path,'r')
 	for line in f.readlines():
 		key,val = line.split(':')
 		val = val.rstrip('\n')
 	database.insert('game_decks',(int,int,int,str),(None,uid,key,val))
 
+def reload_cards():
+	database.delete('game_card_names')
+	database.delete('game_cards')
+	database.delete('game_starting_cards')
+	load_cards()
+	reload_starting_cards()
 def load_cards():
-	path = os.path.join('tables','cards','relation.table')
+	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','cards','all.table')
 	f = open(path,'r')
-	for line in f.readlines():
-		key,val = line.split(':')
-		database.insert('game_card_names',(int,str,str),(key,'name',val.strip()))
+	for key,line in enumerate(f.readlines()):
+		val = line.strip()
+		database.insert('game_card_names',(int,str,str),(key,'name',val))
+	load_starting_cards()
+
+def load_starting_cards():
+	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','cards','starting.table')
+	f = open(path,'r')
+	line = f.readlines()[0].strip()
+	for val in line.split(','):
+		database.insert('game_starting_cards',(int,int),(None,val))
 
 if len(sys.argv) > 1:
 	if sys.argv[1] == 'load':
@@ -46,6 +60,7 @@ if len(sys.argv) > 1:
 				database.delete('game_decks')
 				database.delete('game_card_names')
 			elif sys.argv[2] == 'cards':
+				database.delete('game_card_names')
 				database.delete('game_card_names')
 			elif sys.argv[2] == 'decks':
 				database.delete('game_decks')

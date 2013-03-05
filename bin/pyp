@@ -102,12 +102,12 @@ setup_bashrc(){
 	echo "run 'source ~/.bashrc' to have this take effect"
 }
 setup_database(){
-	cd $pyp/admin
+	cd $pyp/web
 	if [ $1 == d ]; then
 		rm ../root/opt/postprompt/shared_database
 	fi
 	../web/manage.py syncdb --noinput
-	./pydbctl.py load all
+	../bin/dbctl.py load all
 }
 dj(){
 	cd $pyp/web

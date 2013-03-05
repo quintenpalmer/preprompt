@@ -11,18 +11,21 @@ card_id_to_card_text = {}
 def load_card_key_text():
 	if card_id_to_card_text == {}:
 		try:
-			cards = database.select('game_cards','*')
+			cards = database.select('game_card_names','*')
 			for card in cards:
+				print card
+				for c in card:
+					print type(c)
 				key = int(card[0])
 				val = card[2]
 				if not card_id_to_card_text.has_key(int(key)):
-					card_id_to_card_text[int(key)] = val.strip()
+					card_id_to_card_text[int(key)] = val
 				else:
-					raise PP_Load_Error("Duplicate keys in relation table: %s"%key)
+					raise PP_Load_Error("Duplicate keys in card table: %s"%key)
 			if card_id_to_card_text == {}:
-				raise PP_Load_Error("No data in the relation table")
+				raise PP_Load_Error("No data in the card table")
 		except PP_Database_Error:
-			raise PP_Load_Error("Could not load the relation table")
+			raise PP_Load_Error("Could not load the card table")
 
 def get_game(config_args):
 	load_card_key_text()
