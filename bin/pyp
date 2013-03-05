@@ -1,95 +1,113 @@
 #!/bin/bash
 
-help(){
-echo "Valid Commands are:"
-echo "host     start the host"
-echo "hostb    start the host in the background"
-echo "client   start the client"
-echo "bad      start the bad client (sends bad data to host)"
-echo "list     lists all of the files"
-echo "drop     deletes all of the game save files"
-echo "dc       sends a shut down to the host"
-echo "rrm      removes all pyc files"
-echo "setup    sets up the bashrc (must source ~/.bashrc afterwards)"
-echo "djr      runs the django web server"
-echo "djrr     restarts the django web server"
-echo "djs      generates the django static files"
-echo "web      runs the web server"
-echo "webfull  runs the backend server and the web server"
-echo "rfile f  resets the file's access and modify time to 1 day ago"
+main(){
+	if [ $# == 1 ]; then
+		if [ $1 == host ] || [ $1 == h ]; then
+			run_host r
+		elif [ $1 == hostback ] || [ $1 == hb ]; then
+			run_host b
+		elif [ $1 == client ] || [ $1 == c ]; then
+			run_client r
+		elif [ $1 == clientbad ] || [ $1 == cb ]; then
+			run_client b
+		elif [ $1 == clientcheck ] || [ $1 == cc ]; then
+			run_client c
+		elif [ $1 == clientexit ] || [ $1 == ce ]; then
+			run_client d
+		elif [ $1 == list ]; then
+			list
+		elif [ $1 == pyc ]; then
+			clear_pyc
+		elif [ $1 == djangorun ] || [ $1 == djr ]; then
+			dj r
+		elif [ $1 == setup ]; then
+			setup_database
+			setup_bashrc
+		elif [ $1 == database ]; then
+			setup_database
+		elif [ $1 == bashrc ]; then
+			setup_bashrc
+		elif [ $1 == both ]; then
+			run_host b
+			run_client
+		elif [ $1 == help ] || [ $1 == "--help" ] || [ $1 == '-h']; then
+			help_text
+		else
+			help_text
+		fi
+	else
+		help_text
+	fi
 }
 
-if [ $# == 1 ]; then
-	if [ $1 == host ]; then
-		cd $pyp/src/host
-		python host.py
-	elif [ $1 == hostb ]; then
-		cd $pyp/src/host
-		python host.py &
-	elif [ $1 == client ]; then
-		cd $pyp/src/client
-		python client.py
-	elif [ $1 == drop ]; then
-		cd $pyp/src/host
-		python host.py c
-	elif [ $1 == list ]; then
-		cd $pyp
-		find *
-	elif [ $1 == bad ]; then
-		cd $pyp/src/client
-		python client.py b
-	elif [ $1 == check ]; then
-		cd $pyp/src/client
-		python client.py c
-	elif [ $1 == dc ]; then
-		cd $pyp/src/client
-		python client.py d
-	elif [ $1 == pyc ]; then
-		cd $pyp
-		find . -name "*.pyc" | xargs rm
-	elif [ $1 == djr ]; then
-		cd $pyp/web
-		./manage.py runserver 0.0.0.0:8080
-	elif [ $1 == djrs ]; then
-		kill $(netstat -tupln | grep 8080 | grep -o "[0-9]*/python" | grep -o "[0-9]*")
-	elif [ $1 == djs ]; then
-		cd $pyp/web
-		./manage.py collectstatic
-	elif [ $1 == web ]; then
-		cd $pyp/tmp/hand_crafted_web
-		python -B index.py
-	elif [ $1 == webfull ]; then
-		cd $pyp/src/host
-		python host.py&
-		sleep .5
-		cd $pyp/tmp/hand_crafted_web
-		python index.py
-	elif [ $1 == setup ]; then
-		echo "" >> ~/.bashrc
-		echo "# Postprompt Setup" >> ~/.bashrc
-		echo "" >> ~/.bashrc
-		echo "export pyp=`pwd`" >> ~/.bashrc
-		echo "export pyproot=\$pyp/root" >> ~/.bashrc
-		echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
-		echo "export PYTHONPATH=\$pyp/src/share" >> ~/.bashrc
-		echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
-		echo "alias cdpypr=\"cd \$pyproot\"" >> ~/.bashrc
-		echo "run 'source ~/.bashrc' to have this take effect"
-	elif [ $1 == "--help" ]; then
-		help
-	else
-		help
-	fi
-elif [ $# == 2 ]; then
-	if [ $1 == rfile ]; then
-		touch -r $2 -d '-1 day' $2
-		touch -r $2 --time=mtime -d '-1 day' $2
-	fi
-else
-	echo "Starting server in background and client in foreground!"
+help_text(){
+	echo "  Valid Commands are:"
+	echo "    host        | h     Start the host"
+	echo "    hostback    | hb    Start the host in the background"
+	echo "    client      | c     Start the client"
+	echo "    clientbad   | cb    Start the bad client (sends bad data to host)"
+	echo "    clientcheck | cc    Sends a shut down to the host"
+	echo "    clientexit  | ce    Sends a shut down to the host"
+	echo "    djangorun   | djr   Runs the django web server"
+	echo "    list                Lists all of the files"
+	echo "    pyc                 Removes all pyc files"
+	echo "    setup               Runs the database and bashrc commands"
+	echo "    database            Runs the commands to create the database and populate it"
+	echo "    bashrc              Sets up the bashrc (must source ~/.bashrc afterwards)"
+	echo "    both                Runs the host in the background and then the client"
+	echo "    help | --help | -h  Displays this help message"
+}
+
+run_host(){
 	cd $pyp/src/host
-	python host.py&
-	sleep .5
+	if [ $1 == r ]; then
+		python host.py
+	elif [ $1 == b ]; then
+		python host.py &
+	fi
+}
+run_client(){
 	cd $pyp/src/client
-	python client.py
-fi
+	if [ $1 == r ]; then
+		python client.py
+	elif [ $1 == b ]; then
+		python client.py b
+	elif [ $1 == c ]; then
+		python client.py c
+	elif [ $1 == d ]; then
+		python client.py d
+	fi
+}
+list(){
+	cd $pyp
+	find *
+}
+clear_pyc(){
+	cd $pyp
+	find . -name "*.pyc" | xargs rm
+}
+setup_bashrc(){
+	echo "" >> ~/.bashrc
+	echo "# Postprompt Setup" >> ~/.bashrc
+	echo "" >> ~/.bashrc
+	echo "export pyp=`pwd`" >> ~/.bashrc
+	echo "export pyproot=\$pyp/root" >> ~/.bashrc
+	echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
+	echo "export PYTHONPATH=\$pyp/src/share" >> ~/.bashrc
+	echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
+	echo "alias cdpypr=\"cd \$pyproot\"" >> ~/.bashrc
+	echo "run 'source ~/.bashrc' to have this take effect"
+}
+setup_database(){
+	cd $pyp/admin
+	../web/manage.py syncdb --noinput
+	./pydbctl.py load all
+}
+dj(){
+	cd $pyp/web
+	if [ $1 == r ]; then
+		./manage.py runserver 0.0.0.0:8080
+	fi
+}
+
+main
