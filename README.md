@@ -21,9 +21,6 @@ To run just the host (in the background), run:
 
 > pyp hostback
 
-To run just the client, run:
-
-> pyp client
 To run the web server, run:
 
 > pyp djr
