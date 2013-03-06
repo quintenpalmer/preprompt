@@ -8,8 +8,9 @@
 		<link href="{{ STATIC_PREFIX }}images/logos/logo.ico" rel="icon" type="text/x-icon">
 		<link href="{{ STATIC_PREFIX }}images/logos/logo.ico" rel="shortcut icon" type="text/x-icon">
 		<link href="{{ STATIC_PREFIX }}css/sitewide.css" rel="stylesheet" type="text/css">
+		{% block js %}{% endblock %}
 	</head>
-	<body id="{% block sectionid %}generic{% endblock %}" class="default">
+	<body id="{% block sectionid %}generic{% endblock %}" class="default" {% block brython %}{% endblock %}>
 	<div id="container">
 		<div id="header">
 			<h1 id="logo"><a href="/"><img src="{{ STATIC_PREFIX }}images/logos/logo.png" border=0/></a></h1>

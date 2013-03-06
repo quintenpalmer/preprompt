@@ -1,9 +1,22 @@
 {% extends "base_game.html" %}
+{% block js %}
+		<script src="{{ STATIC_PREFIX }}brython/brython.js" type="text/javascript"></script>
+		<script src="{{ STATIC_PREFIX }}python/deck.py" type="text/python"></script>{% endblock %}
+{% block brython %}onload="brython()"{% endblock %}
 {% block content %}
 	<h1>Deck {{ deck }}!</h1>
 	<p>
-		{% for card in cards %}
-			{{ card }}
+		<script type="text/python">displayCards('1,1,1,1,1','2,2,2,2')</script>
+		<table id="mini-manage">
+		{% for card_sub_list in cards %}
+			<tr>
+				{% for card in card_sub_list %}
+				<td>
+					<a href="/game/manage/card/{{ card }}/"><span>Card {{ card }}</span></a>
+				</td>
+				{% endfor %}
+			</tr>
 		{% endfor %}
+		</table>
 	</p>
 {% endblock %}

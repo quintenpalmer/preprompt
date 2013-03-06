@@ -2,17 +2,19 @@
 {% block content %}
 	<h1>Manage your Decks!</h1>
 	<p>
-		<table id="manage">
+		<table id="mini-manage">
 			<tr>
 				<td>
 					<a href="/game/manage/decks/new/"><span>New Deck</span></a>
 				</td>
 			</tr>
-		{% for deck in decks %}
+		{% for deck_sub_list in decks %}
 			<tr>
+				{% for deck in deck_sub_list %}
 				<td>
 					<a href="/game/manage/decks/{{ deck }}/"><span>Deck {{ deck }}</span></a>
 				</td>
+				{% endfor %}
 			</tr>
 		{% endfor %}
 		</table>

@@ -15,6 +15,7 @@ class Card_Names(models.Model):
 class Cards(models.Model):
 	card_name = models.ForeignKey('Card_Names')
 	uid = models.IntegerField()
+	deck = models.IntegerField(null=True,blank=True)
 
 class Decks(models.Model):
 	uid = models.IntegerField()

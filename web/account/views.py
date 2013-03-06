@@ -73,8 +73,8 @@ def register_add_cards(username):
 	starting_cards = database.select('game_starting_cards','card_name_id')
 	values_list = []
 	for card in starting_cards:
-		values_list.append((None,card,uid))
-	database.insert_batch('game_cards',(int,int,int),values_list)
+		values_list.append((None,card,uid,0))
+	database.insert_batch('game_cards',(int,int,int,int),values_list)
 	print database.select('game_cards','*')
 
 @login_required

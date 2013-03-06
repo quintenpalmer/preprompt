@@ -2,12 +2,14 @@
 {% block content %}
 	<h1>Your Cards!</h1>
 	<p>
-		<table id="manage">
-		{% for card in cards %}
+		<table id="mini-manage">
+		{% for card_sub_list in cards %}
 			<tr>
+				{% for card in card_sub_list %}
 				<td>
 					<a href="/game/manage/cards/{{ card }}/"><span>Card {{ card }}</span></a>
 				</td>
+				{% endfor %}
 			</tr>
 		{% endfor %}
 		</table>

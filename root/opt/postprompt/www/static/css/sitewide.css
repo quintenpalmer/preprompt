@@ -4,6 +4,12 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: '04b_pp';
+    src: url('../fonts/04b.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* SETUP */
 
@@ -16,7 +22,7 @@
 }
 
 body {
-	width:1000px;
+	width:1200px;
 	margin:auto;
 	padding:0;
 	background:url("../images/icons/back.png") repeat;
@@ -107,6 +113,7 @@ a:hover {
 #game #menu-game a,
 #about #menu-about a,
 #account #menu-account a,
+#trading #menu-trading a,
 #news #menu-news a {
 	color:white;
 	background-image:url("../images/icons/menu-current.png");
@@ -131,7 +138,7 @@ a:hover {
 }
 
 #content {
-	width:794px;
+	width:1000px;
 	min-height:990px;
 	float:left;
 	text-align:left;
@@ -152,34 +159,50 @@ a:hover {
 	padding-bottom:40px;
 }
 
-
 #manage tr td {
 	text-align:center;
-}
-
-#manage tr td a {
 	display:block;
 	background-image:url("../images/icons/button.png");
 	font-size:35px;
 	color:#bbb;
 }
 
-#manage tr td a:hover {
+#manage tr td:hover {
 	background-image:url("../images/icons/button-active.png");
 	color:#eee;
 }
 
-#manage tr td a span {
+#manage tr td span {
 	width:300px;
 	height:80px;
 	display:block;
 	padding-top:20px;
 }
 
+#mini-manage tr td {
+	text-align:center;
+	display:block;
+	background-image:url("../images/icons/mini-button.png");
+	font-size:15px;
+	color:#bbb;
+}
+
+#mini-manage tr td:hover {
+	background-image:url("../images/icons/mini-button-active.png");
+	color:#eee;
+}
+
+#mini-manage tr td span {
+	width:150px;
+	height:40px;
+	display:block;
+	padding-top:10px;
+}
+
 #card_lists {
 	display:block;
-	background-color:#2e2;
-	width:1300px;
+	background-color:#171;
+	width:990px;
 	height:200px;
 }
 

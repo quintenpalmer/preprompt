@@ -34,13 +34,16 @@ def manage(request):
 def cards(request):
 	uid = get_user_key(request.COOKIES['username'])
 	cards = database.select('game_cards','card_name_id',where=('uid='+str(uid),))
+	cards = create_sub_lists(cards)
 	return render_to_response('game/cards.html',{'cards':cards})
 
 @login_required
 def deck(request,deck):
 	uid = get_user_key(request.COOKIES['username'])
-	cards = database.select('game_decks','card_ids',where=('uid='+str(uid,),'deck_id='+str(deck)))[0].split(',')
-	return render_to_response('game/deck.html',{'deck':deck,'cards':cards})
+	cards = database.select('game_cards','card_name_id',where=('uid='+str(uid,),'deck='+str(deck)))
+	#cards = create_sub_lists(cards)
+	cards = ','.join([str(card) for card in cards])
+	return render_to_response('game/deck_client_side.html',{'deck':deck,'cards':cards})
 
 @login_required
 def deck_new(request):
@@ -57,7 +60,9 @@ def deck_new(request):
 @login_required
 def decks(request):
 	uid = get_user_key(request.COOKIES['username'])
-	decks = database.select('game_decks','deck_id',where=('uid='+str(uid),))
+	#decks = database.select('game_decks','deck_id',where=('uid='+str(uid),))
+	decks = list(set(database.select('game_cards','deck',where=('uid='+str(uid),))))
+	decks = create_sub_lists(decks)
 	return render_to_response('game/decks.html',{'decks':decks})
 
 @login_required
@@ -78,6 +83,10 @@ def game_view(request,game_id):
 	c.update(csrf(request))
 	c['game']=game
 	return render_to_response('game/game_view.html',c)
+
+def create_sub_lists(my_list):
+	col_width = 5
+	return [my_list[i:i+col_width] for i in range(0,len(my_list), col_width)]
 
 def handle_request(command,req):
 	if req.has_key('player_id'):

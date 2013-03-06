@@ -159,7 +159,6 @@ a:hover {
 	padding-bottom:40px;
 }
 
-
 #manage tr td {
 	text-align:center;
 	display:block;
@@ -178,6 +177,26 @@ a:hover {
 	height:80px;
 	display:block;
 	padding-top:20px;
+}
+
+#mini-manage tr td {
+	text-align:center;
+	display:block;
+	background-image:url("../images/icons/mini-button.png");
+	font-size:15px;
+	color:#bbb;
+}
+
+#mini-manage tr td:hover {
+	background-image:url("../images/icons/mini-button-active.png");
+	color:#eee;
+}
+
+#mini-manage tr td span {
+	width:150px;
+	height:40px;
+	display:block;
+	padding-top:10px;
 }
 
 #card_lists {
