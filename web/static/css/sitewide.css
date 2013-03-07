@@ -183,7 +183,7 @@ a:hover {
 	text-align:center;
 	display:block;
 	background-image:url("../images/icons/mini-button.png");
-	font-size:15px;
+	font-size:14px;
 	color:#bbb;
 }
 
@@ -196,7 +196,7 @@ a:hover {
 	width:150px;
 	height:40px;
 	display:block;
-	padding-top:10px;
+	padding-top:9px;
 }
 
 #card_lists {

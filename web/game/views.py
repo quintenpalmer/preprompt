@@ -40,10 +40,13 @@ def cards(request):
 @login_required
 def deck(request,deck):
 	uid = get_user_key(request.COOKIES['username'])
-	cards = database.select('game_cards','card_name_id',where=('uid='+str(uid,),'deck='+str(deck)))
+	in_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck='+str(deck)))
+	out_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck<>'+str(deck)))
+	print out_deck
 	#cards = create_sub_lists(cards)
-	cards = ','.join([str(card) for card in cards])
-	return render_to_response('game/deck_client_side.html',{'deck':deck,'cards':cards})
+	in_deck = ','.join([str(card) for card in in_deck])
+	out_deck = ','.join([str(card) for card in out_deck])
+	return render_to_response('game/deck.html',{'deck':deck,'in_deck':in_deck,'out_deck':out_deck})
 
 @login_required
 def deck_new(request):
@@ -53,9 +56,11 @@ def deck_new(request):
 		deck = str(int(decks[-1])+1)
 	else:
 		deck = 0
-	cards = '1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1'
-	database.insert('game_decks',(int,int,int,str),(None,int(uid),int(deck),cards))
-	return render_to_response('game/deck.html',{'deck':deck,'cards':cards})
+	in_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck='+str(deck)))
+	out_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck<>'+str(deck)))
+	in_deck = ','.join([str(card) for card in in_deck])
+	out_deck = ','.join([str(card) for card in out_deck])
+	return render_to_response('game/deck.html',{'deck':deck,'in_deck':in_deck,'out_deck':out_deck})
 
 @login_required
 def decks(request):
