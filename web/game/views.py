@@ -39,34 +39,45 @@ def cards(request):
 
 @login_required
 def deck(request,deck):
-	uid = get_user_key(request.COOKIES['username'])
-	in_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck='+str(deck)))
-	out_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck<>'+str(deck)))
-	print out_deck
+	command = request.POST
+	uid = str(get_user_key(request.COOKIES['username']))
+	deck_contents = command.get('deck')
+	if command.has_key('deck'):
+		database.delete('game_decks',where=(('uid='+uid),('deck_id='+deck)))
+		if deck_contents != '':
+			for card in deck_contents.split(','):
+				database.insert('game_decks',(int,int,int,int),(None,uid,deck,card))
+	in_deck = database.select('game_decks','card_id',where=(('uid='+uid),('deck_id='+deck)))
+	for i in range(len(in_deck)):
+		in_deck_card = in_deck[i]
+		in_deck[i] = (database.select('game_cards','card_name_id',where=(('uid='+str(uid)),('id='+str(in_deck_card))))[0],in_deck[i])
+	out_deck = database.select('game_cards','card_name_id,id',where=(('uid='+str(uid)),))
+	out_deck = [out_deck_card for out_deck_card in out_deck if out_deck_card[1] not in [in_deck_card[1] for in_deck_card in in_deck]]
 	#cards = create_sub_lists(cards)
-	in_deck = ','.join([str(card) for card in in_deck])
-	out_deck = ','.join([str(card) for card in out_deck])
-	return render_to_response('game/deck.html',{'deck':deck,'in_deck':in_deck,'out_deck':out_deck})
+	in_deck = ','.join([str(card).replace(', ','_').strip('(').strip(')') for card in in_deck])
+	out_deck = ','.join([str(card).replace(', ','_').strip('(').strip(')') for card in out_deck])
+	c = {}
+	c.update(csrf(request))
+	c['deck'] = deck
+	c['in_deck'] = in_deck
+	c['out_deck'] = out_deck
+	return render_to_response('game/deck.html',c)
 
 @login_required
 def deck_new(request):
 	uid = get_user_key(request.COOKIES['username'])
 	decks = sorted(database.select('game_decks','deck_id',where=('uid='+str(uid),)))
 	if len(decks) != 0:
-		deck = str(int(decks[-1])+1)
+		deck_id = str(int(decks[-1])+1)
 	else:
-		deck = 0
-	in_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck='+str(deck)))
-	out_deck = database.select('game_cards','card_name_id',where=('uid='+str(uid),'deck<>'+str(deck)))
-	in_deck = ','.join([str(card) for card in in_deck])
-	out_deck = ','.join([str(card) for card in out_deck])
-	return render_to_response('game/deck.html',{'deck':deck,'in_deck':in_deck,'out_deck':out_deck})
+		deck_id = 0
+	return deck(request,deck_id)
 
 @login_required
 def decks(request):
 	uid = get_user_key(request.COOKIES['username'])
 	#decks = database.select('game_decks','deck_id',where=('uid='+str(uid),))
-	decks = list(set(database.select('game_cards','deck',where=('uid='+str(uid),))))
+	decks = list(set(database.select('game_decks','deck_id',where=('uid='+str(uid),))))
 	decks = create_sub_lists(decks)
 	return render_to_response('game/decks.html',{'decks':decks})
 
@@ -107,8 +118,8 @@ def handle_request(command,req):
 		elif command == 'new':
 			p1_uid = player_id
 			p1_did = 0
-			p2_uid = 13
-			p2_did = 1
+			p2_uid = 2
+			p2_did = 0
 			return request_new(p1_uid,p1_did,p2_uid,p2_did)
 		else:
 			if command == 'setup':

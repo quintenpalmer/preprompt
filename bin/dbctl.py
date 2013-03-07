@@ -5,11 +5,17 @@ from pprint import pprint
 from pyplib import database
 
 def reload_decks():
+	pass
+	"""
 	database.delete('game_decks')
 	load_decks()
+	"""
 def load_decks():
+	pass
+	"""
 	for deck in os.listdir(os.path.join(os.environ['pyproot'],'opt','postprompt','tables','decks')):
 		load_deck(deck)
+	"""
 def load_deck(deck_file):
 	uid = deck_file.split('.')[0]
 	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','decks',deck_file)
@@ -24,7 +30,7 @@ def reload_cards():
 	database.delete('game_cards')
 	database.delete('game_starting_cards')
 	load_cards()
-	reload_starting_cards()
+	load_starting_cards()
 def load_cards():
 	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','cards','all.table')
 	f = open(path,'r')

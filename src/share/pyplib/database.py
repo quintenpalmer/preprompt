@@ -36,6 +36,7 @@ def insert_batch(table_name,types,values_list):
 				command = command[:-1]
 				command += ")"
 				command = command%values
+				print command
 				cur.execute(command)
 				con.commit()
 	#except sqlite3.OperationalError:
@@ -63,19 +64,25 @@ def insert(table_name,types,values):
 		command = command[:-1]
 		command += ")"
 		command = command%values
+		print command
 		cur.execute(command)
 		con.commit()
 	#except sqlite3.OperationalError:
 	#	raise PP_Database_Error("Database Error (database doesn't exist)")
 
-def update(table_name,set_name,set_value,checks):
+def update(table_name,set_name,set_value,type,checks):
 	con,cur = init()
 	#try:
 	if True:
-		command = 'update '+table_name+' set '+set_name+"='"+set_value+"' where "
+		if type == str:
+			quote = "'"
+		else:
+			quote = ''
+		command = 'update '+table_name+' set '+set_name+"="+quote+set_value+quote+" where "
 		for key,value in checks:
 			command += str(key)+"="+str(value)+" and "
 		command = command[:-4]
+		print command
 		cur.execute(command)
 		con.commit()
 	#except sqlite3.OperationalError:
@@ -94,18 +101,23 @@ def select(table_name,name,where=None):
 		print command
 		cur.execute(command)
 		ret = cur.fetchall()
-		if name != '*':
+		if name != '*' and ',' not in name:
 			return [retval[0] for retval in ret]
 		else:
 			return ret
 	#except sqlite3.OperationalError:
 	#	raise PP_Database_Error("Database Error (database doesn't exist)")
 
-def delete(table_name):
+def delete(table_name,where=None):
 	con,cur = init()
 	#try:
 	if True:
 		command = 'delete from '+table_name
+		if where != None:
+			command += ' where '
+			for w in where:
+				command += w+' and '
+			command = command[:-4]
 		cur.execute(command)
 		con.commit()
 	#except sqlite3.OperationalError:

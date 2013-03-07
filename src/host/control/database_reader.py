@@ -37,10 +37,13 @@ def get_game(config_args):
 	for i in range(0,2):
 		player = Player(uid=uids[i])
 		cards = []
-		try:
-			deck = [int(card_id) for card_id in database.select('game_decks','card_ids',where=('uid='+str(uids[i]),'deck_id='+str(dids[i])))[0].split(',')]
-		except Exception:
-			raise PP_Load_Error("Could not load the player's deck")
+		#try:
+		if True:
+			deck = database.select('game_decks','card_id',where=(('uid='+str(uids[i])),('deck_id='+str(dids[i]))))
+			deck = [database.select('game_cards','card_name_id',where=(('id='+str(card)),))[0] for card in deck]
+			print deck
+		#except Exception:
+		#	raise PP_Load_Error("Could not load the player's deck")
 		for card_id in deck:
 			cards.append(lookup_table(get_card_key_text_from_id(card_id)))
 		verify_deck(cards)

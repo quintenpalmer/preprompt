@@ -69,13 +69,17 @@ def account_error(error_text):
 	return render_to_response('account/error.html',{'error_message':error_text})
 
 def register_add_cards(username):
-	uid = int(database.select('auth_user','id',where=("username='"+username+"'",))[0])
+	uid = int(database.select('auth_user','id',where=(("username='"+username+"'"),))[0])
 	starting_cards = database.select('game_starting_cards','card_name_id')
 	values_list = []
 	for card in starting_cards:
-		values_list.append((None,card,uid,0))
-	database.insert_batch('game_cards',(int,int,int,int),values_list)
-	print database.select('game_cards','*')
+		values_list.append((None,card,uid))
+	database.insert_batch('game_cards',(int,int,int),values_list)
+	cards = database.select('game_cards','id',where=(('uid='+str(uid)),))
+	values_list = []
+	for card in cards:
+		values_list.append((None,uid,0,card))
+	database.insert_batch('game_decks',(int,int,int,int),values_list)
 
 @login_required
 def logout_user(request):

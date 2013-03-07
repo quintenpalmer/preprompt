@@ -15,12 +15,10 @@ class Card_Names(models.Model):
 class Cards(models.Model):
 	card_name = models.ForeignKey('Card_Names')
 	uid = models.IntegerField()
-	deck = models.IntegerField(null=True,blank=True)
 
 class Decks(models.Model):
 	uid = models.IntegerField()
 	deck_id = models.IntegerField()
-	card_ids = models.CharField(max_length=400)
-
-	class Meta:
-		unique_together = ('uid','deck_id')
+	card_id = models.IntegerField()
+	#class Meta:
+	#	unique_together = ('uid','deck_id')
