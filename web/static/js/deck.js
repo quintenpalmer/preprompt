@@ -2,23 +2,12 @@ var in_deck = null;
 var out_deck = null;
 
 function save_deck(){
-	var csrftoken = get_cookie('csrftoken');
-	var xmlhttp = new XMLHttpRequest();
-	var i;
-	xmlhttp.onreadystatechange=function(){
-		if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-			redisplay_cards();
-		}
-	}
-	xmlhttp.open("POST",'',true);
-	xmlhttp.setRequestHeader("X-CSRFToken",csrftoken);
-	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
 	to_send_in_deck = [];
 	for(i=0;i<in_deck.length;i++){
 		to_send_in_deck.push(in_deck[i][1]);
 	}
 	var command = "deck="+to_send_in_deck.join()
-	xmlhttp.send(command);
+	ajax_request(command,redisplay_cards);
 }
 
 function display(in_deck_string,out_deck_string){
@@ -62,7 +51,7 @@ function display_cards(card_list,div_id){
 	var div = document.createElement("div");
 	var table = document.createElement("table");
 	table.setAttribute("id","mini-manage");
-	var card_list = create_sub_lists(card_list);
+	var card_list = create_sub_lists(card_list,5);
 	var index = 0;
 	var sub_index = 0;
 	var tr = null;
@@ -94,26 +83,6 @@ function display_cards(card_list,div_id){
 	document.getElementById("deck_manage").appendChild(div)
 }
 
-function create_sub_lists(my_list){
-	var col_width = 5;
-	var cur_col_width;
-	var i = 0;
-	var j = 0;
-	var ret_list = [];
-	var sub_list = null;
-	var remaining = my_list.length
-	for(i=0;i<my_list.length;i+=col_width){
-		sub_list = [];
-		cur_col_width = Math.min(col_width,remaining);
-		for(j=i;j<i+cur_col_width;j++){
-			sub_list.push(my_list[j]);
-		}
-		remaining -= col_width;
-		ret_list.push(sub_list);
-	}
-	return ret_list;
-}
-
 function add_to_deck(event){
 	var card_id = event.target.id;
 	var card = remove(out_deck,card_id);
@@ -142,20 +111,4 @@ function remove(card_list,card_id){
 			return card;
 		}
 	}
-}
-
-function get_cookie(name){
-    var cookie_value = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].replace(/ /g,'');
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookie_value = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookie_value;
 }

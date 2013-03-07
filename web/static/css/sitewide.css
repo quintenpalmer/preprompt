@@ -224,3 +224,15 @@ a:hover {
 	height:200px;
 	display:block;
 }
+
+#deck_manage div {
+	min-height:50px;
+	background-color:#171;
+	width:792;
+	border-style:outset;
+	border-width:5px;
+	border-color:gray;
+}
+#deck_manage div table {
+	padding:9px;
+}

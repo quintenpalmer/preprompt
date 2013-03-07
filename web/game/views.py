@@ -34,7 +34,7 @@ def manage(request):
 def cards(request):
 	uid = get_user_key(request.COOKIES['username'])
 	cards = database.select('game_cards','card_name_id',where=('uid='+str(uid),))
-	cards = create_sub_lists(cards)
+	cards = create_sub_lists(cards,5)
 	return render_to_response('game/cards.html',{'cards':cards})
 
 @login_required
@@ -53,7 +53,7 @@ def deck(request,deck):
 		in_deck[i] = (database.select('game_cards','card_name_id',where=(('uid='+str(uid)),('id='+str(in_deck_card))))[0],in_deck[i])
 	out_deck = database.select('game_cards','card_name_id,id',where=(('uid='+str(uid)),))
 	out_deck = [out_deck_card for out_deck_card in out_deck if out_deck_card[1] not in [in_deck_card[1] for in_deck_card in in_deck]]
-	#cards = create_sub_lists(cards)
+	#cards = create_sub_lists(cards,5)
 	in_deck = ','.join([str(card).replace(', ','_').strip('(').strip(')') for card in in_deck])
 	out_deck = ','.join([str(card).replace(', ','_').strip('(').strip(')') for card in out_deck])
 	c = {}
@@ -78,7 +78,7 @@ def decks(request):
 	uid = get_user_key(request.COOKIES['username'])
 	#decks = database.select('game_decks','deck_id',where=('uid='+str(uid),))
 	decks = list(set(database.select('game_decks','deck_id',where=('uid='+str(uid),))))
-	decks = create_sub_lists(decks)
+	decks = create_sub_lists(decks,3)
 	return render_to_response('game/decks.html',{'decks':decks})
 
 @login_required
@@ -100,9 +100,8 @@ def game_view(request,game_id):
 	c['game']=game
 	return render_to_response('game/game_view.html',c)
 
-def create_sub_lists(my_list):
-	col_width = 5
-	return [my_list[i:i+col_width] for i in range(0,len(my_list), col_width)]
+def create_sub_lists(my_list,sub_list_size):
+	return [my_list[i:i+sub_list_size] for i in range(0,len(my_list), sub_list_size)]
 
 def handle_request(command,req):
 	if req.has_key('player_id'):

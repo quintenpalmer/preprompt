@@ -32,10 +32,6 @@ To run just the client, run:
 TODO:
 ---
 
-Client:
- - Make requests and responses async
- - Frontend written for web browser
-
 Host:
  - Need to have tickers for persistant cards
  - Make requests and responses async
@@ -44,7 +40,7 @@ Host:
  - Limit copies of a card
 
 Web:
- - Ability to create decks (other than predefined ones)
- - Cards need unique ids (there will be one pool of cards)
- - Decks need to point to either the unique ids or have another set of ids for cards that you own
+ - Make requests and responses async
  - Interface for game play needs to be fleshed out
+ - More info for card viewing (images, text, name, stats)
+ - Have deck creation inform about failed requirements for playing (too small, too many copies of card, etc)
