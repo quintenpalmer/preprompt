@@ -1,49 +1,11 @@
 {% extends "base_play.html" %}
+{% block js %}
+		<script src="{{ STATIC_PREFIX }}js/game.js" type="text/javascript"></script>
+		<script src="{{ STATIC_PREFIX }}js/model.js" type="text/javascript"></script>
+{% endblock %}
 {% block content %}
-	<div id="card_lists">
-		<table>
-		<tr>
-			{% for card in game.them.collection.hand.cards %}
-			<td>
-				<a href="/play/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
-			</td>
-			{% endfor %}
-		</tr>
-		</table>
-	</div>
-	<div id="card_lists">
-		<table>
-		<tr>
-			{% for card in game.them.collection.active.cards%}
-			<td>
-				<a href="/play/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
-			</td>
-			{% endfor %}
-		</tr>
-		</table>
-	</div>
-	<div id="card_lists">
-		<table>
-		<tr>
-			{% for card in game.me.collection.active.cards%}
-			<td>
-				<a href="/play/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
-			</td>
-			{% endfor %}
-		</tr>
-		</table>
-	</div>
-	<div id="card_lists">
-		<table>
-		<tr>
-			{% for card in game.me.collection.hand.cards%}
-			<td>
-				<a href="/play/card/{{ card.name }}/"><span>{{ card.name }}</span></a>
-			</td>
-			{% endfor %}
-		</tr>
-		</table>
-	</div>
+	<button type="button" onclick="update_game({{ game_id }})">New Game</button>
+	<script type="text/javascript">display('{{ game_xml|safe }}')</script>
 	<form method="post">{% csrf_token %}
 		<table id="manage">
 			<tr>
@@ -53,8 +15,6 @@
 				<td>
 					<input type="submit" name="command" value="Draw">
 				</td>
-			</tr>
-			<tr>
 				<td>
 					<input type="submit" name="command" value="Phase">
 				</td>

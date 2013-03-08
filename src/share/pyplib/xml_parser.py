@@ -24,14 +24,12 @@ def parse_string(element,tag):
 
 def parse_bool(element,tag):
 	try:
-		string_repr = parse_string(element,tag)
-		return string_repr == 'True'
+		return parse_string(element,tag) == 'True'
 	except ValueError:
 		raise XML_Parser_Error('That tag "%s" contains "%s" which is not a bool'%(tag,string_repr))
 
 def parse_int(element,tag):
 	try:
-		string_repr = parse_string(element,tag)
-		return int(string_repr)
+		return int(parse_string(element,tag))
 	except ValueError:
 		raise XML_Parser_Error('That tag "%s" contains "%s" which is not an int'%(tag,string_repr))

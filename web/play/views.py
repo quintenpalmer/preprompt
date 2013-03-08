@@ -25,6 +25,14 @@ def ajax_new_game(request):
 	return HttpResponse(str(gids).replace(' ','').strip('[').strip(']'),content_type='text/plain')
 
 @login_required
+def ajax_update_game(request,game_id):
+	command = request.POST
+	uid = get_user_key(request.COOKIES['username'])
+	print handle_request('new',{'player_id':uid})
+	xml_string = request_out(game_id,uid)
+	return HttpResponse(xml_string)
+
+@login_required
 def games(request):
 	command = request.POST
 	uid = get_user_key(request.COOKIES['username'])
@@ -47,13 +55,11 @@ def game(request,game_id):
 	username = request.COOKIES['username']
 	uid = get_user_key(username)
 	print handle_request(command.get('command'),{'game_id':game_id,'player_id':uid})
-	model = Model(uid)
-	out = request_out(game_id,uid)
-	model.update_game(out)
-	game = model.games[int(game_id)]
+	xml_string = request_out(game_id,uid)
 	c = {}
 	c.update(csrf(request))
-	c['game']=game
+	c['game_xml']=xml_string
+	c['game_id']=game_id
 	return render_to_response('play/game.html',c)
 
 
