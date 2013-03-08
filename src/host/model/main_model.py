@@ -11,7 +11,7 @@ class Model:
 		self.all_ids = list(self.free_ids)
 		self.version = 0
 		try:
-			games = database.select('game_games','*')
+			games = database.select('play_games','*')
 			for game in games:
 				game_id = game[0]
 				game_xml = game[1]
@@ -28,7 +28,7 @@ class Model:
 		game_id = self.pop_id()
 		game = database_reader.get_game(config_args)
 		try:
-			database.insert('game_games',(int,str),(game_id,game.xml_output(0)))
+			database.insert('play_games',(int,str),(game_id,game.xml_output(0)))
 		except PP_Database_Error:
 			util.logger.error("Error writing game data")
 			raise PP_Load_Error("Save File %s could not be opened"%str(game_id))

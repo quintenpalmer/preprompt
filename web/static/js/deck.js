@@ -7,7 +7,7 @@ function save_deck(){
 		to_send_in_deck.push(in_deck[i][1]);
 	}
 	var command = "deck="+to_send_in_deck.join()
-	ajax_request(command,redisplay_cards);
+	ajax_request(command,redisplay_cards,'');
 }
 
 function display(in_deck_string,out_deck_string){

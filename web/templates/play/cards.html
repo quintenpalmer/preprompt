@@ -1,4 +1,4 @@
-{% extends "base_game.html" %}
+{% extends "base_play.html" %}
 {% block content %}
 	<h1>Your Cards!</h1>
 	<p>
@@ -7,7 +7,7 @@
 			<tr>
 				{% for card in card_sub_list %}
 				<td>
-					<a href="/game/manage/cards/{{ card }}/"><span>Card {{ card }}</span></a>
+					<a href="/play/manage/cards/{{ card }}/"><span>Card {{ card }}</span></a>
 				</td>
 				{% endfor %}
 			</tr>

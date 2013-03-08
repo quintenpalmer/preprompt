@@ -110,10 +110,10 @@ a:hover {
 }
 
 #home #menu-home a,
-#game #menu-game a,
+#play #menu-play a,
 #about #menu-about a,
 #account #menu-account a,
-#trading #menu-trading a,
+#trade #menu-trade a,
 #news #menu-news a {
 	color:white;
 	background-image:url("../images/icons/menu-current.png");

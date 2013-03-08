@@ -11,7 +11,7 @@ card_id_to_card_text = {}
 def load_card_key_text():
 	if card_id_to_card_text == {}:
 		try:
-			cards = database.select('game_card_names','*')
+			cards = database.select('play_card_names','*')
 			for card in cards:
 				print card
 				for c in card:
@@ -39,8 +39,8 @@ def get_game(config_args):
 		cards = []
 		#try:
 		if True:
-			deck = database.select('game_decks','card_id',where=(('uid='+str(uids[i])),('deck_id='+str(dids[i]))))
-			deck = [database.select('game_cards','card_name_id',where=(('id='+str(card)),))[0] for card in deck]
+			deck = database.select('play_decks','card_id',where=(('uid='+str(uids[i])),('deck_id='+str(dids[i]))))
+			deck = [database.select('play_cards','card_name_id',where=(('id='+str(card)),))[0] for card in deck]
 			print deck
 		#except Exception:
 		#	raise PP_Load_Error("Could not load the player's deck")

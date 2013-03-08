@@ -1,4 +1,4 @@
-{% extends "base_trading.html" %}
+{% extends "base_trade.html" %}
 {% block content %}
 	<h1>Your Cards!</h1>
 	<p>
@@ -6,7 +6,7 @@
 		{% for card in cards %}
 			<tr>
 				<td>
-					<a href="/trading/cards/{{ card }}/"><span>Card {{ card }}</span></a>
+					<a href="/trade/cards/{{ card }}/"><span>Card {{ card }}</span></a>
 				</td>
 			</tr>
 		{% endfor %}

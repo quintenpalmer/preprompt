@@ -64,7 +64,7 @@ def handle(request,model):
 			else:
 				ret = respond_bad_action('congrats_on_finding_a_bug',command)
 			try:
-				database.update('game_games','game_xml',game.xml_output(0),str,(('game_id',game_id),))
+				database.update('play_games','game_xml',game.xml_output(0),str,(('game_id',game_id),))
 			except PP_Database_Error:
 				util.logger.error("Error writing game data")
 				raise PP_Load_Error("Database Column %s could not be opened"%str(game_id))

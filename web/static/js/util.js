@@ -33,16 +33,16 @@ function create_sub_lists(my_list,col_width){
 	return ret_list;
 }
 
-function ajax_request(command,callback){
+function ajax_request(command,callback,url){
 	var csrftoken = get_cookie('csrftoken');
 	var xmlhttp = new XMLHttpRequest();
 	var i;
 	xmlhttp.onreadystatechange=function(){
 		if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-			callback();
+			callback(xmlhttp.responseText);
 		}
 	}
-	xmlhttp.open("POST",'',true);
+	xmlhttp.open("POST",url,true);
 	xmlhttp.setRequestHeader("X-CSRFToken",csrftoken);
 	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
 	xmlhttp.send(command);

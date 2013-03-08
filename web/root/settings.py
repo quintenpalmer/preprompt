@@ -104,10 +104,10 @@ MIDDLEWARE_CLASSES = (
 
 LOGIN_URL = '/account/require_login/'
 
-ROOT_URLCONF = 'pp_web.urls'
+ROOT_URLCONF = 'root.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'pp_web.wsgi.application'
+WSGI_APPLICATION = 'root.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -129,7 +129,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 	'home',
-	'game',
+	'play',
 	'about',
 	'account',
 	'news',

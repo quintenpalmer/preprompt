@@ -4,8 +4,9 @@ from . import views
 
 urlpatterns = patterns('',
 	url(r'^$',views.splash),
-	url(r'^play/$',views.play),
-	url(r'^play/(\d+)/$',views.game_view),
+	url(r'^games/$',views.games),
+	url(r'^game/(\d+)/$',views.game),
+	url(r'^games/ajax_new_game/$',views.ajax_new_game),
 	url(r'^manage/$',views.manage),
 	url(r'^manage/cards/$',views.cards),
 	url(r'^manage/decks/$',views.decks),
