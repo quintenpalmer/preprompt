@@ -60,9 +60,9 @@ def handle(request,model):
 				manipulator.toggle_turn(player_id)
 				ret =  respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'out':
-				ret =  respond_action(command,game_id,model.out(game_id,player_id))
+				return respond_action(command,game_id,model.out(game_id,player_id))
 			else:
-				ret = respond_bad_action('congrats_on_finding_a_bug',command)
+				return respond_bad_action('congrats_on_finding_a_bug',command)
 			try:
 				database.update('play_games','game_xml',game.xml_output(0),str,(('game_id',game_id),))
 			except PP_Database_Error:

@@ -20,15 +20,17 @@ def ajax_new_game(request):
 	command = request.POST
 	uid = get_user_key(request.COOKIES['username'])
 	if command.get('command') == 'new':
-		print handle_request('new',{'player_id':uid})
+		handle_request('new',player_id=uid)
 	gids = sorted(parse_ints(parse_xml(request_list(uid)),'game_id'))
 	return HttpResponse(str(gids).replace(' ','').strip('[').strip(']'),content_type='text/plain')
 
 @login_required
 def ajax_update_game(request,game_id):
-	command = request.POST
+	post = request.POST
 	uid = get_user_key(request.COOKIES['username'])
-	print handle_request(command.get('command'),{'player_id':uid,'game_id':game_id})
+	command = post.get('command')
+	params = post.get('params')
+	handle_request(command,params=params,player_id=uid,game_id=game_id)
 	xml_string = request_out(game_id,uid)
 	return HttpResponse(xml_string)
 
@@ -37,12 +39,12 @@ def games(request):
 	command = request.POST
 	uid = get_user_key(request.COOKIES['username'])
 	if command.get('command') == 'new':
-		print handle_request('new',{'player_id':uid})
+		handle_request('new',{'player_id':uid})
 	gids = sorted(parse_ints(parse_xml(request_list(uid)),'game_id'))
 	c = {}
 	c.update(csrf(request))
 	c['game_ids']=str(gids).replace(' ','').strip('[').strip(']')
-	print c['game_ids']
+	c['game_ids']
 	return render_to_response('play/games.html',c)
 
 @login_required
@@ -54,7 +56,7 @@ def game(request,game_id):
 	command = request.POST
 	username = request.COOKIES['username']
 	uid = get_user_key(username)
-	print handle_request(command.get('command'),{'game_id':game_id,'player_id':uid})
+	handle_request(command.get('command'),{'game_id':game_id,'player_id':uid})
 	xml_string = request_out(game_id,uid)
 	c = {}
 	c.update(csrf(request))
@@ -120,12 +122,9 @@ def decks(request):
 def create_sub_lists(my_list,sub_list_size):
 	return [my_list[i:i+sub_list_size] for i in range(0,len(my_list), sub_list_size)]
 
-def handle_request(command,req):
+def handle_request(command,params=None,player_id=None,game_id=None):
 	print command
-	if req.has_key('player_id'):
-		player_id = req['player_id']
-	if req.has_key('game_id'):
-		game_id = req['game_id']
+	print params
 	if command != None:
 		command = command.lower()
 		if command == 'test':
@@ -153,7 +152,7 @@ def handle_request(command,req):
 				return request_list()
 			elif command == 'play':
 				src_list = 1
-				src_card = 0
+				src_card = params
 				target_uid = 13
 				target_list = 2
 				target_card = 0

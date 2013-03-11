@@ -61,7 +61,7 @@ def add_user(username,password,email):
 	register_add_cards(username)
 
 def reload_games():
-	database.detel('play_games')
+	database.delete('play_games')
 
 
 if len(sys.argv) > 1:

@@ -24,7 +24,7 @@
 body {
 	width:1200px;
 	margin:auto;
-	padding:0;
+	padding:0px;
 	background:url("../images/icons/back.png") repeat;
 	background-color:#000;
 	color:#fb3;
@@ -84,9 +84,9 @@ a:hover {
 }
 #menu-global li {
 	display:block;
+	list-style-type:none;
 	float:left;
 	text-align:center;
-	list-style-type:none;
 	margin:0;
 	padding:0;
 }
@@ -119,15 +119,7 @@ a:hover {
 	background-image:url("../images/icons/menu-current.png");
 }
 
-#login{
-	float:left;
-	padding-left:50px;
-}
-
-#register {
-	float:right;
-	padding-right:50px;
-}
+/* CONTENT TYPE */
 
 #content-main {
 	clear:both;
@@ -159,6 +151,21 @@ a:hover {
 	padding-bottom:40px;
 }
 
+
+#login{
+	float:left;
+	padding-left:50px;
+}
+
+#register {
+	float:right;
+	padding-right:50px;
+}
+
+/* TABLE AND LIST FORMATTERS */
+
+/* MANAGE TABLE */
+
 #manage tr td {
 	text-align:center;
 	display:block;
@@ -178,6 +185,8 @@ a:hover {
 	display:block;
 	padding-top:20px;
 }
+
+/* MINI-MANAGE TABLE */
 
 #mini-manage tr td {
 	text-align:center;
@@ -199,31 +208,48 @@ a:hover {
 	padding-top:9px;
 }
 
+/* CARD LIST LISTS*/
+
 #card_lists {
 	display:block;
 	background-color:#171;
 	width:990px;
+	height:205px;
+	padding:5px;
+}
+
+#card_lists ul {
+	padding:0px;
+	display:inline;
+	min-width:130px;
 	height:200px;
 }
 
-#card_lists table tr td {
-	text-align:center;
-	display:block;
-	background-image:url("../images/cards/card.png");
-	font-size:25px;
-	color:#bbb;
+#card_lists li {
+	list-style-type:none;
+	float:left;
+	padding:5px;
+	min-width:130px;
 }
 
-#card_lists table tr td:hover {
+#card_lists li span:hover {
 	background-image:url("../images/cards/card-hover.png");
 	color:#eee;
 }
 
-#card_lists table tr td span {
+#card_lists li span {
+	display:block;
 	width:130px;
 	height:200px;
-	display:block;
+	font-size:25px;
+	color:#bbb;
+	text-align:center;
+	background-image:url("../images/cards/card.png");
+	width:130px;
+	height:200px;
 }
+
+/* DECK MANAGE */
 
 #deck_manage div {
 	min-height:50px;

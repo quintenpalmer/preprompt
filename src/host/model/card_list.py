@@ -2,6 +2,7 @@ from model.card import Card, Empty_Card
 from model import player_type
 from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_elements
+from random import randint
 
 class Card_List:
 	def __init__(self,**kwargs):
@@ -38,3 +39,14 @@ class Card_List:
 
 	def push(self,card):
 		self.cards.append(card)
+
+	def shuffle(self):
+		print 'every day'
+		size = len(self.cards)
+		orig = range(size)
+		ret = []
+		for i in xrange(size-1,-1,-1):
+			r = randint(0,i)
+			ret.append(self.cards[orig[r]])
+			del orig[r]
+		self.cards = ret

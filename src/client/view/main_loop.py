@@ -63,7 +63,7 @@ swap     swap to playing as the other player
 				'''
 			else:
 				self.current_message = 'Not a valid command: '+command
-	def request_new(self,me_did=0,them_uid=13,them_did=1):
+	def request_new(self,me_did=0,them_uid=2,them_did=0):
 		resp = request_new(self.model.logged_in_uid,me_did,them_uid,them_did)
 		self.current_message = self.model.update_game(resp)
 	def request_setup(self):

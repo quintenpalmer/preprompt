@@ -70,10 +70,10 @@ function display_cards(card_list,div_id){
 			span.innerHTML="Card "+card_name;
 			td.appendChild(span)
 			if(div_id == 'out_deck'){
-				span.onmousedown=function(){add_to_deck(event.target.id)};
+				span.onclick=function(){add_to_deck(event.target.id)};
 			}
 			else{
-				span.onmousedown=function(){remove_from_deck(event.target.id)};
+				span.onclick=function(){remove_from_deck(event.target.id)};
 			}
 			tr.appendChild(td)
 		}

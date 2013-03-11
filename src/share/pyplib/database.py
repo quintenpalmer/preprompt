@@ -9,38 +9,34 @@ def init():
 	return (con,cur)
 
 def insert_batch(table_name,types,values_list):
-	#try:
-	if True:
-		con,cur = init()
-		class Namespace(): pass
-		ns = Namespace()
-		try:
-			ns.key = int(select(table_name,'id')[-1])+1
-		except PP_Database_Error and IndexError:
-			ns.key = 0
-		def get_next_key(ns_sub):
-			ret = ns_sub.key
-			ns_sub.key += 1
-			return ret
-		for values in values_list:
-			values = tuple([value if value != None else get_next_key(ns) for value in values])
-			if True:
-				command = "insert into "+table_name+" values("
-				for t in types:
-					if t == int:
-						command+="%s,"
-					elif t == str:
-						command+= "'%s',"
-					else:
-						raise Exception ('Unknown data type')
-				command = command[:-1]
-				command += ")"
-				command = command%values
-				print command
-				cur.execute(command)
-				con.commit()
-	#except sqlite3.OperationalError:
-	#	raise PP_Database_Error("Database Error (database doesn't exist)")
+	con,cur = init()
+	class Namespace(): pass
+	ns = Namespace()
+	try:
+		ns.key = int(select(table_name,'id')[-1])+1
+	except PP_Database_Error and IndexError:
+		ns.key = 0
+	def get_next_key(ns_sub):
+		ret = ns_sub.key
+		ns_sub.key += 1
+		return ret
+	for values in values_list:
+		values = tuple([value if value != None else get_next_key(ns) for value in values])
+		if True:
+			command = "insert into "+table_name+" values("
+			for t in types:
+				if t == int:
+					command+="%s,"
+				elif t == str:
+					command+= "'%s',"
+				else:
+					raise Exception ('Unknown data type')
+			command = command[:-1]
+			command += ")"
+			command = command%values
+			#print command
+			cur.execute(command)
+			con.commit()
 
 def insert(table_name,types,values):
 	con,cur = init()
@@ -51,77 +47,61 @@ def insert(table_name,types,values):
 		except PP_Database_Error and IndexError:
 			return '0'
 	values = tuple([value if value != None else get_next_key() for value in values])
-	#try:
-	if True:
-		command = "insert into "+table_name+" values("
-		for t in types:
-			if t == int:
-				command+="%s,"
-			elif t == str:
-				command+= "'%s',"
-			else:
-				raise Exception ('Unknown data type')
-		command = command[:-1]
-		command += ")"
-		command = command%values
-		print command
-		cur.execute(command)
-		con.commit()
-	#except sqlite3.OperationalError:
-	#	raise PP_Database_Error("Database Error (database doesn't exist)")
+	command = "insert into "+table_name+" values("
+	for t in types:
+		if t == int:
+			command+="%s,"
+		elif t == str:
+			command+= "'%s',"
+		else:
+			raise Exception ('Unknown data type')
+	command = command[:-1]
+	command += ")"
+	command = command%values
+	#print command
+	cur.execute(command)
+	con.commit()
 
 def update(table_name,set_name,set_value,type,checks):
 	con,cur = init()
-	#try:
-	if True:
-		if type == str:
-			quote = "'"
-		else:
-			quote = ''
-		command = 'update '+table_name+' set '+set_name+"="+quote+set_value+quote+" where "
-		for key,value in checks:
-			command += str(key)+"="+str(value)+" and "
-		command = command[:-4]
-		print command
-		cur.execute(command)
-		con.commit()
-	#except sqlite3.OperationalError:
-	#	raise PP_Database_Error("Database Error (database doesn't exist)")
+	if type == str:
+		quote = "'"
+	else:
+		quote = ''
+	command = 'update '+table_name+' set '+set_name+"="+quote+set_value+quote+" where "
+	for key,value in checks:
+		command += str(key)+"="+str(value)+" and "
+	command = command[:-4]
+	#print command
+	cur.execute(command)
+	con.commit()
 
 def select(table_name,name,where=None):
 	con,cur = init()
-	#try:
-	if True:
-		command = 'select '+name+' from '+table_name
-		if where != None:
-			command += ' where '
-			for w in where:
-				command += w+' and '
-			command = command[:-4]
-		print command
-		cur.execute(command)
-		ret = cur.fetchall()
-		if name != '*' and ',' not in name:
-			return [retval[0] for retval in ret]
-		else:
-			return ret
-	#except sqlite3.OperationalError:
-	#	raise PP_Database_Error("Database Error (database doesn't exist)")
+	command = 'select '+name+' from '+table_name
+	if where != None:
+		command += ' where '
+		for w in where:
+			command += w+' and '
+		command = command[:-4]
+	#print command
+	cur.execute(command)
+	ret = cur.fetchall()
+	if name != '*' and ',' not in name:
+		return [retval[0] for retval in ret]
+	else:
+		return ret
 
 def delete(table_name,where=None):
 	con,cur = init()
-	#try:
-	if True:
-		command = 'delete from '+table_name
-		if where != None:
-			command += ' where '
-			for w in where:
-				command += w+' and '
-			command = command[:-4]
-		cur.execute(command)
-		con.commit()
-	#except sqlite3.OperationalError:
-	#	raise PP_Database_Error("Database Error (database doesn't exist)")
+	command = 'delete from '+table_name
+	if where != None:
+		command += ' where '
+		for w in where:
+			command += w+' and '
+		command = command[:-4]
+	cur.execute(command)
+	con.commit()
 
 def in_table(table_name,name,value):
 	return str(value) in database.select(tabel_name,name)

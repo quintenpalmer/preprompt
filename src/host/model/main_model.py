@@ -2,6 +2,7 @@ from pyplib.errors import PP_Model_Error,PP_Load_Error,XML_Parser_Error,PP_Datab
 from control import database_reader
 from model.game import Game
 from pyplib import util,database
+from model import cltypes
 
 class Model:
 	def __init__(self,num_games):
@@ -27,6 +28,9 @@ class Model:
 	def start_game(self,config_args):
 		game_id = self.pop_id()
 		game = database_reader.get_game(config_args)
+		print dir(game)
+		for player in game.players:
+			player.collection.lists[cltypes.deck].shuffle()
 		try:
 			database.insert('play_games',(int,str),(game_id,game.xml_output(0)))
 		except PP_Database_Error:

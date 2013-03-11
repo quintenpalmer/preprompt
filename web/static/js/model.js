@@ -54,21 +54,10 @@ function make_game(resp){
 	if(resp_status == 'ok'){
 		var game_state = parse_element(ele,'game_xml');
 		var game = new Game(game_state);
-		console.log(game);
-		console.log(this);
 		return game;
 	}
 	else{
 		var error_message = parse_string(ele,'error_message');
-		if(resp_status == 'bad_xml_request'){
-			util.logger.warning('Last Request had bad xml data: '+error_message);
-		}
-		else if(resp_status == 'invalid_game_action'){
-			util.logger.warning('Last Request had an invalid game action: '+error_message);
-		}
-		else if(resp_status == 'invalid_model_action'){
-			util.logger.warning('Last Request had an invalid model action: '+error_message);
-		}
-		return 'Received error message: '+error_message;
+		return 'Received error message: '+resp_status+' : '+error_message;
 	}
 }
