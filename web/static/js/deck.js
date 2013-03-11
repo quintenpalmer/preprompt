@@ -70,10 +70,10 @@ function display_cards(card_list,div_id){
 			span.innerHTML="Card "+card_name;
 			td.appendChild(span)
 			if(div_id == 'out_deck'){
-				span.onmousedown=function(){add_to_deck(event)};
+				span.onmousedown=function(){add_to_deck(event.target.id)};
 			}
 			else{
-				span.onmousedown=function(){remove_from_deck(event)};
+				span.onmousedown=function(){remove_from_deck(event.target.id)};
 			}
 			tr.appendChild(td)
 		}
@@ -83,15 +83,13 @@ function display_cards(card_list,div_id){
 	document.getElementById("deck_manage").appendChild(div)
 }
 
-function add_to_deck(event){
-	var card_id = event.target.id;
+function add_to_deck(card_id){
 	var card = remove(out_deck,card_id);
 	in_deck.push(card);
 	redisplay_cards();
 }
 
-function remove_from_deck(event){
-	var card_id = event.target.id;
+function remove_from_deck(card_id){
 	var card = remove(in_deck,card_id);
 	out_deck.push(card);
 	redisplay_cards();

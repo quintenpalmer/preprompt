@@ -4,24 +4,9 @@
 		<script src="{{ STATIC_PREFIX }}js/model.js" type="text/javascript"></script>
 {% endblock %}
 {% block content %}
-	<button type="button" onclick="update_game({{ game_id }})">New Game</button>
-	<script type="text/javascript">display('{{ game_xml|safe }}')</script>
-	<form method="post">{% csrf_token %}
-		<table id="manage">
-			<tr>
-				<td>
-					<input type="submit" name="command" value="Setup">
-				</td>
-				<td>
-					<input type="submit" name="command" value="Draw">
-				</td>
-				<td>
-					<input type="submit" name="command" value="Phase">
-				</td>
-				<td>
-					<input type="submit" name="command" value="Turn">
-				</td>
-			</tr>
-		</table>
-	</form>
+	<button type="button" onclick="setup_game()">Setup</button>
+	<button type="button" onclick="draw_game()">Draw</button>
+	<button type="button" onclick="phase_game()">Phase</button>
+	<button type="button" onclick="turn_game()">Turn</button>
+	<script type="text/javascript">display('{{ game_xml|safe }}',{{ game_id }})</script>
 {% endblock %}

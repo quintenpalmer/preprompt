@@ -28,7 +28,7 @@ def ajax_new_game(request):
 def ajax_update_game(request,game_id):
 	command = request.POST
 	uid = get_user_key(request.COOKIES['username'])
-	print handle_request('new',{'player_id':uid})
+	print handle_request(command.get('command'),{'player_id':uid,'game_id':game_id})
 	xml_string = request_out(game_id,uid)
 	return HttpResponse(xml_string)
 
@@ -121,6 +121,7 @@ def create_sub_lists(my_list,sub_list_size):
 	return [my_list[i:i+sub_list_size] for i in range(0,len(my_list), sub_list_size)]
 
 def handle_request(command,req):
+	print command
 	if req.has_key('player_id'):
 		player_id = req['player_id']
 	if req.has_key('game_id'):
