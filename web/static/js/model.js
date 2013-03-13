@@ -51,10 +51,20 @@ function Player(element){
 function make_game(resp){
 	var ele = parse_xml(resp);
 	var resp_status = parse_string(ele,'resp_status');
+	console.log(resp_status);
 	if(resp_status == 'ok'){
-		var game_state = parse_element(ele,'game_xml');
-		var game = new Game(game_state);
-		return game;
+		var resp_type = parse_string(ele, 'resp_type');
+		if(resp_type == 'game_end'){
+			return null;
+		}
+		else{
+			var game_state = parse_element(ele,'game_xml');
+			var game = new Game(game_state);
+			return game;
+		}
+	}
+	else if(resp_status == 'game_end'){
+		return null;
 	}
 	else{
 		var error_message = parse_string(ele,'error_message');
@@ -62,14 +72,18 @@ function make_game(resp){
 	}
 }
 
+var super_phase_setup = '0';
+var super_phase_main = '1';
+var super_phase_end = '2';
+
 function get_super_phase_text(super_phase){
-	if(super_phase == '0'){
+	if(super_phase == super_phase_setup){
 		return "Setup";
 	}
-	else if(super_phase == '1'){
+	else if(super_phase == super_phase_main){
 		return "Main Gameplay";
 	}
-	else if(super_phase == '2'){
+	else if(super_phase == super_phase_end){
 		return "End of Game";
 	}
 	else{
@@ -77,17 +91,22 @@ function get_super_phase_text(super_phase){
 	}
 }
 
+var phase_draw = '0';
+var phase_pre = '1';
+var phase_main = '2';
+var phase_end = '3';
+
 function get_phase_text(phase){
-	if(phase == '0'){
+	if(phase == phase_draw){
 		return "Draw Phase";
 	}
-	else if(phase == '1'){
+	else if(phase == phase_pre){
 		return "Pre Phase";
 	}
-	else if(phase == '2'){
+	else if(phase == phase_main){
 		return "Main Phase";
 	}
-	else if(phase == '3'){
+	else if(phase == phase_end){
 		return "End Phase";
 	}
 	else{

@@ -30,15 +30,26 @@ def respond_action(command,game_id,game_xml):
 	resp = '<resp>'
 	resp += '<resp_status>ok</resp_status>'
 	resp += '<resp_type>'+str(command)+'</resp_type>'
+	resp += '<error_message>no_error<error_message>'
 	resp += '<game_id>'+str(game_id)+'</game_id>'
 	resp += '<game_xml>'+str(game_xml)+'</game_xml>'
 	resp += '</resp>'
 	return resp
 
-def respond_bad_action(error_id,command):
+def respond_bad_action(command,error_id):
 	resp = '<resp>'
-	resp += '<resp_status>'+str(error_id)+'</resp_status>'
-	resp += '<error_message>'+str(error_message)+'</error_message>'
+	resp += '<resp_status>bad_action</resp_status>'
+	resp += '<error_message>'+str(error_id)+'</error_message>'
+	resp += '</resp>'
+	return resp
+
+def respond_invalid_game_action(command,game_id,game_xml,error_id):
+	resp = '<resp>'
+	resp += '<resp_status>ok</resp_status>'
+	resp += '<resp_type>'+str(command)+'</resp_type>'
+	resp += '<error_message>'+str(error_id)+'</error_message>'
+	resp += '<game_id>'+str(game_id)+'</game_id>'
+	resp += '<game_xml>'+str(game_xml)+'</game_xml>'
 	resp += '</resp>'
 	return resp
 
@@ -46,5 +57,14 @@ def respond_error_caught(error_id,error_message):
 	resp = '<resp>'
 	resp += '<resp_status>'+str(error_id)+'</resp_status>'
 	resp += '<error_message>'+str(error_message)+'</error_message>'
+	resp += '</resp>'
+	return resp
+
+def respond_game_end(command,game_id,game_xml,winner):
+	resp = '<resp>'
+	resp += '<resp_status>game_end</resp_status>'
+	resp += '<game_winner>'+str(winner)+'</error_message>'
+	resp += '<game_id>'+str(game_id)+'</game_id>'
+	resp += '<game_xml>'+str(game_xml)+'</game_xml>'
 	resp += '</resp>'
 	return resp

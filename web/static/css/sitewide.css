@@ -208,7 +208,24 @@ a:hover {
 	padding-top:9px;
 }
 
-/* CARD LIST LISTS*/
+/* MINI-INFO TABLE */
+
+#mini-info tr td {
+	text-align:center;
+	display:block;
+	background-image:url("../images/icons/mini-button.png");
+	font-size:14px;
+	color:#bbb;
+}
+
+#mini-info tr td span {
+	width:100px;
+	height:20px;
+	display:block;
+	padding-top:9px;
+}
+
+/* CARD LISTS*/
 
 #card_lists {
 	display:block;

@@ -3,11 +3,13 @@
 main(){
 	if [ $# == 1 ]; then
 		if [ $1 == host ] || [ $1 == h ]; then
-			run_host r
+			run_host n
 		elif [ $1 == hostback ] || [ $1 == hb ]; then
 			run_host b
+		elif [ $1 == hostrestart ] || [ $1 == hr ]; then
+			run_host r
 		elif [ $1 == client ] || [ $1 == c ]; then
-			run_client r
+			run_client n
 		elif [ $1 == clientbad ] || [ $1 == cb ]; then
 			run_client b
 		elif [ $1 == clientcheck ] || [ $1 == cc ]; then
@@ -21,10 +23,10 @@ main(){
 		elif [ $1 == djangorun ] || [ $1 == djr ]; then
 			dj r
 		elif [ $1 == setup ]; then
-			setup_database r
+			setup_database n
 			setup_bashrc
 		elif [ $1 == database ]; then
-			setup_database r
+			setup_database n
 		elif [ $1 == database_reload ]; then
 			setup_database d
 		elif [ $1 == bashrc ]; then
@@ -63,15 +65,19 @@ help_text(){
 
 run_host(){
 	cd $pyp/src/host
-	if [ $1 == r ]; then
+	if [ $1 == n ]; then
 		python host.py
 	elif [ $1 == b ]; then
+		python host.py &
+	elif [ $1 == r ]; then
+		run_client d
+		cd $pyp/src/host
 		python host.py &
 	fi
 }
 run_client(){
 	cd $pyp/src/client
-	if [ $1 == r ]; then
+	if [ $1 == n ]; then
 		python client.py
 	elif [ $1 == b ]; then
 		python client.py b

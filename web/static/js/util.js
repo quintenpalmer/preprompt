@@ -119,18 +119,28 @@ function create_table_data(td_html,td_onclick){
 	return td;
 }
 
-function create_table(id,tds){
+function create_table(id,tds,max_width){
 	var table = document.createElement("table");
 	var tr;
 	var td;
+	var tds_sub;
+	var td_sub;
+	var name;
+	var action;
+	var sub_index;
+	var tds = create_sub_lists(tds,max_width);
 	table.setAttribute("id",id);
-	tr = document.createElement("tr");
-	//console.log(tds);
-	for(var i=0;i<tds.length;i++){
-		td = create_table_data(tds[i][0],tds[i][1]);
-		console.log(td);
-		tr.appendChild(td);
+	for(var index=0;index<tds.length;index++){
+		tr = document.createElement("tr");
+		tds_sub = tds[index];
+		for(sub_index=0;sub_index<tds_sub.length;sub_index++){
+			td_sub = tds_sub[sub_index];
+			name = td_sub[0];
+			action = td_sub[1];
+			td = create_table_data(name,action);
+			tr.appendChild(td);
+		}
+		table.appendChild(tr);
 	}
-	table.appendChild(tr);
 	return table;
 }

@@ -52,9 +52,23 @@ class Model:
 			self.user_map[uid2] = [game_id]
 		self.games[game_id] = game
 
+	def book_keep_remove_game(self,game_id,game):
+		uid1 = game.players[0].player.uid
+		uid2 = game.players[1].player.uid
+		del self.user_map[uid1][game_id]
+		del self.user_map[uid2][game_id]
+		del self.games[game_id]
+
+	def verify_game(self,game_id):
+		end_stats = self.get_game_from_id(game_id).has_ended()
+		if end_stats[0]:
+			winner = end_stats[1]
+			self.stop_game(game_id);
+		return end_stats
+
 	def stop_game(self,game_id):
 		try:
-			del self.games[game_id]
+			self.book_keep_remove_game(game_id,self.games[game_id])
 			self.push_id(game_id)
 		except IndexError:
 			raise PP_Model_Error("%s is not a valid game id"%str(game_id))

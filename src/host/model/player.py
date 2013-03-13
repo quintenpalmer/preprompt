@@ -24,9 +24,9 @@ class Player_Container:
 
 class Player:
 	def __init__(self,**kwargs):
-		if kwargs.has_key('uid'):
+		if kwargs.has_key('uid') and kwargs.has_key('name'):
 			self.uid = kwargs['uid']
-			self.name = str(self.uid)
+			self.name = kwargs['name']
 			self.health = 50
 		elif kwargs.has_key('element'):
 			element = kwargs['element']

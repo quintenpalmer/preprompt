@@ -62,9 +62,14 @@ def handle(request,model):
 			elif command == 'out':
 				return respond_action(command,game_id,model.out(game_id,player_id))
 			else:
-				return respond_bad_action('congrats_on_finding_a_bug',command)
+				return respond_bad_action(command,game_id,model.out(game_id,player_id),'congrats_on_finding_a_bug')
 			try:
-				database.update('play_games','game_xml',game.xml_output(0),str,(('game_id',game_id),))
+				end_stats = model.verify_game(game_id);
+				if end_stats[0]:
+					ret = respond_game_end(command,game_id,model.out(game_id,player_id),end_stats[1])
+					database.delete('play_games',where=(('game_id='+str(game_id)),))
+				else:
+					database.update('play_games','game_xml',game.xml_output(0),str,(('game_id',game_id),))
 			except PP_Database_Error:
 				util.logger.error("Error writing game data")
 				raise PP_Load_Error("Database Column %s could not be opened"%str(game_id))
@@ -74,6 +79,9 @@ def handle(request,model):
 	except XML_Parser_Error as e:
 		util.logger.warn('Recieved bad xml: '+str(e))
 		return respond_error_caught('bad_xml_request',str(e))
+	except PP_Game_Action_Error as e:
+		util.logger.warn('Invalid game action: '+str(e))
+		return respond_invalid_game_action(command,game_id,model.out(game_id,player_id),'invalid_game_action '+str(e))
 	except PP_Game_Action_Error as e:
 		util.logger.warn('Invalid game action: '+str(e))
 		return respond_error_caught('invalid_game_action',str(e))

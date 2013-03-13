@@ -35,13 +35,13 @@ def get_game(config_args):
 	dids = [player1.did,player2.did]
 	players = []
 	for i in range(0,2):
-		player = Player(uid=uids[i])
+		name = database.select('auth_user','username',where=(('id='+str(uids[i])),))[0]
+		player = Player(uid=uids[i],name=name)
 		cards = []
 		#try:
 		if True:
 			deck = database.select('play_decks','card_id',where=(('uid='+str(uids[i])),('deck_id='+str(dids[i]))))
 			deck = [database.select('play_cards','card_name_id',where=(('id='+str(card)),))[0] for card in deck]
-			print deck
 		#except Exception:
 		#	raise PP_Load_Error("Could not load the player's deck")
 		for card_id in deck:

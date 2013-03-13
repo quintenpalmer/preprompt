@@ -30,8 +30,8 @@ def ajax_update_game(request,game_id):
 	uid = get_user_key(request.COOKIES['username'])
 	command = post.get('command')
 	params = post.get('params')
-	handle_request(command,params=params,player_id=uid,game_id=game_id)
-	xml_string = request_out(game_id,uid)
+	xml_string = handle_request(command,params=params,player_id=uid,game_id=game_id)
+	print xml_string
 	return HttpResponse(xml_string)
 
 @login_required
@@ -53,10 +53,8 @@ def perform(request):
 
 @login_required
 def game(request,game_id):
-	command = request.POST
 	username = request.COOKIES['username']
 	uid = get_user_key(username)
-	handle_request(command.get('command'),{'game_id':game_id,'player_id':uid})
 	xml_string = request_out(game_id,uid)
 	c = {}
 	c.update(csrf(request))
