@@ -61,3 +61,36 @@ function make_game(resp){
 		return 'Received error message: '+resp_status+' : '+error_message;
 	}
 }
+
+function get_super_phase_text(super_phase){
+	if(super_phase == '0'){
+		return "Setup";
+	}
+	else if(super_phase == '1'){
+		return "Main Gameplay";
+	}
+	else if(super_phase == '2'){
+		return "End of Game";
+	}
+	else{
+		return "Unknown Super Phase";
+	}
+}
+
+function get_phase_text(phase){
+	if(phase == '0'){
+		return "Draw Phase";
+	}
+	else if(phase == '1'){
+		return "Pre Phase";
+	}
+	else if(phase == '2'){
+		return "Main Phase";
+	}
+	else if(phase == '3'){
+		return "End Phase";
+	}
+	else{
+		return "Unknown Phase";
+	}
+}

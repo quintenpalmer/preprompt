@@ -214,22 +214,22 @@ a:hover {
 	display:block;
 	background-color:#171;
 	width:990px;
-	height:205px;
-	padding:5px;
+	height:105px;
+	padding:2px;
 }
 
 #card_lists ul {
 	padding:0px;
 	display:inline;
-	min-width:130px;
-	height:200px;
+	min-width:65px;
+	height:100px;
 }
 
 #card_lists li {
 	list-style-type:none;
 	float:left;
-	padding:5px;
-	min-width:130px;
+	padding:2px;
+	min-width:65px;
 }
 
 #card_lists li span:hover {
@@ -239,15 +239,32 @@ a:hover {
 
 #card_lists li span {
 	display:block;
-	width:130px;
-	height:200px;
-	font-size:25px;
+	width:65px;
+	height:100px;
+	font-size:15px;
 	color:#bbb;
 	text-align:center;
 	background-image:url("../images/cards/card.png");
-	width:130px;
-	height:200px;
 }
+
+/* UL MANAGE */
+#control_state li {
+	text-align:center;
+	background-image:url("../images/icons/mini-button.png");
+	display:block;
+	list-style-type:none;
+	float:left;
+	font-size:25px;
+	color:#bbb;
+}
+
+#control_state li span{
+	width:150px;
+	height:40px;
+	display:block;
+}
+
+
 
 /* DECK MANAGE */
 

@@ -1,3 +1,4 @@
+/* Get cookie of given name */
 function get_cookie(name){
     var cookie_value = null;
     if (document.cookie && document.cookie != '') {
@@ -14,6 +15,8 @@ function get_cookie(name){
     return cookie_value;
 }
 
+/* Returns a list of lists from the given input list
+   where each sublist is of lengh col_width */
 function create_sub_lists(my_list,col_width){
 	var cur_col_width;
 	var i = 0;
@@ -33,6 +36,9 @@ function create_sub_lists(my_list,col_width){
 	return ret_list;
 }
 
+/* Sends an ajax request of 'command'
+   with the callback function 'callback'
+   and the url 'url' */
 function ajax_request(command,callback,url){
 	var csrftoken = get_cookie('csrftoken');
 	var xmlhttp = new XMLHttpRequest();
@@ -48,11 +54,11 @@ function ajax_request(command,callback,url){
 	xmlhttp.send(command);
 }
 
+/* XML parsing functions */
 function parse_xml(xml_string){
 	var parser=new DOMParser();
 	return parser.parseFromString(xml_string,"text/xml");
 }
-
 function parse_element(element,tag){
 	return element.getElementsByTagName(tag)[0];
 }
@@ -60,7 +66,6 @@ function parse_element(element,tag){
 function parse_elements(element,tag){
 	return element.getElementsByTagName(tag);
 }
-
 function parse_ints(element,tag){
 	var elements = parse_elements(element,tag);
 	var ints = [];
@@ -69,15 +74,63 @@ function parse_ints(element,tag){
 	}
 	return ints;
 }
-
 function parse_string(element,tag){
 	return parse_element(element,tag).firstChild.nodeValue
 }
-
 function parse_bool(element,tag){
 	return parse_string(element,tag) == 'True';
 }
-
 function parse_int(element,tag){
 	return parseInt(parse_string(element,tag));
+}
+
+/* Create custom element groups */
+
+/* Create li item with
+   innerHTML 'li_html',
+   onclick function 'li_onclick', and
+   id 'id'
+ */
+function create_li(li_html,li_onclick,li_id){
+	var li;
+	var a;
+	var span;
+	li = document.createElement("li");
+	span = document.createElement("span");
+	if(li_onclick != null){
+		span.onclick=function(){li_onclick(event)};
+	}
+	if(li_id != null){
+		span.setAttribute('id',li_id);
+	}
+	span.innerHTML = li_html;
+	li.appendChild(span);
+	return li
+}
+
+function create_table_data(td_html,td_onclick){
+	var td = document.createElement("td");
+	var a = document.createElement("a");
+	var span = document.createElement("span");
+	span.onclick=function(){td_onclick()};
+	span.innerHTML=td_html;
+	a.appendChild(span);
+	td.appendChild(a);
+	return td;
+}
+
+function create_table(id,tds){
+	var table = document.createElement("table");
+	var tr;
+	var td;
+	table.setAttribute("id",id);
+	tr = document.createElement("tr");
+	//console.log(tds);
+	for(var i=0;i<tds.length;i++){
+		td = create_table_data(tds[i][0],tds[i][1]);
+		console.log(td);
+		tr.appendChild(td);
+	}
+	table.appendChild(tr);
+	return table;
 }

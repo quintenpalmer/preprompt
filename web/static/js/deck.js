@@ -11,11 +11,27 @@ function save_deck(){
 }
 
 function display(in_deck_string,out_deck_string){
+	content = document.getElementById("content");
 	var div = document.createElement("div");
-	var i=0;
 	div.setAttribute("id","deck_manage");
-	document.getElementById("content").appendChild(div);
 
+	var table = document.createElement("table");
+	table.setAttribute("id","mini-manage");
+	var tr = document.createElement("tr");
+	var td = document.createElement("td");
+	var a = document.createElement("a");
+	var span = document.createElement("span");
+	span.onclick=function(){save_deck()};
+	span.innerHTML="Load"
+	a.appendChild(span);
+	td.appendChild(a);
+	tr.appendChild(td);
+	table.appendChild(tr);
+
+	content.appendChild(table);
+	content.appendChild(div);
+
+	var i=0;
 	in_deck = in_deck_string.split(',');
 	if(in_deck[0]==""){
 		in_deck = [];
