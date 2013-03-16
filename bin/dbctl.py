@@ -2,6 +2,7 @@
 import os
 import sys
 from pprint import pprint
+
 from pyplib import database
 from pyplib.manage_db import register_add_cards
 

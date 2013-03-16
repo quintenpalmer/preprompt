@@ -1,10 +1,12 @@
+import os
+
+from pyplib.errors import PP_Load_Error, PP_Database_Error
+from pyplib import database
+
 from model.game import Game
 from model.player import Player_Container, Player
 from model.collection import Collection
 from control.loaded_effects import lookup_table
-from pyplib.errors import PP_Load_Error, PP_Database_Error
-from pyplib import database
-import os
 
 card_id_to_card_text = {}
 
@@ -13,10 +15,7 @@ def load_card_key_text():
 		try:
 			cards = database.select('play_card_names','*')
 			for card in cards:
-				print card
-				for c in card:
-					print type(c)
-				key = int(card[0])
+				key = int(card[0])+1
 				val = card[2]
 				if not card_id_to_card_text.has_key(int(key)):
 					card_id_to_card_text[int(key)] = val
@@ -53,7 +52,7 @@ def get_game(config_args):
 	return Game(player1=players[0],player2=players[1])
 
 def verify_deck(cards):
-	if len(cards) < 40:
+	if len(cards) < 30:
 		raise PP_Load_Error("Not enough cards in the player's deck, only %s, needs 40"%str(len(cards)))
 
 def get_card_key_text_from_id(card_id):

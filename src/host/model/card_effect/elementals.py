@@ -1,4 +1,3 @@
-
 fire = 0
 water = 1
 nature = 2

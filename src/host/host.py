@@ -1,8 +1,10 @@
-from control.network import Listener
-from model.main_model import Model
-from pyplib import util
 import sys
 import os
+
+from pyplib import util
+
+from control.network import Listener
+from model.main_model import Model
 
 if __name__ == '__main__':
 	print "Host: Starting!"

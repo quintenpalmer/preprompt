@@ -1,8 +1,9 @@
-from model import cltypes
-from model.card_list import Card_List
-from model import player_type
 from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_element,parse_bool
+
+from model import cltypes
+from model import player_type
+from model.card_list import Card_List
 
 class Collection:
 	def __init__(self,**kwargs):

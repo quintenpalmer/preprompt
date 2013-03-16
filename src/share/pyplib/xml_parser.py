@@ -1,4 +1,5 @@
 from xml.dom.minidom import parseString
+
 from pyplib.errors import XML_Parser_Error
 
 def parse_xml(xml_string):

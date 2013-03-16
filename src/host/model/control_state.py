@@ -1,4 +1,5 @@
 from random import randint
+
 from pyplib.xml_parser import parse_int, parse_bool
 from pyplib.errors import PP_Game_Action_Error
 

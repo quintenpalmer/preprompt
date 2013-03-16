@@ -1,7 +1,8 @@
 from pyplib.errors import PP_Game_Action_Error
+from pyplib.xml_parser import parse_element, parse_string, parse_int
+
 from model.collection import Collection
 
-from pyplib.xml_parser import parse_element, parse_string, parse_int
 
 class Player_Container:
 	def __init__(self,**kwargs):

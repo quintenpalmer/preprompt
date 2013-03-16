@@ -1,5 +1,6 @@
-from model import cltypes
 from pyplib.errors import PP_Game_Action_Error
+
+from model import cltypes
 
 class Action:
 	def __init__(self):

@@ -2,12 +2,12 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from pyplib.client_host import *
 from pyplib.xml_parser import parse_xml, parse_ints
 from pyplib.model.main_model import Model
 from pyplib import database
-from django.http import HttpResponse
 
 def splash(request):
 	return render_to_response('play/splash.html')
@@ -20,7 +20,7 @@ def ajax_new_game(request):
 	command = request.POST
 	uid = get_user_key(request.COOKIES['username'])
 	if command.get('command') == 'new':
-		handle_request('new',player_id=uid)
+		print handle_request('new',player_id=uid)
 	gids = sorted(parse_ints(parse_xml(request_list(uid)),'game_id'))
 	return HttpResponse(str(gids).replace(' ','').strip('[').strip(']'),content_type='text/plain')
 

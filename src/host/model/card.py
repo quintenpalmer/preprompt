@@ -1,6 +1,7 @@
 from pyplib.errors import PP_Game_Action_Error
-from model.card_effect.effect import Effect
 from pyplib.xml_parser import parse_string,parse_element
+
+from model.card_effect.effect import Effect
 
 class Card:
 	def __init__(self,**kwargs):

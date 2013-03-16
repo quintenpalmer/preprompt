@@ -1,6 +1,6 @@
+import os
 import logging
 import logging.config
-import os
 
 logger = None
 def make_logger(host_or_client):

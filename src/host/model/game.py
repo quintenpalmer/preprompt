@@ -1,9 +1,10 @@
-from model.player import Player_Container
-from model import player_type
-from model.control_state import Control_State,super_phase,phase
-from model.action import Action
 from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_xml, parse_element
+
+from model import player_type
+from model.player import Player_Container
+from model.control_state import Control_State,super_phase,phase
+from model.action import Action
 
 class Game:
 	def __init__(self,**kwargs):

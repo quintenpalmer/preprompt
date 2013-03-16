@@ -1,10 +1,12 @@
-from pyplib import util
-from view.main_loop import Main_Loop
-from pyplib.model.main_model import Model
-from pyplib.client_host import request_exit,send_request,request_test
 import socket
 import sys
 import os
+
+from pyplib import util
+from pyplib.model.main_model import Model
+from pyplib.client_host import request_exit,send_request,request_test
+
+from view.main_loop import Main_Loop
 
 if __name__ == '__main__':
 	if len(sys.argv) == 1:

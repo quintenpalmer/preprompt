@@ -1,5 +1,6 @@
-from collection import Collection
 from pyplib.xml_parser import parse_element, parse_string, parse_int
+
+from collection import Collection
 
 class Player_Container:
 	def __init__(self,element):

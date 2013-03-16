@@ -1,15 +1,17 @@
+from pyplib.xml_parser import parse_xml,parse_string,parse_int
+from pyplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error,PP_Database_Error
+from pyplib import database,util
+from pyplib.host_client import *
+
 from model.play import Play_Args
 from control.lstructs import Config_Player, Config_Args
 from control.game_manipulator import Manipulator
-from pyplib.xml_parser import parse_xml,parse_string,parse_int
-from pyplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error,PP_Database_Error
-from pyplib.host_client import *
-from pyplib import database,util
 
 def handle(request,model):
 	try:
 		ele = parse_xml(request)
 		command = parse_string(ele,'command')
+		print command
 		request_type = get_request_type(command)
 		if request_type == 'sys':
 			if command == 'test':

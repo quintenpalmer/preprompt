@@ -17,6 +17,6 @@ class Game_Request_Queue:
 				Config_Player(p2_uid,p2_did)))
 			ret0 =  respond_action('new',game_id,model.out(game_id,p1_uid))
 			ret0 =  respond_action('new',game_id,model.out(game_id,p1_uid))
-			
+
 			#req1.send_response()
 			#req2.send_response()

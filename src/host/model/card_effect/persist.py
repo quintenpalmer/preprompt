@@ -1,5 +1,6 @@
 from pyplib.xml_parser import parse_element,parse_elements,parse_bool,parse_string
 from pyplib.errors import PP_Game_Action_Error
+
 from control.lstructs import get_effect_from_xml_name
 
 class Persist_Cond_list:

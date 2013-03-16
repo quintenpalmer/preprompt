@@ -1,5 +1,6 @@
-from card import Card
 from pyplib.xml_parser import parse_elements
+
+from card import Card
 
 class Card_List:
 	def __init__(self,element):

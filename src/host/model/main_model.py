@@ -1,15 +1,16 @@
 from pyplib.errors import PP_Model_Error,PP_Load_Error,XML_Parser_Error,PP_Database_Error
-from control import database_reader
-from model.game import Game
 from pyplib import util,database
+
+from control import database_reader
 from model import cltypes
+from model.game import Game
 
 class Model:
 	def __init__(self,num_games):
 		self.games = {}
+		self.dead_games = {}
 		self.user_map = {}
-		self.free_ids = range(0,num_games)
-		self.all_ids = list(self.free_ids)
+		self.game_count = 0;
 		self.version = 0
 		try:
 			games = database.select('play_games','*')
@@ -17,7 +18,7 @@ class Model:
 				game_id = game[0]
 				game_xml = game[1]
 				try:
-					self.free_ids.remove(game_id)
+					self.now_using(game_id)
 					self.book_keep_game(game_id,Game(xml_string=game_xml))
 				except XML_Parser_Error as e:
 					util.logger.warn("Error loading %s's xml %s"%(str(game_file_name),str(e)))
@@ -26,7 +27,7 @@ class Model:
 			raise PP_Load_Error("Save File could not be opened")
 
 	def start_game(self,config_args):
-		game_id = self.pop_id()
+		game_id = self.get_next_id()
 		game = database_reader.get_game(config_args)
 		print dir(game)
 		for player in game.players:
@@ -69,7 +70,6 @@ class Model:
 	def stop_game(self,game_id):
 		try:
 			self.book_keep_remove_game(game_id,self.games[game_id])
-			self.push_id(game_id)
 		except IndexError:
 			raise PP_Model_Error("%s is not a valid game id"%str(game_id))
 
@@ -85,14 +85,14 @@ class Model:
 		except KeyError:
 			return []
 
-	def pop_id(self):
-		if len(self.free_ids) > 0:
-			return self.free_ids.pop(0)
-		else:
-			raise PP_Model_Error("No More room for games")
+	def get_next_id(self):
+		ret_id = self.game_count
+		self.game_count += 1
+		return ret_id
 
-	def push_id(self,push_id):
-		self.free_ids.append(push_id)
+	def now_using(self,game_id):
+		if game_id > self.game_count:
+			self.game_count = game_id + 1
 
 	def out(self,game_id,uid):
 		return self.get_game_from_id(game_id).xml_output(uid)

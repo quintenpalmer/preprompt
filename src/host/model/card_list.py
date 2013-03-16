@@ -1,8 +1,10 @@
-from model.card import Card, Empty_Card
-from model import player_type
+from random import randint
+
 from pyplib.errors import PP_Game_Action_Error
 from pyplib.xml_parser import parse_elements
-from random import randint
+
+from model.card import Card, Empty_Card
+from model import player_type
 
 class Card_List:
 	def __init__(self,**kwargs):
