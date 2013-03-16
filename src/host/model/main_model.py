@@ -61,10 +61,10 @@ class Model:
 		del self.games[game_id]
 
 	def verify_game(self,game_id):
-		end_stats = self.get_game_from_id(game_id).has_ended()
+		end_stats = self.get_game_from_id(game_id).check_game_end()
 		if end_stats[0]:
 			winner = end_stats[1]
-			self.stop_game(game_id);
+			#self.stop_game(game_id);
 		return end_stats
 
 	def stop_game(self,game_id):
@@ -91,7 +91,7 @@ class Model:
 		return ret_id
 
 	def now_using(self,game_id):
-		if game_id > self.game_count:
+		if game_id >= self.game_count:
 			self.game_count = game_id + 1
 
 	def out(self,game_id,uid):

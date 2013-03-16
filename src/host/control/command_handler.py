@@ -69,9 +69,7 @@ def handle(request,model):
 				end_stats = model.verify_game(game_id);
 				if end_stats[0]:
 					ret = respond_game_end(command,game_id,model.out(game_id,player_id),end_stats[1])
-					database.delete('play_games',where=(('game_id='+str(game_id)),))
-				else:
-					database.update('play_games','game_xml',game.xml_output(0),str,(('game_id',game_id),))
+				database.update('play_games','game_xml',game.xml_output(0),str,(('game_id',game_id),))
 			except PP_Database_Error:
 				util.logger.error("Error writing game data")
 				raise PP_Load_Error("Database Column %s could not be opened"%str(game_id))

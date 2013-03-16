@@ -87,11 +87,12 @@ class Game:
 		if not self.get_current_turn_owner() == uid:
 			raise PP_Game_Action_Error("Player %s cannot conduct %s during this turn"%(str(uid),action))
 
-	def has_ended(self):
+	def check_game_end(self):
 		dead = []
 		for player in self.players:
 			if player.player.health <= 0:
 				dead.append(player.player.uid)
+				self.control_state.super_phase = super_phase.end
 		if len(dead) == 1:
 			return [True,dead[0]]
 		elif len(dead) == 0:
