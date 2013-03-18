@@ -31,12 +31,7 @@ function game_play_card_from_active(event){
 
 function receive_game_xml(xml_string){
 	game = make_game(xml_string);
-	if(game != null){
-		redisplay_game();
-	}
-	else{
-		redisplay_no_game();
-	}
+	redisplay_game();
 }
 
 function display(xml_string,input_game_id){
@@ -54,20 +49,6 @@ function display(xml_string,input_game_id){
 function redisplay_game(){
 	undisplay_game();
 	display_game();
-}
-
-function redisplay_no_game(){
-	undisplay_game();
-	display_no_game();
-}
-
-function display_no_game(){
-	var tds = [["Game Over",null]]
-	var table = create_table('mini-manage',tds,1);
-	var table_div = document.createElement("div");
-	table_div.appendChild(table);
-
-	document.getElementById("game").appendChild(table_div);
 }
 
 function display_game(){
@@ -144,7 +125,7 @@ function display_card_list(card_list,expand,card_list_div,action){
 			if(card_name == 'Unknown'){
 				card_name = '';
 			}
-			li = create_li(card_name,action,index);
+			li = create_card_li(card_name,action,index);
 			ul.appendChild(li);
 		}
 	}

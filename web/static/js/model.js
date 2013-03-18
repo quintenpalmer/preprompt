@@ -54,17 +54,9 @@ function make_game(resp){
 	console.log(resp_status);
 	if(resp_status == 'ok'){
 		var resp_type = parse_string(ele, 'resp_type');
-		if(resp_type == 'game_end'){
-			return null;
-		}
-		else{
-			var game_state = parse_element(ele,'game_xml');
-			var game = new Game(game_state);
-			return game;
-		}
-	}
-	else if(resp_status == 'game_end'){
-		return null;
+		var game_state = parse_element(ele,'game_xml');
+		var game = new Game(game_state);
+		return game;
 	}
 	else{
 		var error_message = parse_string(ele,'error_message');
@@ -84,7 +76,7 @@ function get_super_phase_text(super_phase){
 		return "Main Gameplay";
 	}
 	else if(super_phase == super_phase_end){
-		return "End of Game";
+		return "Game End";
 	}
 	else{
 		return "Unknown Super Phase";
