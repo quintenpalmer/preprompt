@@ -6,7 +6,6 @@ from django.http import HttpResponse
 
 from pyplib.client_host import *
 from pyplib.xml_parser import parse_xml, parse_ints
-from pyplib.model.main_model import Model
 from pyplib import database
 
 def splash(request):

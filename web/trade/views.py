@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 from pyplib.client_host import *
 from pyplib.xml_parser import parse_xml, parse_ints
-from pyplib.model.main_model import Model
 from pyplib import database
 
 def splash(request):
@@ -20,6 +19,7 @@ def cards(request):
 def get_user_key(username):
 	return User.objects.get(username=username).id
 
+'''
 @login_required
 def play(request):
 	command = request.POST
@@ -117,3 +117,4 @@ def handle_request(command,req):
 				return "Not a valid command"
 	else:
 		return "Enter a Command"
+'''

@@ -2,17 +2,17 @@ import socket
 import sys
 import os
 
+pyplib = os.path.join(os.environ['pyp'],'src','share','py')
+sys.path.insert(0,pyplib)
 from pyplib import util
-from pyplib.model.main_model import Model
 from pyplib.client_host import request_exit,send_request,request_test
 
+from model.main_model import Model
 from view.main_loop import Main_Loop
 
 if __name__ == '__main__':
 	if len(sys.argv) == 1:
 		print "Client: Starting!"
-		pyplib = os.path.join(os.environ['pyp'],'src','share')
-		sys.path.insert(0,pyplib)
 		util.make_logger('client')
 		util.logger.info('Started Client')
 		model = Model(uid=1)
