@@ -43,7 +43,6 @@ class Card_List:
 		self.cards.append(card)
 
 	def shuffle(self):
-		print 'every day'
 		size = len(self.cards)
 		orig = range(size)
 		ret = []

@@ -31,7 +31,7 @@ def respond_action(command,game_id,game_xml):
 	resp = '<resp>'
 	resp += '<resp_status>ok</resp_status>'
 	resp += '<resp_type>'+str(command)+'</resp_type>'
-	resp += '<error_message>no_error<error_message>'
+	resp += '<error_message>no_error</error_message>'
 	resp += '<game_id>'+str(game_id)+'</game_id>'
 	resp += '<game_xml>'+str(game_xml)+'</game_xml>'
 	resp += '</resp>'

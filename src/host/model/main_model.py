@@ -29,7 +29,6 @@ class Model:
 	def start_game(self,config_args):
 		game_id = self.get_next_id()
 		game = database_reader.get_game(config_args)
-		print dir(game)
 		for player in game.players:
 			player.collection.lists[cltypes.deck].shuffle()
 		try:
