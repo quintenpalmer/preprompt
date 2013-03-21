@@ -61,6 +61,9 @@ def handle(request,model):
 			elif command == 'turn':
 				manipulator.toggle_turn(player_id)
 				ret =  respond_action(command,game_id,model.out(game_id,player_id))
+			elif command == 'forfeit':
+				manipulator.forfeit(player_id)
+				return respond_action(command,game_id,model.out(game_id,player_id))
 			elif command == 'out':
 				return respond_action(command,game_id,model.out(game_id,player_id))
 			else:

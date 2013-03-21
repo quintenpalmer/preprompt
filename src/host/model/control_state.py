@@ -64,11 +64,16 @@ class Control_State:
 			self.has_drawn = False
 		else:
 			raise PP_Game_Action_Error("Can only end your turn during the post phase")
-	def exit_setup_phase(self):
+	def exit_setup_super_phase(self):
 		if self.super_phase == super_phase.setup:
 			self.super_phase = super_phase.main
 		else:
 			raise PP_Game_Action_Error("Can only be performed in setup super phase")
+	def end_main_super_phase(self):
+		if self.super_phase == super_phase.main:
+			self.super_phase == super_phase.end
+		else:
+			raise PP_Game_Action_Error("Can only be performed in the main phaes")
 
 	def is_given_phase(self,given_phase):
 		return self.phase==given_phase

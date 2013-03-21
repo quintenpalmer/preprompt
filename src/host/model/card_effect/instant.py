@@ -21,10 +21,10 @@ class Instant_List:
 		for instant in self.instants:
 			instant.apply_to(action)
 
-	def xml_output(self):
+	def xml_output(self,full):
 		xml = '<valid_phase>%s</valid_phase>'%str(self.valid_phase)
 		for instant in self.instants:
-			xml += '<instant>%s</instant>'%instant.xml_output()
+			xml += '<instant>%s</instant>'%instant.xml_output(full)
 		return xml
 
 class Instant:
@@ -54,8 +54,8 @@ class Instant:
 		if self.is_valid(action):
 			self.effect.apply_to(action)
 
-	def xml_output(self):
-		xml = '<effect>%s</effect>'%self.effect.xml_output()
+	def xml_output(self,full):
+		xml = '<effect>%s</effect>'%self.effect.xml_output(full)
 		for cond in self.conds:
-			xml += '<cond>%s</cond>'%cond.xml_output()
+			xml += '<cond>%s</cond>'%cond.xml_output(full)
 		return xml

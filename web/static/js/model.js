@@ -49,6 +49,7 @@ function Player(element){
 }
 
 function make_game(resp){
+	console.log(resp);
 	var ele = parse_xml(resp);
 	var resp_status = parse_string(ele,'resp_status');
 	console.log(resp_status);

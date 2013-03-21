@@ -30,7 +30,7 @@ class Direct_Damage(Abstract_Instant_Effect):
 		action.elemental = self.elemental
 		action.damage = self.amount
 
-	def xml_output(self):
+	def xml_output(self,full):
 		xml = '<name>Direct_Damage</name>'
 		xml += '<elemental>%s</elemental>'%str(self.elemental)
 		xml += '<amount>%s</amount>'%str(self.amount)
@@ -46,7 +46,7 @@ class Do_Nothing(Abstract_Instant_Effect):
 			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def apply_to(self,action):
 		pass
-	def xml_output(self):
+	def xml_output(self,full):
 		return '<name>Do_Nothing</name>'
 
 class Valid_Activate(Abstract_Instant_Cond):
@@ -59,7 +59,7 @@ class Valid_Activate(Abstract_Instant_Cond):
 			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def is_valid(self,action):
 		return True
-	def xml_output(self):
+	def xml_output(self,full):
 		return '<name>Valid_Activate</name>'
 
 class Timed_Persist(Abstract_Persist_Cond):
@@ -79,7 +79,7 @@ class Timed_Persist(Abstract_Persist_Cond):
 		return self.turns >= 0
 	def reset(self,action):
 		self.current_turns = self.start_turns
-	def xml_output(self):
+	def xml_output(self,full):
 		xml = '<name>Timed_Persist</name>'
 		xml += '<current_turns>%s</current_turns>'%str(self.current_turns)
 		xml += '<start_turns>%s</start_turns>'%str(self.start_turns)
@@ -99,7 +99,7 @@ class In_Valid_persist(Abstract_Persist_Cond):
 		return False
 	def reset(self,action):
 		pass
-	def xml_output(self):
+	def xml_output(self,full):
 		return '<name>Invalid_Persist</name>'
 
 class Add_Damage(Abstract_Trigger_Effect):
@@ -117,7 +117,7 @@ class Add_Damage(Abstract_Trigger_Effect):
 	def apply_to(self,action):
 		action.damage += self.amount
 
-	def xml_output(self):
+	def xml_output(self,full):
 		xml = '<name>Add_Damage</name>'
 		xml += '<elemental>%s</elemental>'%str(self.elemental)
 		xml += '<amount>%s</amount>'%str(self.amount)
@@ -133,7 +133,7 @@ class Do_Nothing_Trigger(Abstract_Trigger_Effect):
 			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def apply_to(self,action):
 		pass
-	def xml_output(self):
+	def xml_output(self,full):
 		return '<name>Do_Nothing_Trigger</name>'
 
 class Valid_Trigger_Cond(Abstract_Trigger_Cond):
@@ -146,7 +146,7 @@ class Valid_Trigger_Cond(Abstract_Trigger_Cond):
 			raise PP_Game_Action_Error('Do_Nothing instantiated with invalid constructor %s'%kwargs.keys())
 	def is_valid(self,action,card_owner):
 		return True
-	def xml_output(self):
+	def xml_output(self,full):
 		return '<name>Valid_Trigger_Cond</name>'
 
 class On_Damager(Abstract_Trigger_Cond):
@@ -167,7 +167,7 @@ class On_Damager(Abstract_Trigger_Cond):
 				return True
 		return False
 
-	def xml_output(self):
+	def xml_output(self,full):
 		xml = '<name>On_Damager</name>'
 		for w in self.who:
 			xml += '<who>%s</who>'%str(w)

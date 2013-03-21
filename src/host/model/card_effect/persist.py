@@ -32,8 +32,8 @@ class Persist_Cond_list:
 		for cond in self.conds:
 			cond.reset(game,uid)
 
-	def xml_output(self):
+	def xml_output(self,full):
 		xml = '<does_persist>%s</does_persist>'%str(self.does_persist)
 		for cond in self.conds:
-			xml += '<cond>%s</cond>'%cond.xml_output()
+			xml += '<cond>%s</cond>'%cond.xml_output(full)
 		return xml

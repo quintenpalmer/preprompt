@@ -34,10 +34,9 @@ class Effect:
 
 	def xml_output(self,full):
 		xml = ''
-		if full:
-			xml += '<instants>%s</instants>'%self.instants.xml_output()
-			xml += '<persists>%s</persists>'%self.persists.xml_output()
-			xml += '<pactivates>%s</pactivates>'%self.pactivates.xml_output()
+		xml += '<instants>%s</instants>'%self.instants.xml_output(full)
+		xml += '<persists>%s</persists>'%self.persists.xml_output(full)
+		xml += '<pactivates>%s</pactivates>'%self.pactivates.xml_output(full)
 		xml += '<elementals>'
 		for elemental in self.elementals:
 			xml += '<elemental>%s</elemental>'%str(elemental)

@@ -12,7 +12,7 @@ class Manipulator:
 		for player in self.game.players:
 			for i in range(5):
 				player.collection.draw()
-		self.game.control_state.exit_setup_phase()
+		self.game.control_state.exit_setup_super_phase()
 
 	def draw(self,uid):
 		self.game.verify_main_super_phase('draw')
@@ -57,3 +57,7 @@ class Manipulator:
 		self.game.verify_main_super_phase('turn')
 		#for card in self.player.collection.active
 		self.game.control_state.toggle_turn(len(self.game.players))
+
+	#TODO add winner when moving to end state
+	def forfeit(self,uid):
+		self.game.control_state.end_main_super_phase()

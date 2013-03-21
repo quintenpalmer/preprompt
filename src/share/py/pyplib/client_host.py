@@ -96,3 +96,11 @@ def request_out(game_id,player_id):
 	request += '<player_id>'+str(player_id)+'</player_id>'
 	request += '</request>'
 	return send_request(request)
+
+def request_forfeit(game_id,player_id):
+	request = '<request>'
+	request += '<command>forfeit</command>'
+	request += '<game_id>'+str(game_id)+'</game_id>'
+	request += '<player_id>'+str(player_id)+'</player_id>'
+	request += '</request>'
+	return send_request(request)

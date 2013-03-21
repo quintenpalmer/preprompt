@@ -4,7 +4,7 @@ class Abstract_Serializable:
 	__metaclass__ = abc.ABCMeta
 
 	@abc.abstractmethod
-	def xml_output(self):
+	def xml_output(self,full):
 		pass
 
 class Abstract_Instant_Effect(Abstract_Serializable):

@@ -19,10 +19,10 @@ class Persist_Activate_list:
 		for pactivate in self.persist_activates:
 			pactivate.on_act(action,card_owner)
 
-	def xml_output(self):
+	def xml_output(self,full):
 		xml = ''
 		for pactivate in self.persist_activates:
-			xml += '<pactivate>%s</pactivate>'%pactivate.xml_output()
+			xml += '<pactivate>%s</pactivate>'%pactivate.xml_output(full)
 		return xml
 
 class Persist_Activate:
@@ -53,8 +53,8 @@ class Persist_Activate:
 			valid = valid and cond.is_valid(action,card_owner)
 		return valid
 
-	def xml_output(self):
-		xml = '<effect>%s</effect>'%self.effect.xml_output()
+	def xml_output(self,full):
+		xml = '<effect>%s</effect>'%self.effect.xml_output(full)
 		for cond in self.conds:
-			xml += '<cond>%s</cond>'%cond.xml_output()
+			xml += '<cond>%s</cond>'%cond.xml_output(full)
 		return xml
