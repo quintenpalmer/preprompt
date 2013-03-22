@@ -25,11 +25,11 @@ if __name__ == '__main__':
 			send_request(request)
 			print "Client: Sent bad data!"
 		elif sys.argv[1] == 'd':
-			request_exit(0)
+			print request_exit(0)
 			print "Client: Sent shutdown to server!"
 		elif sys.argv[1] == 'c':
 			try:
-				request_test(0)
+				print request_test(0)
 				print "Server is UP!"
 			except socket.error:
 				print "Server is DOWN!"

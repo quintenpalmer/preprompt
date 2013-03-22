@@ -23,7 +23,7 @@ class Listener:
 		c,addr = self.s.accept()
 		util.logger.debug('Established Connection from %s',str(addr))
 		request = c.recv(1024)
-		util.logger.info('Recieved Request from %s',str(addr))
+		util.logger.info('Received Request from %s',str(addr))
 		ret = handle(request,model)
 		util.logger.debug('Handled Request to %s',str(addr))
 		c.send(ret)

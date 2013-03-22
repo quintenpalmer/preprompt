@@ -1,4 +1,4 @@
-package pplib.errors;
+package pplib.exceptions;
 
 public class PPDatabaseException extends Exception{
 	public PPDatabaseException(String message){

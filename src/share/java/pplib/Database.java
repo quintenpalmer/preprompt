@@ -1,6 +1,6 @@
 package pplib;
 
-import pplib.errors.PPDatabaseException;
+import pplib.exceptions.PPDatabaseException;
 
 public class Database{
 	public static String[] run(String sqlCommand) throws PPDatabaseException{

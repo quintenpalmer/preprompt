@@ -2,7 +2,7 @@ package model;
 
 import java.util.HashMap;
 
-import pplib.errors.*;
+import pplib.exceptions.*;
 import pplib.Database;
 
 import control.DatabaseReader;
@@ -37,5 +37,9 @@ public class Model{
 		int ret = this.gameCount;
 		this.gameCount++;
 		return ret;
+	}
+
+	public int getVersion(){
+		return this.version;
 	}
 }
