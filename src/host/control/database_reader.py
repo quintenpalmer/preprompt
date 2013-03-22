@@ -28,10 +28,8 @@ def load_card_key_text():
 
 def get_game(config_args):
 	load_card_key_text()
-	player1 = config_args.config_player1
-	player2 = config_args.config_player2
-	uids = [player1.uid,player2.uid]
-	dids = [player1.did,player2.did]
+	uids = [config_args.uid1,config_args.uid2]
+	dids = [config_args.did1,config_args.did2]
 	players = []
 	for i in range(0,2):
 		name = database.select('auth_user','username',where=(('id='+str(uids[i])),))[0]

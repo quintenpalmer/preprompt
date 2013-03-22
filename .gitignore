@@ -17,3 +17,7 @@ pypweb.log
 
 # Game save files
 *.save
+
+#build folder (.class)
+build
+*.class

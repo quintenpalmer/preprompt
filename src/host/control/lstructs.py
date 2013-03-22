@@ -5,14 +5,11 @@ from model.card_effect.abstract_effects import Abstract_Instant_Effect, Abstract
 from model.card_effect.elementals import get_elemental_from_string
 
 class Config_Args:
-	def __init__(self,config_player1,config_player2):
-		self.config_player1 = config_player1
-		self.config_player2 = config_player2
-
-class Config_Player:
-	def __init__(self,uid,did):
-		self.uid = uid
-		self.did = did
+	def __init__(self,uid1,did1,uid2,did2):
+		self.uid1 = uid1
+		self.did1 = did1
+		self.uid2 = uid2
+		self.did2 = did2
 
 class Direct_Damage(Abstract_Instant_Effect):
 	def __init__(self,**kwargs):

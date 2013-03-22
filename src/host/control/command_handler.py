@@ -4,7 +4,7 @@ from pyplib import database,util
 from pyplib.host_client import *
 
 from model.play import Play_Args
-from control.lstructs import Config_Player, Config_Args
+from control.lstructs import Config_Args
 from control.game_manipulator import Manipulator
 
 def handle(request,model):
@@ -27,9 +27,7 @@ def handle(request,model):
 				p2_did = parse_int(ele,'p2_did')
 				if len(model.get_games_from_uid(p1_uid)) > 10:
 					raise PP_Model_Error("player "+str(p1_uid)+" cannot start anymore games")
-				game_id = model.start_game(Config_Args(
-					Config_Player(p1_uid,p1_did),
-					Config_Player(p2_uid,p2_did)))
+				game_id = model.start_game(Config_Args(p1_uid,p1_did,p2_uid,p2_did))
 				ret =  respond_action(command,game_id,model.out(game_id,p1_uid))
 			elif command == 'list':
 				uid = parse_int(ele,'uid')

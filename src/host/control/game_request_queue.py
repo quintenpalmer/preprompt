@@ -12,9 +12,7 @@ class Game_Request_Queue:
 			p1_did = req1[1]
 			p2_uid = req2[0]
 			p2_did = req2[1]
-			game_id = model.start_game(Config_Args(
-				Config_Player(p1_uid,p1_did),
-				Config_Player(p2_uid,p2_did)))
+			game_id = model.start_game(Config_Args(p1_uid,p1_did,p2_uid,p2_did))
 			ret0 =  respond_action('new',game_id,model.out(game_id,p1_uid))
 			ret0 =  respond_action('new',game_id,model.out(game_id,p1_uid))
 

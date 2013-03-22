@@ -2,7 +2,11 @@
 
 main(){
 	if [ $# == 1 ]; then
-		if [ $1 == host ] || [ $1 == h ]; then
+		if [ $1 == javac ] || [ $1 == jc ]; then
+			compile_java
+		elif [ $1 == jhost ] || [ $1 == jh ]; then
+			java_host
+		elif [ $1 == host ] || [ $1 == h ]; then
 			run_host n
 		elif [ $1 == hostback ] || [ $1 == hb ]; then
 			run_host b
@@ -90,6 +94,15 @@ run_client(){
 	fi
 }
 
+compile_java(){
+	cd $pyp
+	javac -cp src/jhost:src/share/java -d build/jhost src/jhost/Host.java
+}
+java_host(){
+	cd $pyp
+	java -cp build/jhost Host
+}
+
 get_game_xml(){
 	echo 'from pyplib import xml_parser
 xml = request_new(1,0,2,0)
@@ -113,7 +126,7 @@ setup_bashrc(){
 	echo "" >> ~/.bashrc
 	echo "export pyp=`pwd`" >> ~/.bashrc
 	echo "export pyproot=\$pyp/root" >> ~/.bashrc
-	echo "export PATH=\$PATH:\$pyp/bin" >> ~/.bashrc
+	echo "export PATH=\$PATH:\$pyp/tool" >> ~/.bashrc
 	echo "export PYTHONPATH=\$pyp/src/share/py" >> ~/.bashrc
 	echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
 	echo "alias cdpypr=\"cd \$pyproot\"" >> ~/.bashrc
@@ -125,7 +138,7 @@ setup_database(){
 		rm ../root/opt/postprompt/shared_database
 	fi
 	../web/manage.py syncdb --noinput
-	../bin/dbctl.py load all
+	../tool/dbctl.py load all
 }
 dj(){
 	cd $pyp/web
