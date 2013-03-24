@@ -47,7 +47,7 @@ class Control_State:
 		xml = '<super_phase>%s</super_phase>'%str(self.super_phase)
 		xml += '<phase>%s</phase>'%str(self.phase)
 		xml += '<turn_owner>%s</turn_owner>'%str(uid)
-		xml += '<has_drawn>%s</has_drawn>'%str(self.has_drawn)
+		xml += '<has_drawn>%s</has_drawn>'%str(self.has_drawn).lower()
 		return xml
 
 	def step_phase(self):
@@ -58,7 +58,7 @@ class Control_State:
 	def toggle_turn(self,num_players):
 		if self.phase == phase.post:
 			self.turn_owner += 1
-			if self.turn_owner >= num_players: 
+			if self.turn_owner >= num_players:
 				self.turn_owner = 0
 			self.phase = phase.draw
 			self.has_drawn = False

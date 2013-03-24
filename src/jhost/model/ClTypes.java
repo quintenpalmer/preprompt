@@ -1,0 +1,33 @@
+package model;
+
+import java.util.HashMap;
+
+public class ClTypes{
+	public static int deck = 0;
+	public static int hand = 1;
+	public static int active = 2;
+	public static int grave = 3;
+	public static int special = 4;
+	public static int other = 5;
+
+	public static int size = 6;
+
+	public static String[] names = {"deck","hand","active","grave","special","other"};
+	/*
+	new String[size];
+	names[deck] = "deck";
+	names[hand] = "hand";
+	names[active] = "active";
+	names[grave] = "grave";
+	names[special] = "special";
+	names[other] = "other";
+
+	public static HashMap<String,Integer> values = new HashMap<String,Integer>();
+	values["deck"] = deck;
+	values["hand"] = hand;
+	values["active"] = active;
+	values["grave"] = grave;
+	values["special"] = special;
+	values["other"] = other;
+	*/
+}
