@@ -35,6 +35,10 @@ public class Game{
 		}
 	}
 
+	public String xmlOutput(int uid){
+		return "<game>hi</game>";
+	}
+
 	public PlayerContainer getMeFromUid(int uid) throws PPGameActionException{
 		if(this.players[0].getPlayer().getUid() == uid){
 			return this.players[0];
@@ -76,9 +80,35 @@ public class Game{
 	}
 
 	public void verifyMainSuperPhase() throws PPGameActionException{
-		if(!(this.controlState.getSuperPhase()==SuperPhase.main)){
+		if(!(this.controlState.getSuperPhase() == SuperPhase.main)){
 			throw new PPGameActionException("Can only be performed during the main super phase");
 		}
 	}
 
+	public void verifySetupSuperPhase() throws PPGameActionException{
+		if(!(this.controlState.getSuperPhase() == SuperPhase.main)){
+			throw new PPGameActionException("Can only be be done during the setup super phase");
+		}
+	}
+
+	public void verifyCurrentTurnOwner(int uid) throws PPGameActionException{
+		if(!(getCurrentTurnOwnerUid() == uid)){
+			throw new PPGameActionException("It is not player "+Integer.toString(uid)+"'s turn");
+		}
+	}
+
+	public int checkGameEnd(){
+		int uid=0;
+		for(int i=0;i<this.players.length;i++){
+			if(this.players[i].getPlayer().getHealth() <= 0){
+				if(uid!=0){
+					uid = -1;
+				}
+				else{
+					uid = this.players[i].getPlayer().getUid();
+				}
+			}
+		}
+		return uid;
+	}
 }

@@ -3,36 +3,37 @@ package control;
 import model.Model;
 import pplib.XmlParser;
 import control.ResponseBuilder;
-import pplib.exceptions.PPXmlException;
+import pplib.exceptions.*;
 import pplib.dataTypes.CommandType;
 import org.w3c.dom.Element;
 
 public class CommandHandler{
 
 	Model model;
-	XmlParser parser;
+	XmlParser xmlParser;
 	ResponseBuilder responseBuilder;
 	Element element;
 	CommandType commandType;
 	String ret;
+	MetaType metaType;
 
 	public CommandHandler(Model model){
 		this.model = model;
-		this.parser = new XmlParser();
+		this.xmlParser = new XmlParser();
 		this.responseBuilder = new ResponseBuilder();
 	}
 
 	public String handle(String command){
 		try{
-			element = this.parser.createElement(command);
+			element = this.xmlParser.createElement(command);
 			commandType = CommandType.getCommandType(
-				this.parser.parseString(element,"command") );
-			MetaType metaType = getMetaType(commandType);
+				this.xmlParser.parseString(element,"command") );
+			metaType = getMetaType(commandType);
 			System.out.println(metaType);
 			ret = responseBuilder.respondNotImplemented();
 			if(metaType == MetaType.sys){
 				if(commandType == CommandType.Test){
-					int version = this.parser.parseInt(element,"version");
+					int version = this.xmlParser.parseInt(element,"version");
 					if(version == this.model.getVersion()){
 						ret = responseBuilder.respondTest(this.model.getVersion());
 					}
@@ -44,9 +45,23 @@ public class CommandHandler{
 					ret = responseBuilder.respondExit();
 				}
 			}
+			else if(metaType == MetaType.meta){
+				if(commandType == CommandType.New){
+					int p1Uid = xmlParser.parseInt(element,"p1_uid");
+					int p1Did = xmlParser.parseInt(element,"p1_did");
+					int p2Uid = xmlParser.parseInt(element,"p2_uid");
+					int p2Did = xmlParser.parseInt(element,"p2_did");
+
+					int gameId = model.startGame(p1Uid,p1Did,p2Uid,p2Did);
+					ret = responseBuilder.respondAction(commandType,gameId,model.out(gameId,p1Uid));
+				}
+			}
 			return ret;
 		}
 		catch(PPXmlException e){
+			return responseBuilder.respondError(e.getMessage());
+		}
+		catch(PPGameActionException e){
 			return responseBuilder.respondError(e.getMessage());
 		}
 	}

@@ -25,7 +25,7 @@ public enum CommandType{
 	public int getInt(){
 		return this.intValue;
 	}
-	public String getName(){
+	public String toString(){
 		return this.name;
 	}
 

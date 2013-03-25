@@ -30,4 +30,8 @@ public class PlayerContainer{
 	public Player getPlayer(){
 		return this.player;
 	}
+
+	public Deck getDeck(){
+		return this.deck;
+	}
 }

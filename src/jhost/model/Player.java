@@ -3,7 +3,7 @@ package model;
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
-import pplib.exceptions.PPXmlException;
+import pplib.exceptions.*;
 
 public class Player{
 	int uid;
@@ -24,6 +24,24 @@ public class Player{
 		}
 		catch(PPXmlException e){
 			System.out.println(e.getMessage());
+		}
+	}
+
+	public void receiveDamage(int amount) throws PPGameActionException{
+		if(this.health <= 0){
+			this.health += amount;
+		}
+		else{
+			throw new PPGameActionException("Cannot damage a negative amount");
+		}
+	}
+
+	public void receiveHeal(int amount) throws PPGameActionException{
+		if(this.health <= 0){
+			this.health -= amount;
+		}
+		else{
+			throw new PPGameActionException("Cannot heal a negative amount");
 		}
 	}
 

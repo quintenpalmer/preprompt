@@ -1,5 +1,7 @@
 package control;
 
+import pplib.dataTypes.CommandType;
+
 public class ResponseBuilder{
 
 	public String respondTest(int version){
@@ -15,6 +17,16 @@ public class ResponseBuilder{
 		String resp = "<resp>";
 		resp += "<resp_status>ok</resp_status>";
 		resp += "<resp_type>exit</resp_type>";
+		resp += "</resp>";
+		return resp;
+	}
+
+	public String respondAction(CommandType commandType, int gameId, String xml){
+		String resp = "<resp>";
+		resp += "<resp_status>ok</resp_status>";
+		resp += "<resp_type>"+commandType.toString()+"</resp_type>";
+		resp += "<game_id>"+Integer.toString(gameId)+"</game_id>";
+		resp += "game_xml>"+xml+"</game_xml>";
 		resp += "</resp>";
 		return resp;
 	}

@@ -5,7 +5,6 @@ import org.w3c.dom.Element;
 import pplib.XmlParser;
 import pplib.exceptions.*;
 
-import model.Visibility;
 import model.CardList;
 import model.Card;
 import model.ClTypes;
@@ -49,5 +48,50 @@ public class Deck{
 
 	public void playToGrave(int cardId) throws PPGameActionException{
 		this.cardLists[ClTypes.grave].push(this.cardLists[ClTypes.hand].pop(cardId));
+	}
+
+	public CardList getCardList(int clType){
+		return this.cardLists[clType];
+	}
+
+	private class Visibility{
+		boolean[][] visible;
+
+		public Visibility(){
+			this.visible = new boolean[ClTypes.size][];
+			this.visible = new boolean[][] {
+			{true,false,false},
+			{true,true,false},
+			{true,true,true},
+			{true,true,true},
+			{true,false,false},
+			{true,true,false}};
+			/*
+			this.visible[ClTypes.deck] = {true,false,false};
+			this.visible[ClTypes.hand] = {true,true,false};
+			this.visible[ClTypes.active] = {true,true,true};
+			this.visible[ClTypes.grave] = {true,true,true};
+			this.visible[ClTypes.special] = {true,false,false};
+			this.visible[ClTypes.special] = {true,true,false};
+			*/
+		}
+
+		public Visibility(XmlParser xmlParser, Element element){
+			this.visible = new boolean[ClTypes.size][];
+			/*
+			Element subElement = xmlParser.parseElement(element,cltypes.names[cltypes.deck]);
+			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
+			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.hand]);
+			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
+			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.active]);
+			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
+			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.grave]);
+			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
+			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.special]);
+			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
+			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.other]);
+			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
+			*/
+		}
 	}
 }
