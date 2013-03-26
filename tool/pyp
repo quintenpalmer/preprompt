@@ -5,7 +5,9 @@ main(){
 		if [ $1 == javac ] || [ $1 == jc ]; then
 			compile_java
 		elif [ $1 == jhost ] || [ $1 == jh ]; then
-			java_host
+			java_host r
+		elif [ $1 == jhostback ] || [ $1 == jhb ]; then
+			java_host b
 		elif [ $1 == host ] || [ $1 == h ]; then
 			run_host n
 		elif [ $1 == hostback ] || [ $1 == hb ]; then
@@ -100,7 +102,11 @@ compile_java(){
 }
 java_host(){
 	cd $pyp
-	java -cp build/jhost Host
+	if [ $1 == r ]; then
+		java -cp build/jhost Host
+	elif [ $1 == b ]; then
+		java -cp build/jhost Host &
+	fi
 }
 
 get_game_xml(){
@@ -127,7 +133,7 @@ setup_bashrc(){
 	echo "export pyp=`pwd`" >> ~/.bashrc
 	echo "export pyproot=\$pyp/root" >> ~/.bashrc
 	echo "export PATH=\$PATH:\$pyp/tool" >> ~/.bashrc
-	echo "export PYTHONPATH=\$pyp/src/share/py" >> ~/.bashrc
+	echo "export PYTHONPATH=\$PYTHONPATH:\$pyp/src/share/py" >> ~/.bashrc
 	echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
 	echo "alias cdpypr=\"cd \$pyproot\"" >> ~/.bashrc
 	echo "run 'source ~/.bashrc' to have this take effect"

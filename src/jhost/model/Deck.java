@@ -1,6 +1,7 @@
 package model;
 
 import org.w3c.dom.Element;
+import java.util.ArrayList;
 
 import pplib.XmlParser;
 import pplib.exceptions.*;
@@ -14,7 +15,7 @@ public class Deck{
 	CardList[] cardLists;
 	Visibility visibility;
 
-	public Deck(Card[] cards){
+	public Deck(ArrayList<Card> cards){
 		this.cardLists = new CardList[ClTypes.size];
 		this.cardLists[ClTypes.deck] = new CardList(cards);
 		for(int i=1;i<ClTypes.size;i++){
@@ -60,6 +61,7 @@ public class Deck{
 			xml += this.cardLists[i].xmlOutput(full,this.visibility.doubleIndex(i,visIndex));
 			xml += "</"+ClTypes.names[i]+">";
 		}
+		xml += "</lists>";
 		if(full){
 			xml += "<visibilities>";
 			xml += this.visibility.xmlOutput();

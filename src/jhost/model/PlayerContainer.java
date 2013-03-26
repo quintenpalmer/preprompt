@@ -17,14 +17,9 @@ public class PlayerContainer{
 		this.deck = deck;
 	}
 
-	public PlayerContainer(XmlParser xmlParser, Element element){
-		try{
-			this.player = new Player(xmlParser,xmlParser.parseElement(element,"player"));
-			this.deck = new Deck(xmlParser,xmlParser.parseElement(element,"deck"));
-		}
-		catch(PPXmlException e){
-			System.out.println(e.getMessage());
-		}
+	public PlayerContainer(XmlParser xmlParser, Element element) throws PPXmlException {
+		this.player = new Player(xmlParser,xmlParser.parseElement(element,"player"));
+		this.deck = new Deck(xmlParser,xmlParser.parseElement(element,"deck"));
 	}
 
 	public String xmlOutput(int playerType) throws PPGameActionException{

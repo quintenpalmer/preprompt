@@ -16,15 +16,10 @@ public class Player{
 		this.health = 50;
 	}
 
-	public Player(XmlParser xmlParser, Element element){
-		try{
-			this.uid = xmlParser.parseInt(element,"uid");
-			this.name = xmlParser.parseString(element,"name");
-			this.health = xmlParser.parseInt(element,"health");
-		}
-		catch(PPXmlException e){
-			System.out.println(e.getMessage());
-		}
+	public Player(XmlParser xmlParser, Element element) throws PPXmlException {
+		this.uid = xmlParser.parseInt(element,"uid");
+		this.name = xmlParser.parseString(element,"name");
+		this.health = xmlParser.parseInt(element,"health");
 	}
 
 	public String xmlOutput(int playerType){

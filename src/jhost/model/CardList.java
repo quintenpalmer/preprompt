@@ -7,6 +7,7 @@ import pplib.XmlParser;
 import pplib.exceptions.*;
 
 import model.Card;
+import model.EmptyCard;
 
 public class CardList{
 	ArrayList<Card> cards;
@@ -14,27 +15,34 @@ public class CardList{
 	public CardList(){
 		this.cards = new ArrayList<Card>();
 	}
-	public CardList(Card[] cards){
-		this.cards = new ArrayList<Card>(cards.length);
-		for(int i=0;i<cards.length;i++){
-			this.cards.add(i,cards[i]);
+	public CardList(ArrayList<Card> cards){
+		this.cards = new ArrayList<Card>(cards.size());
+		for(Card card : cards){
+			this.cards.add(card);
 		}
 	}
-	public CardList(XmlParser xmlParser, Element element){
-		try{
-			Element[] cardElements = xmlParser.parseElements(element,"card");
-			this.cards = new ArrayList<Card>(cardElements.length);
-			for(int i=0;i<cardElements.length;i++){
-				cards.add(new Card(xmlParser,cardElements[i]));
-			}
-		}
-		catch(PPXmlException e){
-			System.out.println(e.getMessage());
+	public CardList(XmlParser xmlParser, Element element) throws PPXmlException{
+		Element[] cardElements = xmlParser.parseElements(element,"card");
+		this.cards = new ArrayList<Card>(cardElements.length);
+		for(int i=0;i<cardElements.length;i++){
+			cards.add(new Card(xmlParser,cardElements[i]));
 		}
 	}
 
-	public String xmlOutput(boolean full, boolean vis){
-		return "hi";
+	public String xmlOutput(boolean full, boolean visible){
+		String xml = "<cards>";
+		for(Card card : this.cards){
+			xml += "<card>";
+			if(visible){
+				xml += card.xmlOutput(full);
+			}
+			else{
+				xml += EmptyCard.xmlOutput;
+			}
+			xml += "</card>";
+		}
+		xml += "</cards>";
+		return xml;
 	}
 
 	public Card pop(int index) throws PPGameActionException{
@@ -54,6 +62,11 @@ public class CardList{
 		this.cards.add(card);
 	}
 
+	public ArrayList<Card> getCards(){
+		return this.cards;
+	}
+
 	public void shuffle(){
+		//TODO
 	}
 }

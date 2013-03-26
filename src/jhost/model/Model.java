@@ -36,8 +36,8 @@ public class Model{
 		if(canStartGame(p1Uid) && canStartGame(p2Uid)){
 			int gameId = getNextId();
 			Game game = DatabaseReader.getGame(p1Uid, p1Did, p2Uid, p2Did);
-			for(int i=0;i<game.players.length;i++){
-				game.players[i].getDeck().getCardList(ClTypes.deck).shuffle();
+			for(PlayerContainer pc : game.getPlayers()){
+				pc.getDeck().getCardList(ClTypes.deck).shuffle();
 			}
 			try{
 				databaseConnection.run("insert into play_games ");

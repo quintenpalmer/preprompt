@@ -1,21 +1,30 @@
 package control;
 
-import model.Model;
+import org.w3c.dom.Element;
+
 import pplib.XmlParser;
-import control.ResponseBuilder;
 import pplib.exceptions.*;
 import pplib.dataTypes.CommandType;
-import org.w3c.dom.Element;
+
+import model.Model;
+import model.Game;
+import control.ResponseBuilder;
 
 public class CommandHandler{
 
-	Model model;
+	Element element;
+
 	XmlParser xmlParser;
 	ResponseBuilder responseBuilder;
-	Element element;
 	CommandType commandType;
-	String ret;
 	MetaType metaType;
+	Model model;
+	Game game;
+
+	int gameId;
+	int uid;
+
+	String ret;
 
 	public CommandHandler(Model model){
 		this.model = model;
@@ -55,6 +64,34 @@ public class CommandHandler{
 					int gameId = model.startGame(p1Uid,p1Did,p2Uid,p2Did);
 					ret = responseBuilder.respondAction(commandType,gameId,model.out(gameId,p1Uid));
 				}
+				else if(commandType == CommandType.List){
+					int uid = xmlParser.parseInt(element,"uid");
+					ret = responseBuilder.respondList(model.getGameIdsFromUid(uid));
+				}
+			}
+			else if(metaType == MetaType.perform){
+				this.gameId = xmlParser.parseInt(element,"game_id");
+				this.uid = xmlParser.parseInt(element,"player_id");
+				this.game = model.getGameFromGameId(gameId);
+				if(commandType == CommandType.Setup){
+					this.game.setup();
+				}
+				else if(commandType == CommandType.Draw){
+					this.game.draw(uid);
+				}
+				else if(commandType == CommandType.Play){
+					this.game.play(uid);
+				}
+				else if(commandType == CommandType.Phase){
+					this.game.stepPhase(uid);
+				}
+				else if(commandType == CommandType.Turn){
+					this.game.stepTurn(uid);
+				}
+				else if(commandType == CommandType.Forfeit){
+					this.game.forfeit(uid);
+				}
+				ret = responseBuilder.respondAction(commandType,gameId,model.out(gameId,uid));
 			}
 			return ret;
 		}

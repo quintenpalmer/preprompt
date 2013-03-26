@@ -10,6 +10,7 @@ public enum CommandType{
 	Turn(203,"turn"),
 	Play(204,"play"),
 	Out(205,"out"),
+	Forfeit(206,"forfeit"),
 
 	Test(300,"test"),
 	Exit(301,"exit");
@@ -41,6 +42,7 @@ public enum CommandType{
 			case "out": return Out;
 			case "test": return Test;
 			case "exit": return Exit;
+			case "forfeit": return Forfeit;
             default : return null;
         }
     }

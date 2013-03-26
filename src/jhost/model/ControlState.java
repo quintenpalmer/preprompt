@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Set;
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
@@ -9,50 +10,33 @@ import model.Phase;
 import model.SuperPhase;
 
 public class ControlState{
+	Set<Integer> uids;
 	int phase;
 	int superPhase;
 	int turnOwner;
 	boolean hasDrawn;
 
-	public ControlState(){
+	public ControlState(Set<Integer> uids){
+		this.uids = uids;
 		this.phase = Phase.first;
 		this.superPhase = SuperPhase.first;
-		this.turnOwner = decideFirstPlayer();
 		this.hasDrawn = false;
+		this.turnOwner = decideFirstPlayer();
 	}
 
-	public ControlState(XmlParser xmlParser, Element element){
-		try{
-			this.phase = xmlParser.parseInt(element,"phase");
-			this.superPhase = xmlParser.parseInt(element,"super_phase");
-			this.turnOwner = xmlParser.parseInt(element,"turn_owner");
-			this.hasDrawn = xmlParser.parseBool(element,"has_drawn");
-		}
-		catch(PPXmlException e){
-			System.out.println(e.getMessage());
-		}
+	public ControlState(XmlParser xmlParser, Element element, Set<Integer> uids) throws PPXmlException{
+		this.uids = uids;
+		this.phase = xmlParser.parseInt(element,"phase");
+		this.superPhase = xmlParser.parseInt(element,"super_phase");
+		this.hasDrawn = xmlParser.parseBool(element,"has_drawn");
+		this.turnOwner = xmlParser.parseInt(element,"turn_owner");
 	}
 
-	public String xmlOutput(int meUid, int meIndex, int themUid, int themIndex, boolean full) throws PPGameActionException{
-		int uid;
-		if(!full){
-			if(this.turnOwner == meIndex){
-				uid = meUid;
-			}
-			else if(this.turnOwner == themIndex){
-				uid = themUid;
-			}
-			else{
-				throw new PPGameActionException("Invalid user id provided internally");
-			}
-		}
-		else{
-			uid = this.turnOwner;
-		}
+	public String xmlOutput(boolean full) throws PPGameActionException{
 		String xml = "<super_phase>"+Integer.toString(this.superPhase)+"</super_phase>";
 		xml += "<phase>"+Integer.toString(this.phase)+"</phase>";
-		xml += "<turn_owner>"+Integer.toString(uid)+"</turn_owner>";
 		xml += "<has_drawn>"+Boolean.toString(this.hasDrawn)+"</has_drawn>";
+		xml += "<turn_owner>"+Integer.toString(this.turnOwner)+"</turn_owner>";
 		return xml;
 	}
 
@@ -64,12 +48,12 @@ public class ControlState{
 		}
 	}
 
-	public void toggleTurn(int numPlayers) throws PPGameActionException{
+	public void didDraw(){
+		this.hasDrawn = true;
+	}
+
+	public void toggleTurn() throws PPGameActionException{
 		if(this.phase == Phase.post){
-			this.turnOwner += 1;
-			if(this.turnOwner >= numPlayers){
-				this.turnOwner = 0;
-			}
 			this.phase = Phase.draw;
 			this.hasDrawn = false;
 		}
@@ -79,25 +63,31 @@ public class ControlState{
 	}
 
 	public void exitSetupSuperPhase() throws PPGameActionException{
-		if(this.superPhase == SuperPhase.setup){
-			this.superPhase = SuperPhase.main;
-		}
-		else{
-			throw new PPGameActionException("Can only be performed in the setup super phase");
-		}
+		verifyGivenSuperPhase(SuperPhase.setup);
+		this.superPhase = SuperPhase.main;
 	}
 
 	public void exitMainSuperPhase() throws PPGameActionException{
-		if(this.superPhase == SuperPhase.main){
-			this.superPhase = SuperPhase.end;
-		}
-		else{
-			throw new PPGameActionException("Can only be performed in the main super phase");
+		verifyGivenSuperPhase(SuperPhase.main);
+		this.superPhase = SuperPhase.end;
+	}
+
+	public void verifyGivenSuperPhase(int superPhase) throws PPGameActionException{
+		if(!(this.superPhase == superPhase)){
+			throw new PPGameActionException("Wrong super phase");
 		}
 	}
 
-	public boolean isGivenPhase(int givenPhase){
-		return this.phase == givenPhase;
+	public void verifyGivenPhase(int givenPhase) throws PPGameActionException{
+		if(!(this.phase == givenPhase)){
+			throw new PPGameActionException("Wrong phase");
+		}
+	}
+
+	public void verifyCanDraw() throws PPGameActionException{
+		if(this.hasDrawn){
+			throw new PPGameActionException("Already drew this turn");
+		}
 	}
 
 	public int getSuperPhase(){
@@ -111,7 +101,8 @@ public class ControlState{
 	}
 
 	private int decideFirstPlayer(){
-		int who = 0;
+		int who = (int)this.uids.toArray()[0];
 		return who;
 	}
+
 }

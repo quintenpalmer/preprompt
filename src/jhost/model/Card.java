@@ -14,15 +14,17 @@ public class Card{
 		this.effect = effect;
 	}
 
-	public Card(XmlParser xmlParser, Element element){
-		try{
-			String cardType = xmlParser.parseString(element,"type");
-			this.name = xmlParser.parseString(element,"name");
-			this.effect = new Effect(xmlParser,xmlParser.parseElement(element,"effect"));
-		}
-		catch(PPXmlException e){
-			System.out.println(e.getMessage());
-		}
+	public Card(XmlParser xmlParser, Element element) throws PPXmlException{
+		String cardType = xmlParser.parseString(element,"type");
+		this.name = xmlParser.parseString(element,"name");
+		this.effect = new Effect(xmlParser,xmlParser.parseElement(element,"effect"));
+	}
+
+	public String xmlOutput(boolean full){
+		String xml = "<type>full</type>";
+		xml += "<name>"+this.name+"</name>";
+		xml += "<effect>"+this.effect.xmlOutput(full)+"</effect>";
+		return xml;
 	}
 
 	public void play(String args){

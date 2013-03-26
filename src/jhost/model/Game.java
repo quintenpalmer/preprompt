@@ -1,23 +1,25 @@
 package model;
 
 import org.w3c.dom.Element;
+import java.util.*;
 
 import pplib.XmlParser;
 import pplib.exceptions.*;
 
+import model.ClTypes;
 import model.PlayerContainer;
 import model.ControlState;
 
 
 public class Game{
-	PlayerContainer[] players;
+	HashMap<Integer,PlayerContainer> players;
 	ControlState controlState;
 
 	public Game(PlayerContainer p1, PlayerContainer p2){
-		this.players = new PlayerContainer[2];
-		this.players[0] = p1;
-		this.players[1] = p2;
-		this.controlState = new ControlState();
+		this.players = new HashMap<Integer,PlayerContainer>();
+		this.players.put(p1.getPlayer().getUid(),p1);
+		this.players.put(p2.getPlayer().getUid(),p2);
+		this.controlState = new ControlState(this.players.keySet());
 	}
 
 	public Game(String xml){
@@ -25,10 +27,12 @@ public class Game{
 			XmlParser xmlParser = new XmlParser();
 			Element rawElement = xmlParser.createElement(xml);
 			Element gameElement = xmlParser.parseElement(rawElement,"game");
-			this.players = new PlayerContainer[2];
-			this.players[0] = new PlayerContainer(xmlParser,xmlParser.parseElement(gameElement,"me"));
-			this.players[1] = new PlayerContainer(xmlParser,xmlParser.parseElement(gameElement,"them"));
-			this.controlState = new ControlState(xmlParser,xmlParser.parseElement(gameElement,"control_state"));
+			this.players = new HashMap<Integer,PlayerContainer>();
+			PlayerContainer tmpPlayer = new PlayerContainer(xmlParser,xmlParser.parseElement(gameElement,"me"));
+			this.players.put(tmpPlayer.getPlayer().getUid(),tmpPlayer);
+			tmpPlayer = new PlayerContainer(xmlParser,xmlParser.parseElement(gameElement,"them"));
+			this.players.put(tmpPlayer.getPlayer().getUid(),tmpPlayer);
+			this.controlState = new ControlState(xmlParser,xmlParser.parseElement(gameElement,"control_state"),this.players.keySet());
 		}
 		catch(PPXmlException e){
 			System.out.println(e.getMessage());
@@ -50,23 +54,17 @@ public class Game{
 			full = false;
 		}
 
-		int meIndex = getIndexFromUid(meUid);
-		int themUid = getThemFromUid(meUid).getPlayer().getUid();
-		int themIndex = getIndexFromUid(themUid);
 		String xml = "<game>";
 		xml += "<me>"+getMeFromUid(meUid).xmlOutput(mePlayerType)+"</me>";
-		xml += "<them>"+getMeFromUid(themUid).xmlOutput(themPlayerType)+"</them>";
-		xml += "<control_state>"+this.controlState.xmlOutput(meUid,meIndex,themUid,themIndex,full)+"</control_state>";
+		xml += "<them>"+getThemFromUid(meUid).xmlOutput(themPlayerType)+"</them>";
+		xml += "<control_state>"+this.controlState.xmlOutput(full)+"</control_state>";
 		xml += "</game>";
 		return xml;
 	}
 
 	public PlayerContainer getMeFromUid(int uid) throws PPGameActionException{
-		if(this.players[0].getPlayer().getUid() == uid){
-			return this.players[0];
-		}
-		else if(this.players[1].getPlayer().getUid() == uid){
-			return this.players[1];
+		if(this.players.containsKey(uid)){
+			return this.players.get(uid);
 		}
 		else{
 			throw new PPGameActionException("Not the uid of a player playing this game");
@@ -74,63 +72,77 @@ public class Game{
 	}
 
 	public PlayerContainer getThemFromUid(int uid) throws PPGameActionException{
-		if(this.players[0].getPlayer().getUid() == uid){
-			return this.players[1];
-		}
-		else if(this.players[1].getPlayer().getUid() == uid){
-			return this.players[0];
+		if(this.players.containsKey(uid)){
+			return this.players.get(uid);
 		}
 		else{
 			throw new PPGameActionException("Not the uid of a player playing this game");
-		}
-	}
-
-	public int getIndexFromUid(int uid) throws PPGameActionException{
-		if(this.players[0].getPlayer().getUid() == uid){
-			return 0;
-		}
-		else if(this.players[1].getPlayer().getUid() == uid){
-			return 1;
-		}
-		else{
-			throw new PPGameActionException("Not the uid of a player playing this game");
-		}
-	}
-
-	public int getCurrentTurnOwnerUid(){
-		return this.players[this.controlState.getTurnOwner()].getPlayer().getUid();
-	}
-
-	public void verifyMainSuperPhase() throws PPGameActionException{
-		if(!(this.controlState.getSuperPhase() == SuperPhase.main)){
-			throw new PPGameActionException("Can only be performed during the main super phase");
-		}
-	}
-
-	public void verifySetupSuperPhase() throws PPGameActionException{
-		if(!(this.controlState.getSuperPhase() == SuperPhase.main)){
-			throw new PPGameActionException("Can only be be done during the setup super phase");
 		}
 	}
 
 	public void verifyCurrentTurnOwner(int uid) throws PPGameActionException{
-		if(!(getCurrentTurnOwnerUid() == uid)){
+		if(!(this.controlState.getTurnOwner() == uid)){
 			throw new PPGameActionException("It is not player "+Integer.toString(uid)+"'s turn");
 		}
 	}
 
 	public int checkGameEnd(){
 		int uid=0;
-		for(int i=0;i<this.players.length;i++){
-			if(this.players[i].getPlayer().getHealth() <= 0){
+		for(PlayerContainer pc : this.players.values()){
+			if(pc.getPlayer().getHealth() <= 0){
 				if(uid!=0){
 					uid = -1;
 				}
 				else{
-					uid = this.players[i].getPlayer().getUid();
+					uid = pc.getPlayer().getUid();
 				}
 			}
 		}
 		return uid;
+	}
+
+	public void setup() throws PPGameActionException{
+		this.controlState.verifyGivenSuperPhase(SuperPhase.setup);
+		for(PlayerContainer player : this.players.values()){
+			for(int i=0;i<5;i++){
+				player.getDeck().draw();
+			}
+		}
+		this.controlState.exitSetupSuperPhase();
+	}
+
+	public void draw(int uid) throws PPGameActionException{
+		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
+		verifyCurrentTurnOwner(uid);
+		this.controlState.verifyGivenPhase(Phase.draw);
+		this.controlState.verifyCanDraw();
+		getMeFromUid(uid).getDeck().draw();
+		this.controlState.didDraw();
+	}
+
+	public void play(int uid) throws PPGameActionException{
+		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
+		verifyCurrentTurnOwner(uid);
+		//TODO Implement card playing
+	}
+
+	public void stepPhase(int uid) throws PPGameActionException{
+		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
+		verifyCurrentTurnOwner(uid);
+		this.controlState.stepPhase();
+	}
+
+	public void stepTurn(int uid) throws PPGameActionException{
+		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
+		verifyCurrentTurnOwner(uid);
+		this.controlState.toggleTurn();
+	}
+
+	public void forfeit(int uid) throws PPGameActionException{
+		//TODO Implement forfeit
+	}
+
+	public Collection<PlayerContainer> getPlayers(){
+		return this.players.values();
 	}
 }

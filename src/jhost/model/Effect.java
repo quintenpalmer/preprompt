@@ -11,13 +11,12 @@ public class Effect{
 
 	}
 
-	public Effect(XmlParser xmlParser, Element element){
-		try{
-			xmlParser.parseInt(element,"name");
-		}
-		catch(PPXmlException e){
-			System.out.println(e.getMessage());
-		}
+	public Effect(XmlParser xmlParser, Element element) throws PPXmlException {
+		xmlParser.parseInt(element,"name");
+	}
+
+	public String xmlOutput(boolean full){
+		return "5";
 	}
 
 	public void play(String args){
