@@ -27,6 +27,12 @@ public class PlayerContainer{
 		}
 	}
 
+	public String xmlOutput(int playerType){
+		String xml = "<player>"+this.player.xmlOutput(playerType)+"</player>";
+		xml += "<collection>"+this.deck.xmlOutput(playerType)+"</collection>";
+		return xml;
+	}
+
 	public Player getPlayer(){
 		return this.player;
 	}

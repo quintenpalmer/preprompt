@@ -26,7 +26,7 @@ public class ResponseBuilder{
 		resp += "<resp_status>ok</resp_status>";
 		resp += "<resp_type>"+commandType.toString()+"</resp_type>";
 		resp += "<game_id>"+Integer.toString(gameId)+"</game_id>";
-		resp += "game_xml>"+xml+"</game_xml>";
+		resp += "<game_xml>"+xml+"</game_xml>";
 		resp += "</resp>";
 		return resp;
 	}

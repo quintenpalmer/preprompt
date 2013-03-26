@@ -35,8 +35,30 @@ public class Game{
 		}
 	}
 
-	public String xmlOutput(int uid){
-		return "<game>hi</game>";
+	public String xmlOutput(int meUid) throws PPGameActionException{
+		int mePlayerType;
+		int themPlayerType;
+		boolean full;
+		if(meUid == PlayerType.full){
+			mePlayerType = PlayerType.full;
+			themPlayerType = PlayerType.full;
+			full = true;
+		}
+		else{
+			mePlayerType = PlayerType.me;
+			themPlayerType = PlayerType.them;
+			full = false;
+		}
+
+		int meIndex = getIndexFromUid(meUid);
+		int themUid = getThemFromUid(meUid).getPlayer().getUid();
+		int themIndex = getIndexFromUid(themUid);
+		String xml = "<game>";
+		xml += "<me>"+getMeFromUid(meUid).xmlOutput(mePlayerType)+"</me>";
+		xml += "<them>"+getMeFromUid(themUid).xmlOutput(themPlayerType)+"</them>";
+		xml += "<control_state>"+this.controlState.xmlOutput(meUid,meIndex,themUid,themIndex,full)+"</control_state>";
+		xml += "</game>";
+		return xml;
 	}
 
 	public PlayerContainer getMeFromUid(int uid) throws PPGameActionException{

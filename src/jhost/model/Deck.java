@@ -38,6 +38,10 @@ public class Deck{
 		}
 	}
 
+	public String xmlOutput(int playerType){
+		return "";
+	}
+
 	public void draw() throws PPGameActionException{
 		this.cardLists[ClTypes.hand].push(this.cardLists[ClTypes.deck].pop(-1));
 	}

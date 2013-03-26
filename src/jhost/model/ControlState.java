@@ -33,6 +33,29 @@ public class ControlState{
 		}
 	}
 
+	public String xmlOutput(int meUid, int meIndex, int themUid, int themIndex, boolean full) throws PPGameActionException{
+		int uid;
+		if(!full){
+			if(this.turnOwner == meIndex){
+				uid = meUid;
+			}
+			else if(this.turnOwner == themIndex){
+				uid = themUid;
+			}
+			else{
+				throw new PPGameActionException("Invalid user id provided internally");
+			}
+		}
+		else{
+			uid = this.turnOwner;
+		}
+		String xml = "<super_phase>"+Integer.toString(this.superPhase)+"</super_phase>";
+		xml += "<phase>"+Integer.toString(this.phase)+"</phase>";
+		xml += "<turn_owner>"+Integer.toString(uid)+"</turn_owner>";
+		xml += "<has_drawn>"+Boolean.toString(this.hasDrawn)+"</has_drawn>";
+		return xml;
+	}
+
 	public void stepPhase() throws PPGameActionException{
 		this.phase++;
 		if(this.phase > Phase.last){

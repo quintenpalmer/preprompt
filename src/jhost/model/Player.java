@@ -27,6 +27,13 @@ public class Player{
 		}
 	}
 
+	public String xmlOutput(int playerType){
+		String xml = "<uid>"+Integer.toString(this.uid)+"</uid>";
+		xml += "<name>"+this.name+"</name>";
+		xml += "<health>"+Integer.toString(this.health)+"</health>";
+		return xml;
+	}
+
 	public void receiveDamage(int amount) throws PPGameActionException{
 		if(this.health <= 0){
 			this.health += amount;
