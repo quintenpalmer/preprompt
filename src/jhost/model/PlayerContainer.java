@@ -3,7 +3,7 @@ package model;
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
-import pplib.exceptions.PPXmlException;
+import pplib.exceptions.*;
 
 import model.Player;
 import model.Deck;
@@ -27,7 +27,7 @@ public class PlayerContainer{
 		}
 	}
 
-	public String xmlOutput(int playerType){
+	public String xmlOutput(int playerType) throws PPGameActionException{
 		String xml = "<player>"+this.player.xmlOutput(playerType)+"</player>";
 		xml += "<collection>"+this.deck.xmlOutput(playerType)+"</collection>";
 		return xml;

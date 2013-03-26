@@ -8,6 +8,7 @@ import pplib.exceptions.*;
 import model.CardList;
 import model.Card;
 import model.ClTypes;
+import model.PlayerType;
 
 public class Deck{
 	CardList[] cardLists;
@@ -22,24 +23,49 @@ public class Deck{
 		this.visibility = new Visibility();
 	}
 
-	public Deck(XmlParser xmlParser, Element element){
-		try{
-			this.cardLists = new CardList[ClTypes.size];
-			this.cardLists[ClTypes.deck] = new CardList(xmlParser,xmlParser.parseElement(element,"deck"));
-			this.cardLists[ClTypes.hand] = new CardList(xmlParser,xmlParser.parseElement(element,"hand"));
-			this.cardLists[ClTypes.active] = new CardList(xmlParser,xmlParser.parseElement(element,"active"));
-			this.cardLists[ClTypes.grave] = new CardList(xmlParser,xmlParser.parseElement(element,"grave"));
-			this.cardLists[ClTypes.special] = new CardList(xmlParser,xmlParser.parseElement(element,"special"));
-			this.cardLists[ClTypes.other] = new CardList(xmlParser,xmlParser.parseElement(element,"other"));
-			this.visibility = new Visibility(xmlParser,xmlParser.parseElement(element,"visibilities"));
-		}
-		catch(PPXmlException e){
-			System.out.println(e.getMessage());
-		}
+	public Deck(XmlParser xmlParser, Element element) throws PPXmlException{
+		this.cardLists = new CardList[ClTypes.size];
+		this.cardLists[ClTypes.deck] = new CardList(xmlParser,xmlParser.parseElement(element,"deck"));
+		this.cardLists[ClTypes.hand] = new CardList(xmlParser,xmlParser.parseElement(element,"hand"));
+		this.cardLists[ClTypes.active] = new CardList(xmlParser,xmlParser.parseElement(element,"active"));
+		this.cardLists[ClTypes.grave] = new CardList(xmlParser,xmlParser.parseElement(element,"grave"));
+		this.cardLists[ClTypes.special] = new CardList(xmlParser,xmlParser.parseElement(element,"special"));
+		this.cardLists[ClTypes.other] = new CardList(xmlParser,xmlParser.parseElement(element,"other"));
+		this.visibility = new Visibility(xmlParser,xmlParser.parseElement(element,"visibilities"));
 	}
 
-	public String xmlOutput(int playerType){
-		return "";
+	public String xmlOutput(int playerType) throws PPGameActionException{
+		int visIndex;
+		boolean full;
+		if(playerType == PlayerType.full){
+			visIndex = 0;
+			full = true;
+		}
+		else{
+			full = false;
+			if(playerType == PlayerType.me){
+				visIndex = 1;
+			}
+			else if(playerType == PlayerType.them){
+				visIndex = 2;
+			}
+			else{
+				throw new PPGameActionException("Internal Error invalid player type passed");
+			}
+		}
+
+		String xml = "<lists>";
+		for(int i=0;i<ClTypes.size;i++){
+			xml += "<"+ClTypes.names[i]+">";
+			xml += this.cardLists[i].xmlOutput(full,this.visibility.doubleIndex(i,visIndex));
+			xml += "</"+ClTypes.names[i]+">";
+		}
+		if(full){
+			xml += "<visibilities>";
+			xml += this.visibility.xmlOutput();
+			xml += "<visibilities>";
+		}
+		return xml;
 	}
 
 	public void draw() throws PPGameActionException{
@@ -62,7 +88,6 @@ public class Deck{
 		boolean[][] visible;
 
 		public Visibility(){
-			this.visible = new boolean[ClTypes.size][];
 			this.visible = new boolean[][] {
 			{true,false,false},
 			{true,true,false},
@@ -70,32 +95,37 @@ public class Deck{
 			{true,true,true},
 			{true,false,false},
 			{true,true,false}};
-			/*
-			this.visible[ClTypes.deck] = {true,false,false};
-			this.visible[ClTypes.hand] = {true,true,false};
-			this.visible[ClTypes.active] = {true,true,true};
-			this.visible[ClTypes.grave] = {true,true,true};
-			this.visible[ClTypes.special] = {true,false,false};
-			this.visible[ClTypes.special] = {true,true,false};
-			*/
 		}
 
-		public Visibility(XmlParser xmlParser, Element element){
-			this.visible = new boolean[ClTypes.size][];
-			/*
-			Element subElement = xmlParser.parseElement(element,cltypes.names[cltypes.deck]);
-			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
-			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.hand]);
-			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
-			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.active]);
-			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
-			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.grave]);
-			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
-			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.special]);
-			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
-			subElement = xmlParser.parseElement(element,cltypes.names[cltypes.other]);
-			this.visible = {true,xmlParser.parseBool(subElement,"me_vis"),xmlParser.parseBool(subElement,"them_vis")};
-			*/
+		public Visibility(XmlParser xmlParser, Element element) throws PPXmlException{
+			Element deckElement = xmlParser.parseElement(element,ClTypes.names[ClTypes.deck]);
+			Element handElement = xmlParser.parseElement(element,ClTypes.names[ClTypes.deck]);
+			Element activeElement = xmlParser.parseElement(element,ClTypes.names[ClTypes.deck]);
+			Element graveElement = xmlParser.parseElement(element,ClTypes.names[ClTypes.deck]);
+			Element specialElement = xmlParser.parseElement(element,ClTypes.names[ClTypes.deck]);
+			Element otherElement = xmlParser.parseElement(element,ClTypes.names[ClTypes.deck]);
+			this.visible = new boolean[][] {
+			{true,xmlParser.parseBool(deckElement,"me_vis"),xmlParser.parseBool(deckElement,"them_vis")},
+			{true,xmlParser.parseBool(handElement,"me_vis"),xmlParser.parseBool(handElement,"them_vis")},
+			{true,xmlParser.parseBool(activeElement,"me_vis"),xmlParser.parseBool(activeElement,"them_vis")},
+			{true,xmlParser.parseBool(graveElement,"me_vis"),xmlParser.parseBool(graveElement,"them_vis")},
+			{true,xmlParser.parseBool(specialElement,"me_vis"),xmlParser.parseBool(specialElement,"them_vis")},
+			{true,xmlParser.parseBool(otherElement,"me_vis"),xmlParser.parseBool(otherElement,"them_vis")}};
+		}
+
+		public String xmlOutput(){
+			String xml = "";
+			for(int i=0;i<ClTypes.size;i++){
+				xml += "<"+ClTypes.names[i]+">";
+				xml += "<me_vis>"+Boolean.toString(this.visible[i][1])+"</me_vis>";
+				xml += "<them_vis>"+Boolean.toString(this.visible[i][2])+"</them_vis>";
+				xml += "</"+ClTypes.names[i]+">";
+			}
+			return xml;
+		}
+
+		public boolean doubleIndex(int i, int j){
+			return this.visible[i][j];
 		}
 	}
 }

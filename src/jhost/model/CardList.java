@@ -33,6 +33,10 @@ public class CardList{
 		}
 	}
 
+	public String xmlOutput(boolean full, boolean vis){
+		return "hi";
+	}
+
 	public Card pop(int index) throws PPGameActionException{
 		try{
 			if(index == -1){

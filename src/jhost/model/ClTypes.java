@@ -12,16 +12,15 @@ public class ClTypes{
 
 	public static int size = 6;
 
-	public static String[] names = {"deck","hand","active","grave","special","other"};
-	/*
-	new String[size];
-	names[deck] = "deck";
-	names[hand] = "hand";
-	names[active] = "active";
-	names[grave] = "grave";
-	names[special] = "special";
-	names[other] = "other";
+	public static String[] names = 
+	{"deck",
+	"hand",
+	"active",
+	"grave",
+	"special",
+	"other"};
 
+	/*
 	public static HashMap<String,Integer> values = new HashMap<String,Integer>();
 	values["deck"] = deck;
 	values["hand"] = hand;
