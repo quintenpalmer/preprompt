@@ -2,6 +2,8 @@ package control;
 
 import java.util.ArrayList;
 
+import control.CardLoader;
+import model.ElementType;
 import model.Game;
 import model.PlayerContainer;
 import model.Player;
@@ -17,7 +19,7 @@ public class DatabaseReader{
 			ArrayList<Card> cards = new ArrayList<Card>(10);
 			int[] loadedDeck = {1,1,1,1,1,1,1,1,1,1};
 			for(int cardId : loadedDeck){
-				cards.add(new Card("Fire Blast",new Effect()));
+				cards.add(CardLoader.getDirectDamage("Fire Blast",ElementType.fire,5));
 			}
 			Deck deck = new Deck(cards);
 			pcs[i] = new PlayerContainer(player,deck);

@@ -12,7 +12,7 @@ public class ClTypes{
 
 	public static int size = 6;
 
-	public static String[] names = 
+	public static String[] names =
 	{"deck",
 	"hand",
 	"active",

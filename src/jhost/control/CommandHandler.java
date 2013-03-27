@@ -38,7 +38,7 @@ public class CommandHandler{
 			commandType = CommandType.getCommandType(
 				this.xmlParser.parseString(element,"command") );
 			metaType = getMetaType(commandType);
-			System.out.println(metaType);
+			//System.out.println(metaType);
 			ret = responseBuilder.respondNotImplemented();
 			if(metaType == MetaType.sys){
 				if(commandType == CommandType.Test){
@@ -122,8 +122,8 @@ public class CommandHandler{
 			return MetaType.unknown;
 		}
 	}
-}
 
-enum MetaType{
-	meta,perform,sys,unknown;
+	private enum MetaType{
+		meta,perform,sys,unknown;
+	}
 }
