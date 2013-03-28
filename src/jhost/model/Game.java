@@ -9,6 +9,7 @@ import pplib.exceptions.*;
 import model.ClTypes;
 import model.PlayerContainer;
 import model.ControlState;
+import model.Effect;
 
 
 public class Game{
@@ -72,8 +73,15 @@ public class Game{
 	}
 
 	public PlayerContainer getThemFromUid(int uid) throws PPGameActionException{
-		if(this.players.containsKey(uid)){
-			return this.players.get(uid);
+		boolean takeNext = false;
+		Object[] keys = this.players.keySet().toArray();
+		if(keys[0] == uid){
+			System.out.println(this.players.get(keys[1]));
+			return this.players.get(keys[1]);
+		}
+		else if(keys[1] == uid){
+			System.out.println(keys);
+			return this.players.get(keys[0]);
 		}
 		else{
 			throw new PPGameActionException("Not the uid of a player playing this game");
@@ -124,6 +132,11 @@ public class Game{
 		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
 		verifyCurrentTurnOwner(uid);
 		//TODO Implement card playing
+		int srcList = 1;
+		int srcCard = 0;
+		PlayerContainer me = getMeFromUid(uid);
+		Effect effect = me.getDeck().getCardList(srcList).getCard(srcCard).getEffect();
+		this.controlState.verifyGivenPhases(effect.getInstantList().getPhases());
 	}
 
 	public void stepPhase(int uid) throws PPGameActionException{

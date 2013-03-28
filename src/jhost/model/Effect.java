@@ -29,4 +29,8 @@ public class Effect{
 
 	public void play(String args){
 	}
+
+	public InstantList getInstantList(){
+		return this.instantList;
+	}
 }

@@ -38,6 +38,9 @@ Host:
  - Make host require 2 new requests to start a game (a game between the two users)
  - Add more card effects
  - Limit copies of a card
+ - Finish Actions
+ - Finish Play
+ - Still have parameters per different type of card
 
 Web:
  - Make requests and responses async

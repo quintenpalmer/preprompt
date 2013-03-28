@@ -66,6 +66,10 @@ public class CardList{
 		return this.cards;
 	}
 
+	public Card getCard(int index){
+		return this.cards.get(index);
+	}
+
 	public void shuffle(){
 		//TODO
 	}

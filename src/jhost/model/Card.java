@@ -27,6 +27,10 @@ public class Card{
 		return xml;
 	}
 
+	public Effect getEffect(){
+		return this.effect;
+	}
+
 	public void play(String args){
 		this.effect.play(args);
 	}

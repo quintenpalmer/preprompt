@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Set;
+import java.util.*;
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
@@ -80,6 +80,12 @@ public class ControlState{
 
 	public void verifyGivenPhase(int givenPhase) throws PPGameActionException{
 		if(!(this.phase == givenPhase)){
+			throw new PPGameActionException("Wrong phase");
+		}
+	}
+
+	public void verifyGivenPhases(ArrayList<Integer> givenPhases) throws PPGameActionException{
+		if(!(givenPhases.contains(this.phase))){
 			throw new PPGameActionException("Wrong phase");
 		}
 	}
