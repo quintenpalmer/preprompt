@@ -84,8 +84,14 @@ public class ControlState{
 		}
 	}
 
-	public void verifyGivenPhases(ArrayList<Integer> givenPhases) throws PPGameActionException{
-		if(!(givenPhases.contains(this.phase))){
+	public void verifyGivenPhases(int[] givenPhases) throws PPGameActionException{
+		boolean contains = false;
+		for(int phase : givenPhases){
+			if(phase == this.phase){
+				contains = true;
+			}
+		}
+		if(!contains){
 			throw new PPGameActionException("Wrong phase");
 		}
 	}
