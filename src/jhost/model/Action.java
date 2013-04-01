@@ -1,6 +1,8 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.*;
+
+import pplib.exceptions.*;
 
 import model.ActionSub;
 import model.Game;
@@ -9,23 +11,26 @@ import model.effect.Instant;
 import model.ElementType;
 
 public class Action{
-	ArrayList<ActionSub> actions;
+	LinkedList<ActionSub> actions;
 	Game game;
 	int uid;
 
 	public Action(Game game, int uid){
-		this.actions = new ArrayList<ActionSub>();
+		this.actions = new LinkedList<ActionSub>();
 		this.game = game;
 		this.uid = uid;
 	}
 
-	public void addAction(Effect effect){
-		for(Instant instant : effect.getInstantList().getInstants()){
+	public void addAction(Effect effect) throws PPGameActionException{
+		for(Instant instant : effect.getInstants()){
 			this.actions.add(new ActionSub(game,uid,instant));
 		}
 	}
 
 	public void act(){
+		while(!actions.isEmpty()){
+			ActionSub action = actions.poll();
+		}
 	}
 
 }

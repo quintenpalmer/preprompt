@@ -6,10 +6,9 @@ import java.util.*;
 import pplib.XmlParser;
 import pplib.exceptions.*;
 
-import model.ClTypes;
 import model.PlayerContainer;
+import model.Action;
 import model.ControlState;
-import model.Effect;
 
 
 public class Game{
@@ -136,7 +135,8 @@ public class Game{
 		int srcCard = 0;
 		PlayerContainer me = getMeFromUid(uid);
 		Effect effect = me.getDeck().getCardList(srcList).getCard(srcCard).getEffect();
-		this.controlState.verifyGivenPhases(effect.getInstantList().getPhases());
+		this.controlState.verifyGivenPhases(effect.getInstantPhases());
+		Action action = new Action(this,uid);
 	}
 
 	public void stepPhase(int uid) throws PPGameActionException{

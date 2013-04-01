@@ -11,6 +11,8 @@ public class ActionSub{
 	PlayerContainer me;
 	PlayerContainer them;
 	ElementType element = null;
+	int damage = 0;
+	int heal = 0;
 
 	public ActionSub(Game game, int uid, Instant instant) throws PPGameActionException{
 		this.game = game;

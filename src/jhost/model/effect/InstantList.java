@@ -12,6 +12,10 @@ public class InstantList{
 		this.validPhases = validPhases;
 	}
 
+	public String xmlOutput(boolean full){
+		return "InstantList";
+	}
+
 	public int[] getPhases(){
 		return this.validPhases;
 	}
