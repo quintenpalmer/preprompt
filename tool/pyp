@@ -98,14 +98,20 @@ run_client(){
 
 compile_java(){
 	cd $pyp
-	javac -cp src/jhost:src/share/java -d build/jhost src/jhost/Host.java
+	if [ ! -e build ]; then
+		mkdir build
+	fi
+	#if [ ! -e build/ppbackend ]; then
+	#	mkdir build/ppbackend
+	#fi
+	javac -cp src:src/share/java -d build src/ppbackend/Host.java
 }
 java_host(){
 	cd $pyp
 	if [ $1 == r ]; then
-		java -cp build/jhost Host
+		java -cp build Host
 	elif [ $1 == b ]; then
-		java -cp build/jhost Host &
+		java -cp build Host &
 	fi
 }
 
