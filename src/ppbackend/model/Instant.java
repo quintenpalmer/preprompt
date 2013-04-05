@@ -8,9 +8,15 @@ import ppbackend.model.InstantCond;
 import ppbackend.model.ActionSub;
 
 public class Instant{
-	InstantEffect effects;
-	ArrayList<InstantCond> conditions;
+	InstantEffect effect;
+	InstantCond[] conditions;
+
+	public Instant(InstantEffect effect, InstantCond[] conds){
+		this.effect = effect;
+		this.conditions = conds;
+	}
 
 	public void applyTo(ActionSub action){
+		this.effect.applyTo(action);
 	}
 }

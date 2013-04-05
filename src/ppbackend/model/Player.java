@@ -30,8 +30,8 @@ public class Player{
 	}
 
 	public void receiveDamage(int amount) throws PPGameActionException{
-		if(this.health <= 0){
-			this.health += amount;
+		if(this.health >= 0){
+			this.health -= amount;
 		}
 		else{
 			throw new PPGameActionException("Cannot damage a negative amount");
@@ -39,8 +39,8 @@ public class Player{
 	}
 
 	public void receiveHeal(int amount) throws PPGameActionException{
-		if(this.health <= 0){
-			this.health -= amount;
+		if(this.health >= 0){
+			this.health += amount;
 		}
 		else{
 			throw new PPGameActionException("Cannot heal a negative amount");

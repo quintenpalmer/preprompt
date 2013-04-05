@@ -4,10 +4,10 @@ import java.util.*;
 import ppbackend.model.Instant;
 
 public class InstantList{
-	ArrayList<Instant> instants;
+	Instant[] instants;
 	int[] validPhases;
 
-	public InstantList(ArrayList<Instant> instants, int[] validPhases){
+	public InstantList(Instant[] instants, int[] validPhases){
 		this.instants = instants;
 		this.validPhases = validPhases;
 	}
@@ -20,7 +20,7 @@ public class InstantList{
 		return this.validPhases;
 	}
 
-	public ArrayList<Instant> getInstants(){
+	public Instant[] getInstants(){
 		return this.instants;
 	}
 }

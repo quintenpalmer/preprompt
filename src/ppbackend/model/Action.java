@@ -24,9 +24,10 @@ public class Action{
 		}
 	}
 
-	public void act(){
+	public void act() throws PPGameActionException{
 		while(!actions.isEmpty()){
 			ActionSub action = actions.poll();
+			action.act();
 		}
 	}
 }

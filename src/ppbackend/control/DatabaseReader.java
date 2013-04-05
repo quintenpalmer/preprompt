@@ -19,8 +19,7 @@ public class DatabaseReader{
 			ArrayList<Card> cards = new ArrayList<Card>(10);
 			int[] loadedDeck = {1,1,1,1,1,1,1,1,1,1};
 			for(int cardId : loadedDeck){
-				ElementType[] elementTypes = {ElementType.fire};
-				cards.add(CardLoader.getDirectDamage("Fire Blast",elementTypes,5));
+				cards.add(CardLoader.getDirectDamage("Fire Blast",ElementType.fire,5));
 			}
 			Deck deck = new Deck(cards);
 			pcs[i] = new PlayerContainer(player,deck);

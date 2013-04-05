@@ -75,11 +75,9 @@ public class Game{
 		boolean takeNext = false;
 		Object[] keys = this.players.keySet().toArray();
 		if(keys[0] == uid){
-			System.out.println(this.players.get(keys[1]));
 			return this.players.get(keys[1]);
 		}
 		else if(keys[1] == uid){
-			System.out.println(keys);
 			return this.players.get(keys[0]);
 		}
 		else{
@@ -137,6 +135,7 @@ public class Game{
 		Effect effect = me.getDeck().getCardList(srcList).getCard(srcCard).getEffect();
 		this.controlState.verifyGivenPhases(effect.getInstantPhases());
 		Action action = new Action(this,uid,effect);
+		action.act();
 	}
 
 	public void stepPhase(int uid) throws PPGameActionException{

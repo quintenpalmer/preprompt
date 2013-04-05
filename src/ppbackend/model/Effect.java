@@ -11,13 +11,13 @@ public class Effect{
 	InstantList instantList;
 	PersistList persistList;
 	PersistActivateList pactivateList;
-	ElementType[] elements;
+	ElementType elementType;
 
-	public Effect(InstantList instantList, PersistList persistList, PersistActivateList pactivateList, ElementType[] elements){
+	public Effect(InstantList instantList, PersistList persistList, PersistActivateList pactivateList, ElementType elementType){
 		this.instantList = instantList;
 		this.persistList = persistList;
 		this.pactivateList = pactivateList;
-		this.elements = elements;
+		this.elementType = elementType;
 	}
 
 	public Effect(XmlParser xmlParser, Element element) throws PPXmlException {
@@ -29,9 +29,7 @@ public class Effect{
 		xml += "<persists>"+this.persistList.xmlOutput(full)+"</persists>";
 		xml += "<pactivates>"+this.pactivateList.xmlOutput(full)+"</pactivates>";
 		xml += "<elements>";
-		for(ElementType element : this.elements){
-			xml += "<element>"+element.toString()+"</element>";
-		}
+		xml += "<element>"+elementType.toString()+"</element>";
 		xml += "</elements>";
 		return xml;
 	}
@@ -43,7 +41,7 @@ public class Effect{
 		return this.instantList.getPhases();
 	}
 
-	public ArrayList<Instant> getInstants(){
+	public Instant[] getInstants(){
 		return this.instantList.getInstants();
 	}
 }
