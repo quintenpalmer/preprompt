@@ -1,6 +1,8 @@
 # Django settings for postprompt project.
 import os
 
+db_path = os.path.join(os.environ['pyproot'],'opt','postprompt','shared_database')
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -13,7 +15,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/quinten/fun/games/postprompt/root/opt/postprompt/shared_database',  # Or path to database file if using sqlite3.
+        'NAME': db_path,  # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.

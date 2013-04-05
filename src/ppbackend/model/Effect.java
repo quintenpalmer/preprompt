@@ -37,6 +37,10 @@ public class Effect{
 	public void play(String args){
 	}
 
+	public boolean doesPersist(){
+		return this.persistList.doesPersist();
+	}
+
 	public int[] getInstantPhases(){
 		return this.instantList.getPhases();
 	}

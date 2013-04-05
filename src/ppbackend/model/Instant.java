@@ -2,10 +2,7 @@ package ppbackend.model;
 
 import java.util.ArrayList;
 
-import ppbackend.model.InstantEffect;
-import ppbackend.model.InstantCond;
-
-import ppbackend.model.ActionSub;
+import ppbackend.model.*;
 
 public class Instant{
 	InstantEffect effect;
@@ -16,7 +13,15 @@ public class Instant{
 		this.conditions = conds;
 	}
 
-	public void applyTo(ActionSub action){
+	public void applyTo(SubAction action){
 		this.effect.applyTo(action);
+	}
+
+	public boolean isValid(Game game,SubAction action){
+		boolean playable = true;
+		for(InstantCond cond : this.conditions){
+			playable = playable & cond.isValid(game,action);
+		}
+		return playable;
 	}
 }

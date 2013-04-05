@@ -1,7 +1,7 @@
 package ppbackend.model;
 
-import ppbackend.model.ActionSub;
+import ppbackend.model.*;
 
 public interface InstantCond{
-	public boolean isValid(Game game, ActionSub action);
+	public boolean isValid(Game game, SubAction action);
 }

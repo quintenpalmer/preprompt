@@ -21,3 +21,5 @@ pypweb.log
 #build folder (.class)
 build
 *.class
+
+root/opt/postprompt/www/static/*

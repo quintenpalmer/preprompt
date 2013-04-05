@@ -74,11 +74,11 @@ public class Deck{
 		this.cardLists[CLTypes.hand].push(this.cardLists[CLTypes.deck].pop(-1));
 	}
 
-	public void playToActive(int cardId) throws PPGameActionException{
+	public void playHandToActive(int cardId) throws PPGameActionException{
 		this.cardLists[CLTypes.active].push(this.cardLists[CLTypes.hand].pop(cardId));
 	}
 
-	public void playToGrave(int cardId) throws PPGameActionException{
+	public void playHandToGrave(int cardId) throws PPGameActionException{
 		this.cardLists[CLTypes.grave].push(this.cardLists[CLTypes.hand].pop(cardId));
 	}
 

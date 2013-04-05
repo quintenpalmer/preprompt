@@ -4,30 +4,32 @@ import java.util.*;
 
 import pplib.exceptions.*;
 
-import ppbackend.model.ActionSub;
+import ppbackend.model.SubAction;
 import ppbackend.model.Game;
 import ppbackend.model.Effect;
 import ppbackend.model.Instant;
 import ppbackend.model.ElementType;
 
 public class Action{
-	LinkedList<ActionSub> actions;
+	LinkedList<SubAction> actions;
 	Game game;
 	int uid;
 
 	public Action(Game game, int uid, Effect effect) throws PPGameActionException{
-		this.actions = new LinkedList<ActionSub>();
+		this.actions = new LinkedList<SubAction>();
 		this.game = game;
 		this.uid = uid;
 		for(Instant instant : effect.getInstants()){
-			this.actions.add(new ActionSub(game,uid,instant));
+			this.actions.add(new SubAction(game,uid,instant));
 		}
 	}
 
-	public void act() throws PPGameActionException{
+	public boolean act() throws PPGameActionException{
+		boolean success = true;
 		while(!actions.isEmpty()){
-			ActionSub action = actions.poll();
-			action.act();
+			SubAction action = actions.poll();
+			success = success & action.act();
 		}
+		return success;
 	}
 }

@@ -6,10 +6,7 @@ import java.util.*;
 import pplib.XmlParser;
 import pplib.exceptions.*;
 
-import ppbackend.model.PlayerContainer;
-import ppbackend.model.Action;
-import ppbackend.model.ControlState;
-
+import ppbackend.model.*;
 
 public class Game{
 	HashMap<Integer,PlayerContainer> players;
@@ -128,14 +125,20 @@ public class Game{
 	public void play(int uid) throws PPGameActionException{
 		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
 		verifyCurrentTurnOwner(uid);
-		//TODO Implement card playing
 		int srcList = 1;
 		int srcCard = 0;
 		PlayerContainer me = getMeFromUid(uid);
 		Effect effect = me.getDeck().getCardList(srcList).getCard(srcCard).getEffect();
 		this.controlState.verifyGivenPhases(effect.getInstantPhases());
 		Action action = new Action(this,uid,effect);
-		action.act();
+		boolean success = action.act();
+		//TODO Implement which card to play from which location and have card parameters
+		if(effect.doesPersist() && success){
+			me.getDeck().playHandToActive(0);
+		}
+		else{
+			me.getDeck().playHandToGrave(0);
+		}
 	}
 
 	public void stepPhase(int uid) throws PPGameActionException{

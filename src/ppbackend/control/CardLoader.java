@@ -10,10 +10,10 @@ import ppbackend.model.Card;
 public class CardLoader{
 
 	public static Card getDirectDamage(String name, ElementType elementType, int amount){
-		Instant instant = new Instant(new DirectDamage(4,elementType), new InstantCond[]{});
+		Instant instant = new Instant(new DirectDamage(4,elementType), new InstantCond[]{new ValidInstant()});
 		InstantList ilist = new InstantList(new Instant[]{instant},new int[]{2});
 		//{new Instant(new DirectDamage(elementType,amount),{new ValidActivate()})},Phase.main);
-		PersistList plist = new PersistList();
+		PersistList plist = new PersistList(new Persist[]{new DoesNotPersist()},false);
 		PersistActivateList palist = new PersistActivateList();
 		Effect effect = new Effect(ilist,plist,palist,elementType);
 		return new Card(name,effect);
@@ -29,8 +29,23 @@ class DirectDamage implements InstantEffect{
 		this.elementType = elementType;
 	}
 
-	public void applyTo(ActionSub action){
+	public void applyTo(SubAction action){
 		action.setDamage(this.amount);
 		action.setElementType(this.elementType);
+	}
+}
+class ValidInstant implements InstantCond{
+	public boolean isValid(Game game, SubAction action){
+		return true;
+	}
+}
+
+class DoesNotPersist implements Persist{
+	public boolean doesPersist(){
+		return false;
+	}
+	public void tick(){
+	}
+	public void reset(){
 	}
 }
