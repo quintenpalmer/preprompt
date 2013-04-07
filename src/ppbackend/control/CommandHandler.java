@@ -62,7 +62,7 @@ public class CommandHandler{
 					int p2Did = xmlParser.parseInt(element,"p2_did");
 
 					int gameId = model.startGame(p1Uid,p1Did,p2Uid,p2Did);
-					ret = responseBuilder.respondAction(commandType,gameId,model.out(gameId,p1Uid));
+					ret = responseBuilder.respondAction(commandType,gameId,model.xmlOutput(gameId,p1Uid));
 				}
 				else if(commandType == CommandType.List){
 					int uid = xmlParser.parseInt(element,"uid");
@@ -91,7 +91,7 @@ public class CommandHandler{
 				else if(commandType == CommandType.Forfeit){
 					this.game.forfeit(uid);
 				}
-				ret = responseBuilder.respondAction(commandType,gameId,model.out(gameId,uid));
+				ret = responseBuilder.respondAction(commandType,gameId,model.xmlOutput(gameId,uid));
 			}
 			return ret;
 		}

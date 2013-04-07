@@ -10,14 +10,18 @@ import ppbackend.model.Phase;
 import ppbackend.model.SuperPhase;
 
 public class ControlState{
-	Set<Integer> uids;
+	int[] uids;
 	int phase;
 	int superPhase;
 	int turnOwner;
 	boolean hasDrawn;
 
 	public ControlState(Set<Integer> uids){
-		this.uids = uids;
+		this.uids = new int[uids.size()];
+		int i=0;
+		for(Integer integer : uids){
+			this.uids[i++] = integer;
+		}
 		this.phase = Phase.first;
 		this.superPhase = SuperPhase.first;
 		this.hasDrawn = false;
@@ -25,7 +29,12 @@ public class ControlState{
 	}
 
 	public ControlState(XmlParser xmlParser, Element element, Set<Integer> uids) throws PPXmlException{
-		this.uids = uids;
+		this.uids = new int[uids.size()];
+		int i=0;
+		for(Integer integer : uids){
+			this.uids[i] = integer;
+			i++;
+		}
 		this.phase = xmlParser.parseInt(element,"phase");
 		this.superPhase = xmlParser.parseInt(element,"super_phase");
 		this.hasDrawn = xmlParser.parseBool(element,"has_drawn");
@@ -40,7 +49,25 @@ public class ControlState{
 		return xml;
 	}
 
-	public void stepPhase() throws PPGameActionException{
+	private void canDraw(int uid) throws PPGameActionException{
+		this.verifyGivenSuperPhase(SuperPhase.main);
+		this.verifyCurrentTurnOwner(uid);
+		this.verifyGivenPhase(Phase.draw);
+		this.verifyHasNotDrawn();
+	}
+
+	public void draw(int uid) throws PPGameActionException{
+		this.canDraw(uid);
+		this.hasDrawn = true;
+	}
+
+	private void canStepPhase(int uid) throws PPGameActionException{
+		this.verifyGivenSuperPhase(SuperPhase.main);
+		this.verifyCurrentTurnOwner(uid);
+	}
+
+	public void stepPhase(int uid) throws PPGameActionException{
+		this.canStepPhase(uid);
 		this.phase++;
 		if(this.phase > Phase.last){
 			this.phase = Phase.last;
@@ -48,43 +75,59 @@ public class ControlState{
 		}
 	}
 
-	public void didDraw(){
-		this.hasDrawn = true;
-	}
-
-	public void toggleTurn() throws PPGameActionException{
-		if(this.phase == Phase.post){
-			this.phase = Phase.draw;
-			this.hasDrawn = false;
-		}
-		else{
+	private void canToggleTurn(int uid) throws PPGameActionException{
+		this.verifyGivenSuperPhase(SuperPhase.main);
+		this.verifyCurrentTurnOwner(uid);
+		if(! (this.phase == Phase.post)){
 			throw new PPGameActionException("Can only end your turn during the post phase");
 		}
 	}
 
+	public void toggleTurn(int uid) throws PPGameActionException{
+		this.canToggleTurn(uid);
+		if(this.uids[0] == uid){
+			this.turnOwner = uids[1];
+		}
+		else{
+			this.turnOwner = uids[0];
+		}
+		this.phase = Phase.draw;
+		this.hasDrawn = false;
+	}
+
+	private void canPlay(int uid, int[] phases) throws PPGameActionException{
+		this.verifyGivenSuperPhase(SuperPhase.main);
+		this.verifyCurrentTurnOwner(uid);
+		this.verifyGivenPhases(phases);
+	}
+
+	public void play(int uid, int[] phases) throws PPGameActionException{
+		this.canPlay(uid,phases);
+	}
+
 	public void exitSetupSuperPhase() throws PPGameActionException{
-		verifyGivenSuperPhase(SuperPhase.setup);
+		this.verifyGivenSuperPhase(SuperPhase.setup);
 		this.superPhase = SuperPhase.main;
 	}
 
 	public void exitMainSuperPhase() throws PPGameActionException{
-		verifyGivenSuperPhase(SuperPhase.main);
+		this.verifyGivenSuperPhase(SuperPhase.main);
 		this.superPhase = SuperPhase.end;
 	}
 
-	public void verifyGivenSuperPhase(int superPhase) throws PPGameActionException{
+	private void verifyGivenSuperPhase(int superPhase) throws PPGameActionException{
 		if(!(this.superPhase == superPhase)){
 			throw new PPGameActionException("Wrong super phase");
 		}
 	}
 
-	public void verifyGivenPhase(int givenPhase) throws PPGameActionException{
+	private void verifyGivenPhase(int givenPhase) throws PPGameActionException{
 		if(!(this.phase == givenPhase)){
 			throw new PPGameActionException("Wrong phase");
 		}
 	}
 
-	public void verifyGivenPhases(int[] givenPhases) throws PPGameActionException{
+	private void verifyGivenPhases(int[] givenPhases) throws PPGameActionException{
 		boolean contains = false;
 		for(int phase : givenPhases){
 			if(phase == this.phase){
@@ -96,24 +139,20 @@ public class ControlState{
 		}
 	}
 
-	public void verifyCanDraw() throws PPGameActionException{
+	private void verifyHasNotDrawn() throws PPGameActionException{
 		if(this.hasDrawn){
 			throw new PPGameActionException("Already drew this turn");
 		}
 	}
 
-	public int getSuperPhase(){
-		return this.superPhase;
-	}
-	public int getPhase(){
-		return this.phase;
-	}
-	public int getTurnOwner(){
-		return this.turnOwner;
+	private void verifyCurrentTurnOwner(int uid) throws PPGameActionException{
+		if(!(this.turnOwner == uid)){
+			throw new PPGameActionException("It is not player "+Integer.toString(uid)+"'s turn");
+		}
 	}
 
 	private int decideFirstPlayer(){
-		int who = (int)this.uids.toArray()[0];
+		int who = this.uids[0];
 		return who;
 	}
 

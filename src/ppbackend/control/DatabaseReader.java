@@ -12,7 +12,7 @@ import ppbackend.model.Card;
 import ppbackend.model.Effect;
 
 public class DatabaseReader{
-	public static Game getGame(int p1Uid, int p1Did, int p2Uid, int p2Did){
+	public Game getGame(int p1Uid, int p1Did, int p2Uid, int p2Did){
 		PlayerContainer[] pcs = new PlayerContainer[2];
 		for(int i=0;i<2;i++){
 			Player player = new Player(i+1,"Quin");

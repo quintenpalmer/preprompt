@@ -6,8 +6,6 @@ import java.util.*;
 import pplib.XmlParser;
 import pplib.exceptions.*;
 
-import ppbackend.model.*;
-
 public class Game{
 	HashMap<Integer,PlayerContainer> players;
 	ControlState controlState;
@@ -25,11 +23,13 @@ public class Game{
 			Element rawElement = xmlParser.createElement(xml);
 			Element gameElement = xmlParser.parseElement(rawElement,"game");
 			this.players = new HashMap<Integer,PlayerContainer>();
-			PlayerContainer tmpPlayer = new PlayerContainer(xmlParser,xmlParser.parseElement(gameElement,"me"));
+			PlayerContainer tmpPlayer;
+			tmpPlayer = new PlayerContainer(xmlParser,xmlParser.parseElement(gameElement,"me"));
 			this.players.put(tmpPlayer.getPlayer().getUid(),tmpPlayer);
 			tmpPlayer = new PlayerContainer(xmlParser,xmlParser.parseElement(gameElement,"them"));
 			this.players.put(tmpPlayer.getPlayer().getUid(),tmpPlayer);
-			this.controlState = new ControlState(xmlParser,xmlParser.parseElement(gameElement,"control_state"),this.players.keySet());
+			this.controlState = new ControlState(xmlParser,
+				xmlParser.parseElement(gameElement,"control_state"),this.players.keySet());
 		}
 		catch(PPXmlException e){
 			System.out.println(e.getMessage());
@@ -82,10 +82,54 @@ public class Game{
 		}
 	}
 
-	public void verifyCurrentTurnOwner(int uid) throws PPGameActionException{
-		if(!(this.controlState.getTurnOwner() == uid)){
-			throw new PPGameActionException("It is not player "+Integer.toString(uid)+"'s turn");
+	public void shuffle(){
+		for(PlayerContainer pc : this.players.values()){
+			pc.getDeck().getCardList(CLTypes.deck).shuffle();
 		}
+	}
+
+	public void setup() throws PPGameActionException{
+		this.controlState.exitSetupSuperPhase();
+		for(PlayerContainer player : this.players.values()){
+			for(int i=0;i<5;i++){
+				player.getDeck().draw();
+			}
+		}
+	}
+
+	public void draw(int uid) throws PPGameActionException{
+		this.controlState.draw(uid);
+		this.getMeFromUid(uid).getDeck().draw();
+	}
+
+	public void stepPhase(int uid) throws PPGameActionException{
+		this.controlState.stepPhase(uid);
+	}
+
+	public void stepTurn(int uid) throws PPGameActionException{
+		this.controlState.toggleTurn(uid);
+	}
+
+	public void play(int uid) throws PPGameActionException{
+		int srcList = 1;
+		int srcCard = 0;
+		PlayerContainer me = getMeFromUid(uid);
+		Effect effect = me.getDeck().getCardList(srcList).getCard(srcCard).getEffect();
+		this.controlState.play(uid,effect.getInstantPhases());
+
+		Action action = new Action(this,uid,effect);
+		boolean success = action.act();
+		//TODO Implement which card to play from which location and have card parameters
+		if(effect.doesPersist() && success){
+			me.getDeck().playHandToActive(0);
+		}
+		else{
+			me.getDeck().playHandToGrave(0);
+		}
+	}
+
+	public void forfeit(int uid) throws PPGameActionException{
+		//TODO Implement forfeit
 	}
 
 	public int checkGameEnd(){
@@ -101,63 +145,5 @@ public class Game{
 			}
 		}
 		return uid;
-	}
-
-	public void setup() throws PPGameActionException{
-		this.controlState.verifyGivenSuperPhase(SuperPhase.setup);
-		for(PlayerContainer player : this.players.values()){
-			for(int i=0;i<5;i++){
-				player.getDeck().draw();
-			}
-		}
-		this.controlState.exitSetupSuperPhase();
-	}
-
-	public void draw(int uid) throws PPGameActionException{
-		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
-		verifyCurrentTurnOwner(uid);
-		this.controlState.verifyGivenPhase(Phase.draw);
-		this.controlState.verifyCanDraw();
-		getMeFromUid(uid).getDeck().draw();
-		this.controlState.didDraw();
-	}
-
-	public void play(int uid) throws PPGameActionException{
-		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
-		verifyCurrentTurnOwner(uid);
-		int srcList = 1;
-		int srcCard = 0;
-		PlayerContainer me = getMeFromUid(uid);
-		Effect effect = me.getDeck().getCardList(srcList).getCard(srcCard).getEffect();
-		this.controlState.verifyGivenPhases(effect.getInstantPhases());
-		Action action = new Action(this,uid,effect);
-		boolean success = action.act();
-		//TODO Implement which card to play from which location and have card parameters
-		if(effect.doesPersist() && success){
-			me.getDeck().playHandToActive(0);
-		}
-		else{
-			me.getDeck().playHandToGrave(0);
-		}
-	}
-
-	public void stepPhase(int uid) throws PPGameActionException{
-		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
-		verifyCurrentTurnOwner(uid);
-		this.controlState.stepPhase();
-	}
-
-	public void stepTurn(int uid) throws PPGameActionException{
-		this.controlState.verifyGivenSuperPhase(SuperPhase.main);
-		verifyCurrentTurnOwner(uid);
-		this.controlState.toggleTurn();
-	}
-
-	public void forfeit(int uid) throws PPGameActionException{
-		//TODO Implement forfeit
-	}
-
-	public Collection<PlayerContainer> getPlayers(){
-		return this.players.values();
 	}
 }

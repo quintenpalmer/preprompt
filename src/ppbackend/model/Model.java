@@ -1,17 +1,14 @@
 package ppbackend.model;
 
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 
 import pplib.exceptions.*;
 import pplib.DatabaseConnection;
 
 import ppbackend.control.DatabaseReader;
-import ppbackend.model.Game;
-import ppbackend.model.CLTypes;
 
 public class Model{
-	int maxGameCount = 10;
+	int maxGameCountPerPlayer = 10;
 	int gameCount;
 	int version;
 	HashMap<Integer,Game> games;
@@ -32,53 +29,28 @@ public class Model{
 		}
 	}
 
+	public String xmlOutput(int gameId, int uid) throws PPGameActionException{
+		return getGameFromGameId(gameId).xmlOutput(uid);
+	}
+
 	public int startGame(int p1Uid, int p1Did, int p2Uid, int p2Did) throws PPGameActionException{
 		if(canStartGame(p1Uid) && canStartGame(p2Uid)){
 			int gameId = getNextId();
-			Game game = DatabaseReader.getGame(p1Uid, p1Did, p2Uid, p2Did);
-			for(PlayerContainer pc : game.getPlayers()){
-				pc.getDeck().getCardList(CLTypes.deck).shuffle();
-			}
+			Game game = databaseReader.getGame(p1Uid, p1Did, p2Uid, p2Did);
+			game.shuffle();
 			try{
+				//TODO actually write game to disk
 				databaseConnection.run("insert into play_games ");
 			}
 			catch(PPDatabaseException e){
 				throw new PPGameActionException("Error writing game data");
 			}
-			bookKeepGame(gameId,game,p1Uid,p2Uid);
+			bookKeepGame(game,gameId,p1Uid,p2Uid);
 			return gameId;
 		}
 		else{
 			throw new PPGameActionException("Cannot start any more games");
 		}
-	}
-
-	public void bookKeepGame(int gameId, Game game, int uid1, int uid2){
-		ArrayList<Integer> games;
-		if(!this.userMap.containsKey(uid1)){
-			games = new ArrayList<Integer>();
-			this.userMap.put(uid1,games);
-		}
-		else{
-			games = this.userMap.get(uid1);
-		}
-		games.add(gameId);
-		if(!this.userMap.containsKey(uid2)){
-			games = new ArrayList<Integer>();
-			this.userMap.put(uid2,games);
-		}
-		else{
-			games = this.userMap.get(uid2);
-		}
-		games.add(gameId);
-
-		this.games.put(gameId,game);
-	}
-
-	private int getNextId(){
-		int ret = this.gameCount;
-		this.gameCount++;
-		return ret;
 	}
 
 	public int getVersion(){
@@ -103,11 +75,34 @@ public class Model{
 		}
 	}
 
-	public boolean canStartGame(int uid){
-		return getGameIdsFromUid(uid).size() < maxGameCount;
+	private void bookKeepGame(Game game, int gameId, int uid1, int uid2){
+		ArrayList<Integer> userGames;
+		if(!this.userMap.containsKey(uid1)){
+			userGames = new ArrayList<Integer>();
+			this.userMap.put(uid1,userGames);
+		}
+		else{
+			userGames = this.userMap.get(uid1);
+		}
+		userGames.add(gameId);
+		if(!this.userMap.containsKey(uid2)){
+			userGames = new ArrayList<Integer>();
+			this.userMap.put(uid2,userGames);
+		}
+		else{
+			userGames = this.userMap.get(uid2);
+		}
+		userGames.add(gameId);
+		this.games.put(gameId,game);
 	}
 
-	public String out(int gameId, int uid) throws PPGameActionException{
-		return getGameFromGameId(gameId).xmlOutput(uid);
+	private boolean canStartGame(int uid){
+		return getGameIdsFromUid(uid).size() < maxGameCountPerPlayer;
+	}
+
+	private int getNextId(){
+		int ret = this.gameCount;
+		this.gameCount++;
+		return ret;
 	}
 }
