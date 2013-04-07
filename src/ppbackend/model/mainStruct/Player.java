@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 import org.w3c.dom.Element;
 

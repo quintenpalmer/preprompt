@@ -1,6 +1,6 @@
-package ppbackend.model;
+package ppbackend.model.effect;
 
-import ppbackend.model.SubAction;
+import ppbackend.model.action.SubAction;
 
 public interface InstantEffect{
 	public void applyTo(SubAction action);

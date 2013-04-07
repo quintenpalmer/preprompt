@@ -1,10 +1,14 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 import org.w3c.dom.Element;
 import java.util.*;
 
 import pplib.XmlParser;
 import pplib.exceptions.*;
+
+import ppbackend.model.shared.CLTypes;
+import ppbackend.model.action.Action;
+import ppbackend.model.effect.Effect;
 
 public class Game{
 	HashMap<Integer,PlayerContainer> players;
@@ -32,6 +36,7 @@ public class Game{
 				xmlParser.parseElement(gameElement,"control_state"),this.players.keySet());
 		}
 		catch(PPXmlException e){
+			System.out.println("Error loading a game");
 			System.out.println(e.getMessage());
 		}
 	}
@@ -115,12 +120,17 @@ public class Game{
 		int srcCard = 0;
 		PlayerContainer me = getMeFromUid(uid);
 		Effect effect = me.getDeck().getCardList(srcList).getCard(srcCard).getEffect();
+		/* TODO 
+		 * chicken and egg
+		 * want to verify turn owner but also
+		 * need to get effect for the phases
+		 */
 		this.controlState.play(uid,effect.getInstantPhases());
 
 		Action action = new Action(this,uid,effect);
-		boolean success = action.act();
+		action.act();
 		//TODO Implement which card to play from which location and have card parameters
-		if(effect.doesPersist() && success){
+		if(effect.doesPersist()){
 			me.getDeck().playHandToActive(0);
 		}
 		else{

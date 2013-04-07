@@ -3,13 +3,8 @@ package ppbackend.control;
 import java.util.ArrayList;
 
 import ppbackend.control.CardLoader;
-import ppbackend.model.ElementType;
-import ppbackend.model.Game;
-import ppbackend.model.PlayerContainer;
-import ppbackend.model.Player;
-import ppbackend.model.Deck;
-import ppbackend.model.Card;
-import ppbackend.model.Effect;
+import ppbackend.model.shared.ElementType;
+import ppbackend.model.mainStruct.*;
 
 public class DatabaseReader{
 	public Game getGame(int p1Uid, int p1Did, int p2Uid, int p2Did){

@@ -1,7 +1,4 @@
-package ppbackend.model;
-
-import java.util.*;
-import ppbackend.model.Instant;
+package ppbackend.model.effect;
 
 public class InstantList{
 	Instant[] instants;

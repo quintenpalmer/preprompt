@@ -1,14 +1,11 @@
-package ppbackend.model;
+package ppbackend.model.action;
 
 import java.util.*;
 
 import pplib.exceptions.*;
 
-import ppbackend.model.SubAction;
-import ppbackend.model.Game;
-import ppbackend.model.Effect;
-import ppbackend.model.Instant;
-import ppbackend.model.ElementType;
+import ppbackend.model.mainStruct.Game;
+import ppbackend.model.effect.*;
 
 public class Action{
 	LinkedList<SubAction> actions;
@@ -24,12 +21,13 @@ public class Action{
 		}
 	}
 
-	public boolean act() throws PPGameActionException{
-		boolean success = true;
+	public void act() throws PPGameActionException{
+		//boolean success = true;
 		while(!actions.isEmpty()){
 			SubAction action = actions.poll();
-			success = success & action.act();
+			//success = success & action.act();
+			action.act();
 		}
-		return success;
+		//return success;
 	}
 }

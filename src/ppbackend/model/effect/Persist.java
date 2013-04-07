@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.effect;
 
 public interface Persist{
 	public boolean doesPersist();

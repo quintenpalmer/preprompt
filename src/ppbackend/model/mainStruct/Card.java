@@ -1,9 +1,11 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
 import pplib.exceptions.PPXmlException;
+
+import ppbackend.model.effect.Effect;
 
 public class Card{
 	String name;
@@ -29,9 +31,5 @@ public class Card{
 
 	public Effect getEffect(){
 		return this.effect;
-	}
-
-	public void play(String args){
-		this.effect.play(args);
 	}
 }

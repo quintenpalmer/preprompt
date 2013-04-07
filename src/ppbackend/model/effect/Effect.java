@@ -1,11 +1,13 @@
-package ppbackend.model;
+package ppbackend.model.effect;
 
 import java.util.*;
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
 import pplib.exceptions.PPXmlException;
+
 import ppbackend.model.*;
+import ppbackend.model.shared.ElementType;
 
 public class Effect{
 	InstantList instantList;
@@ -32,9 +34,6 @@ public class Effect{
 		xml += "<element>"+elementType.toString()+"</element>";
 		xml += "</elements>";
 		return xml;
-	}
-
-	public void play(String args){
 	}
 
 	public boolean doesPersist(){

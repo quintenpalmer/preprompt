@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 public class PlayerType{
 	public static int full = 0;

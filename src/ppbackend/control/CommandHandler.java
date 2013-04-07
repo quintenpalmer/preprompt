@@ -7,7 +7,7 @@ import pplib.exceptions.*;
 import pplib.dataTypes.CommandType;
 
 import ppbackend.model.Model;
-import ppbackend.model.Game;
+import ppbackend.model.mainStruct.Game;
 import ppbackend.control.ResponseBuilder;
 
 public class CommandHandler{

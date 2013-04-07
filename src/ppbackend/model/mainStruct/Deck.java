@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 import org.w3c.dom.Element;
 import java.util.ArrayList;
@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import pplib.XmlParser;
 import pplib.exceptions.*;
 
-import ppbackend.model.CardList;
-import ppbackend.model.Card;
-import ppbackend.model.CLTypes;
-import ppbackend.model.PlayerType;
+import ppbackend.model.shared.CLTypes;
 
 public class Deck{
 	CardList[] cardLists;

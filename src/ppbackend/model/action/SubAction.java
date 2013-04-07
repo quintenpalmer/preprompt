@@ -1,17 +1,16 @@
-package ppbackend.model;
+package ppbackend.model.action;
 
 import pplib.exceptions.*;
-import ppbackend.model.Game;
-import ppbackend.model.Instant;
-import ppbackend.model.PlayerContainer;
-import ppbackend.model.ElementType;
+import ppbackend.model.mainStruct.*;
+import ppbackend.model.effect.Instant;
+import ppbackend.model.shared.ElementType;
 
 public class SubAction{
 	Game game;
 	PlayerContainer me;
 	PlayerContainer them;
 	Instant instant;
-	ElementType elementType = null;
+	ElementType elementType = ElementType.neutral;
 	int damage = 0;
 	int heal = 0;
 
@@ -22,16 +21,10 @@ public class SubAction{
 		this.instant = instant;
 	}
 
-	public boolean act() throws PPGameActionException{
-		this.instant.applyTo(this);
-		if(this.instant.isValid(this.game,this)){
-			this.them.getPlayer().receiveDamage(this.damage);
-			this.me.getPlayer().receiveHeal(this.heal);
-			return true;
-		}
-		else{
-			return false;
-		}
+	public void act() throws PPGameActionException{
+		this.instant.applyTo(this.game,this);
+		this.them.getPlayer().receiveDamage(this.damage);
+		this.me.getPlayer().receiveHeal(this.heal);
 	}
 
 	public void setDamage(int amount){

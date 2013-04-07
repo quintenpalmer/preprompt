@@ -2,10 +2,10 @@ package ppbackend.control;
 
 import java.util.ArrayList;
 
-import ppbackend.model.*;
-import ppbackend.model.Effect;
-import ppbackend.model.ElementType;
-import ppbackend.model.Card;
+import ppbackend.model.mainStruct.*;
+import ppbackend.model.effect.*;
+import ppbackend.model.shared.ElementType;
+import ppbackend.model.action.SubAction;
 
 public class CardLoader{
 

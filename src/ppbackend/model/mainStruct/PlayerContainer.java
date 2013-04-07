@@ -1,12 +1,9 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
 import pplib.exceptions.*;
-
-import ppbackend.model.Player;
-import ppbackend.model.Deck;
 
 public class PlayerContainer{
 	Player player;

@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 public class Phase{
 	public static int draw = 0;

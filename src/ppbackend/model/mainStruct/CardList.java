@@ -1,13 +1,10 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
-import java.util.ArrayList;
+import java.util.*;
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
 import pplib.exceptions.*;
-
-import ppbackend.model.Card;
-import ppbackend.model.EmptyCard;
 
 public class CardList{
 	ArrayList<Card> cards;
@@ -53,7 +50,6 @@ public class CardList{
 			return this.cards.remove(index);
 		}
 		catch(IndexOutOfBoundsException e){
-			System.out.println(e.getMessage());
 			throw new PPGameActionException("Card List Empty");
 		}
 	}
@@ -62,15 +58,24 @@ public class CardList{
 		this.cards.add(card);
 	}
 
-	public ArrayList<Card> getCards(){
-		return this.cards;
-	}
-
-	public Card getCard(int index){
-		return this.cards.get(index);
+	public Card getCard(int index) throws PPGameActionException{
+		try{
+			return this.cards.get(index);
+		}
+		catch(IndexOutOfBoundsException e){
+			throw new PPGameActionException("Card List did not contain that Card");
+		}
 	}
 
 	public void shuffle(){
-		//TODO
+		int startSize = this.cards.size();
+		ArrayList<Card> newList = new ArrayList<Card>();
+		Random rgen = new Random();
+		for(int i=startSize;i>0;i--){
+			int r = rgen.nextInt(i);
+			newList.add(this.cards.get(r));
+			this.cards.remove(r);
+		}
+		this.cards = newList;
 	}
 }

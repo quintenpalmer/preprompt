@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.shared;
 
 import java.util.HashMap;
 

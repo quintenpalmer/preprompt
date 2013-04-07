@@ -6,6 +6,7 @@ import pplib.exceptions.*;
 import pplib.DatabaseConnection;
 
 import ppbackend.control.DatabaseReader;
+import ppbackend.model.mainStruct.Game;
 
 public class Model{
 	int maxGameCountPerPlayer = 10;

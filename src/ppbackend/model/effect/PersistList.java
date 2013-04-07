@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.effect;
 
 import ppbackend.model.*;
 

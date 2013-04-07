@@ -1,4 +1,4 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 public class SuperPhase{
 	public static int setup = 0;

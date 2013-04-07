@@ -1,13 +1,10 @@
-package ppbackend.model;
+package ppbackend.model.mainStruct;
 
 import java.util.*;
 import org.w3c.dom.Element;
 
 import pplib.XmlParser;
 import pplib.exceptions.*;
-
-import ppbackend.model.Phase;
-import ppbackend.model.SuperPhase;
 
 public class ControlState{
 	int[] uids;
