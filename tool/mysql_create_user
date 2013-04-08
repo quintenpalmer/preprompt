@@ -1,1 +1,7 @@
-create user developer identified by 'jfjfkdkdlslskdkdjfjf'
+grant usage on *.* to 'developer'@'localhost';
+drop user 'developer'@'localhost';
+create user 'developer'@'localhost' identified by 'jfjfkdkdlslskdkdjfjf';
+
+drop database if exists pp_shared;
+create database pp_shared;
+grant all privileges on pp_shared.* to 'developer'@'localhost';

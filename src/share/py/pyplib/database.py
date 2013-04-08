@@ -7,7 +7,7 @@ from pyplib.errors import PP_Database_Error
 def init(mysql=True):
 	if mysql:
 		database_name = 'pp_shared'
-		con = mdb.connect('localhost','quinten','jfjfkdkdlslskdkdjfjf','pp_shared')
+		con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf','pp_shared')
 	else:
 		database_path = os.path.join(os.environ['pyproot'],'opt','postprompt','shared_database')
 		con = sqlite3.connect(database_path)
