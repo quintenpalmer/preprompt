@@ -146,8 +146,12 @@ setup_bashrc(){
 }
 setup_database(){
 	cd $pyp/web
+	if [ $1 == n ]; then
+		mysql -u root -p < $pyp/tool/mysql_create_user
+	fi
 	if [ $1 == d ]; then
 		rm ../root/opt/postprompt/shared_database
+		mysql -u root -p < $pyp/tool/mysql_reload
 	fi
 	../web/manage.py syncdb --noinput
 	../tool/dbctl.py load all

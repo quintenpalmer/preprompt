@@ -1,11 +1,16 @@
 import sqlite3
+import MySQLdb as mdb
 import os
 
 from pyplib.errors import PP_Database_Error
 
-def init():
-	database_path = os.path.join(os.environ['pyproot'],'opt','postprompt','shared_database')
-	con = sqlite3.connect(database_path)
+def init(mysql=True):
+	if mysql:
+		database_name = 'pp_shared'
+		con = mdb.connect('localhost','quinten','jfjfkdkdlslskdkdjfjf','pp_shared')
+	else:
+		database_path = os.path.join(os.environ['pyproot'],'opt','postprompt','shared_database')
+		con = sqlite3.connect(database_path)
 	cur = con.cursor()
 	return (con,cur)
 
@@ -16,7 +21,7 @@ def insert_batch(table_name,types,values_list):
 	try:
 		ns.key = int(select(table_name,'id')[-1])+1
 	except PP_Database_Error and IndexError:
-		ns.key = 0
+		ns.key = 1
 	def get_next_key(ns_sub):
 		ret = ns_sub.key
 		ns_sub.key += 1
@@ -46,7 +51,7 @@ def insert(table_name,types,values):
 			keys = select(table_name,'id')
 			return str(int(keys[-1])+1)
 		except PP_Database_Error and IndexError:
-			return '0'
+			return '1'
 	values = tuple([value if value != None else get_next_key() for value in values])
 	command = "insert into "+table_name+" values("
 	for t in types:

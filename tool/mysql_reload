@@ -1,0 +1,3 @@
+drop database if exists pp_shared;
+create database pp_shared;
+grant all privileges on pp_shared.* to quinten@localhost;

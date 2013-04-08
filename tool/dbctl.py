@@ -30,6 +30,7 @@ def load_cards():
 	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','cards','all.table')
 	f = open(path,'r')
 	for key,line in enumerate(f.readlines()):
+		key = key+1
 		val = line.strip()
 		database.insert('play_card_names',(int,str,str),(key,'name',val))
 	load_starting_cards()
