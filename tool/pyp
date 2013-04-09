@@ -109,9 +109,9 @@ compile_java(){
 java_host(){
 	cd $pyp
 	if [ $1 == r ]; then
-		java -cp build Host
+		java -cp build:/usr/share/java/mysql-connector-java.jar Host
 	elif [ $1 == b ]; then
-		java -cp build Host &
+		java -cp build:/usr/share/java/mysql-connector-java.jar Host &
 	fi
 }
 

@@ -49,6 +49,7 @@ public class Game{
 			mePlayerType = PlayerType.full;
 			themPlayerType = PlayerType.full;
 			full = true;
+			meUid = (int)this.players.keySet().toArray()[0];
 		}
 		else{
 			mePlayerType = PlayerType.me;

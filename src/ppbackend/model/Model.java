@@ -6,7 +6,7 @@ import pplib.exceptions.*;
 import pplib.DatabaseConnection;
 
 import ppbackend.control.DatabaseReader;
-import ppbackend.model.mainStruct.Game;
+import ppbackend.model.mainStruct.*;
 
 public class Model{
 	int maxGameCountPerPlayer = 10;
@@ -15,17 +15,21 @@ public class Model{
 	HashMap<Integer,Game> games;
 	HashMap<Integer,ArrayList<Integer>> userMap;
 	DatabaseReader databaseReader = new DatabaseReader();
-	DatabaseConnection databaseConnection = new DatabaseConnection();
+	DatabaseConnection databaseConnection;
 
 	public Model(int numGames) throws PPLoadException{
 		this.games = new HashMap<Integer,Game>(numGames);
-		this.gameCount = 0;
+		this.gameCount = 1;
 		this.version = 0;
 		this.userMap = new HashMap<Integer,ArrayList<Integer>>();
 		try{
-			String[] rawGame = databaseConnection.run("select * from play_games");
+			databaseConnection = new DatabaseConnection("pp_shared");
+			ArrayList<String> rawGame = databaseConnection.select("select * from play_games");
+			System.out.println(rawGame);
+			this.gameCount = rawGame.size()+1;
 		}
 		catch(PPDatabaseException e){
+			System.out.println(e.getMessage());
 			throw new PPLoadException("Could not load games from database");
 		}
 	}
@@ -41,7 +45,7 @@ public class Model{
 			game.shuffle();
 			try{
 				//TODO actually write game to disk
-				databaseConnection.run("insert into play_games ");
+				databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'"+game.xmlOutput(PlayerType.full)+"')");
 			}
 			catch(PPDatabaseException e){
 				throw new PPGameActionException("Error writing game data");
