@@ -20,14 +20,14 @@ if __name__ == '__main__':
 		main.run()
 		print "Client: Exiting!"
 	else:
-		if sys.argv[1] == 'b':
+		if sys.argv[1] == 'bad':
 			request = '<request'
 			send_request(request)
 			print "Client: Sent bad data!"
-		elif sys.argv[1] == 'd':
+		elif sys.argv[1] == 'close':
 			print request_exit(0)
 			print "Client: Sent shutdown to server!"
-		elif sys.argv[1] == 'c':
+		elif sys.argv[1] == 'check':
 			try:
 				print request_test(0)
 				print "Server is UP!"

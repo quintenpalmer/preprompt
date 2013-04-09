@@ -6,24 +6,26 @@ PostPrompt virtual card game in Python (Java soon)
 How to
 ---
 
-To set up the environment (linux and mac only)
+To set up the environment
 and set up the database
+and get the requirements for this project
+(Fedora/Ubuntu only)
 From the root of the project (e.g. /home/john/postprompt)
 (the same location that this file is located in), run:
 
-> ./bin/pyp setup
+> ./tool/pp setup
 
 To see the help text of the main program, run:
 
-> pyp
+> pp
 
 To run just the host (in the background), run:
 
-> pyp hostback
+> pp host background
 
 To run the web server, run:
 
-> pyp djr
+> pyp django
 
 To run just the client, run:
 

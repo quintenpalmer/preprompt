@@ -1,0 +1,141 @@
+#!/bin/bash
+
+main(){
+	if [ $# -gt 0 ]; then
+		command=$1
+		shift
+		if [ $command == host ] || [ $command == h ] || [ $command == java ]; then
+			host $@
+		elif [ $command == compile ] || [ $command == jc ] || [ $command == javac ]; then
+			compile $@
+		elif [ $command == client ] || [ $command == c ]; then
+			client $@
+		elif [ $command == django ] || [ $command == dj ]; then
+			django $@
+		elif [ $command == database ] || [ $command == db ]; then
+			database $@
+		elif [ $command == bashrc ] || [ $command == b ]; then
+			bashrc
+		elif [ $command == clean ]; then
+			clean
+		elif [ $command == requirements ] || [ $command == reqs ]; then
+			get_requirements
+		elif [ $command == help ] || [ $command == h ]; then
+			my_help $@
+		#shortcuts
+		elif [ $command == hb ]; then
+			host b
+		elif [ $command == close ] || [ $command == cc ]; then
+			client 'close'
+		elif [ $command == setup ]; then
+			bashrc
+			get_requirements
+			echo "You may need to start the mysql server now.
+
+Open a new terminal and do so"
+			read
+			database new
+		else
+			help_text
+		fi
+	else
+		help_text
+	fi
+}
+
+help_text(){
+	echo "Usage: $0 command
+Where command is one of the following:
+  host      [background]       runs the backend host
+                                   [default: in the foreground]
+  compile                      compiles the backend host
+  client    [close,bad,close]  runs the python test client
+                                   [default: interactive mode]
+  django                       runs django server
+  database  [new,reload]       loads the database
+                                   [default: assuming it exists]
+  bashrc                       configures .bashrc for this project
+  clean                        cleans all *.pyc and removes build dir
+  requirements                 installs the requirements for postprompt"
+}
+
+my_help(){
+	if [ $# -gt 0 ]; then
+		if [ $1 == host ]; then
+			echo "host"
+		fi
+	else
+		help_text
+	fi
+}
+
+host(){
+	cd $pyp
+	echo $#
+	host_command="java -cp build:/usr/share/java/mysql-connector-java.jar Host"
+	if [ $# -gt 0 ]; then
+		if [ $1 == background ] || [ $1 == back ] || [ $1 == b ]; then
+			$host_command &
+			exit
+		fi
+	fi
+	$host_command
+}
+
+compile(){
+	cd $pyp
+	if [ ! -e build ]; then
+		mkdir build
+	fi
+	javac -cp src:src/share/java -d build src/ppbackend/Host.java
+}
+
+client(){
+	cd $pyp/src/client
+	python client.py $@
+}
+
+django(){
+	cd $pyp/web
+	./manage.py runserver 0.0.0.0:8080
+}
+
+database(){
+	cd $pyp/web
+	if [ $1 == new ] || [ $1 == n ]; then
+		mysql -u root -p < $pyp/tool/mysql_fresh
+	fi
+	if [ $1 == reload ] || [ $1 == r ]; then
+		rm ../root/opt/postprompt/shared_database
+		mysql -u root -p < $pyp/tool/mysql_reload
+	fi
+	../web/manage.py syncdb --noinput
+	../tool/dbctl.py load all
+
+}
+
+bashrc(){
+	echo "" >> ~/.bashrc
+	echo "# Postprompt Setup" >> ~/.bashrc
+	echo "" >> ~/.bashrc
+	echo "export pyp=`pwd`" >> ~/.bashrc
+	echo "export pyproot=\$pyp/root" >> ~/.bashrc
+	echo "export PATH=\$PATH:\$pyp/tool" >> ~/.bashrc
+	echo "export PYTHONPATH=\$PYTHONPATH:\$pyp/src/share/py" >> ~/.bashrc
+	echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
+	echo "alias cdpypr=\"cd \$pyproot\"" >> ~/.bashrc
+	echo "run 'source ~/.bashrc' to have this take effect"
+}
+
+clean(){
+	cd $pyp
+	rm -r build
+	find . -name "*.pyc" | xargs rm
+}
+
+get_requirements(){
+	cd $pyp
+	sudo ./requirements.sh
+}
+
+main $@

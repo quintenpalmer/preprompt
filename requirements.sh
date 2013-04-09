@@ -11,7 +11,7 @@ else
 		pip install django
 		yum install MySQL-python
 		yum install mysql-server
-		#yum install java-mysqldb
+		yum install mysql-connector-java
 	elif [ $distro == "Ubuntu" ]; then
 		apt-get install python-pip
 		pip install django
