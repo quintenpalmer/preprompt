@@ -14,7 +14,16 @@ def splash(request):
 def get_user_key(username):
 	return User.objects.get(username=username).id
 
+def server_up_required(function):
+	def _server_up(*args,**kwargs):
+		try:
+			return function(*args,**kwargs)
+		except socket.error as e:
+			return render_to_response('server_down.html')
+	return _server_up
+
 @login_required
+@server_up_required
 def ajax_new_game(request):
 	command = request.POST
 	uid = get_user_key(request.COOKIES['username'])
@@ -24,6 +33,7 @@ def ajax_new_game(request):
 	return HttpResponse(str(gids).replace(' ','').strip('[').strip(']'),content_type='text/plain')
 
 @login_required
+@server_up_required
 def ajax_update_game(request,game_id):
 	post = request.POST
 	uid = get_user_key(request.COOKIES['username'])
@@ -34,6 +44,7 @@ def ajax_update_game(request,game_id):
 	return HttpResponse(xml_string)
 
 @login_required
+@server_up_required
 def games(request):
 	command = request.POST
 	uid = get_user_key(request.COOKIES['username'])
@@ -51,6 +62,7 @@ def perform(request):
 	return render_to_response('play/games.html')
 
 @login_required
+@server_up_required
 def game(request,game_id):
 	username = request.COOKIES['username']
 	uid = get_user_key(username)
