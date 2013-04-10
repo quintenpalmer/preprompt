@@ -14,7 +14,7 @@ public class Model{
 	int version;
 	HashMap<Integer,Game> games;
 	HashMap<Integer,ArrayList<Integer>> userMap;
-	DatabaseReader databaseReader = new DatabaseReader();
+	DatabaseReader databaseReader;
 	DatabaseConnection databaseConnection;
 
 	public Model(int numGames) throws PPLoadException{
@@ -24,13 +24,20 @@ public class Model{
 		this.userMap = new HashMap<Integer,ArrayList<Integer>>();
 		try{
 			databaseConnection = new DatabaseConnection("pp_shared");
+			databaseReader = new DatabaseReader();
+		}
+		catch(PPDatabaseException e){
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		try{
+			//TODO have all the data come back (need to call rs.getString(2) in this case, need to do this smartly
 			ArrayList<String> rawGame = databaseConnection.select("select * from play_games");
 			System.out.println(rawGame);
 			this.gameCount = rawGame.size()+1;
 		}
 		catch(PPDatabaseException e){
-			System.out.println(e.getMessage());
-			throw new PPLoadException("Could not load games from database");
+			throw new PPLoadException("Could not load games from database "+e.getMessage());
 		}
 	}
 
@@ -41,14 +48,21 @@ public class Model{
 	public int startGame(int p1Uid, int p1Did, int p2Uid, int p2Did) throws PPGameActionException{
 		if(canStartGame(p1Uid) && canStartGame(p2Uid)){
 			int gameId = getNextId();
-			Game game = databaseReader.getGame(p1Uid, p1Did, p2Uid, p2Did);
+			Game game;
+			try{
+				game = databaseReader.getGame(p1Uid, p1Did, p2Uid, p2Did);
+			}
+			catch(PPDatabaseException e){
+				throw new PPGameActionException("Player didn't exist? "+e.getMessage());
+			}
 			game.shuffle();
 			try{
 				//TODO actually write game to disk
-				databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'"+game.xmlOutput(PlayerType.full)+"')");
+				//databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'"+game.xmlOutput(PlayerType.full)+"')");
+				databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'hi')");
 			}
 			catch(PPDatabaseException e){
-				throw new PPGameActionException("Error writing game data");
+				throw new PPGameActionException("Error writing game data "+e.getMessage());
 			}
 			bookKeepGame(game,gameId,p1Uid,p2Uid);
 			return gameId;

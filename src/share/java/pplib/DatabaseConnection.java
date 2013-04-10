@@ -13,8 +13,7 @@ public class DatabaseConnection{
 		this.con = DriverManager.getConnection("jdbc:mysql://localhost/"+databaseName,"developer","jfjfkdkdlslskdkdjfjf");
 		}
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			throw new PPDatabaseException("Could not connect to database "+databaseName);
+			throw new PPDatabaseException("Could not connect to database "+databaseName+" "+e.getMessage());
 		}
 	}
 	public ArrayList<String> select(String sqlCommand) throws PPDatabaseException{
@@ -23,13 +22,12 @@ public class DatabaseConnection{
 			ResultSet rs = st.executeQuery(sqlCommand);
 			ArrayList<String> ret = new ArrayList<String>();
 			for(int i=1;rs.next();i++){
-				ret.add(rs.getString(i));
+				ret.add(rs.getString(1));
 			}
 			return ret;
 		}
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			throw new PPDatabaseException("Error running command"+e.getMessage());
+			throw new PPDatabaseException("Error running command "+sqlCommand+" "+e.getMessage());
 		}
 	}
 
@@ -39,8 +37,7 @@ public class DatabaseConnection{
 			st.executeUpdate(sqlCommand);
 		}
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			throw new PPDatabaseException("Error running command"+e.getMessage());
+			throw new PPDatabaseException("Error running command "+sqlCommand+" "+e.getMessage());
 		}
 	}
 }

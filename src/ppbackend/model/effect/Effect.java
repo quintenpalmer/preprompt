@@ -6,7 +6,6 @@ import org.w3c.dom.Element;
 import pplib.XmlParser;
 import pplib.exceptions.PPXmlException;
 
-import ppbackend.model.*;
 import ppbackend.model.shared.ElementType;
 
 public class Effect{

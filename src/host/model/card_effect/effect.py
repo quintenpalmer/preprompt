@@ -23,9 +23,6 @@ class Effect:
 		else:
 			raise PP_Game_Action_Error("Card Effect instantiated with improper constructor%s"%str(kwargs.keys()))
 
-	def on_activate(self,game,uid):
-		self.instants(game,uid)
-
 	def account_for(self,game,uid,action):
 		self.pactivates.account_for(game,uid)
 
