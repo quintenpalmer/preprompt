@@ -1,0 +1,86 @@
+div[class*="icon"] {
+	display: inline-block;
+	outline: 0;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background-image: url('/images/cards/icons.png');
+	height: 9px;
+	width: 9px;
+}
+
+
+.icon0 { background-position: 0px 0px; }
+.icon1 { background-position: -9px 0px; }
+.icon2 { background-position: -18px 0px; }
+.icon3 { background-position: -27px 0px; }
+.icon4 { background-position: -36px 0px; }
+.icon5 { background-position: -45px 0px; }
+.icon6 { background-position: -54px 0px; }
+.icon7 { background-position: -63px 0px; }
+.icon8 { background-position: -72px 0px; }
+.icon9 { background-position: -81px 0px; }
+.icon10 { background-position: -90px 0px; }
+.iconInfinity { background-position: -99px 0px; }
+
+.iconPlus0 { background-position: 0px -9px; }
+.iconPlus1 { background-position: -9px -9px; }
+.iconPlus2 { background-position: -18px -9px; }
+.iconPlus3 { background-position: -27px -9px; }
+.iconPlus4 { background-position: -36px -9px; }
+.iconPlus5 { background-position: -45px -9px; }
+
+.iconMinus0 { background-position: 0px -18px; }
+.iconMinus1 { background-position: -9px -18px; }
+.iconMinus2 { background-position: -18px -18px; }
+.iconMinus3 { background-position: -27px -18px; }
+.iconMinus4 { background-position: -36px -18px; }
+.iconMinus5 { background-position: -45px -18px; }
+
+.iconMultiply0 { background-position: 0px -27px; }
+.iconMultiply1 { background-position: -9px -27px; }
+.iconMultiply2 { background-position: -18px -27px; }
+.iconMultiply3 { background-position: -27px -27px; }
+.iconMultiply4 { background-position: -36px -27px; }
+.iconMultiply5 { background-position: -45px -27px; }
+
+.iconDivide0 { background-position: 0px -36px; }
+.iconDivide1 { background-position: -9px -36px; }
+.iconDivide2 { background-position: -18px -36px; }
+.iconDivide3 { background-position: -27px -36px; }
+.iconDivide4 { background-position: -36px -36px; }
+.iconDivide5 { background-position: -45px -36px; }
+
+.iconShield { background-position: 0px -45px; }
+.iconSword { background-position: -9px -45px; }
+.iconHeart { background-position: -18px -45px; }
+.iconArrow { background-position: -27px -45px; }
+
+.iconMeShield { background-position: 0px -54px; }
+.iconMeSword { background-position: -9px -54px; }
+.iconMeHeart { background-position: -18px -54px; }
+.iconMeArrow { background-position: -27px -54px; }
+
+.iconThemShield { background-position: 0px -63px; }
+.iconThemSword { background-position: -9px -63px; }
+.iconThemHeart { background-position: -18px -63px; }
+.iconThemArrow { background-position: -27px -63px; }
+
+.iconBurnCard { background-position: 0px -72px; }
+.iconX { background-position: -9px -72px; }
+.iconDiscard { background-position: -18px -72px; }
+.iconDeck { background-position: -27px -72px; }
+.iconCrystalBall { background-position: -36px -72px; }
+.iconTime { background-position: -45px -72px; }
+.iconDeath { background-position: -54px -72px; }
+.iconStar { background-position: -63px -72px; }
+.iconAsterisk { background-position: -72px -72px; }
+
+.iconFire { background-position: 0px -81px; }
+.iconWater { background-position: -9px -81px; }
+.iconAir { background-position: -18px -81px; }
+.iconEarth { background-position: -27px -81px; }
+.iconLight { background-position: -36px -81px; }
+.iconDark { background-position: -45px -81px; }
+.iconD { background-position: -54px -81px; }
+.iconColon { background-position: -63px -81px; }
