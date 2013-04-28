@@ -25,10 +25,10 @@ ControlState :
 	method : exitMainSuperPhase
 
 PlayerContainer :
-	field : Player
 	field : Deck
-	method : getPlayer
+	field : Player
 	method : getDeck
+	method : getPlayer
 
 Player :
 	field : uid
