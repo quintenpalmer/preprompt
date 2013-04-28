@@ -1,0 +1,104 @@
+Game :
+	field : PlayerContainer (2)
+	field : ControlState
+	method : getMeFromUid
+	method : getThemFromUid
+	method : shuffle
+	method : setup
+	method : draw
+	method : stepPhase
+	method : stepTurn
+	method : play
+	method : forfeit
+	method : checkGameEnd
+
+ControlState :
+	field : phase
+	field : superPhase
+	field : turnOwner
+	field : hasDrawn
+	method : draw
+	method : stepPhase
+	method : toggleTurn
+	method : play
+	method : exitSetupSuperPhase
+	method : exitMainSuperPhase
+
+PlayerContainer :
+	field : Player
+	field : Deck
+	method : getPlayer
+	method : getDeck
+
+Player :
+	field : uid
+	field : name
+	field : health
+	method : receiveDamage
+	method : receiveHeal
+	method : getUid
+	method : getName
+	method : getHealth
+
+Deck :
+	field : CardList (5)
+	field : Visibility
+	method : draw
+	method : playHandToActive
+	method : playerHandToGrave
+	method : getCardList
+
+Visibility :
+	field : visible
+
+CardList :
+	field : Card (N)
+	method : pop
+	method : push
+	method : getCard
+	method : shuffle
+
+Card :
+	field : name
+	field : Effect
+	method : getEffect
+
+Effect :
+	field : InstantList
+	field : PersistList
+	field : PersistActivateList
+	method : doesPersist
+	method : getInstantPhases
+	method : getInstants
+	TODO : methods for effect
+
+InstantList :
+	field : Instant (N)
+	field : validPhases (N)
+	method : getPhases
+	method : getInstants
+
+Instant :
+	field : InstantEffect
+	field : InstantCond (N)
+	method : applyTo
+	method : isValid
+
+InstantEffect :
+	method : applyTo
+
+InstantCond :
+	method : isValid
+
+PersistList :
+	field : Persist (N)
+	method : doesPersist
+	TODO : more methods for the persist list
+
+Persist:
+	method : doesPersist
+	method : tick
+	method : reset
+
+PersistActivate :
+	TODO : IMPLEMENT PERSIST ACTIVATE

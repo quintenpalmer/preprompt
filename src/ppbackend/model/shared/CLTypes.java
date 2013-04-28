@@ -12,21 +12,22 @@ public class CLTypes{
 
 	public static int size = 6;
 
-	public static String[] names =
-	{"deck",
-	"hand",
-	"active",
-	"grave",
-	"special",
-	"other"};
+	public static String[] names = {
+		"deck",
+		"hand",
+		"active",
+		"grave",
+		"special",
+		"other"
+	};
 
-	/*
 	public static HashMap<String,Integer> values = new HashMap<String,Integer>();
-	values["deck"] = deck;
-	values["hand"] = hand;
-	values["active"] = active;
-	values["grave"] = grave;
-	values["special"] = special;
-	values["other"] = other;
-	*/
+	static{
+		values.put("deck",deck);
+		values.put("hand",hand);
+		values.put("active",active);
+		values.put("grave",grave);
+		values.put("special",special);
+		values.put("other",other);
+	}
 }
