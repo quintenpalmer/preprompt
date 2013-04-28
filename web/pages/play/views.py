@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
-from pyplib.client_host import *
-from pyplib.xml_parser import parse_xml, parse_ints
-from pyplib import database
+from pplib.client_host import *
+from pplib.xml_parser import parse_xml, parse_ints
+from pplib import database
 
 def splash(request):
 	return render_to_response('play/splash.html')

@@ -1,5 +1,5 @@
-from pyplib.errors import PP_Game_Action_Error
-from pyplib.xml_parser import parse_string,parse_element,parse_elements
+from pplib.errors import PP_Game_Action_Error
+from pplib.xml_parser import parse_string,parse_element,parse_elements
 
 from model.card_effect.instant import Instant_List
 from model.card_effect.persist import Persist_Cond_list

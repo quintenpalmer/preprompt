@@ -1,4 +1,4 @@
-from pyplib.xml_parser import parse_string
+from pplib.xml_parser import parse_string
 
 class Card:
 	def __init__(self,element):

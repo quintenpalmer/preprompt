@@ -1,6 +1,6 @@
-from pyplib import util
-from pyplib.xml_parser import parse_xml, parse_int, parse_element, parse_string
-from pyplib.errors import PP_Model_Error
+from pplib import util
+from pplib.xml_parser import parse_xml, parse_int, parse_element, parse_string
+from pplib.errors import PP_Model_Error
 
 from game import Game
 

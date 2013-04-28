@@ -1,6 +1,6 @@
 import socket
 
-from pyplib import util
+from pplib import util
 
 from control.command_handler import handle
 

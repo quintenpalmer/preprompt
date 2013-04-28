@@ -3,17 +3,17 @@ import os
 import sys
 from pprint import pprint
 
-from pyplib import database
-from pyplib.manage_db import register_add_cards
+from pplib import database
+from pplib.manage_db import register_add_cards
 
-pyplib_path = os.path.join(os.environ['pyp'],'web')
-sys.path.insert(0,pyplib_path)
+pplib_path = os.path.join(os.environ['postprompt'],'web')
+sys.path.insert(0,pplib_path)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings")
 from django.contrib.auth.models import User
 
 def load_deck(deck_file):
 	uid = deck_file.split('.')[0]
-	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','decks',deck_file)
+	path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','tables','decks',deck_file)
 	f = open(path,'r')
 	for line in f.readlines():
 		key,val = line.split(':')
@@ -27,7 +27,7 @@ def reload_cards():
 	load_cards()
 	load_starting_cards()
 def load_cards():
-	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','cards','all.table')
+	path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','tables','cards','all.table')
 	f = open(path,'r')
 	for key,line in enumerate(f.readlines()):
 		key = key+1
@@ -36,7 +36,7 @@ def load_cards():
 	load_starting_cards()
 
 def load_starting_cards():
-	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','cards','starting.table')
+	path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','tables','cards','starting.table')
 	f = open(path,'r')
 	line = f.readlines()[0].strip()
 	for val in line.split(','):
@@ -46,7 +46,7 @@ def reload_users():
 	database.delete('auth_user')
 	load_users()
 def load_users():
-	path = os.path.join(os.environ['pyproot'],'opt','postprompt','tables','users','all.table')
+	path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','tables','users','all.table')
 	f = open(path,'r')
 	for line in f.readlines():
 		upe = line.strip().split(',')

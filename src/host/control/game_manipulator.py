@@ -1,4 +1,4 @@
-from pyplib.errors import PP_Game_Action_Error
+from pplib.errors import PP_Game_Action_Error
 
 from model.control_state import phase
 from model.action import Action

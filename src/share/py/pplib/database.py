@@ -2,14 +2,14 @@ import sqlite3
 import MySQLdb as mdb
 import os
 
-from pyplib.errors import PP_Database_Error
+from pplib.errors import PP_Database_Error
 
 def init(mysql=True):
 	if mysql:
 		database_name = 'pp_shared'
 		con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf','pp_shared')
 	else:
-		database_path = os.path.join(os.environ['pyproot'],'opt','postprompt','shared_database')
+		database_path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','shared_database')
 		con = sqlite3.connect(database_path)
 	cur = con.cursor()
 	return (con,cur)

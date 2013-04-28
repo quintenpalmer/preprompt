@@ -1,4 +1,4 @@
-from pyplib import database
+from pplib import database
 
 def register_add_cards(username):
 	uid = int(database.select('auth_user','id',where=(("username='"+username+"'"),))[0])

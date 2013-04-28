@@ -1,7 +1,7 @@
 from random import randint
 
-from pyplib.errors import PP_Game_Action_Error
-from pyplib.xml_parser import parse_elements
+from pplib.errors import PP_Game_Action_Error
+from pplib.xml_parser import parse_elements
 
 from model.card import Card, Empty_Card
 from model import player_type

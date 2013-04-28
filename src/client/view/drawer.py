@@ -1,6 +1,6 @@
 import sys
 
-from pyplib.errors import PP_Model_Error
+from pplib.errors import PP_Model_Error
 
 def init_screen():
 	#sys.stdout.write('\n'*11)

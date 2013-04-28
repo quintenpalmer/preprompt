@@ -1,7 +1,7 @@
-from pyplib.xml_parser import parse_xml,parse_string,parse_int
-from pyplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error,PP_Database_Error
-from pyplib import database,util
-from pyplib.host_client import *
+from pplib.xml_parser import parse_xml,parse_string,parse_int
+from pplib.errors import PP_Load_Error,PP_Game_Action_Error,PP_Model_Error,XML_Parser_Error,PP_Database_Error
+from pplib import database,util
+from pplib.host_client import *
 
 from model.play import Play_Args
 from control.lstructs import Config_Args

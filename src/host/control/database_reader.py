@@ -1,7 +1,7 @@
 import os
 
-from pyplib.errors import PP_Load_Error, PP_Database_Error
-from pyplib import database
+from pplib.errors import PP_Load_Error, PP_Database_Error
+from pplib import database
 
 from model.game import Game
 from model.player import Player_Container, Player

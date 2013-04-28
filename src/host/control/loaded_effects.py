@@ -1,4 +1,4 @@
-from pyplib.errors import PP_Game_Action_Error
+from pplib.errors import PP_Game_Action_Error
 
 from control.lstructs import Direct_Damage,Do_Nothing,Valid_Activate,In_Valid_persist,Add_Damage,Valid_Trigger_Cond,On_Damager,Do_Nothing_Trigger,Timed_Persist
 from model.card_effect.instant import Instant_List, Instant

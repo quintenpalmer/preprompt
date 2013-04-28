@@ -1,6 +1,6 @@
 from xml.dom.minidom import parseString
 
-from pyplib.errors import XML_Parser_Error
+from pplib.errors import XML_Parser_Error
 
 def parse_xml(xml_string):
 	try:

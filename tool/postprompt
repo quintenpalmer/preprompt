@@ -73,7 +73,7 @@ my_help(){
 }
 
 host(){
-	cd $pyp
+	cd $postprompt
 	echo $#
 	host_command="java -cp build:/usr/share/java/mysql-connector-java.jar Host"
 	if [ $# -gt 0 ]; then
@@ -86,7 +86,7 @@ host(){
 }
 
 compile(){
-	cd $pyp
+	cd $postprompt
 	if [ ! -e build ]; then
 		mkdir build
 	fi
@@ -94,23 +94,23 @@ compile(){
 }
 
 client(){
-	cd $pyp/src/client
+	cd $postprompt/src/client
 	python client.py $@
 }
 
 django(){
-	cd $pyp/web
+	cd $postprompt/web
 	./manage.py runserver 0.0.0.0:8080
 }
 
 database(){
-	cd $pyp/web
+	cd $postprompt/web
 	if [ $1 == new ] || [ $1 == n ]; then
-		mysql -u root -p < $pyp/tool/mysql_fresh
+		mysql -u root -p < $postprompt/tool/mysql_fresh
 	fi
 	if [ $1 == reload ] || [ $1 == r ]; then
 		rm ../root/opt/postprompt/shared_database
-		mysql -u root -p < $pyp/tool/mysql_reload
+		mysql -u root -p < $postprompt/tool/mysql_reload
 	fi
 	../web/manage.py syncdb --noinput
 	../tool/dbctl.py load all
@@ -121,28 +121,28 @@ bashrc(){
 	echo "" >> ~/.bashrc
 	echo "# Postprompt Setup" >> ~/.bashrc
 	echo "" >> ~/.bashrc
-	echo "export pyp=`pwd`" >> ~/.bashrc
-	echo "export pyproot=\$pyp/root" >> ~/.bashrc
-	echo "export PATH=\$PATH:\$pyp/tool" >> ~/.bashrc
-	echo "export PYTHONPATH=\$PYTHONPATH:\$pyp/src/share/py" >> ~/.bashrc
-	echo "alias cdpyp=\"cd \$pyp\"" >> ~/.bashrc
-	echo "alias cdpypr=\"cd \$pyproot\"" >> ~/.bashrc
+	echo "export postprompt=`pwd`" >> ~/.bashrc
+	echo "export pp=\$postprompt" >> ~/.bashrc
+	echo "export postpromptroot=\$postprompt/root" >> ~/.bashrc
+	echo "export PATH=\$PATH:\$postprompt/tool" >> ~/.bashrc
+	echo "export PYTHONPATH=\$PYTHONPATH:\$postprompt/src/share/py" >> ~/.bashrc
+	echo "alias cdpp=\"cd \$postprompt\"" >> ~/.bashrc
 	echo "run 'source ~/.bashrc' to have this take effect"
 }
 
 clean(){
-	cd $pyp
+	cd $postprompt
 	rm -r build
 	find . -name "*.pyc" | xargs rm
 }
 
 get_requirements(){
-	cd $pyp
+	cd $postprompt
 	sudo ./requirements.sh
 }
 
 view_diagram(){
-	cd $pyp
+	cd $postprompt
 	./tool/diagramReader.py $@
 }
 

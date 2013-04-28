@@ -1,4 +1,4 @@
-from pyplib.xml_parser import parse_element, parse_string, parse_int
+from pplib.xml_parser import parse_element, parse_string, parse_int
 
 from collection import Collection
 

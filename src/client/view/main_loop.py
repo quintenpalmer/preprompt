@@ -1,4 +1,4 @@
-from pyplib.client_host import *
+from pplib.client_host import *
 
 from view.drawer import draw,init_screen
 

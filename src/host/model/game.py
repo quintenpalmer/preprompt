@@ -1,5 +1,5 @@
-from pyplib.errors import PP_Game_Action_Error
-from pyplib.xml_parser import parse_xml, parse_element
+from pplib.errors import PP_Game_Action_Error
+from pplib.xml_parser import parse_xml, parse_element
 
 from model import player_type
 from model.player import Player_Container

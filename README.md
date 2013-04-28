@@ -1,35 +1,49 @@
 PostPrompt
 ========
 
-PostPrompt virtual card game in Python (Java soon)
+PostPrompt virtual card game in Java
 
 How to
 ---
 
 To set up the environment
-and set up the database
-and get the requirements for this project
-(Fedora/Ubuntu only)
 From the root of the project (e.g. /home/john/postprompt)
 (the same location that this file is located in), run:
 
-> ./tool/pp setup
+> ./tool/postprompt bashrc
+
+Then source your bashrc
+
+> source ~/.bashrc
+
+Then to set up the database
+and get the requirements for this project
+(Fedora/Ubuntu only)
+
+> postprompt setup
 
 To see the help text of the main program, run:
 
-> pp
+> postprompt
 
-To run just the host (in the background), run:
+To compile the host backend, tyep:
 
-> pp host background
+> postprompt javac
 
-To run the web server, run:
+To run just the host, type:
 
-> pyp django
+> postprompt host
 
-To run just the client, run:
+Then navigate to a new terminal and
+To run the web server, type:
 
-> pyp client
+> postprompt django
+
+OR
+
+To run the command line client, type:
+
+> postprompt client
 
 TODO:
 ---

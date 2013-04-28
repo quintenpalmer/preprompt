@@ -1,9 +1,9 @@
 import sys
 import os
 
-pyplib = os.path.join(os.environ['pyp'],'src','share','py')
-sys.path.insert(0,pyplib)
-from pyplib import util
+pplib = os.path.join(os.environ['postprompt'],'src','share','py')
+sys.path.insert(0,pplib)
+from pplib import util
 
 from control.network import Listener
 from model.main_model import Model

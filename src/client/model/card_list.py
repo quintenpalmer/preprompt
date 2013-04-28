@@ -1,4 +1,4 @@
-from pyplib.xml_parser import parse_elements
+from pplib.xml_parser import parse_elements
 
 from card import Card
 

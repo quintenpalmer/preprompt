@@ -1,4 +1,4 @@
-from pyplib.xml_parser import parse_int, parse_bool
+from pplib.xml_parser import parse_int, parse_bool
 
 class Control_State:
 	def __init__(self,element):

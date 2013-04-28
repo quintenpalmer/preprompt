@@ -1,5 +1,5 @@
-from pyplib.xml_parser import parse_elements,parse_element,parse_string
-from pyplib.errors import PP_Game_Action_Error
+from pplib.xml_parser import parse_elements,parse_element,parse_string
+from pplib.errors import PP_Game_Action_Error
 
 from control.lstructs import get_effect_from_xml_name
 

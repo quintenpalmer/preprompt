@@ -2,9 +2,9 @@
 *.py[co]
 
 # Logs
-pyphost.log
-pypclient.log
-pypweb.log
+postprompthost.log
+postpromptclient.log
+postpromptweb.log
 
 # User encrypted passwords
 *.stable

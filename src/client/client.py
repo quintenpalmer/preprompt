@@ -2,10 +2,10 @@ import socket
 import sys
 import os
 
-pyplib = os.path.join(os.environ['pyp'],'src','share','py')
-sys.path.insert(0,pyplib)
-from pyplib import util
-from pyplib.client_host import request_exit,send_request,request_test
+pplib = os.path.join(os.environ['postprompt'],'src','share','py')
+sys.path.insert(0,pplib)
+from pplib import util
+from pplib.client_host import request_exit,send_request,request_test
 
 from model.main_model import Model
 from view.main_loop import Main_Loop

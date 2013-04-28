@@ -1,5 +1,5 @@
-from pyplib.errors import PP_Model_Error,PP_Load_Error,XML_Parser_Error,PP_Database_Error
-from pyplib import util,database
+from pplib.errors import PP_Model_Error,PP_Load_Error,XML_Parser_Error,PP_Database_Error
+from pplib import util,database
 
 from control import database_reader
 from model import cltypes

@@ -9,8 +9,8 @@ from django.conf import settings
 import datetime
 #from django.http import HttpResponse
 
-from pyplib import database
-from pyplib.manage_db import register_add_cards
+from pplib import database
+from pplib.manage_db import register_add_cards
 
 @login_required
 def profile(request):
