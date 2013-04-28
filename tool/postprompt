@@ -105,16 +105,19 @@ django(){
 
 database(){
 	cd $postprompt/web
-	if [ $1 == new ] || [ $1 == n ]; then
-		mysql -u root -p < $postprompt/tool/mysql_fresh
+	if [ $1 == interactive ] || [ $1 == i ]; then
+		mysql -u developer --password=jfjfkdkdlslskdkdjfjf
+	else
+		if [ $1 == new ] || [ $1 == n ]; then
+			mysql -u root -p < $postprompt/tool/mysql_fresh
+		fi
+		if [ $1 == reload ] || [ $1 == r ]; then
+			#rm ../root/opt/postprompt/shared_database
+			mysql -u root -p < $postprompt/tool/mysql_reload
+		fi
+		../web/manage.py syncdb --noinput
+		../tool/dbctl.py all load
 	fi
-	if [ $1 == reload ] || [ $1 == r ]; then
-		rm ../root/opt/postprompt/shared_database
-		mysql -u root -p < $postprompt/tool/mysql_reload
-	fi
-	../web/manage.py syncdb --noinput
-	../tool/dbctl.py load all
-
 }
 
 bashrc(){
