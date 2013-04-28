@@ -27,6 +27,8 @@ main(){
 			host b
 		elif [ $command == close ] || [ $command == cc ]; then
 			client 'close'
+		elif [ $command == diagram ] || [ $command == dg ]; then
+			view_diagram $@
 		elif [ $command == setup ]; then
 			bashrc
 			get_requirements
@@ -54,6 +56,7 @@ Where command is one of the following:
   django                       runs django server
   database  [new,reload]       loads the database
                                    [default: assuming it exists]
+  diagram   <command>          view the diagram of the class layout
   bashrc                       configures .bashrc for this project
   clean                        cleans all *.pyc and removes build dir
   requirements                 installs the requirements for postprompt"
@@ -136,6 +139,11 @@ clean(){
 get_requirements(){
 	cd $pyp
 	sudo ./requirements.sh
+}
+
+view_diagram(){
+	cd $pyp
+	./tool/diagramReader.py $@
 }
 
 main $@

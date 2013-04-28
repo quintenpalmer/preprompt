@@ -12,10 +12,12 @@ class Diagram:
 	def link(self):
 		for dclass in self.dclasses:
 			dclass.create_links(self.dclasses)
-	def draw(self):
-		self.root.draw()
-		#for dclass in self.dclasses:
-		#	print dclass.draw()
+	def draw(self,module=None,depth=None,methods=True):
+		if module is not None:
+			module = self.root.find_module(module)
+		else:
+			module = self.root
+		module.draw(depth=depth,methods=methods)
 	def __repr__(self):
 		ret = ''
 		for dclass in self.dclasses:
@@ -42,12 +44,14 @@ class DiagramClass:
 				if field.name == dclass.name:
 					field.add_link(dclass)
 					break
-	def get_box(self,prefix='',extension=''):
+		self.num_fields = len([f for f in self.fields if f.has_link])
+	def get_box(self,prefix='',extension='',methods=True):
 		self.extension = extension
 		self.prefix = prefix
 
 		length = max(0,len(self.name),*[len(field.name) for field in self.fields])
-		length = max(0,length,*[len(method.name) for method in self.methods])
+		if methods:
+			length = max(0,length,*[len(field.name) for field in self.methods])
 		self.length = length + 4
 
 		def empty_space():
@@ -56,7 +60,7 @@ class DiagramClass:
 			return '%s+%s+%s\n'%(self.prefix,'-'*self.length,self.extension)
 		def blank_row():
 			return '%s|%s|%s\n'%(self.prefix,' '*self.length,self.extension)
-		def create_row(name,color='0',color_start=0,extension=''):
+		def create_row(name,color='0',color_start=0,new_extension=''):
 			return '%s| %s%s%s%s%s|%s\n'%(
 				self.prefix,
 				name[0:color_start],
@@ -64,46 +68,63 @@ class DiagramClass:
 				name[color_start:None],
 				'\33[0m' if self.color else '',
 				' '*(self.length-len(name)-1),
-				extension if extension != '' else self.extension,
+				new_extension if new_extension != '' else self.extension,
 			)
 		def add_name(name):
-			return seperator() + create_row(name,color='34')
+			return create_row(name,color='34')
 		def add_members(name,members):
-			ret = seperator()
-			ret += create_row(name,color='32')
+			ret = create_row(name,color='32')
 			for member in members:
 				name = member.name
 				if hasattr(member,'has_link') and member.has_link:
-					ret += create_row('- '+name,color='31',color_start=2,extension='-'*len(self.extension)+'--+')
+					ret += create_row('- '+name,color='31',color_start=2,new_extension='-'*len(self.extension)+'--+')
 					self.extension+='  |'
 				else:
 					ret += create_row('- '+name,color='31',color_start=2)
 			return ret
 
-		box = '%s%s%s%s%s'%(
-			add_name(self.name),
-			add_members('Fields',[field for field in self.fields]),
-			add_members('Methods',[method for method in self.methods]),
+		return '%s'*8%(
 			seperator(),
+			add_name(self.name),
+			seperator(),
+			add_members('Fields',[field for field in self.fields]),
+			seperator(),
+			add_members('Methods',[method for method in self.methods]) if methods else '',
+			seperator() if methods else '',
 			empty_space(),
 		)
-		return box
-	def draw(self,prefix='',extension=''):
-		box = self.get_box(prefix,extension)
+
+	def draw(self,prefix='',extension='',depth=None,methods=True):
 		subclasses = []
 		for field in self.fields:
 			if field.has_link:
 				subclasses.append(field.link)
-		print box,
-		num_fields = len([f for f in self.fields if f.has_link])
-		indent = prefix + ' '*num_fields+' '*(self.length-(num_fields-4)) + '|  '*(num_fields-1)
-		old = self
+		print self.get_box(prefix,extension,methods=methods).rstrip()+'\n',
+		indent = prefix + ' '*(self.length+4) + '|  '*(self.num_fields-1)
+		prev_length = 0
 		for s in reversed(subclasses):
-			s.draw(prefix=indent,extension=' '*old.length if hasattr(self,'old') else ''),
-			old = s
-			indent = indent[:-3]
+			if depth is None or depth > 0:
+				s.draw(prefix=indent,extension=' '*prev_length,depth=depth-1 if depth is not None else None,methods=methods)
+				prev_legnth = s.length
+				indent = indent[:-3]
+
+	def find_module(self,name):
+		if self.name == name:
+			return self
+		else:
+			for child in self.fields:
+				if child.has_link:
+					module = child.link.find_module(name)
+					if module != None:
+						return module
+
 	def __repr__(self):
-		return "%s %s %s %s"%('\33[31m%s\33[0m'%self.name if self.color else self.name,self.fields,self.methods,'TODO : %s'%self.TODO if self.TODO else '')
+		return "%s %s %s %s"%(
+			self.name,
+			self.fields,
+			self.methods,
+			'TODO : %s'%self.TODO if self.TODO else ''
+		)
 
 class DiagramField:
 	def __init__(self,name,count):
@@ -145,18 +166,48 @@ def read_diagram(filename='DIAGRAM',color=True):
 					count = 1
 				current_class.add_field(name,count)
 			elif fmtype == 'method':
-				current_class.add_method(name)
+				tmp = name.split(' ')
+				name = tmp[0]
+				params = tmp[1:]
+				current_class.add_method(name,*params)
 			elif fmtype == 'TODO':
 				current_class.add_TODO(name)
 	diagram.add(current_class)
 
 	diagram.link()
-	#print diagram
-	diagram.draw()
+	return diagram
 
 if __name__ == "__main__":
 	import sys
 	import os
-	filename = sys.argv[1] if len(sys.argv) > 1 else 'DIAGRAM'
 	color = 'color' in os.environ['TERM']
-	read_diagram(filename,color)
+
+	filename = 'DIAGRAM'
+	module = None
+	methods = True
+	depth = None
+	param_depth = None
+	for arg in sys.argv[1:]:
+		if arg[:3] == '-f=':
+			filename = arg[3:]
+		elif arg[:3] == '-c=':
+			module = arg[3:]
+		elif arg[:2] == '-a':
+			param_depth = None
+		elif arg[:2] == '-o':
+			param_depth = 0
+		elif arg[:2] == '-p':
+			color = True
+		elif arg[:2] == '-u':
+			color = False
+		elif arg[:2] == '-m':
+			methods = True
+		elif arg[:2] == '-n':
+			methods = False
+		elif re.search('-\d',arg[:2]):
+			param_depth = arg[1:]
+	if param_depth != None:
+		depth = int(param_depth)
+	diagram = read_diagram(filename,color)
+
+	diagram.draw(module=module,depth=depth,methods=methods)
