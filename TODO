@@ -1,0 +1,8 @@
+ - Read game data from database.
+ - Write the game data to the database.
+
+ - Implement Forfeit.
+ - Pass Card play parameters from client to host.
+
+ - Establish API for what host sends to client for client display of cards.
+ - Finish implementing effects and actions !!BIG!!
