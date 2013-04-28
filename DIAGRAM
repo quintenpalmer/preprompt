@@ -100,5 +100,5 @@ Persist:
 	method : tick
 	method : reset
 
-PersistActivate :
+PersistActivateList :
 	TODO : IMPLEMENT PERSIST ACTIVATE
