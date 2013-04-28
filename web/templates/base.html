@@ -11,26 +11,24 @@
 		{% block js %}{% endblock %}
 		<script src="{{ STATIC_PREFIX }}js/util.js" type="text/javascript"></script>
 	</head>
+
 	<body id="{% block sectionid %}generic{% endblock %}" class="default" {% block brython %}{% endblock %}>
-	<div id="container">
 		<div id="header">
-			<h1 id="logo"><a href="/"><img src="{{ STATIC_PREFIX }}images/logos/logo.png" border=0/></a></h1>
+			<h1 id="logo"><a href="/"><img src="{{ STATIC_PREFIX }}images/style/logo.png" border=0/></a></h1>
 		</div>
 		<div id="menubar">
 			<ul id="menu-global">
-				<li id="menu-home"><a href="/"><span>Home</span></a></li>
-				<li id="menu-play"><a href="/play/"><span>Play</span></a></li>
-				<li id="menu-trade"><a href="/trade/"><span>Trade</span></a></li>
-				<li id="menu-news"><a href="/news/"><span>News</span></a></li>
-				<li id="menu-account"><a href="/account/"><span>Account</span></a></li>
-				<li id="menu-about"><a href="/about/"><span>About</span></a></li>
+				<a href="/play/"><li id="menu-play"></li></a>
+				<a href="/trade/"><li id="menu-trade"></li></a>
+				<a href="/news/"><li id="menu-news"></li></a>
+				<a href="/account/"><li id="menu-account"></li></a>
+				<a href="/about/"><li id="menu-about"></li></a>
 			</ul>
 		</div>
-		<div id="content-main">
-			<div class="all" id="content">
+		<div id="content-holder">
+			<div id="content">
 			{% block content %}{% endblock %}
 			</div>
 		</div>
-	</div>
 	</body>
 </html>

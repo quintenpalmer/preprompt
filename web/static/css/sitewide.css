@@ -10,25 +10,20 @@
     font-weight: normal;
     font-style: normal;
 }
-
+@font-face {
+    font-family: 'Fipps';
+    src: url('../fonts/Fipps.otf');
+    font-weight: normal;
+    font-style: normal;
+}
 /* SETUP */
 
-.all {
-	background-color:#222;
-}
-
-#container {
-    position:relative;
-}
 
 body {
-	width:1200px;
 	margin:auto;
 	padding:0px;
-	background:url("../images/icons/back.png") repeat;
-	background-color:#000;
-	color:#fb3;
-	font-family:'DejaVuSans', serif;
+	background-color:#0cf;
+	text-align:center;
 }
 
 /* LINKS */
@@ -54,26 +49,27 @@ a:hover {
 
 #header {
     position:relative;
-	height:130px;
+	height:91px;
 	clear:both;
+	text-align: center;
 }
 
-#header h1#logo {
-    position:absolute;
-    width:300px;
-    height:120px;
+#logo {
+	display: inline;
+    width:502px;
+    height:95px;
     margin:0;
-    left:25px;
-    bottom:10px;
-	float:left;
+	text-align:center;
 }
 
 /* MENU BAR */
 
 #menubar {
+	display: inline-block;
 	position:relative;
 	clear:both;
-	height:80px;
+	height:61px;
+	width: 750px; /* sum of widths of menu items */
 }
 
 #menu-global {
@@ -81,6 +77,7 @@ a:hover {
 	margin:0;
 	bottom:0;
 	padding:0px;
+	text-align:center;
 }
 #menu-global li {
 	display:block;
@@ -89,52 +86,49 @@ a:hover {
 	text-align:center;
 	margin:0;
 	padding:0;
+	height: 61px;
 }
 
-#menu-global li a{
-	display:block;
-	color:#fa4;
-	background-image:url("../images/icons/menu.png");
-}
+#menu-play { background:url('/static/images/style/play.png') no-repeat; min-width:119px; }
+#menu-trade { background:url('/static/images/style/trade.png') no-repeat; min-width:148px; }
+#menu-news { background:url('/static/images/style/news.png') no-repeat; min-width:137px; }
+#menu-account { background:url('/static/images/style/account.png') no-repeat; min-width:191px; }
+#menu-about { background:url('/static/images/style/about.png') no-repeat; min-width:144px; }
 
-#menu-global li a span{
-	width:100px;
-	height:40px;
-	display:block;
-	padding-top:20px;
-}
+#menu-play:hover { background:url('/static/images/style/play_lit.png') no-repeat; }
+#menu-trade:hover { background:url('/static/images/style/trade_lit.png') no-repeat; }
+#menu-news:hover { background:url('/static/images/style/news_lit.png') no-repeat; }
+#menu-account:hover { background:url('/static/images/style/account_lit.png') no-repeat; }
+#menu-about:hover { background:url('/static/images/style/about_lit.png') no-repeat; }
 
-#menu-global li a:hover {
-	color:white;
-	background-image:url("../images/icons/menu-active.png");
-}
-
-#home #menu-home a,
-#play #menu-play a,
-#about #menu-about a,
-#account #menu-account a,
-#trade #menu-trade a,
-#news #menu-news a {
-	color:white;
-	background-image:url("../images/icons/menu-current.png");
-}
 
 /* CONTENT TYPE */
 
 #content-main {
 	clear:both;
+	margin:auto;
 	min-height:1000px;
+	width:100%;
 	text-align:left;
-	border:3px solid #000;
-	border-top:0px solid #000;
+}
+
+#content-holder {
+	display: block;
+	background: #090 url('/static/images/style/bg.png') repeat-x;
+	padding:20px;
+	min-height: 850px;
+	text-align: center;
 }
 
 #content {
-	width:1000px;
-	min-height:990px;
-	float:left;
+/* container for page content */
+	background-color: #630;
+	margin: 50px auto 0 auto;
+	border: 24px solid transparent;
+	border-image: url('/static/images/style/border.png') 24 24 24 24 round round;
+	width:80%;
 	text-align:left;
-	padding-top:20px;
+	min-height: 800px;
 }
 
 #content p {
