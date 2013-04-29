@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import re
+import sys
 
 class Diagram:
 	def __init__(self):
@@ -14,10 +15,14 @@ class Diagram:
 			dclass.create_links(self.dclasses)
 	def draw(self,module=None,depth=None,methods=True):
 		if module is not None:
-			module = self.root.find_module(module)
+			#module = self.root.find_module(module)
+			for dclass in self.dclasses:
+				if dclass.name == module:
+					module = dclass
+					break
 		else:
 			module = self.root
-		module.draw(depth=depth,methods=methods)
+		sys.stdout.write(module.draw(depth=depth,methods=methods))
 	def __repr__(self):
 		ret = ''
 		for dclass in self.dclasses:
@@ -32,6 +37,7 @@ class DiagramClass:
 		self.methods = []
 		self.TODO = None
 		self.color = color
+		self.beenDrawn = False
 	def add_field(self,name,count):
 		self.fields.append(DiagramField(name,count))
 	def add_method(self,name,*params):
@@ -99,14 +105,16 @@ class DiagramClass:
 		for field in self.fields:
 			if field.has_link:
 				subclasses.append(field.link)
-		print self.get_box(prefix,extension,methods=methods).rstrip()+'\n',
+		ret = self.get_box(prefix,extension,methods=methods).rstrip()+'\n'
+		self.beenDrawn = True
 		indent = prefix + ' '*(self.length+4) + '|  '*(self.num_fields-1)
 		prev_length = 0
 		for s in reversed(subclasses):
-			if depth is None or depth > 0:
-				s.draw(prefix=indent,extension=' '*prev_length,depth=depth-1 if depth is not None else None,methods=methods)
+			if (depth is None or depth > 0) and not s.beenDrawn:
+				ret += s.draw(prefix=indent,extension=' '*prev_length,depth=depth-1 if depth is not None else None,methods=methods)
 				prev_legnth = s.length
 				indent = indent[:-3]
+		return ret
 
 	def find_module(self,name):
 		if self.name == name:
@@ -155,7 +163,7 @@ def read_diagram(filename='DIAGRAM',color=True):
 			if current_class != None:
 				diagram.add(current_class)
 			current_class = DiagramClass(line.split(':')[0].rstrip(),color=color)
-		if re.search('^\t\w',line):
+		elif re.search('^\t\w',line):
 			fmtype, name = [l.strip() for l in line.lstrip('\t').split(':')]
 			if fmtype == 'field':
 				tmp = name.split(' ')
@@ -177,6 +185,31 @@ def read_diagram(filename='DIAGRAM',color=True):
 	diagram.link()
 	return diagram
 
+def echo_diagram(filename='DIAGRAM',color=True):
+	diagram_file = open(filename,'r')
+	for line in diagram_file:
+		line = line.rstrip()
+		if re.search('^\w',line):
+			name = line.split(':')[0].rstrip()
+			print '%s :'%('\33[34m%s\33[0m'%name if color else name)
+		elif re.search('^\t\w',line):
+			fmtype, name = [l.strip() for l in line.lstrip('\t').split(':')]
+			if fmtype == 'field':
+				tmp = name.split(' ')
+				name = tmp[0]
+				print '\t%s : %s %s'%('\33[32mfield\33[0m' if color else 'field','\33[31m%s\33[0m'%name if color else name,tmp[1] if len(tmp) > 1 else '')
+			elif fmtype == 'method':
+				tmp = name.split(' ')
+				name = tmp[0]
+				params = tmp[1:]
+				tmp = name.split(' ')
+				name = tmp[0]
+				print '\t%s : %s %s'%('\33[32mmethod\33[0m' if color else 'method','\33[31m%s\33[0m'%name if color else name,tmp[1] if len(tmp) > 1 else '')
+			elif fmtype == 'TODO':
+				print '\t%s : %s'%('\33[31mTODO\33[0m' if color else 'TODO','\33[31m%s\33[0m'%(name) if color else name)
+		elif line == '':
+			print ''
+
 if __name__ == "__main__":
 	import sys
 	import os
@@ -187,27 +220,33 @@ if __name__ == "__main__":
 	methods = True
 	depth = None
 	param_depth = None
+	echo = False
 	for arg in sys.argv[1:]:
 		if arg[:3] == '-f=':
 			filename = arg[3:]
 		elif arg[:3] == '-c=':
 			module = arg[3:]
-		elif arg[:2] == '-a':
+		elif arg == '-a':
 			param_depth = None
-		elif arg[:2] == '-o':
+		elif arg == '-o':
 			param_depth = 0
-		elif arg[:2] == '-p':
+		elif arg == '-p':
 			color = True
-		elif arg[:2] == '-u':
+		elif arg == '-u':
 			color = False
-		elif arg[:2] == '-m':
+		elif arg == '-m':
 			methods = True
-		elif arg[:2] == '-n':
+		elif arg == '-n':
 			methods = False
-		elif re.search('-\d',arg[:2]):
+		elif arg == '-e':
+			echo = True
+		elif re.search('-\d+',arg):
 			param_depth = arg[1:]
 	if param_depth != None:
 		depth = int(param_depth)
-	diagram = read_diagram(filename,color)
 
-	diagram.draw(module=module,depth=depth,methods=methods)
+	if echo:
+		echo_diagram(filename,color)
+	else:
+		diagram = read_diagram(filename,color)
+		diagram.draw(module=module,depth=depth,methods=methods)

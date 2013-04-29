@@ -95,10 +95,28 @@ PersistList :
 	method : doesPersist
 	TODO : more methods for the persist list
 
-Persist:
+Persist :
 	method : doesPersist
 	method : tick
 	method : reset
 
 PersistActivateList :
 	TODO : IMPLEMENT PERSIST ACTIVATE
+
+Action :
+	field : SubAction (N)
+	field : Game
+	field : uid
+	method : act
+
+SubAction :
+	field : Game
+	field : PlayerContainer (2)
+	field : Instant
+	field : ElementType
+	field : damage
+	field : heal
+	method : act
+	method : setDamage
+	method : setHeal
+	method : setElementType
