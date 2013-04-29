@@ -16,6 +16,13 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+	font-family: 'Volter';
+	src: url('../fonts/Volter.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
 /* SETUP */
 
 
@@ -50,6 +57,8 @@ a:hover {
 #header {
     position:relative;
 	height:91px;
+	margin-top: 20px;
+	margin-bottom: 10px;
 	clear:both;
 	text-align: center;
 }
@@ -70,6 +79,7 @@ a:hover {
 	clear:both;
 	height:61px;
 	width: 750px; /* sum of widths of menu items */
+	margin-bottom: 10px;
 }
 
 #menu-global {
@@ -123,26 +133,31 @@ a:hover {
 #content {
 /* container for page content */
 	background-color: #630;
-	margin: 50px auto 0 auto;
+	margin: 50px auto 0 auto; /* top 50, sides auto, bottom 0 */
 	border: 24px solid transparent;
 	border-image: url('/static/images/style/border.png') 24 24 24 24 round round;
 	width:80%;
 	text-align:left;
 	min-height: 800px;
+	color: #fc9;
 }
 
 #content p {
-	padding-left:70px;
-	padding-right:70px;
+	font-family: serif;
+	padding: 0 50px 40px 50px;
+	padding-left:80px;
+	padding-right:50px;
 	padding-bottom:40px;
 }
 
 #content h1 {
+	font-family: 'Volter';
 	font-size:150%;
 	font-weight:bold;
-	padding-left:60px;
-	padding-right:60px;
-	padding-bottom:40px;
+	margin-top:40px;
+	margin-left: 60px;
+	margin-right: 60px;
+	margin-bottom: 0;
 }
 
 
@@ -163,13 +178,15 @@ a:hover {
 #manage tr td {
 	text-align:center;
 	display:block;
-	background-image:url("../images/icons/button.png");
-	font-size:35px;
+	border-radius: 25px; 
+	background-color: #600;
+	font-family: 'Volter';
+	font-size:200%;
 	color:#bbb;
 }
 
 #manage tr td:hover {
-	background-image:url("../images/icons/button-active.png");
+	background-color: #933;
 	color:#eee;
 }
 
