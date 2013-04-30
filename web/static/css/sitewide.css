@@ -78,8 +78,8 @@ a:hover {
 	position:relative;
 	clear:both;
 	height:61px;
-	width: 750px; /* sum of widths of menu items */
-	margin-bottom: 10px;
+	width: 800px; /* sum of widths of menu items */
+	margin-bottom: 20px;
 }
 
 #menu-global {
@@ -94,23 +94,38 @@ a:hover {
 	list-style-type:none;
 	float:left;
 	text-align:center;
-	margin:0;
+	margin: 0px 20px;
 	padding:0;
-	height: 61px;
+	height: 39px;
 }
 
-#menu-play { background:url('/static/images/style/play.png') no-repeat; min-width:119px; }
-#menu-trade { background:url('/static/images/style/trade.png') no-repeat; min-width:148px; }
-#menu-news { background:url('/static/images/style/news.png') no-repeat; min-width:137px; }
-#menu-account { background:url('/static/images/style/account.png') no-repeat; min-width:191px; }
-#menu-about { background:url('/static/images/style/about.png') no-repeat; min-width:144px; }
+#menu-play, #menu-trade, #menu-news, #menu-account, #menu-about {
+	background:url('/static/images/style/menu-words.png') no-repeat;
+}
 
-#menu-play:hover { background:url('/static/images/style/play_lit.png') no-repeat; }
-#menu-trade:hover { background:url('/static/images/style/trade_lit.png') no-repeat; }
-#menu-news:hover { background:url('/static/images/style/news_lit.png') no-repeat; }
-#menu-account:hover { background:url('/static/images/style/account_lit.png') no-repeat; }
-#menu-about:hover { background:url('/static/images/style/about_lit.png') no-repeat; }
+#menu-play { min-width: 86px; background-position: 0px 0px; }
+#menu-trade { min-width: 116px; background-position: -86px 0px; }
+#menu-news { min-width: 104px; background-position: -202px 0px; }
+#menu-account { min-width: 157px; background-position: -306px 0px; }
+#menu-about { min-width: 116px; background-position: -463px 0px;}
 
+#menu-play:hover { background-position: 0px -41px; }
+#menu-trade:hover { background-position: -86px -41px; }
+#menu-news:hover { background-position: -202px -41px; }
+#menu-account:hover { background-position: -306px -41px; }
+#menu-about:hover { background-position: -463px -41px;}
+
+#play #menu-play { background-position: 0px -82px; }
+#trade #menu-trade { background-position: -86px -82px; }
+#news #menu-news { background-position: -202px -82px; }
+#account #menu-account { background-position: -306px -82px; }
+#about #menu-about { background-position: -463px -82px;}
+
+#play #menu-play:hover { background-position: 0px -123px; }
+#trade #menu-trade:hover { background-position: -86px -123px; }
+#news #menu-news:hover { background-position: -202px -123px; }
+#account #menu-account:hover { background-position: -306px -123px; }
+#about #menu-about:hover { background-position: -463px -123px;}
 
 /* CONTENT TYPE */
 
@@ -134,8 +149,10 @@ a:hover {
 /* container for page content */
 	background-color: #630;
 	margin: 50px auto 0 auto; /* top 50, sides auto, bottom 0 */
-	border: 24px solid transparent;
-	border-image: url('/static/images/style/border.png') 24 24 24 24 round round;
+	border-width: 24px 48px;
+	border-style: solid;
+	border-color: transparent;
+	border-image: url('/static/images/style/border2.png') 24 48 24 48 round round;
 	width:80%;
 	text-align:left;
 	min-height: 800px;
@@ -178,8 +195,9 @@ a:hover {
 #manage tr td {
 	text-align:center;
 	display:block;
-	border-radius: 25px; 
-	background-color: #600;
+	border: 24px solid transparent;
+	border-image: url('/static/images/style/rock-border.png') 24 24 24 24 round round;
+	background-color: #999;
 	font-family: 'Volter';
 	font-size:200%;
 	color:#bbb;
