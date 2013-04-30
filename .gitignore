@@ -1,24 +1,17 @@
 # Compiled python files
 *.py[co]
 
+# Compiled java class files
+*.class
+
 # Logs
 *.log
 
-# User encrypted passwords
-*.stable
-
-# The database
-*shared_database
-
-# Swap save files
+# Vim swap save files
 *.swp
 
-# Game save files
-*.save
-
-#build folder (.class)
+# Build folder
 build
-*.class
 
 # django static collected objects
 root/opt/postprompt/www/static/*
@@ -26,3 +19,12 @@ root/opt/postprompt/www/static/*
 # generated drawings
 *.draw
 docs/gen_*
+
+# The database
+*shared_database
+
+# Game save files
+*.save
+
+# User encrypted passwords
+*.stable

@@ -3,50 +3,50 @@ PostPrompt
 
 PostPrompt virtual card game in Java
 
-How to
----
+ How to
+-------
 
 To set up the environment
 From the root of the project (e.g. /home/john/postprompt)
 (the same location that this file is located in), run:
 
-> ./tool/postprompt bashrc
+	./tool/postprompt bashrc
 
 Then source your bashrc
 
-> source ~/.bashrc
+	source ~/.bashrc
 
 Then to set up the database
 and get the requirements for this project
 (Fedora/Ubuntu only)
 
-> postprompt setup
+	postprompt setup
 
 To see the help text of the main program, run:
 
-> postprompt
+	postprompt
 
 To compile the host backend, tyep:
 
-> postprompt javac
+	postprompt javac
 
 To run just the host, type:
 
-> postprompt host
+	postprompt host
 
 Then navigate to a new terminal and
 To run the web server, type:
 
-> postprompt django
+	postprompt django
 
 OR
 
 To run the command line client, type:
 
-> postprompt client
+	postprompt client
 
-TODO:
----
+ TODO:
+------
 
 Host:
  - Need to have tickers for persistant cards

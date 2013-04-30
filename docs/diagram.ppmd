@@ -14,6 +14,7 @@ Game :
 	method : checkGameEnd
 
 ControlState :
+	field : uids (2)
 	field : phase
 	field : superPhase
 	field : turnOwner
@@ -30,8 +31,8 @@ PlayerContainer :
 	field : Player
 	field : Deck
 	method : xmlOutput
-	method : getDeck
 	method : getPlayer
+	method : getDeck
 
 Player :
 	field : uid
@@ -50,12 +51,8 @@ Deck :
 	method : xmlOutput
 	method : draw
 	method : playHandToActive
-	method : playerHandToGrave
+	method : playHandToGrave
 	method : getCardList
-
-Visibility :
-	field : visible
-	method : xmlOutput
 
 CardList :
 	field : Card (N)

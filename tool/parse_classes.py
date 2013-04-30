@@ -11,6 +11,7 @@ action_model = os.path.join(os.environ['postprompt'],'src','ppbackend','model','
 prefixes = (main_model,effect_model,action_model)
 
 in_class = False
+in_interface = False
 for prefix in prefixes:
 	group = os.listdir(prefix)
 	for class_file in group:
@@ -18,6 +19,10 @@ for prefix in prefixes:
 			for line in class_file:
 				if re.search('^public class',line):
 					in_class = True
+					name = re.search('\w+{',line).group(0).rstrip('{')
+					sys.stdout.write('%s :\n'%name)
+				elif re.search('^public interface',line):
+					in_interface = True
 					name = re.search('\w+{',line).group(0).rstrip('{')
 					sys.stdout.write('%s :\n'%name)
 				if in_class:
@@ -41,4 +46,13 @@ for prefix in prefixes:
 						sys.stdout.write('\tmethod : %s (%s)\n'%(funcname,','.join(params)))
 					elif re.search('^}',line):
 						in_class = False
+				elif in_interface:
+					if re.search('^\tpublic \w+ \w+\(',line):
+						funcname = re.search('\w+\(',line).group(0).rstrip('(')
+						params = re.search('\(.*\)',line).group(0).lstrip('(').rstrip(')')
+						params = params.split(' ')
+						params = params[::2]
+						sys.stdout.write('\tmethod : %s (%s)\n'%(funcname,','.join(params)))
+					elif re.search('^}',line):
+						in_interface = False
 				#sys.stdout.write(line)
