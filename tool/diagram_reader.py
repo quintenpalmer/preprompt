@@ -152,7 +152,7 @@ class DiagramMethod:
 	def __repr__(self):
 		return "%s%s"%(self.name,self.params)
 
-def read_diagram(filename='DIAGRAM',color=True):
+def read_diagram(filename,color):
 	diagram = Diagram()
 	current_class = None
 
@@ -185,7 +185,7 @@ def read_diagram(filename='DIAGRAM',color=True):
 	diagram.link()
 	return diagram
 
-def echo_diagram(filename='DIAGRAM',color=True):
+def echo_diagram(filename,color):
 	diagram_file = open(filename,'r')
 	for line in diagram_file:
 		line = line.rstrip()
@@ -215,7 +215,7 @@ if __name__ == "__main__":
 	import os
 	color = 'color' in os.environ['TERM']
 
-	filename = 'DIAGRAM'
+	filename = 'docs/diagram.ppmd'
 	module = None
 	methods = True
 	depth = None

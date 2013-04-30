@@ -13,17 +13,6 @@ from django.contrib.auth.models import User
 
 base_path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','tables')
 
-'''
-def load_deck(deck_file):
-	uid = deck_file.split('.')[0]
-	path = os.path.join(base_path,'decks',deck_file)
-	f = open(path,'r')
-	for line in f.readlines():
-		key,val = line.split(':')
-		val = val.rstrip('\n')
-	database.insert('play_decks',(int,int,int,str),(None,uid,key,val))
-'''
-
 def reload_cards():
 	delete_cards()
 	load_cards()

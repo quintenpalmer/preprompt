@@ -17,7 +17,7 @@ else
 		pip install django
 		apt-get install python-mysqldb
 		apt-get install mysql-server
-		apt-get install java-mysqldb
+		apt-get install libmysql-java
 	else
 		echo "Unsupported Linux Distro"
 	fi

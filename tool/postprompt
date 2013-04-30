@@ -29,6 +29,10 @@ main(){
 			client 'close'
 		elif [ $command == diagram ] || [ $command == dg ]; then
 			view_diagram $@
+		elif [ $command == doc ] || [ $command == d ]; then
+			doc_gen
+		elif [ $command == vim ] || [ $command == v ]; then
+			vim_copy
 		elif [ $command == setup ]; then
 			bashrc
 			get_requirements
@@ -108,12 +112,8 @@ database(){
 	if [ $1 == interactive ] || [ $1 == i ]; then
 		mysql -u developer --password=jfjfkdkdlslskdkdjfjf
 	else
-		if [ $1 == new ] || [ $1 == n ]; then
+		if [ $1 == fresh ] || [ $1 == f ]; then
 			mysql -u root -p < $postprompt/tool/mysql_fresh
-		fi
-		if [ $1 == reload ] || [ $1 == r ]; then
-			#rm ../root/opt/postprompt/shared_database
-			mysql -u root -p < $postprompt/tool/mysql_reload
 		fi
 		../web/manage.py syncdb --noinput
 		../tool/dbctl.py all load
@@ -137,6 +137,8 @@ clean(){
 	cd $postprompt
 	rm -r build
 	find . -name "*.pyc" | xargs rm
+	rm docs/*.draw
+	rm docs/gen_*.ppmd
 }
 
 get_requirements(){
@@ -146,7 +148,32 @@ get_requirements(){
 
 view_diagram(){
 	cd $postprompt
-	./tool/diagramReader.py $@
+	./tool/diagram_reader.py $@
+}
+
+doc_gen(){
+	cd $postprompt
+	./tool/diagram_reader.py -u -c=Game > ./docs/drawing.draw
+	./tool/parse_classes.py > ./docs/gen_diagram.ppmd
+	./tool/diagram_reader.py -f=docs/gen_diagram.ppmd -c=Game -u > ./docs/gen_drawing.draw
+}
+
+vim_copy(){
+	if ! [ -d ~/.vim ]; then
+		mkdir ~/.vim
+	fi
+	if ! [ -d ~/.vim/syntax ]; then
+		mkdir ~/.vim/syntax
+	fi
+	if ! [ -d ~/.vim/after ]; then
+		mkdir ~/.vim/after
+	fi
+	if [ -f ~/.vim/after/filetype.vim ]; then
+		cat lib/vim/after/filetype.vim >> ~/.vim/after/filetype.vim
+	else
+		cp lib/vim/after/filetype.vim ~/.vim/after/
+	fi
+	cp lib/vim/syntax/* ~/.vim/syntax/
 }
 
 main $@

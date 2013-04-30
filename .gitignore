@@ -2,9 +2,7 @@
 *.py[co]
 
 # Logs
-postprompthost.log
-postpromptclient.log
-postpromptweb.log
+*.log
 
 # User encrypted passwords
 *.stable
@@ -22,4 +20,9 @@ postpromptweb.log
 build
 *.class
 
+# django static collected objects
 root/opt/postprompt/www/static/*
+
+# generated drawings
+*.draw
+docs/gen_*
