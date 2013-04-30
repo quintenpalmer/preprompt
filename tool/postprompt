@@ -22,25 +22,19 @@ main(){
 			get_requirements
 		elif [ $command == help ] || [ $command == h ]; then
 			my_help $@
-		#shortcuts
-		elif [ $command == hb ]; then
-			host b
-		elif [ $command == close ] || [ $command == cc ]; then
-			client 'close'
 		elif [ $command == diagram ] || [ $command == dg ]; then
 			view_diagram $@
 		elif [ $command == doc ] || [ $command == d ]; then
 			doc_gen
 		elif [ $command == vim ] || [ $command == v ]; then
 			vim_copy
+		#shortcuts
+		elif [ $command == hb ]; then
+			host 'background'
+		elif [ $command == close ] || [ $command == cc ]; then
+			client 'close'
 		elif [ $command == setup ]; then
-			bashrc
-			get_requirements
-			echo "You may need to start the mysql server now.
-
-Open a new terminal and do so"
-			read
-			database new
+			setup
 		else
 			help_text
 		fi
@@ -50,20 +44,24 @@ Open a new terminal and do so"
 }
 
 help_text(){
-	echo "Usage: $0 command
-Where command is one of the following:
-  host      [background]       runs the backend host
+	echo "
+  Usage: $0 <command>
+    Where command is one of the following:
+
+  host      [background]        runs the backend host
                                    [default: in the foreground]
-  compile                      compiles the backend host
-  client    [close,bad,close]  runs the python test client
+  compile                       compiles the backend host
+  client    [close,bad,close]   runs the python test client
                                    [default: interactive mode]
-  django                       runs django server
-  database  [new,reload]       loads the database
+  django                        runs django server
+  database  [interactive,fresh] loads the database
                                    [default: assuming it exists]
-  diagram   <command>          view the diagram of the class layout
-  bashrc                       configures .bashrc for this project
-  clean                        cleans all *.pyc and removes build dir
-  requirements                 installs the requirements for postprompt"
+  diagram   <command>           view the diagram of the class layout
+  doc                           generate the parsed documentation and drawings
+  vim                           copies the lib/vim/ config to your ~/.vim/
+  bashrc                        configures .bashrc for this project
+  clean                         cleans all *.pyc and removes build dir
+  requirements                  installs the requirements for postprompt"
 }
 
 my_help(){
@@ -174,6 +172,16 @@ vim_copy(){
 		cp lib/vim/after/filetype.vim ~/.vim/after/
 	fi
 	cp lib/vim/syntax/* ~/.vim/syntax/
+}
+setup(){
+	get_requirements
+	echo "
+You may need to start the mysql server now.
+
+Open a new terminal and do so
+And then press enter to continue : "
+	read
+	database new
 }
 
 main $@
