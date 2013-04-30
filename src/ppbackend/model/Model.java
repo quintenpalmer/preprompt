@@ -58,8 +58,8 @@ public class Model{
 			game.shuffle();
 			try{
 				//TODO actually write game to disk
-				//databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'"+game.xmlOutput(PlayerType.full)+"')");
-				databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'hi')");
+				databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'"+game.xmlOutput(PlayerType.full)+"')");
+				//databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'hi')");
 			}
 			catch(PPDatabaseException e){
 				throw new PPGameActionException("Error writing game data "+e.getMessage());
