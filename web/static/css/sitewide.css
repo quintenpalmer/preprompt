@@ -192,7 +192,11 @@ a:hover {
 
 /* MANAGE TABLE */
 
-#manage tr td {
+#manage tr td .bigbutton {
+	width:300px;
+	height:80px;
+	padding-top:20px;
+	color: #333;
 	text-align:center;
 	display:block;
 	border: 24px solid transparent;
@@ -200,41 +204,59 @@ a:hover {
 	background-color: #999;
 	font-family: 'Volter';
 	font-size:200%;
-	color:#bbb;
 }
 
-#manage tr td:hover {
-	background-color: #933;
-	color:#eee;
+#manage tr td .bigbutton:hover {
+	border: 24px solid transparent;
+	border-image: url('/static/images/style/rock-border-hover.png') 24 24 24 24 round round;
+	background-color: #ccc;
+	color:#666;
 }
 
-#manage tr td span {
+#manage tr td .deckbutton {
+	/* placeholder to be edited later */
 	width:300px;
 	height:80px;
-	display:block;
 	padding-top:20px;
+	color: #333;
+	text-align:center;
+	display:block;
+	border: 24px solid transparent;
+	border-image: url('/static/images/style/rock-border.png') 24 24 24 24 round round;
+	background-color: #999;
+	font-family: 'Volter';
+	font-size:200%;
 }
+
+#manage tr td .deckbutton:hover {
+	border: 24px solid transparent;
+	border-image: url('/static/images/style/rock-border-hover.png') 24 24 24 24 round round;
+	background-color: #ccc;
+	color:#666;
+}
+
+
 
 /* MINI-MANAGE TABLE */
 
 #mini-manage tr td {
 	text-align:center;
 	display:block;
-	background-image:url("../images/icons/mini-button.png");
 	font-size:14px;
 	color:#bbb;
 }
 
 #mini-manage tr td:hover {
-	background-image:url("../images/icons/mini-button-active.png");
 	color:#eee;
 }
 
-#mini-manage tr td span {
-	width:150px;
-	height:40px;
+#mini-manage tr td .card-listing {
+	width:78px;
+	height:120px;
 	display:block;
 	padding-top:9px;
+	background-color: fuchsia; /* this should not be visible! */
+	border: 2px solid black;
 }
 
 /* MINI-INFO TABLE */

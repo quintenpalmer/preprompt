@@ -83,6 +83,7 @@ function display_cards(card_list,div_id){
 			td = document.createElement("td");
 			span = document.createElement("span");
 			span.setAttribute("id",card_id);
+			span.setAttribute("class","card-listing");
 			span.innerHTML="Card "+card_name;
 			td.appendChild(span)
 			if(div_id == 'out_deck'){

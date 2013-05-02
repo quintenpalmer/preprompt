@@ -5,14 +5,14 @@
 		<table id="manage">
 			<tr>
 				<td>
-					<a href="/play/manage/decks/new/"><span>New Deck</span></a>
+					<a href="/play/manage/decks/new/"><span class="deckbutton">New Deck</span></a>
 				</td>
 			</tr>
 		{% for deck_sub_list in decks %}
 			<tr>
 				{% for deck in deck_sub_list %}
 				<td>
-					<a href="/play/manage/decks/{{ deck }}/"><span>Deck {{ deck }}</span></a>
+					<a href="/play/manage/decks/{{ deck }}/"><span class="deckbutton">Deck {{ deck }}</span></a>
 				</td>
 				{% endfor %}
 			</tr>
