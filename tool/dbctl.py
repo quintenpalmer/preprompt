@@ -69,7 +69,7 @@ def reload_all():
 	reload_cards()
 	reload_users()
 
-mapping = {
+commands = {
 	'games' : { 'delete' : delete_games },
 	'cards' : { 'delete' : delete_cards , 'load' : load_cards, 'reload' : reload_cards },
 	'users' : { 'delete' : delete_users , 'load' : load_users, 'reload' : reload_users },
@@ -78,12 +78,14 @@ mapping = {
 
 def help_text():
 	ret = "Database Controlling Tool  - Usage :\n"
-	for key,val in mapping.items():
-		ret += '\t%0-8s'%key
+	ret += "  dbctl.py <table> <command>\n"
+	for key,val in commands.items():
+		ret += '    %0-8s'%key
 		ret += '[ '
-		for subkey in val.keys():
-			ret += '%0-7s'%(subkey+',')
-		ret = ret[:-1]
+		ret += ' | '.join(val.keys())
+		#for subkey in val.keys():
+		#	ret += '%s'%(subkey+', ')
+		#ret = ret[:-1]
 		ret += ' ]'
 		ret += '\n'
 	ret = ret[:-1]
@@ -91,8 +93,8 @@ def help_text():
 
 if __name__ == "__main__":
 	if len(sys.argv) > 1:
-		if sys.argv[1] in mapping.keys():
-			table = mapping[sys.argv[1]]
+		if sys.argv[1] in commands.keys():
+			table = commands[sys.argv[1]]
 			if sys.argv[2] in table.keys():
 				table[sys.argv[2]]()
 			elif sys.argv[2] == 'select':

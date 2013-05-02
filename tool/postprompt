@@ -20,8 +20,6 @@ main(){
 			clean
 		elif [ $command == requirements ] || [ $command == reqs ]; then
 			get_requirements
-		elif [ $command == help ] || [ $command == h ]; then
-			my_help $@
 		elif [ $command == diagram ] || [ $command == dg ]; then
 			view_diagram $@
 		elif [ $command == doc ] || [ $command == d ]; then
@@ -64,16 +62,6 @@ help_text(){
   requirements                  installs the requirements for postprompt"
 }
 
-my_help(){
-	if [ $# -gt 0 ]; then
-		if [ $1 == host ]; then
-			echo "host"
-		fi
-	else
-		help_text
-	fi
-}
-
 host(){
 	cd $postprompt
 	echo $#
@@ -105,29 +93,17 @@ django(){
 	./manage.py runserver 0.0.0.0:8080
 }
 
-database(){
-	cd $postprompt/web
-	if [ $1 == interactive ] || [ $1 == i ]; then
-		mysql -u developer --password=jfjfkdkdlslskdkdjfjf
-	else
-		if [ $1 == fresh ] || [ $1 == f ]; then
-			mysql -u root -p < $postprompt/tool/mysql_fresh
-		fi
-		../web/manage.py syncdb --noinput
-		../tool/dbctl.py all load
-	fi
-}
-
 bashrc(){
-	echo "" >> ~/.bashrc
-	echo "# Postprompt Setup" >> ~/.bashrc
-	echo "" >> ~/.bashrc
-	echo "export postprompt=`pwd`" >> ~/.bashrc
-	echo "export pp=\$postprompt" >> ~/.bashrc
-	echo "export postpromptroot=\$postprompt/root" >> ~/.bashrc
-	echo "export PATH=\$PATH:\$postprompt/tool" >> ~/.bashrc
-	echo "export PYTHONPATH=\$PYTHONPATH:\$postprompt/src/share/py" >> ~/.bashrc
-	echo "alias cdpp=\"cd \$postprompt\"" >> ~/.bashrc
+	echo "
+# PostPrompt Setup
+
+export postprompt=`pwd`
+export pp=\$postprompt
+export postpromptroot=\$postprompt/root
+export PATH=\$PATH:\$postprompt/tool
+export PYTHONPATH=\$PYTHONPATH:\$postprompt/src/share/py
+alias cdpp=\"cd \$postprompt\"" >> ~/.bashrc
+
 	echo "run 'source ~/.bashrc' to have this take effect"
 }
 
@@ -139,9 +115,33 @@ clean(){
 	rm docs/gen_*.ppmd
 }
 
+setup(){
+	get_requirements
+	echo "
+You may need to start the mysql server now.
+
+Open a new terminal and do so
+And then press enter to continue : "
+	read
+	database fresh
+}
+
 get_requirements(){
 	cd $postprompt
-	sudo ./requirements.sh
+	sudo ./tool/requirements
+}
+
+database(){
+	cd $postprompt/web
+	if [ $1 == interactive ] || [ $1 == i ]; then
+		mysql -u developer --password=jfjfkdkdlslskdkdjfjf
+	else
+		if [ $1 == fresh ] || [ $1 == f ]; then
+			mysql -u root -p < $postprompt/tool/mysql_fresh
+		fi
+		../web/manage.py syncdb --noinput
+		../tool/dbctl.py all load
+	fi
 }
 
 view_diagram(){
@@ -172,16 +172,6 @@ vim_copy(){
 		cp lib/vim/after/filetype.vim ~/.vim/after/
 	fi
 	cp lib/vim/syntax/* ~/.vim/syntax/
-}
-setup(){
-	get_requirements
-	echo "
-You may need to start the mysql server now.
-
-Open a new terminal and do so
-And then press enter to continue : "
-	read
-	database new
 }
 
 main $@
