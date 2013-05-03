@@ -72,10 +72,11 @@ Effect :
 	field : InstantList
 	field : PersistList
 	field : PersistActivateList
+	field : ElementType
 	method : xmlOutput
-	method : doesPersist
-	method : getInstantPhases
-	method : getInstants
+	method : getInstantList
+	method : getPersistList
+	method : getPersistActivateList
 	TODO : methods for effect
 
 InstantList :
@@ -104,6 +105,8 @@ PersistList :
 	field : Persist (N)
 	method : xmlOutput
 	method : doesPersist
+	method : tick
+	method : reset
 	TODO : more methods for the persist list
 
 Persist :

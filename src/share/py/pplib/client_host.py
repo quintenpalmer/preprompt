@@ -27,6 +27,13 @@ def request_exit(exit_code):
 	request += '</request>'
 	return send_request(request)
 
+def request_close(close_code):
+	request = '<request>'
+	request += '<command>close</command>'
+	request += '<version>'+str(close_code)+'</version>'
+	request += '</request>'
+	return send_request(request)
+
 def request_list(uid):
 	request = '<request>'
 	request += '<command>list</command>'

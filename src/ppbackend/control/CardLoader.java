@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import ppbackend.model.mainStruct.*;
 import ppbackend.model.effect.*;
-import ppbackend.model.shared.ElementType;
+import ppbackend.model.shared.*;
 import ppbackend.model.action.SubAction;
 
 public class CardLoader{
@@ -55,6 +55,66 @@ public class CardLoader{
 		PersistActivateList palist = new PersistActivateList();
 		Effect effect = new Effect(ilist,plist,palist,elementType);
 		return new Card(name,effect);
+	}
+
+	public static InstantList getDrawEffect(){
+		return new InstantList(
+			new Instant[]{
+				new Instant(
+					new DrawEffect(),
+					new InstantCond[]{
+						new ValidInstant()
+					}
+				)
+			},
+			new int[]{Phase.main}
+		);
+	}
+
+	public static InstantList getPhaseEffect(){
+		return new InstantList(
+			new Instant[]{
+				new Instant(
+					new PhaseEffect(),
+					new InstantCond[]{
+						new ValidInstant()
+					}
+				)
+			},
+			new int[]{Phase.main}
+		);
+	}
+
+	public static InstantList getTurnEffect(){
+		return new InstantList(
+			new Instant[]{
+				new Instant(
+					new TurnEffect(),
+					new InstantCond[]{
+						new ValidInstant()
+					}
+				)
+			},
+			new int[]{Phase.main}
+		);
+	}
+}
+
+class TurnEffect implements InstantEffect{
+	public void applyTo(SubAction action){
+		action.setTurn(true);
+	}
+}
+
+class PhaseEffect implements InstantEffect{
+	public void applyTo(SubAction action){
+		action.setPhase(true);
+	}
+}
+
+class DrawEffect implements InstantEffect{
+	public void applyTo(SubAction action){
+		action.setMovement(0,CLTypes.deck,-1,0,CLTypes.hand,-1);
 	}
 }
 

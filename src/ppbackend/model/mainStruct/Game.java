@@ -9,10 +9,12 @@ import pplib.exceptions.*;
 import ppbackend.model.shared.CLTypes;
 import ppbackend.model.action.Action;
 import ppbackend.model.effect.Effect;
+import ppbackend.control.CardLoader;
 
 public class Game{
 	HashMap<Integer,PlayerContainer> players;
 	ControlState controlState;
+	Action action;
 
 	public Game(PlayerContainer p1, PlayerContainer p2){
 		this.players = new HashMap<Integer,PlayerContainer>();
@@ -88,6 +90,10 @@ public class Game{
 		}
 	}
 
+	public ControlState getControlState(){
+		return this.controlState;
+	}
+
 	public void shuffle(){
 		for(PlayerContainer pc : this.players.values()){
 			pc.getDeck().getCardList(CLTypes.deck).shuffle();
@@ -98,22 +104,26 @@ public class Game{
 		this.controlState.exitSetupSuperPhase();
 		for(PlayerContainer player : this.players.values()){
 			for(int i=0;i<5;i++){
-				player.getDeck().draw();
+				this.action = new Action(this,player.getPlayer().getUid(),CardLoader.getDrawEffect());
+				action.act();
 			}
 		}
 	}
 
 	public void draw(int uid) throws PPGameActionException{
 		this.controlState.draw(uid);
-		this.getMeFromUid(uid).getDeck().draw();
+		this.action = new Action(this,uid,CardLoader.getDrawEffect());
+		action.act();
 	}
 
 	public void stepPhase(int uid) throws PPGameActionException{
-		this.controlState.stepPhase(uid);
+		this.action = new Action(this,uid,CardLoader.getPhaseEffect());
+		action.act();
 	}
 
 	public void stepTurn(int uid) throws PPGameActionException{
-		this.controlState.toggleTurn(uid);
+		this.action = new Action(this,uid,CardLoader.getTurnEffect());
+		action.act();
 	}
 
 	public void play(int uid) throws PPGameActionException{
@@ -126,12 +136,12 @@ public class Game{
 		 * want to verify turn owner but also
 		 * need to get effect for the phases
 		 */
-		this.controlState.play(uid,effect.getInstantPhases());
+		this.controlState.play(uid,effect.getInstantList().getPhases());
 
-		Action action = new Action(this,uid,effect);
+		this.action = new Action(this,uid,effect.getInstantList());
 		action.act();
 		//TODO Implement which card to play from which location and have card parameters
-		if(effect.doesPersist()){
+		if(effect.getPersistList().doesPersist()){
 			me.getDeck().playHandToActive(0);
 		}
 		else{

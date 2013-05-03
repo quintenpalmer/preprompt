@@ -126,7 +126,7 @@ class DiagramClass:
 					if module != None:
 						return module
 	def echo(self):
-		ret = '%s :\n'%'\33[34m%s\33[0m'%self.name if self.color else self.name
+		ret = '%s :\n'%('\33[34m%s\33[0m'%self.name if self.color else self.name)
 		for field in self.fields:
 			ret += '\t%s : %s\n'%(
 				'\33[32mfield\33[0m' if self.color else 'field',
@@ -199,15 +199,15 @@ def read_diagram(filename,color):
 if __name__ == "__main__":
 	import os
 	parg = PPParse()
-	parg.add_arg('-p','use color','color',lambda arg : True,default=True)
-	parg.add_arg('-u','do not use color','color',lambda arg : False)
-	parg.add_arg('-m','show methods','methods',lambda arg : True,default=True)
-	parg.add_arg('-n','do not show methods','methods',lambda arg : False)
-	parg.add_arg('-f=','set the filename','filename',lambda arg : arg[3:],default='docs/diagram.ppmd')
-	parg.add_arg('-c=','set the module','module',lambda arg : arg[3:],default=None)
-	parg.add_arg('-e','echo instead of parse','echo',lambda arg : True,default=False)
-	parg.add_arg('-d=','set the depth','depth',lambda arg : int(arg[3:]),default=None)
-	parg.add_arg('-a','show all modules','depth',lambda arg : None)
+	parg.add_flag('-p','use color','color',lambda arg : True,default=True)
+	parg.add_flag('-u','do not use color','color',lambda arg : False)
+	parg.add_flag('-m','show methods','methods',lambda arg : True,default=True)
+	parg.add_flag('-n','do not show methods','methods',lambda arg : False)
+	parg.add_flag('-f=','set the filename','filename',lambda arg : arg[3:],default='docs/diagram.ppmd')
+	parg.add_flag('-c=','set the module','module',lambda arg : arg[3:],default=None)
+	parg.add_flag('-e','echo instead of parse','echo',lambda arg : True,default=False)
+	parg.add_flag('-d=','set the depth','depth',lambda arg : int(arg[3:]),default=None)
+	parg.add_flag('-a','show all modules','depth',lambda arg : None)
 	parg.parse()
 
 	parg.color = 'color' in os.environ['TERM'] and parg.color

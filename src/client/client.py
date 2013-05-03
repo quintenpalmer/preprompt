@@ -4,11 +4,14 @@ import os
 
 pplib = os.path.join(os.environ['postprompt'],'src','share','py')
 sys.path.insert(0,pplib)
+
 from pplib import util
 from pplib.client_host import request_exit,send_request,request_test
 
 from model.main_model import Model
 from view.main_loop import Main_Loop
+
+from view.drawer import draw
 
 if __name__ == '__main__':
 	if len(sys.argv) == 1:
@@ -33,3 +36,12 @@ if __name__ == '__main__':
 				print "Server is UP!"
 			except socket.error:
 				print "Server is DOWN!"
+		elif sys.argv[1] == '-c':
+			with open('test.log','a') as f:
+				main = Main_Loop(Model(uid=1))
+				for command in sys.argv[2].split(' '):
+					main.run_command(command)
+					f.write('%s\n'%main.resp)
+					f.write('%s\n'%draw(main.model,main.current_message))
+					print draw(main.model,main.current_message)
+				print draw(main.model,main.current_message)

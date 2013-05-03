@@ -35,15 +35,15 @@ public class Effect{
 		return xml;
 	}
 
-	public boolean doesPersist(){
-		return this.persistList.doesPersist();
+	public InstantList getInstantList(){
+		return this.instantList;
 	}
 
-	public int[] getInstantPhases(){
-		return this.instantList.getPhases();
+	public PersistList getPersistList(){
+		return this.persistList;
 	}
 
-	public Instant[] getInstants(){
-		return this.instantList.getInstants();
+	public PersistActivateList getPersistActivateList(){
+		return this.pactivateList;
 	}
 }

@@ -11,45 +11,52 @@ class Main_Loop:
 		command = ''
 		while command != 'exit':
 			try:
-				draw(self.model,self.current_message)
+				print draw(self.model,self.current_message)
 				command = raw_input("Type a command to go: ")
 				if command == '!!':
 					command = self.last_command
 				self.last_command = command
-				if command == 'example':
-					self.example_start()
-				elif command == 'new':
-					self.request_new()
-				elif command == 'test':
-					self.request_test()
-				elif command == 'setup':
-					self.request_setup()
-				elif command == 'draw':
-					self.request_draw()
-				elif command == 'phase':
-					self.request_phase()
-				elif command == 'turn':
-					self.request_turn()
-				elif command == 'play':
-					self.request_play()
-				elif command == 'exit':
-					self.request_exit()
-				elif command == 'out':
-					self.request_out()
-				elif command == 'listall':
-					self.request_list()
-				elif command == 'list':
-					self.current_message = str(self.model.games.keys())
-				elif command[:4] == 'curr':
-					try:
-						self.model.current_game_id = int(command[5:])
-					except ValueError:
-						self.current_message = 'Invalid gameId %s'%command
-				elif command == 'swap':
-					self.model.logged_in_uid = self.model.get_current_game().them.player.uid
-					self.request_out()
-				elif command[:4] == 'help':
-					self.current_message = '''Valid commands are:
+				self.run_command(command)
+			except Exception as e:
+				print "error caught"
+				print e.message
+	def run_command(self,command):
+		if command == 'example':
+			self.example_start()
+		elif command == 'new':
+			self.request_new()
+		elif command == 'test':
+			self.request_test()
+		elif command == 'setup':
+			self.request_setup()
+		elif command == 'draw':
+			self.request_draw()
+		elif command == 'phase':
+			self.request_phase()
+		elif command == 'turn':
+			self.request_turn()
+		elif command == 'play':
+			self.request_play()
+		elif command == 'exit':
+			self.request_exit()
+		elif command == 'close':
+			self.request_close()
+		elif command == 'out':
+			self.request_out()
+		elif command == 'listall':
+			self.request_list()
+		elif command == 'list':
+			self.current_message = str(self.model.games.keys())
+		elif command[:4] == 'curr':
+			try:
+				self.model.current_game_id = int(command[5:])
+			except ValueError:
+				self.current_message = 'Invalid gameId %s'%command
+		elif command == 'swap':
+			self.model.logged_in_uid = self.model.get_current_game().them.player.uid
+			self.request_out()
+		elif command[:4] == 'help':
+			self.current_message = '''Valid commands are:
 	test     send a test service
 	exit     close the client (and host)
 	new      start a new game
@@ -63,51 +70,46 @@ class Main_Loop:
 	list     get a list of this client's game_ids
 	swap     swap to playing as the other player
 					'''
-				else:
-					self.current_message = 'Not a valid command: '+command
-			except Exception as e:
-				print "error caught"
-				print e.message
+		else:
+			self.current_message = 'Not a valid command: '+command
 	def request_new(self,me_did=0,them_uid=2,them_did=0):
-		resp = request_new(self.model.logged_in_uid,me_did,them_uid,them_did)
-		print resp
-		self.current_message = self.model.update_game(resp)
+		self.resp = request_new(self.model.logged_in_uid,me_did,them_uid,them_did)
+		self.current_message = self.model.update_game(self.resp)
 	def request_setup(self):
-		resp = request_setup(self.model.current_game_id,self.model.logged_in_uid)
-		print resp
-		self.current_message = self.model.update_game(resp)
+		self.resp = request_setup(self.model.current_game_id,self.model.logged_in_uid)
+		self.current_message = self.model.update_game(self.resp)
 	def request_draw(self):
-		resp = request_draw(self.model.current_game_id,self.model.logged_in_uid)
-		print resp
-		self.current_message = self.model.update_game(resp)
+		self.resp = request_draw(self.model.current_game_id,self.model.logged_in_uid)
+		self.current_message = self.model.update_game(self.resp)
 	def request_phase(self):
-		resp = request_phase(self.model.current_game_id,self.model.logged_in_uid)
-		print resp
-		self.current_message = self.model.update_game(resp)
+		self.resp = request_phase(self.model.current_game_id,self.model.logged_in_uid)
+		self.current_message = self.model.update_game(self.resp)
 	def request_turn(self):
-		resp = request_turn(self.model.current_game_id,self.model.logged_in_uid)
-		print resp
-		self.current_message = self.model.update_game(resp)
+		self.resp = request_turn(self.model.current_game_id,self.model.logged_in_uid)
+		self.current_message = self.model.update_game(self.resp)
 	def request_play(self,src_list=1,src_card=0,target_uid=13,target_list=2,target_card=0):
-		resp = request_play(self.model.current_game_id,self.model.logged_in_uid,src_list,src_card,target_uid,target_list,target_card)
-		print resp
-		self.current_message = self.model.update_game(resp)
+		self.resp = request_play(self.model.current_game_id,self.model.logged_in_uid,src_list,src_card,target_uid,target_list,target_card)
+		self.current_message = self.model.update_game(self.resp)
 	def request_test(self):
-		resp = request_test(self.model.version)
-		print resp
-		self.current_message = resp
+		self.resp = request_test(self.model.version)
+		self.current_message = self.resp
 	def request_exit(self):
-		resp = request_exit(0)
-		print resp
-		self.current_message = resp
+		self.resp = request_exit(0)
+		self.current_message = self.resp
+	'''  -#-#-#-#-#- '''
+	# ----------------
+	''' testing only '''
+	# ----------------
+	'''  -#-#-#-#-#- '''
+	def request_close(self):
+		self.resp = request_close(0)
+		self.current_message = self.resp
 	def request_out(self):
-		resp = request_out(self.model.current_game_id,self.model.logged_in_uid)
-		print resp
-		self.current_message = self.model.update_game(resp)
+		self.resp = request_out(self.model.current_game_id,self.model.logged_in_uid)
+		self.current_message = self.model.update_game(self.resp)
 	def request_list(self):
-		resp = request_list(self.model.logged_in_uid)
-		print resp
-		self.current_message = resp
+		self.resp = request_list(self.model.logged_in_uid)
+		self.current_message = self.resp
 	def example_start(self):
 		self.request_test()
 		self.request_new()

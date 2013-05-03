@@ -7,11 +7,12 @@ def init_screen():
 	pass
 def draw(model,message):
 	#sys.stdout.write('\33[10A]                                        \r')
-	sys.stdout.write(message+'\n')
+	ret = '%s\n'%message
 	try:
-		sys.stdout.write(draw_game(model.get_current_game()))
+		ret += draw_game(model.get_current_game())
 	except PP_Model_Error as e:
-		sys.stdout.write("No current game! "+str(e)+'\n'*1)#0)
+		ret += "No current game! %s\n"%str(e)
+	return ret
 
 def draw_game(game):
 	out = '='*70+'\n'

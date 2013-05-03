@@ -26,6 +26,8 @@ main(){
 			doc_gen
 		elif [ $command == vim ] || [ $command == v ]; then
 			vim_copy
+		elif [ $command == test ]; then
+			test
 		#shortcuts
 		elif [ $command == hb ]; then
 			host 'background'
@@ -68,6 +70,7 @@ host(){
 	host_command="java -cp build:/usr/share/java/mysql-connector-java.jar Host"
 	if [ $# -gt 0 ]; then
 		if [ $1 == background ] || [ $1 == back ] || [ $1 == b ]; then
+			echo background-ing
 			$host_command &
 			exit
 		fi
@@ -172,6 +175,16 @@ vim_copy(){
 		cp lib/vim/after/filetype.vim ~/.vim/after/
 	fi
 	cp lib/vim/syntax/* ~/.vim/syntax/
+}
+
+test(){
+	cd $postprompt
+	compile
+	java -cp build:/usr/share/java/mysql-connector-java.jar Host &
+	sleep 2
+	cd $postprompt/src/client
+	python client.py -c "new setup draw phase phase play play play play play play phase turn out"
+	client -c "close"
 }
 
 main $@

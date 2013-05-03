@@ -9,14 +9,10 @@ import ppbackend.model.effect.*;
 
 public class Action{
 	LinkedList<SubAction> actions;
-	Game game;
-	int uid;
 
-	public Action(Game game, int uid, Effect effect) throws PPGameActionException{
+	public Action(Game game, int uid, InstantList ilist) throws PPGameActionException{
 		this.actions = new LinkedList<SubAction>();
-		this.game = game;
-		this.uid = uid;
-		for(Instant instant : effect.getInstants()){
+		for(Instant instant : ilist.getInstants()){
 			this.actions.add(new SubAction(game,uid,instant));
 		}
 	}
@@ -24,9 +20,8 @@ public class Action{
 	public void act() throws PPGameActionException{
 		//boolean success = true;
 		while(!actions.isEmpty()){
-			SubAction action = actions.poll();
-			//success = success & action.act();
-			action.act();
+			//success = success & actions.poll().act();
+			actions.poll().act();
 		}
 		//return success;
 	}

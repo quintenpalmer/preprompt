@@ -53,6 +53,10 @@ public class CommandHandler{
 				else if(commandType == CommandType.Exit){
 					ret = responseBuilder.respondExit();
 				}
+				else if(commandType == CommandType.Close){
+					ret = responseBuilder.respondClose();
+					System.exit(0);
+				}
 			}
 			else if(metaType == MetaType.meta){
 				if(commandType == CommandType.New){
@@ -115,7 +119,7 @@ public class CommandHandler{
 			command == CommandType.Out){
 			return MetaType.perform;
 		}
-		else if (command == CommandType.Exit || command == CommandType.Test){
+		else if (command == CommandType.Exit || command == CommandType.Test || command == CommandType.Close){
 			return MetaType.sys;
 		}
 		else{

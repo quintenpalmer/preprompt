@@ -22,6 +22,14 @@ public class ResponseBuilder{
 		return resp;
 	}
 
+	public String respondClose(){
+		String resp = "<resp>";
+		resp += "<resp_status>ok</resp_status>";
+		resp += "<resp_type>close</resp_type>";
+		resp += "</resp>";
+		return resp;
+	}
+
 	public String respondAction(CommandType commandType, int gameId, String xml){
 		String resp = "<resp>";
 		resp += "<resp_status>ok</resp_status>";

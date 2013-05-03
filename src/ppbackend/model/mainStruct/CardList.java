@@ -54,8 +54,13 @@ public class CardList{
 		}
 	}
 
-	public void push(Card card){
-		this.cards.add(card);
+	public void push(Card card,int index){
+		if(index == -1){
+			this.cards.add(card);
+		}
+		else{
+			this.cards.add(index,card);
+		}
 	}
 
 	public Card getCard(int index) throws PPGameActionException{
@@ -65,6 +70,10 @@ public class CardList{
 		catch(IndexOutOfBoundsException e){
 			throw new PPGameActionException("Card List did not contain that Card");
 		}
+	}
+
+	public ArrayList<Card> getCards(){
+		return this.cards;
 	}
 
 	public void shuffle(){

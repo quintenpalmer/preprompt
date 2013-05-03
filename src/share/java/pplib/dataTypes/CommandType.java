@@ -13,7 +13,8 @@ public enum CommandType{
 	Forfeit(206,"forfeit"),
 
 	Test(300,"test"),
-	Exit(301,"exit");
+	Exit(301,"exit"),
+	Close(301,"close");
 
 	int intValue;
 	String name;
@@ -42,6 +43,7 @@ public enum CommandType{
 			case "out": return Out;
 			case "test": return Test;
 			case "exit": return Exit;
+			case "close": return Close;
 			case "forfeit": return Forfeit;
             default : return null;
         }
