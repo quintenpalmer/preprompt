@@ -1,14 +1,11 @@
 div[class*="icon"] {
-	display: inline-block;
-	outline: 0;
-	border: 0;
-	padding: 0;
-	margin: 0;
-	background-image: url('/images/cards/icons.png');
+	float: right;
+	background-image: url('/static/images/cards/icons.png');
 	height: 9px;
 	width: 9px;
 }
 
+.iconNull { background-position: 9px 0px; }
 
 .icon0 { background-position: 0px 0px; }
 .icon1 { background-position: -9px 0px; }
@@ -84,3 +81,44 @@ div[class*="icon"] {
 .iconDark { background-position: -45px -81px; }
 .iconD { background-position: -54px -81px; }
 .iconColon { background-position: -63px -81px; }
+
+
+/* Card display */
+
+div[class*='card-rarity-'] {
+	/* i.e. all card rarity classes */
+	margin: 0px;
+	width: 78px;
+	height: 120px;
+	position: relative; /* position actually isn't dependent on this, but it
+		allows child elements to anchor their own positions to this class */
+}
+
+.card-rarity-gold { background-image: url('/static/images/cards/rarity/gold.gif'); }
+
+div[class*='card-frame-'] {
+	/* i.e. all card frame classes */
+	width: 78px;
+	height: 120px;
+	border: 0px;
+}
+
+.card-frame-dark { background-image: url('/static/images/cards/frame/dark.png'); }
+.card-frame-red { background-image: url('/static/images/cards/frame/red.png'); }
+
+.card-art {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	width: 54px;
+	height: 42px;
+}
+
+.card-desc {
+	position: absolute;
+	top: 63px;
+	left: 12px;
+	width: 54px;
+	height: 45px;
+	padding: 2px;
+}
