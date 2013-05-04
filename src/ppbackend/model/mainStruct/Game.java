@@ -139,13 +139,15 @@ public class Game{
 		this.controlState.play(uid,effect.getInstantList().getPhases());
 
 		this.action = new Action(this,uid,effect.getInstantList());
-		action.act();
+		this.action.act();
 		//TODO Implement which card to play from which location and have card parameters
 		if(effect.getPersistList().doesPersist()){
-			me.getDeck().playHandToActive(0);
+			this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard,CLTypes.active));
+			this.action.act();
 		}
 		else{
-			me.getDeck().playHandToGrave(0);
+			this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard,CLTypes.grave));
+			this.action.act();
 		}
 	}
 

@@ -4,11 +4,9 @@ import ppbackend.model.*;
 
 public class PersistList{
 	Persist[] persistList;
-	boolean doesPersist;
 
-	public PersistList(Persist[] persistList, boolean persists){
+	public PersistList(Persist[] persistList){
 		this.persistList = persistList;
-		this.doesPersist = doesPersist;
 	}
 
 	public String xmlOutput(boolean full){
@@ -16,6 +14,22 @@ public class PersistList{
 	}
 
 	public boolean doesPersist(){
-		return this.doesPersist;
+		boolean doesPersist = true;
+		for ( Persist persist : this.persistList){
+			doesPersist = doesPersist && persist.doesPersist();
+		}
+		return doesPersist;
+	}
+
+	public void tick(){
+		for(Persist persist : this.persistList){
+			persist.tick();
+		}
+	}
+
+	public void reset(){
+		for(Persist persist : this.persistList){
+			persist.reset();
+		}
 	}
 }

@@ -26,6 +26,7 @@ public class DatabaseReader{
 			ArrayList<String> cardIds = database.select("select card_id from play_decks where uid="+Integer.toString(uids[i])+" and deck_id="+Integer.toString(dids[i]));
 			for(String cardId : cardIds){
 				cards.add(CardLoader.getDirectDamage("Fire Blast",ElementType.fire,5));
+				cards.add(CardLoader.getDamangeIncreaser("Inferno",ElementType.fire,1));
 			}
 			Deck deck = new Deck(cards);
 			pcs[i] = new PlayerContainer(player,deck);

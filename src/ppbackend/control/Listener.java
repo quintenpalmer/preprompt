@@ -29,11 +29,11 @@ public class Listener{
 				Socket socket = this.serverSocket.accept();
 					PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
 					BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					char[] inputLine = new char[1024];
+					char[] inputLine = new char[32768];
 					String command;
 					String outputLine;
 
-					while(in.read(inputLine,0,1024) != -1){
+					while(in.read(inputLine,0,32768) != -1){
 						outputLine=processRequest(String.valueOf(inputLine).trim());
 						System.out.println(inputLine);
 						out.println(outputLine);

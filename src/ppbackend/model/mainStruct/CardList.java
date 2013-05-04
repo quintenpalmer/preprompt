@@ -42,6 +42,16 @@ public class CardList{
 		return xml;
 	}
 
+	public Card pop(Card card) throws PPGameActionException{
+		try{
+			this.cards.remove(card);
+			return card;
+		}
+		catch(IndexOutOfBoundsException e){
+			throw new PPGameActionException("Card List Empty");
+		}
+	}
+
 	public Card pop(int index) throws PPGameActionException{
 		try{
 			if(index == -1){

@@ -7,7 +7,7 @@ def send_request(request):
 	s = socket.socket()
 	s.connect((host,port))
 	s.send(request)
-	response = s.recv(16384).rstrip()
+	response = s.recv(32768).rstrip()
 	#print request
 	#print response
 	s.close()

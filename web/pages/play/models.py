@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class Games(models.Model):
 	game_id = models.IntegerField(primary_key=True,unique=True)
-	game_xml = models.CharField(max_length=20000)
+	game_xml = models.CharField(max_length=32768)
 
 class Starting_Cards(models.Model):
 	card_name = models.ForeignKey('Card_Names')

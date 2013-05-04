@@ -24,8 +24,7 @@ public class CardLoader{
 		PersistList plist = new PersistList(
 			new Persist[]{
 				new DoesNotPersist()
-			},
-			false
+			}
 		);
 		PersistActivateList palist = new PersistActivateList();
 		Effect effect = new Effect(ilist,plist,palist,elementType);
@@ -42,15 +41,14 @@ public class CardLoader{
 					}
 				)
 			},
-			new int[]{2}
+			new int[]{Phase.main}
 		);
 		PersistList plist = new PersistList(
 			new Persist[]{
 				new StandardCountdown(
 					duration
 				)
-			},
-			false
+			}
 		);
 		PersistActivateList palist = new PersistActivateList();
 		Effect effect = new Effect(ilist,plist,palist,elementType);
@@ -98,6 +96,20 @@ public class CardLoader{
 			new int[]{Phase.main}
 		);
 	}
+
+	public static InstantList getPlayEffect(int srcCard,int dstList){
+		return new InstantList(
+			new Instant[]{
+				new Instant(
+					new PlayEffect(srcCard,dstList),
+					new InstantCond[]{
+						new ValidInstant()
+					}
+				)
+			},
+			new int[]{Phase.main}
+		);
+	}
 }
 
 class TurnEffect implements InstantEffect{
@@ -109,6 +121,20 @@ class TurnEffect implements InstantEffect{
 class PhaseEffect implements InstantEffect{
 	public void applyTo(SubAction action){
 		action.setPhase(true);
+	}
+}
+
+class PlayEffect implements InstantEffect{
+	int dstList;
+	int srcCard;
+
+	public PlayEffect(int srcCard, int dstList){
+		this.dstList = dstList;
+		this.srcCard = srcCard;
+	}
+
+	public void applyTo(SubAction action){
+		action.setMovement(0,CLTypes.hand,this.srcCard,0,this.dstList,-1);
 	}
 }
 
@@ -168,7 +194,8 @@ class StandardCountdown implements Persist{
 		this.startingDuration = duration;
 	}
 	public boolean doesPersist(){
-		return true;
+		System.out.println(this.duration);
+		return this.duration > 0;
 	}
 	public void tick(){
 		this.duration -= 1;

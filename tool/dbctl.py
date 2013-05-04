@@ -83,9 +83,6 @@ def help_text():
 		ret += '    %0-8s'%key
 		ret += '[ '
 		ret += ' | '.join(val.keys())
-		#for subkey in val.keys():
-		#	ret += '%s'%(subkey+', ')
-		#ret = ret[:-1]
 		ret += ' ]'
 		ret += '\n'
 	ret = ret[:-1]

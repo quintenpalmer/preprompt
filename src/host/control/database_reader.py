@@ -51,7 +51,7 @@ def get_game(config_args):
 
 def verify_deck(cards):
 	if len(cards) < 30:
-		raise PP_Load_Error("Not enough cards in the player's deck, only %s, needs 40"%str(len(cards)))
+		raise PP_Load_Error("Not enough cards in the player's deck, only %s, needs 30"%str(len(cards)))
 
 def get_card_key_text_from_id(card_id):
 	try:
