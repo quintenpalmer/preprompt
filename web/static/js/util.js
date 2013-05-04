@@ -112,6 +112,7 @@ function create_table_data(td_html,td_onclick){
 	var td = document.createElement("td");
 	var a = document.createElement("a");
 	var span = document.createElement("span");
+	span.setAttribute("class","player_status");
 	span.onclick=function(){td_onclick()};
 	span.innerHTML=td_html;
 	a.appendChild(span);

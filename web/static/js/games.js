@@ -45,6 +45,7 @@ function display_all_games(){
 		tr = document.createElement("tr");
 		a = document.createElement("a");
 		span = document.createElement("span");
+		span.setAttribute('class','bigbutton');
 		span.innerHTML="Game "+games[index];
 		a.setAttribute('href','/play/game/'+games[index]);
 		a.appendChild(span);

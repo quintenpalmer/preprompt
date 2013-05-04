@@ -95,7 +95,7 @@ function display_player_stats(player){
 	var table_div = document.createElement("div");
 	var tds = [[player.name,null],[player.health,null]];
 	var table = create_table('mini-info',tds,2);
-	var table_div = document.createElement("div");
+	//var table_div = document.createElement("div");
 	table_div.appendChild(table);
 	document.getElementById("game").appendChild(table_div);
 }

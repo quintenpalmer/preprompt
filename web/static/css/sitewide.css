@@ -262,25 +262,25 @@ a:hover {
 /* MINI-INFO TABLE */
 
 #mini-info tr td {
+	font-family: 'Volter';
+	border: 3px solid black;
 	text-align:center;
 	display:block;
-	background-image:url("../images/icons/mini-button.png");
 	font-size:14px;
 	color:#bbb;
 }
 
-#mini-info tr td span {
+#mini-info tr td .player_status {
 	width:100px;
 	height:20px;
 	display:block;
-	padding-top:9px;
+	padding: 4px;
 }
 
 /* CARD LISTS*/
 
 #card_lists {
 	display:block;
-	background-color:#171;
 	width:990px;
 	height:105px;
 	padding:2px;
@@ -301,18 +301,18 @@ a:hover {
 }
 
 #card_lists li span:hover {
-	background-image:url("../images/cards/card-hover.png");
+	background-image:url("/static/images/cards/card-hover.png");
 	color:#eee;
 }
 
 #card_lists li span {
 	display:block;
-	width:65px;
-	height:100px;
+	width:78px;
+	height:120px;
 	font-size:15px;
 	color:#bbb;
 	text-align:center;
-	background-image:url("../images/cards/card.png");
+	background-image:url("/static/images/cards/card.png");
 }
 
 /* UL MANAGE */
@@ -346,4 +346,12 @@ a:hover {
 }
 #deck_manage div table {
 	padding:9px;
+}
+
+
+/* PLAYING SURFACE */
+
+#game {
+	background-color: #060;
+	border-image: url('/static/images/style/felt-border.png') 3 round;
 }
