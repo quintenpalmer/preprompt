@@ -4,8 +4,11 @@ import java.util.*;
 
 import pplib.exceptions.*;
 
-import ppbackend.model.mainStruct.Game;
+import ppbackend.model.mainStruct.*;
+import ppbackend.model.shared.*;
 import ppbackend.model.effect.*;
+import ppbackend.model.action.*;
+import ppbackend.control.CardLoader;
 
 public class Action{
 	LinkedList<SubAction> actions;
@@ -15,14 +18,28 @@ public class Action{
 		for(Instant instant : ilist.getInstants()){
 			this.actions.add(new SubAction(game,uid,instant));
 		}
-	}
-
-	public void act() throws PPGameActionException{
-		//boolean success = true;
+		Deck deck;
 		while(!actions.isEmpty()){
-			//success = success & actions.poll().act();
 			actions.poll().act();
+
+			int index = 0;
+			for(Card card : game.getMeFromUid(uid).getDeck().getCardList(CLTypes.active).getCards()){
+				System.out.println(card);
+				if(! card.getEffect().getPersistList().doesPersist()){
+					actions.add(0,new SubAction(game,uid,CardLoader.getDestroyEffect(index,0)));
+					break;
+				}
+				index++;
+			}
+			index = 0;
+			for(Card card : game.getThemFromUid(uid).getDeck().getCardList(CLTypes.active).getCards()){
+				System.out.println(card);
+				if(! card.getEffect().getPersistList().doesPersist()){
+					actions.add(0,new SubAction(game,uid,CardLoader.getDestroyEffect(index,1)));
+					break;
+				}
+				index++;
+			}
 		}
-		//return success;
 	}
 }

@@ -60,7 +60,7 @@ public class CardList{
 			return this.cards.remove(index);
 		}
 		catch(IndexOutOfBoundsException e){
-			throw new PPGameActionException("Card List Empty");
+			throw new PPGameActionException("Card List Empty "+Integer.toString(index));
 		}
 	}
 

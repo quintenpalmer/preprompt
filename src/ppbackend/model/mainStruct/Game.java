@@ -105,7 +105,6 @@ public class Game{
 		for(PlayerContainer player : this.players.values()){
 			for(int i=0;i<5;i++){
 				this.action = new Action(this,player.getPlayer().getUid(),CardLoader.getDrawEffect());
-				action.act();
 			}
 		}
 	}
@@ -113,17 +112,14 @@ public class Game{
 	public void draw(int uid) throws PPGameActionException{
 		this.controlState.draw(uid);
 		this.action = new Action(this,uid,CardLoader.getDrawEffect());
-		action.act();
 	}
 
 	public void stepPhase(int uid) throws PPGameActionException{
 		this.action = new Action(this,uid,CardLoader.getPhaseEffect());
-		action.act();
 	}
 
 	public void stepTurn(int uid) throws PPGameActionException{
 		this.action = new Action(this,uid,CardLoader.getTurnEffect());
-		action.act();
 	}
 
 	public void play(int uid) throws PPGameActionException{
@@ -139,16 +135,16 @@ public class Game{
 		this.controlState.play(uid,effect.getInstantList().getPhases());
 
 		this.action = new Action(this,uid,effect.getInstantList());
-		this.action.act();
 		//TODO Implement which card to play from which location and have card parameters
+		this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard));
+		/*
 		if(effect.getPersistList().doesPersist()){
 			this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard,CLTypes.active));
-			this.action.act();
 		}
 		else{
 			this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard,CLTypes.grave));
-			this.action.act();
 		}
+		*/
 	}
 
 	public void forfeit(int uid) throws PPGameActionException{

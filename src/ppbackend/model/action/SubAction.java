@@ -66,24 +66,12 @@ public class SubAction{
 			for(Card card : this.me.getDeck().getCardList(CLTypes.active).getCards()){
 				card.getEffect().getPersistList().tick();
 			}
+			/*
 			for(Card card : this.them.getDeck().getCardList(CLTypes.active).getCards()){
 				card.getEffect().getPersistList().tick();
 			}
+			*/
 		}
-		/*
-		for(Card card : this.me.getDeck().getCardList(CLTypes.active).getCards()){
-			if(! card.getEffect().getPersistList().doesPersist()){
-				card = this.me.getDeck().getCardList(CLTypes.active).pop(card);
-				this.me.getDeck().getCardList(CLTypes.grave).push(card,-1);
-			}
-		}
-		for(Card card : this.them.getDeck().getCardList(CLTypes.active).getCards()){
-			if(! card.getEffect().getPersistList().doesPersist()){
-				card = this.them.getDeck().getCardList(CLTypes.active).pop(card);
-				this.them.getDeck().getCardList(CLTypes.grave).push(card,-1);
-			}
-		}
-		*/
 	}
 
 	public void setDamage(int amount){

@@ -69,6 +69,29 @@ public class CardLoader{
 		);
 	}
 
+	public static InstantList getPlayEffect(int srcCard){
+		return new InstantList(
+			new Instant[]{
+				new Instant(
+					new PlayEffect(srcCard),
+					new InstantCond[]{
+						new ValidInstant()
+					}
+				)
+			},
+			new int[]{Phase.main}
+		);
+	}
+
+	public static Instant getDestroyEffect(int srcCard,int playerNum){
+		return new Instant(
+			new DestroyEffect(srcCard,playerNum),
+			new InstantCond[]{
+				new ValidInstant()
+			}
+		);
+	}
+
 	public static InstantList getPhaseEffect(){
 		return new InstantList(
 			new Instant[]{
@@ -96,20 +119,6 @@ public class CardLoader{
 			new int[]{Phase.main}
 		);
 	}
-
-	public static InstantList getPlayEffect(int srcCard,int dstList){
-		return new InstantList(
-			new Instant[]{
-				new Instant(
-					new PlayEffect(srcCard,dstList),
-					new InstantCond[]{
-						new ValidInstant()
-					}
-				)
-			},
-			new int[]{Phase.main}
-		);
-	}
 }
 
 class TurnEffect implements InstantEffect{
@@ -124,17 +133,29 @@ class PhaseEffect implements InstantEffect{
 	}
 }
 
+class DestroyEffect implements InstantEffect{
+	int srcCard;
+	int playerNum;
+
+	public DestroyEffect(int srcCard, int playerNum){
+		this.srcCard = srcCard;
+		this.playerNum = playerNum;
+	}
+
+	public void applyTo(SubAction action){
+		action.setMovement(this.playerNum,CLTypes.active,this.srcCard,this.playerNum,CLTypes.grave,-1);
+	}
+}
+
 class PlayEffect implements InstantEffect{
-	int dstList;
 	int srcCard;
 
-	public PlayEffect(int srcCard, int dstList){
-		this.dstList = dstList;
+	public PlayEffect(int srcCard){
 		this.srcCard = srcCard;
 	}
 
 	public void applyTo(SubAction action){
-		action.setMovement(0,CLTypes.hand,this.srcCard,0,this.dstList,-1);
+		action.setMovement(0,CLTypes.hand,this.srcCard,0,CLTypes.active,-1);
 	}
 }
 
@@ -194,7 +215,6 @@ class StandardCountdown implements Persist{
 		this.startingDuration = duration;
 	}
 	public boolean doesPersist(){
-		System.out.println(this.duration);
 		return this.duration > 0;
 	}
 	public void tick(){
