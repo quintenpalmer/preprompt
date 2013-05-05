@@ -38,7 +38,7 @@ public class ControlState{
 		this.turnOwner = xmlParser.parseInt(element,"turn_owner");
 	}
 
-	public String xmlOutput(boolean full) throws PPGameActionException{
+	public String ppserialize(boolean full) throws PPGameActionException{
 		String xml = "<super_phase>"+Integer.toString(this.superPhase)+"</super_phase>";
 		xml += "<phase>"+Integer.toString(this.phase)+"</phase>";
 		xml += "<has_drawn>"+Boolean.toString(this.hasDrawn)+"</has_drawn>";

@@ -22,10 +22,10 @@ public class Card{
 		this.effect = new Effect(xmlParser,xmlParser.parseElement(element,"effect"));
 	}
 
-	public String xmlOutput(boolean full){
+	public String ppserialize(boolean full){
 		String xml = "<type>full</type>";
 		xml += "<name>"+this.name+"</name>";
-		xml += "<effect>"+this.effect.xmlOutput(full)+"</effect>";
+		xml += "<effect>"+this.effect.ppserialize(full)+"</effect>";
 		return xml;
 	}
 

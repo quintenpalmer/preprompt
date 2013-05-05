@@ -25,10 +25,10 @@ public class Effect{
 		xmlParser.parseInt(element,"name");
 	}
 
-	public String xmlOutput(boolean full){
-		String xml = "<instants>"+this.instantList.xmlOutput(full)+"</instants>";
-		xml += "<persists>"+this.persistList.xmlOutput(full)+"</persists>";
-		xml += "<pactivates>"+this.pactivateList.xmlOutput(full)+"</pactivates>";
+	public String ppserialize(boolean full){
+		String xml = "<instants>"+this.instantList.ppserialize(full)+"</instants>";
+		xml += "<persists>"+this.persistList.ppserialize(full)+"</persists>";
+		xml += "<pactivates>"+this.pactivateList.ppserialize(full)+"</pactivates>";
 		xml += "<elements>";
 		xml += "<element>"+elementType.toString()+"</element>";
 		xml += "</elements>";

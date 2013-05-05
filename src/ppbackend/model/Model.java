@@ -41,8 +41,8 @@ public class Model{
 		}
 	}
 
-	public String xmlOutput(int gameId, int uid) throws PPGameActionException{
-		return getGameFromGameId(gameId).xmlOutput(uid);
+	public String ppserialize(int gameId, int uid) throws PPGameActionException{
+		return getGameFromGameId(gameId).ppserialize(uid);
 	}
 
 	public int startGame(int p1Uid, int p1Did, int p2Uid, int p2Did) throws PPGameActionException{
@@ -58,7 +58,7 @@ public class Model{
 			game.shuffle();
 			try{
 				//TODO actually write game to disk
-				databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'"+game.xmlOutput(PlayerType.full)+"')");
+				databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'"+game.ppserialize(PlayerType.full)+"')");
 				//databaseConnection.update("insert into play_games values("+Integer.toString(gameId)+",'hi')");
 			}
 			catch(PPDatabaseException e){

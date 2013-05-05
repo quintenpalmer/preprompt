@@ -1,7 +1,7 @@
 import sys
 import os
 
-pplib = os.path.join(os.environ['postprompt'],'src','share','py')
+pplib = os.path.join(os.environ['postprompt'],'lib','python')
 sys.path.insert(0,pplib)
 from pplib import util
 

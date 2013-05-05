@@ -22,7 +22,7 @@ public class Player{
 		this.health = xmlParser.parseInt(element,"health");
 	}
 
-	public String xmlOutput(int playerType){
+	public String ppserialize(int playerType){
 		String xml = "<uid>"+Integer.toString(this.uid)+"</uid>";
 		xml += "<name>"+this.name+"</name>";
 		xml += "<health>"+Integer.toString(this.health)+"</health>";

@@ -9,7 +9,7 @@ public class PersistList{
 		this.persistList = persistList;
 	}
 
-	public String xmlOutput(boolean full){
+	public String ppserialize(boolean full){
 		return "PersistList";
 	}
 

@@ -19,9 +19,9 @@ public class PlayerContainer{
 		this.deck = new Deck(xmlParser,xmlParser.parseElement(element,"deck"));
 	}
 
-	public String xmlOutput(int playerType) throws PPGameActionException{
-		String xml = "<player>"+this.player.xmlOutput(playerType)+"</player>";
-		xml += "<collection>"+this.deck.xmlOutput(playerType)+"</collection>";
+	public String ppserialize(int playerType) throws PPGameActionException{
+		String xml = "<player>"+this.player.ppserialize(playerType)+"</player>";
+		xml += "<collection>"+this.deck.ppserialize(playerType)+"</collection>";
 		return xml;
 	}
 

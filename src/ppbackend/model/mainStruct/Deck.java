@@ -32,7 +32,7 @@ public class Deck{
 		this.visibility = new Visibility(xmlParser,xmlParser.parseElement(element,"visibilities"));
 	}
 
-	public String xmlOutput(int playerType) throws PPGameActionException{
+	public String ppserialize(int playerType) throws PPGameActionException{
 		int visIndex;
 		boolean full;
 		if(playerType == PlayerType.full){
@@ -55,13 +55,13 @@ public class Deck{
 		String xml = "<lists>";
 		for(int i=0;i<CLTypes.size;i++){
 			xml += "<"+CLTypes.names[i]+">";
-			xml += this.cardLists[i].xmlOutput(full,this.visibility.doubleIndex(i,visIndex));
+			xml += this.cardLists[i].ppserialize(full,this.visibility.doubleIndex(i,visIndex));
 			xml += "</"+CLTypes.names[i]+">";
 		}
 		xml += "</lists>";
 		if(full){
 			xml += "<visibilities>";
-			xml += this.visibility.xmlOutput();
+			xml += this.visibility.ppserialize();
 			xml += "<visibilities>";
 		}
 		return xml;
@@ -112,7 +112,7 @@ public class Deck{
 			{true,xmlParser.parseBool(otherElement,"me_vis"),xmlParser.parseBool(otherElement,"them_vis")}};
 		}
 
-		public String xmlOutput(){
+		public String ppserialize(){
 			String xml = "";
 			for(int i=0;i<CLTypes.size;i++){
 				xml += "<"+CLTypes.names[i]+">";

@@ -14,7 +14,6 @@ import ppbackend.control.CardLoader;
 public class Game{
 	HashMap<Integer,PlayerContainer> players;
 	ControlState controlState;
-	Action action;
 
 	public Game(PlayerContainer p1, PlayerContainer p2){
 		this.players = new HashMap<Integer,PlayerContainer>();
@@ -43,7 +42,7 @@ public class Game{
 		}
 	}
 
-	public String xmlOutput(int meUid) throws PPGameActionException{
+	public String ppserialize(int meUid) throws PPGameActionException{
 		int mePlayerType;
 		int themPlayerType;
 		boolean full;
@@ -60,9 +59,9 @@ public class Game{
 		}
 
 		String xml = "<game>";
-		xml += "<me>"+getMeFromUid(meUid).xmlOutput(mePlayerType)+"</me>";
-		xml += "<them>"+getThemFromUid(meUid).xmlOutput(themPlayerType)+"</them>";
-		xml += "<control_state>"+this.controlState.xmlOutput(full)+"</control_state>";
+		xml += "<me>"+getMeFromUid(meUid).ppserialize(mePlayerType)+"</me>";
+		xml += "<them>"+getThemFromUid(meUid).ppserialize(themPlayerType)+"</them>";
+		xml += "<control_state>"+this.controlState.ppserialize(full)+"</control_state>";
 		xml += "</game>";
 		return xml;
 	}
@@ -104,22 +103,22 @@ public class Game{
 		this.controlState.exitSetupSuperPhase();
 		for(PlayerContainer player : this.players.values()){
 			for(int i=0;i<5;i++){
-				this.action = new Action(this,player.getPlayer().getUid(),CardLoader.getDrawEffect());
+				new Action(this,player.getPlayer().getUid(),CardLoader.getDrawEffect());
 			}
 		}
 	}
 
 	public void draw(int uid) throws PPGameActionException{
 		this.controlState.draw(uid);
-		this.action = new Action(this,uid,CardLoader.getDrawEffect());
+		new Action(this,uid,CardLoader.getDrawEffect());
 	}
 
 	public void stepPhase(int uid) throws PPGameActionException{
-		this.action = new Action(this,uid,CardLoader.getPhaseEffect());
+		new Action(this,uid,CardLoader.getPhaseEffect());
 	}
 
 	public void stepTurn(int uid) throws PPGameActionException{
-		this.action = new Action(this,uid,CardLoader.getTurnEffect());
+		new Action(this,uid,CardLoader.getTurnEffect());
 	}
 
 	public void play(int uid) throws PPGameActionException{
@@ -134,17 +133,9 @@ public class Game{
 		 */
 		this.controlState.play(uid,effect.getInstantList().getPhases());
 
-		this.action = new Action(this,uid,effect.getInstantList());
+		new Action(this,uid,effect.getInstantList());
 		//TODO Implement which card to play from which location and have card parameters
-		this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard));
-		/*
-		if(effect.getPersistList().doesPersist()){
-			this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard,CLTypes.active));
-		}
-		else{
-			this.action = new Action(this,uid,CardLoader.getPlayEffect(srcCard,CLTypes.grave));
-		}
-		*/
+		new Action(this,uid,CardLoader.getPlayEffect(srcCard));
 	}
 
 	public void forfeit(int uid) throws PPGameActionException{

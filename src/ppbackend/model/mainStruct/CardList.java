@@ -26,15 +26,15 @@ public class CardList{
 		}
 	}
 
-	public String xmlOutput(boolean full, boolean visible){
+	public String ppserialize(boolean full, boolean visible){
 		String xml = "<cards>";
 		for(Card card : this.cards){
 			xml += "<card>";
 			if(visible){
-				xml += card.xmlOutput(full);
+				xml += card.ppserialize(full);
 			}
 			else{
-				xml += EmptyCard.xmlOutput;
+				xml += EmptyCard.ppserialize;
 			}
 			xml += "</card>";
 		}

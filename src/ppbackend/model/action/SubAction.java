@@ -34,11 +34,6 @@ public class SubAction{
 	public void act() throws PPGameActionException{
 		this.instant.applyTo(this.game,this);
 
-		/*
-		for( Card card : this.me.getDeck().getCardList(CLTypes.active).getCards()){
-			System.out.println(card);
-		}
-		*/
 		this.them.getPlayer().receiveDamage(this.damage);
 		this.me.getPlayer().receiveHeal(this.heal);
 		if(this.moving){

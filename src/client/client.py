@@ -2,7 +2,7 @@ import socket
 import sys
 import os
 
-pplib = os.path.join(os.environ['postprompt'],'src','share','py')
+pplib = os.path.join(os.environ['postprompt'],'lib','python')
 sys.path.insert(0,pplib)
 
 from pplib import util
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 			except socket.error:
 				print "Server is DOWN!"
 		elif sys.argv[1] == '-c':
-			with open('test.log','a') as f:
+			with open(os.path.join(os.environ['postpromptroot'],'var','log','test.log'),'a') as f:
 				main = Main_Loop(Model(uid=1))
 				for command in sys.argv[2].split(' '):
 					main.run_command(command)

@@ -18,13 +18,11 @@ public class Action{
 		for(Instant instant : ilist.getInstants()){
 			this.actions.add(new SubAction(game,uid,instant));
 		}
-		Deck deck;
 		while(!actions.isEmpty()){
 			actions.poll().act();
 
 			int index = 0;
 			for(Card card : game.getMeFromUid(uid).getDeck().getCardList(CLTypes.active).getCards()){
-				System.out.println(card);
 				if(! card.getEffect().getPersistList().doesPersist()){
 					actions.add(0,new SubAction(game,uid,CardLoader.getDestroyEffect(index,0)));
 					break;
@@ -33,7 +31,6 @@ public class Action{
 			}
 			index = 0;
 			for(Card card : game.getThemFromUid(uid).getDeck().getCardList(CLTypes.active).getCards()){
-				System.out.println(card);
 				if(! card.getEffect().getPersistList().doesPersist()){
 					actions.add(0,new SubAction(game,uid,CardLoader.getDestroyEffect(index,1)));
 					break;

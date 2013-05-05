@@ -9,7 +9,7 @@ public class InstantList{
 		this.validPhases = validPhases;
 	}
 
-	public String xmlOutput(boolean full){
+	public String ppserialize(boolean full){
 		return "InstantList";
 	}
 

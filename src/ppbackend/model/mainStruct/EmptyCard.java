@@ -1,5 +1,5 @@
 package ppbackend.model.mainStruct;
 
 public class EmptyCard{
-	public static String xmlOutput = "<type>Unknown</type>";
+	public static String ppserialize = "<type>Unknown</type>";
 }
