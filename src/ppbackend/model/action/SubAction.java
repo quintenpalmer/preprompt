@@ -58,11 +58,11 @@ public class SubAction{
 		}
 		if(this.turn){
 			this.game.getControlState().toggleTurn(this.me.getPlayer().getUid());
-			for(Card card : this.me.getDeck().getCardList(CLTypes.active).getCards()){
+			for(Card card : this.them.getDeck().getCardList(CLTypes.active).getCards()){
 				card.getEffect().getPersistList().tick();
 			}
 			/*
-			for(Card card : this.them.getDeck().getCardList(CLTypes.active).getCards()){
+			for(Card card : this.me.getDeck().getCardList(CLTypes.active).getCards()){
 				card.getEffect().getPersistList().tick();
 			}
 			*/

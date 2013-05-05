@@ -10,7 +10,7 @@ public class DatabaseConnection{
 
 	public DatabaseConnection(String databaseName) throws PPDatabaseException{
 		try{
-		this.con = DriverManager.getConnection("jdbc:mysql://localhost/"+databaseName,"developer","jfjfkdkdlslskdkdjfjf");
+			this.con = DriverManager.getConnection("jdbc:mysql://localhost/"+databaseName,"developer","jfjfkdkdlslskdkdjfjf");
 		}
 		catch(SQLException e){
 			throw new PPDatabaseException("Could not connect to database "+databaseName+" "+e.getMessage());

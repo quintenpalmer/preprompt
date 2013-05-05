@@ -90,7 +90,7 @@ public class Model{
 			return this.games.get(gameId);
 		}
 		else{
-			throw new PPGameActionException("That gameId is not in play");
+			throw new PPGameActionException("That gameId is not in play : "+Integer.toString(gameId));
 		}
 	}
 

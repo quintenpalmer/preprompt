@@ -67,18 +67,6 @@ public class Deck{
 		return xml;
 	}
 
-	public void draw() throws PPGameActionException{
-		this.cardLists[CLTypes.hand].push(this.cardLists[CLTypes.deck].pop(-1),-1);
-	}
-
-	public void playHandToActive(int cardId) throws PPGameActionException{
-		this.cardLists[CLTypes.active].push(this.cardLists[CLTypes.hand].pop(cardId),-1);
-	}
-
-	public void playHandToGrave(int cardId) throws PPGameActionException{
-		this.cardLists[CLTypes.grave].push(this.cardLists[CLTypes.hand].pop(cardId),-1);
-	}
-
 	public CardList getCardList(int clType){
 		return this.cardLists[clType];
 	}
