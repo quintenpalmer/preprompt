@@ -4,10 +4,29 @@ import os
 
 from pplib.errors import PP_Database_Error
 
+class Database:
+	def __init__(self,database_name='pp_shared'):
+		self.con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf',database_name)
+		self.cur = self.con.cursor()
+
+	def update(self,command):
+		self.cur.execute(command)
+		self.con.commit()
+
+	def delete(self,table_name):
+		command = 'delete from %s'%(table_name,)
+		self.cur.execute(command)
+		self.con.commit()
+
+	def select(self,command):
+		self.cur.execute(command)
+		return self.cur.fetchall()
+
+
 def init(mysql=True):
 	if mysql:
 		database_name = 'pp_shared'
-		con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf','pp_shared')
+		con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf',database_name)
 	else:
 		database_path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','shared_database')
 		con = sqlite3.connect(database_path)

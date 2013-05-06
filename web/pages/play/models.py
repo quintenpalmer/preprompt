@@ -10,7 +10,7 @@ class Starting_Cards(models.Model):
 
 class Card_Names(models.Model):
 	card_name = models.CharField(max_length=64)
-	card_effect = models.CharField(max_length=64)
+	card_effect = models.CharField(max_length=1024)
 
 class Cards(models.Model):
 	card_name = models.ForeignKey('Card_Names')

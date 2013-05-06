@@ -13,6 +13,7 @@ else
 		yum install MySQL-python
 		yum install mysql-server
 		yum install mysql-connector-java
+		yum install json_simple
 	elif [ $distro == "Ubuntu" ]; then
 		apt-get install openjdk-7-jdk
 		apt-get install python-pip
@@ -20,6 +21,7 @@ else
 		apt-get install python-mysqldb
 		apt-get install mysql-server
 		apt-get install libmysql-java
+		apt-get install libjson-simple-java
 	else
 		echo "Unsupported Linux Distro"
 	fi

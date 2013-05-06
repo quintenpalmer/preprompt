@@ -1,0 +1,70 @@
+{ "cards" :
+	[
+		{
+			"name" : "Fire Blast",
+			"effect" : {
+				"element" : "fire",
+				"type" : "damage",
+				"params" : {
+					"amount" : 4
+				}
+			}
+		},
+		{
+			"name" : "Fizzle",
+			"effect" : {
+				"element" : "fire",
+				"type" : "damage",
+				"params" : {
+					"amount" : 11
+				}
+			}
+		},
+		{
+			"name" : "Eruption",
+			"effect" : {
+				"element" : "fire",
+				"type" : "damage",
+				"params" : {
+					"amount" : 10
+				}
+			}
+		},
+		{
+			"name" : "Inferno",
+			"effect" : {
+				"element" : "fire",
+				"type" : "alter",
+				"params" : {
+					"amount" : 3,
+					"duration" : 3,
+					"who" : 0
+				}
+			}
+		},
+		{
+			"name" : "Fiery Inferno",
+			"effect" : {
+				"element" : "fire",
+				"type" : "alter",
+				"params" : {
+					"amount" : 5,
+					"duration" : 2,
+					"who" : 0
+				}
+			}
+		},
+		{
+			"name" : "Incinerator",
+			"effect" : {
+				"element" : "fire",
+				"type" : "alter",
+				"params" : {
+					"amount" : 10,
+					"duration" : 1,
+					"who" : 0
+				}
+			}
+		}
+	]
+}

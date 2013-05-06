@@ -33,6 +33,8 @@ main(){
 			host 'background'
 		elif [ $command == close ] || [ $command == cc ]; then
 			client 'close'
+		elif [ $command == json ]; then
+			json
 		elif [ $command == setup ]; then
 			setup
 		else
@@ -78,12 +80,16 @@ host(){
 	$host_command
 }
 
-compile(){
-	#cd $postprompt
+make_build(){
 	if [ ! -e $postprompt/build ]; then
 		mkdir $postprompt/build
 	fi
-	javac -cp $postprompt/src:$postprompt/lib/java -d $postprompt/build $postprompt/src/ppbackend/Host.java
+}
+
+compile(){
+	cd $postprompt
+	make_build
+	javac -cp src:lib/java -d build src/ppbackend/Host.java
 }
 
 client(){
@@ -114,6 +120,7 @@ clean(){
 	cd $postprompt
 	rm -r build
 	find . -name "*.pyc" | xargs rm
+	find . -name "*.class" | xargs rm
 	rm docs/*.draw
 	rm docs/gen_*.ppmd
 }
@@ -143,7 +150,7 @@ database(){
 			mysql -u root -p < $postprompt/tool/mysql_fresh
 		fi
 		../web/manage.py syncdb --noinput
-		../tool/dbctl.py all load
+		../tool/ppdbctl.py all load
 	fi
 }
 
@@ -175,6 +182,14 @@ vim_copy(){
 		cp lib/vim/after/filetype.vim ~/.vim/after/
 	fi
 	cp lib/vim/syntax/* ~/.vim/syntax/
+}
+
+json(){
+	cd $postprompt
+	clean
+	make_build
+	javac -cp lib/java:/usr/share/java/json_simple.jar -d build JsonTester.java
+	java -cp build:/usr/share/java/json_simple.jar JsonTester
 }
 
 test(){

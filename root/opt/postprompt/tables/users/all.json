@@ -1,0 +1,14 @@
+{ "users" :
+	[
+		{
+			"username" : "qwer",
+			"password" : "asdf",
+			"email" : "quintenpalmer@gmail.com"
+		},
+		{
+			"username" : "asdf",
+			"password" : "asdf",
+			"email" : "quintenpalmer@gmail.com"
+		}
+	]
+}

@@ -27,3 +27,9 @@ class PP_Database_Error(Exception):
 		self.message = message
 	def __str__(self):
 		return self.message
+
+class JsonParserError(Exception):
+	def __init__(self,message):
+		self.message = message
+	def __str__(self):
+		return self.message
