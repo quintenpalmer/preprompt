@@ -26,7 +26,11 @@ public class CardLoader{
 				new DoesNotPersist()
 			}
 		);
-		PersistActivateList palist = new PersistActivateList();
+		PersistActivateList palist = new PersistActivateList(
+			new PersistActivate[]{
+				new NoAlter()
+			}
+		);
 		Effect effect = new Effect(ilist,plist,palist,elementType);
 		return new Card(name,effect);
 	}
@@ -50,7 +54,11 @@ public class CardLoader{
 				)
 			}
 		);
-		PersistActivateList palist = new PersistActivateList();
+		PersistActivateList palist = new PersistActivateList(
+			new PersistActivate[]{
+				new IncreaseAlter(elementType,3)
+			}
+		);
 		Effect effect = new Effect(ilist,plist,palist,elementType);
 		return new Card(name,effect);
 	}
@@ -222,5 +230,28 @@ class StandardCountdown implements Persist{
 	}
 	public void reset(){
 		this.duration = this.startingDuration;
+	}
+}
+
+class NoAlter implements PersistActivate{
+	public void applyTo(Game game, SubAction action, int playerType){
+	}
+}
+
+class IncreaseAlter implements PersistActivate{
+	ElementType elementType;
+	int amount;
+
+	public IncreaseAlter(ElementType elementType, int amount){
+		this.elementType = elementType;
+		this.amount = amount;
+	}
+
+	public void applyTo(Game game, SubAction action, int playerType){
+		if(playerType == 0){
+			if(action.getElementType() == this.elementType){
+				action.increaseDamage(amount);
+			}
+		}
 	}
 }

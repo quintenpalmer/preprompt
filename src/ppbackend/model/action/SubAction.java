@@ -3,7 +3,7 @@ package ppbackend.model.action;
 import pplib.exceptions.*;
 import ppbackend.model.shared.*;
 import ppbackend.model.mainStruct.*;
-import ppbackend.model.effect.Instant;
+import ppbackend.model.effect.*;
 import ppbackend.model.shared.ElementType;
 
 public class SubAction{
@@ -34,6 +34,20 @@ public class SubAction{
 	public void act() throws PPGameActionException{
 		this.instant.applyTo(this.game,this);
 
+		for(Card card : this.me.getDeck().getCardList(CLTypes.active).getCards()){
+			for (PersistActivate pactivate : card.getEffect().getPersistActivateList().getPersistActivates()){
+				System.out.println(pactivate);
+				pactivate.applyTo(this.game,this,0);
+			}
+		}
+
+		for(Card card : this.them.getDeck().getCardList(CLTypes.active).getCards()){
+			for (PersistActivate pactivate : card.getEffect().getPersistActivateList().getPersistActivates()){
+				System.out.println(pactivate);
+				pactivate.applyTo(this.game,this,1);
+			}
+		}
+
 		this.them.getPlayer().receiveDamage(this.damage);
 		this.me.getPlayer().receiveHeal(this.heal);
 		if(this.moving){
@@ -61,22 +75,23 @@ public class SubAction{
 			for(Card card : this.them.getDeck().getCardList(CLTypes.active).getCards()){
 				card.getEffect().getPersistList().tick();
 			}
-			/*
-			for(Card card : this.me.getDeck().getCardList(CLTypes.active).getCards()){
-				card.getEffect().getPersistList().tick();
-			}
-			*/
 		}
 	}
 
 	public void setDamage(int amount){
 		this.damage = amount;
 	}
+	public void increaseDamage(int amount){
+		this.damage += amount;
+	}
 	public void setHeal(int amount){
 		this.heal = amount;
 	}
 	public void setElementType(ElementType elementType){
 		this.elementType = elementType;
+	}
+	public ElementType getElementType(){
+		return this.elementType;
 	}
 	public void setMovement(int srcPlayerType, int srcList, int srcIndex, int dstPlayerType, int dstList, int dstIndex){
 		this.moving = true;
