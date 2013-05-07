@@ -64,6 +64,9 @@ function display_game(){
 	display_actions();
 }
 
+/*
+Old display_actions function; this may be better than the new one!
+
 function display_actions(){
 	var tds = [["Setup",game_setup],["Draw",game_draw],["Phase",game_phase],["Turn",game_turn]]
 	var table = create_table('mini-manage',tds,4);
@@ -71,6 +74,36 @@ function display_actions(){
 	table_div.appendChild(table);
 
 	document.getElementById("game").appendChild(table_div);
+}
+*/
+
+function display_actions(){
+	/* Displays action buttons. */
+	var table = document.createElement("table");
+		table.setAttribute("class", "mini-info");
+	var tr = document.createElement("tr");
+	var td_setup = document.createElement("td");
+		td_setup.setAttribute("class", "action-setup");
+		td_setup.innerHTML = "Setup";
+		td_setup.onclick = function() { game_setup() };
+	var td_draw = document.createElement("td");
+		td_draw.setAttribute("class", "action-draw");
+		td_draw.innerHTML = "Draw";
+		td_draw.onclick = function() { game_draw() };
+	var td_phase = document.createElement("td");
+		td_phase.setAttribute("class", "action-phase");
+		td_phase.innerHTML = "Phase";
+		td_phase.onclick = function() { game_phase() };
+	var td_turn = document.createElement("td");
+		td_turn.setAttribute("class", "action-turn");
+		td_turn.innerHTML = "Turn";
+		td_turn.onclick = function() { game_turn() };
+	tr.appendChild(td_turn);
+	tr.appendChild(td_phase);
+	tr.appendChild(td_draw);
+	tr.appendChild(td_setup); // n.b. this will be displayed at left
+	table.appendChild(tr);
+	document.getElementById("game").appendChild(table);
 }
 
 function display_control_state(control_state){
@@ -92,12 +125,20 @@ function display_control_state(control_state){
 }
 
 function display_player_stats(player){
-	var table_div = document.createElement("div");
-	var tds = [[player.name,null],[player.health,null]];
-	var table = create_table('mini-info',tds,2);
-	//var table_div = document.createElement("div");
-	table_div.appendChild(table);
-	document.getElementById("game").appendChild(table_div);
+	/* Displays player name and health. */
+	var table = document.createElement("table");
+		table.setAttribute("class", "mini-info");
+	var tr = document.createElement("tr");
+	var td_name = document.createElement("td");
+		td_name.setAttribute("class", "player-name");
+		td_name.innerHTML = player.name;
+	var td_health = document.createElement("td");
+		td_health.setAttribute("class", "player-health");
+		td_health.innerHTML = player.health;
+	tr.appendChild(td_health);
+	tr.appendChild(td_name); // n.b. this will be displayed at left
+	table.appendChild(tr);
+	document.getElementById("game").appendChild(table);
 }
 
 function display_card_lists(left_card_list,left_expand,left_action,right_card_list,right_expand,right_action){

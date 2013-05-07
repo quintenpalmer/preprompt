@@ -261,7 +261,7 @@ a:hover {
 
 /* MINI-INFO TABLE */
 
-#mini-info tr td {
+.mini-info tr td {
 	font-family: 'Volter';
 	border: 3px solid black;
 	text-align:center;
@@ -270,11 +270,36 @@ a:hover {
 	color:#bbb;
 }
 
-#mini-info tr td .player_status {
+.mini-info tr td .player_status {
 	width:100px;
 	height:20px;
 	display:block;
 	padding: 4px;
+}
+
+.player-name {
+	width:100px;
+	height:20px;
+	display:block;
+	padding: 4px;
+	background-color: green;
+}
+
+.player-health {
+	width:100px;
+	height:20px;
+	display:block;
+	padding: 4px;
+	background-color: purple;
+}
+
+.action-setup, .action-draw, .action-phase, .action-turn {
+	background-color: #00f;
+	cursor: pointer;
+}
+
+.action-setup:hover, .action-draw:hover, .action-phase:hover, .action-turn:hover {
+	background-color: #33f;
 }
 
 /* CARD LISTS*/
@@ -282,7 +307,7 @@ a:hover {
 #card_lists {
 	display:block;
 	width:990px;
-	height:105px;
+	height:130px;
 	padding:2px;
 }
 
