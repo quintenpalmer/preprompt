@@ -111,6 +111,7 @@ export pp=\$postprompt
 export postpromptroot=\$postprompt/root
 export PATH=\$PATH:\$postprompt/tool
 export PYTHONPATH=\$PYTHONPATH:\$postprompt/lib/python
+export GOPATH=\$postprompt
 alias cdpp=\"cd \$postprompt\"" >> ~/.bashrc
 
 	echo "run 'source ~/.bashrc' to have this take effect"

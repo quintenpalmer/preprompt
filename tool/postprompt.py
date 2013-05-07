@@ -31,6 +31,7 @@ def bashrc():
 			'export postpromptroot=$postprompt/root\n'
 			'export PATH=$PATH:$postprompt/tool\n'
 			'export PYTHONPATH=$PYTHONPATH:$postprompt/lib/python\n'
+			'export GOPATH=$postprompt'
 			'alias cdpp="cd $postprompt"\n'))
 		sys.stdout.write("run 'source ~/.bashrc' to have this take effect\n")
 

@@ -10,8 +10,10 @@
 # Vim swap save files
 *.swp
 
-# Build folder
+# Build folders
 build
+pkg
+src/github.com
 
 # django static collected objects
 root/opt/postprompt/www/static/*
