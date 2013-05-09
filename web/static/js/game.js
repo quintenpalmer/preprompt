@@ -51,31 +51,20 @@ function redisplay_game(){
 	display_game();
 }
 
+/* Displays all the information on the board. */
+/* THIS IS WHERE THINGS SHOULD BE DECLARED TO BE FACE-DOWN!! */
 function display_game(){
 	var me = game.me.collection;
 	var them = game.them.collection;
 	display_control_state(game.control_state);
 	display_player_stats(game.them.player);
-	display_card_lists(them.deck,false,null,them.hand,true,null);
-	display_card_lists(them.grave,false,null,them.active,true,null);
-	display_card_lists(me.grave,false,null,me.active,true,game_play_card_from_active);
-	display_card_lists(me.deck,false,game_draw,me.hand,true,game_play_card_from_hand);
+	display_card_lists(them.deck, false, null, them.hand, true, null);
+	display_card_lists(them.grave, false, null, them.active, true, null);
+	display_card_lists(me.grave, false, null, me.active, true, game_play_card_from_active);
+	display_card_lists(me.deck, false, game_draw, me.hand, true, game_play_card_from_hand);
 	display_player_stats(game.me.player);
 	display_actions();
 }
-
-/*
-Old display_actions function; this may be better than the new one!
-
-function display_actions(){
-	var tds = [["Setup",game_setup],["Draw",game_draw],["Phase",game_phase],["Turn",game_turn]]
-	var table = create_table('mini-manage',tds,4);
-	var table_div = document.createElement("div");
-	table_div.appendChild(table);
-
-	document.getElementById("game").appendChild(table_div);
-}
-*/
 
 function display_actions(){
 	/* Displays action buttons. */
@@ -141,36 +130,47 @@ function display_player_stats(player){
 	document.getElementById("game").appendChild(table);
 }
 
-function display_card_lists(left_card_list,left_expand,left_action,right_card_list,right_expand,right_action){
-	var card_list_div =document.createElement("div");
-	card_list_div.setAttribute("id","card_lists");
+/* Displays a pair of deck/hand or active cards/graveyard:
+	left_card_list: The list to be displayed at left in this row
+	left_expand: Should the left list be fanned out (T) or piled (F)?
+	left_action: The action to be taken on clicking an item.
+	right_parameters are the same for the right side. */
+function display_card_lists(left_card_list, left_expand, left_action, right_card_list, right_expand, right_action){
+	var card_list_div = document.createElement("div");
+	card_list_div.setAttribute("id", "card_lists");
 	document.getElementById("game").appendChild(card_list_div);
-	display_card_list(left_card_list,left_expand,card_list_div,left_action);
-	display_card_list(right_card_list,right_expand,card_list_div,right_action);
+	display_card_list(left_card_list, left_expand, card_list_div, left_action);
+	display_card_list(right_card_list, right_expand, card_list_div, right_action);
 }
 
-function display_card_list(card_list,expand,card_list_div,action){
+/* Displays a single list of cards on the board:
+	card_list: The list to be displayed.
+	expand: Should the list be fanned (T) or piled (F)?
+	card_list_div: The div to be the container for this list.
+	action: The action to be taken on clicking an item. */
+function display_card_list(card_list, expand, card_list_div, action){
 	//console.log(card_list);
 	var li;
 	var card_name;
 	var ul = document.createElement("ul");
-	if(expand){
-		var iterations = card_list.cards.length;
+	if(expand) {
+		var iterations = card_list.cards.length; // as many iterations as cards
 	}
-	else{
-		var iterations = Math.min(1,card_list.cards.length);
+	else {
+		var iterations = Math.min(1, card_list.cards.length);
 	}
-	if(iterations > 0){
-		for(var index=0;index<iterations;index++){
-			card_name = card_list.cards[index].name;
+	if(iterations > 0) {
+		for(var index=0; index < iterations; index++){ // for each card in list
+			card_name = card_list.cards[index].name; // get its name
 			if(card_name == 'Unknown'){
 				card_name = '';
 			}
-			li = create_card_li(card_name,action,index);
+			// li = create_card_li(card_name, action, index);
+			li = document.createElement("li").appendChild(display_icon());
 			ul.appendChild(li);
 		}
 	}
-	else{
+	else {
 		li = document.createElement("li");
 		ul.appendChild(li);
 	}

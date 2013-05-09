@@ -87,6 +87,7 @@ div[class*="icon"] {
 
 div[class*='card-rarity-'] {
 	/* i.e. all card rarity classes */
+	display: inline-block;
 	margin: 0px;
 	width: 78px;
 	height: 120px;
@@ -135,31 +136,65 @@ div[class*='large-card-rarity-'] {
 		allows child elements to anchor their own positions to this class */
 }
 
-.large-card-rarity-gold { background-image: url('/static/images/cards/rarity/gold.gif'); }
+.large-card-rarity-gold { background-image: url('/static/images/cards/rarity/large/gold.gif'); }
 
 div[class*='large-card-frame-'] {
 	/* i.e. all card frame classes */
-	width: 78px;
-	height: 120px;
+	width: 234px;
+	height: 360px;
 	border: 0px;
 }
 
-.large-card-frame-dark { background-image: url('/static/images/cards/frame/dark.png'); }
-.large-card-frame-red { background-image: url('/static/images/cards/frame/red.png'); }
+.large-card-frame-dark { background-image: url('/static/images/cards/frame/large/dark.png'); }
+.large-card-frame-red { background-image: url('/static/images/cards/frame/large/red.png'); }
+
+@font-face {
+	font-family: 'Volter';
+	src: url('../fonts/Volter.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.large-card-title {
+	position: absolute;
+	top: 23px;
+	left: 30px;
+	width: 162px;
+	height: 20px;
+	overflow: hidden;
+
+	font-family: 'Volter';
+	font-size: 100%;
+}
 
 .large-card-art {
 	position: absolute;
-	top: 12px;
-	left: 12px;
-	width: 54px;
-	height: 42px;
+	top: 51px;
+	left: 36px;
+	width: 162px;
+	height: 126px;
 }
 
 .large-card-desc {
 	position: absolute;
-	top: 63px;
-	left: 12px;
-	width: 54px;
-	height: 45px;
-	padding: 2px;
+	top: 204px;
+	left: 36px;
+	width: 146px;
+	height: 104px;
+	padding: 8px;
+
+	font-family: 'Volter';
+	font-size: 75%;
+}
+
+/* Other card display */
+.card-back {
+	display: inline-block;
+	width:78px;
+	height:120px;
+	background-image:url("/static/images/cards/card.png");
+}
+
+.card-back:hover {
+	background-image:url("/static/images/cards/card-hover.png");
 }

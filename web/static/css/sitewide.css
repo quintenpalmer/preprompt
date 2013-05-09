@@ -330,15 +330,6 @@ a:hover {
 	color:#eee;
 }
 
-#card_lists li span {
-	display:block;
-	width:78px;
-	height:120px;
-	font-size:15px;
-	color:#bbb;
-	text-align:center;
-	background-image:url("/static/images/cards/card.png");
-}
 
 /* UL MANAGE */
 #control_state li {
