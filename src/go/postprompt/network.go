@@ -47,6 +47,20 @@ func respondOther(command string) string {
 	return ret
 }
 
+func respondAction(command string, gameId int, gameRepr jsonMap) string {
+	fmt.Println(command," : ",gameId)
+	resp := make(jsonMap)
+	resp["respType"] = "ok"
+	resp["command"] = command
+	resp["gameId"] = gameId
+	resp["gameRepr"] = gameRepr
+	ret, err := resp.toString()
+	if err != nil {
+		return respondError(err)
+	}
+	return ret
+}
+
 func respondNew(gameId int, gameRepr jsonMap) string {
 	fmt.Println("new : ",gameId)
 	resp := make(jsonMap)

@@ -2,6 +2,7 @@ package postprompt
 
 import (
 	"encoding/json"
+	"strconv"
 )
 
 type jsonMap map[string]interface{}
@@ -88,4 +89,18 @@ func (repr jsonMap) toString() (string, error) {
 	str, err := json.Marshal(repr)
 	if err != nil { return "", err }
 	return string(str), nil
+}
+
+func (repr jsonMap) getInt(key string) (int, error) {
+	tmpString, ok := repr[key].(string)
+	if !ok { return 0,Newpperror("Not an string inside the map") }
+	retInt, err := strconv.Atoi(tmpString)
+	if err != nil { return 0,Newpperror("Cound not conver to to") }
+	return retInt, nil
+}
+
+func (repr jsonMap) getString(key string) (string, error) {
+	retString, ok := repr[key].(string)
+	if !ok { return "",Newpperror("Not an string inside the map") }
+	return retString, nil
 }

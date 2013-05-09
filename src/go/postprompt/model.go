@@ -20,3 +20,7 @@ func (m *model) AddGame(uid1,did1,uid2,did2 int) (*game, int, error) {
 	m.games[i] = g
 	return g, i, nil
 }
+
+func (m *model) GetGameFromGameId(gameId int) (*game, error) {
+	return m.games[gameId], nil
+}

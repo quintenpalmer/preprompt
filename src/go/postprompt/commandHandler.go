@@ -2,8 +2,6 @@ package postprompt
 
 import (
 	"encoding/json"
-	"strconv"
-	"fmt"
 )
 
 func handleCommand(buf []byte, m *model) string {
@@ -17,30 +15,37 @@ func handleCommand(buf []byte, m *model) string {
 	c, ok := r["command"].(string)
 	if !ok { return respondError(Newpperror("Not a string inside the map")) }
 
-	if c == "new" {
-		sp1_uid, ok := r["p1_uid"].(string)
-		if !ok { return respondError(Newpperror("Not an string inside the map")) }
-		p1_uid,err := strconv.Atoi(sp1_uid)
-		if err != nil { return respondError(Newpperror("Cound not conver to to")) }
-		sp1_did, ok := r["p1_did"].(string)
-		if !ok { return respondError(Newpperror("Not an string inside the map")) }
-		p1_did,err := strconv.Atoi(sp1_did)
-		if err != nil { return respondError(Newpperror("Cound not conver to to")) }
-		sp2_uid, ok := r["p2_uid"].(string)
-		if !ok { return respondError(Newpperror("Not an string inside the map")) }
-		p2_uid,err := strconv.Atoi(sp2_uid)
-		if err != nil { return respondError(Newpperror("Cound not conver to to")) }
-		sp2_did, ok := r["p2_did"].(string)
-		if !ok { return respondError(Newpperror("Not an string inside the map")) }
-		p2_did,err := strconv.Atoi(sp2_did)
-		if err != nil { return respondError(Newpperror("Cound not conver to to")) }
-		g,i,err := m.AddGame(p1_uid,p1_did,p2_uid,p2_did)
-		gameRepr, err := getGameJsonMap(g,p1_uid)
-		if err != nil { return respondError(err) }
-		fmt.Println("---------------")
-		fmt.Println(c=="new")
-		fmt.Println("---------------")
-		return respondNew(i,gameRepr)
+	switch c {
+		case "new" : return handleNewGame(r,m)
+		case "draw" : return handleDraw(r,m)
 	}
 	return respondOther(c)
+}
+
+func handleNewGame(r jsonMap, m *model) string {
+	p1_uid, err := r.getInt("p1_uid")
+	if err !=nil { return respondError(err) }
+	p1_did, err := r.getInt("p1_did")
+	if err !=nil { return respondError(err) }
+	p2_uid, err := r.getInt("p2_uid")
+	if err !=nil { return respondError(err) }
+	p2_did, err := r.getInt("p2_did")
+	if err !=nil { return respondError(err) }
+	g,i,err := m.AddGame(p1_uid,p1_did,p2_uid,p2_did)
+	gameRepr, err := getGameJsonMap(g,p1_uid)
+	if err != nil { return respondError(err) }
+	return respondNew(i,gameRepr)
+}
+
+func handleDraw(r jsonMap, m *model) string {
+	gameId, err := r.getInt("gameId")
+	if err !=nil { return respondError(err) }
+	playerId, err := r.getInt("playerId")
+	if err !=nil { return respondError(err) }
+	g, err := m.GetGameFromGameId(gameId)
+	if err != nil { return respondError(err) }
+	Act(g,playerId,GetDirectDamage(5))
+	gameRepr, err := getGameJsonMap(g,playerId)
+	if err != nil { return respondError(err) }
+	return respondAction("draw",gameId,gameRepr)
 }

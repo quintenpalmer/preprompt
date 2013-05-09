@@ -38,15 +38,10 @@ def request_new(p1_uid,p1_did,p2_uid,p2_did):
 	} } ) )
 
 def request_setup(game_id,player_id):
-	return send_request(json.dumps( { 'request' : { 'command' : 'setup', 'game_id' : str(game_id) , 'player_id' : str(player_id) } } ) )
+	return send_request(json.dumps( { 'request' : { 'command' : 'setup', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )
 
 def request_draw(game_id,player_id):
-	request = '<request>'
-	request += '<command>draw</command>'
-	request += '<game_id>'+str(game_id)+'</game_id>'
-	request += '<player_id>'+str(player_id)+'</player_id>'
-	request += '</request>'
-	return send_request(request)
+	return send_request(json.dumps( { 'request' : { 'command' : 'draw', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )
 
 def request_phase(game_id,player_id):
 	request = '<request>'
