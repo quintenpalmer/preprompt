@@ -3,7 +3,7 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from pplib.client_host import *
+from pplib.client_host_xml import *
 from pplib.xml_parser import parse_xml, parse_ints
 from pplib import database
 

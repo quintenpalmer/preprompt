@@ -17,7 +17,7 @@ def draw(model,message):
 def draw_game(game):
 	out = '='*70+'\n'
 	out += 'State: ' + str(game.control_state.super_phase) + '/' + str(game.control_state.phase) + ' ' + str(game.control_state.turn_owner)+'\n'
-	out += 'Enemy: ' + game.them.player.name+' Health: '+str(game.them.player.health)+'\n'
+	out += 'Enemy: ' + game.them.name+' Health: '+str(game.them.health)+'\n'
 	out += '[[DECK]]\t'
 	for card in game.them.collection.hand.cards:
 		out += '['+card.name+']'
@@ -48,7 +48,7 @@ def draw_game(game):
 		for i in range(10-len(card.name)):
 			out += ' '
 	out += '\n'
-	out += 'You: ' + game.me.player.name+' Health: '+str(game.me.player.health)+'\n'
+	out += 'You: ' + game.me.name+' Health: '+str(game.me.health)+'\n'
 	out += '-'*70
 	out += '\n'
 

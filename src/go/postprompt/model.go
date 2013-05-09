@@ -12,8 +12,11 @@ func NewModel() *model {
 	return m
 }
 
-func AddGame(m *model, uid1,did1,uid2,did2 int) {
+func (m *model) AddGame(uid1,did1,uid2,did2 int) (*game, int, error) {
 	i := m.currentIndex
 	m.currentIndex += 1
-	m.games[i] = NewGame(uid1,did1,uid2,did2)
+	g, err := NewGame(uid1,did1,uid2,did2)
+	if err != nil { return nil, 0, err }
+	m.games[i] = g
+	return g, i, nil
 }

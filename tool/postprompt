@@ -37,6 +37,12 @@ main(){
 			json
 		elif [ $command == setup ]; then
 			setup
+		elif [ $command == go ]; then
+			go_run
+		elif [ $command == gb ]; then
+			go_build $@
+		elif [ $command == gp ]; then
+			go_run_plus
 		else
 			help_text
 		fi
@@ -191,6 +197,20 @@ json(){
 	make_build
 	javac -cp lib/java:/usr/share/java/json_simple.jar -d build JsonTester.java
 	java -cp build:/usr/share/java/json_simple.jar JsonTester
+}
+
+go_run_plus(){
+	cd $postprompt/src/go
+	rm out.json pout.json; go run main.go; cat out.json | python -m json.tool | tee pout.json
+}
+go_build(){
+	cd $postprompt/src/go
+	go build main.go
+}
+
+go_run(){
+	cd $postprompt/src/go
+	go run main.go
 }
 
 test(){

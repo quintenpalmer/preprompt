@@ -1,9 +1,9 @@
-from pplib.xml_parser import parse_string
+from pplib import json_parser
 
 class Card:
-	def __init__(self,element):
-		card_type = parse_string(element,'type')
+	def __init__(self,obj):
+		card_type = json_parser.get_string(obj,'card')
 		if card_type == 'full':
-			self.name = parse_string(element,'name')
+			self.name = json_parser.get_string(card_type,'name')
 		else:
 			self.name = card_type

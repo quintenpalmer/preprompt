@@ -2,37 +2,78 @@ package postprompt
 
 import (
 	"fmt"
+	"strconv"
     "database/sql"
     _ "github.com/ziutek/mymysql/godrv"
 
 )
 
+var ppdb *ppdatabase = newDatabase("pp_shared","developer","jfjfkdkdlslskdkdjfjf")
+
+func GetPlayerName(uid int) (string, error) {
+	rows, err := getRows("select username from auth_user where id="+strconv.Itoa(uid))
+	if err != nil { return "", err }
+	var name string
+	for rows.Next() {
+		if err := rows.Scan(&name); err != nil {
+			return "", err
+		}
+	}
+	return name, nil
+}
+
+func GetCardIds(uid, did int) ([]int, error) {
+	cardIds := make([]int,0)
+	rows, err := getRows("select card_id from play_decks where uid="+strconv.Itoa(uid)+" and deck_id="+strconv.Itoa(did))
+	if err != nil { return nil, err }
+	var cardId int
+	for rows.Next() {
+		if err := rows.Scan(&cardId); err != nil { return nil, err }
+		cardId, err := getCardIdFromUniqueId(cardId)
+		if err != nil { return nil, err }
+		cardIds = append(cardIds,cardId)
+	}
+	return cardIds, nil
+}
+
+func getCardIdFromUniqueId(uniqueId int) (int, error) {
+	rows, err := getRows("select card_name_id from play_cards where id="+strconv.Itoa(uniqueId))
+	if err != nil { return 0, err }
+	var cardId int
+	for rows.Next() {
+		if err := rows.Scan(&cardId); err != nil { return 0,  err }
+	}
+	return cardId, nil
+}
+
+func GetCardInfo(cardId int) ([2]string, error) {
+	rows, err := getRows("select card_name, card_effect from play_card_names where id="+strconv.Itoa(cardId))
+	if err != nil { return [2]string{}, err }
+	cardInfo := [2]string{}
+	for rows.Next() {
+		if err := rows.Scan(&cardInfo[0],&cardInfo[1]); err != nil { return [2]string{}, err }
+	}
+	return cardInfo, nil
+}
+
 type ppdatabase struct {
 	con *sql.DB
 }
 
-func NewDatabase(database,user,password string) *ppdatabase {
+func newDatabase(dbname,user,password string) *ppdatabase {
 	db := new(ppdatabase)
-	con, err := sql.Open("mymysql",database+"/"+user+"/"+password)
-	if err != nil {
-		fmt.Println("DB ERROR")
-	}
+	con, err := sql.Open("mymysql",dbname+"/"+user+"/"+password)
+	if err != nil { fmt.Println("DB ERROR") }
 	db.con = con
+	//TODO close db eventually?
 	//defer db.con.Close()
 	return db
 }
 
-func SelectRows(db *ppdatabase, command string) {
-	rows, err := db.con.Query(command)
+func getRows(command string) (*sql.Rows, error) {
+	rows, err := ppdb.con.Query(command)
 	if err != nil {
-		fmt.Println("DB ERROR")
+		return nil, err
 	}
-	var id int
-	var name, effect string
-	for rows.Next() {
-		if rows.Scan(&id,&name,&effect) != nil {
-			fmt.Println("DB ERROR")
-		}
-		fmt.Println(id,name,effect)
-	}
+	return rows, nil
 }

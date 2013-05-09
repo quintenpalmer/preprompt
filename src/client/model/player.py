@@ -1,14 +1,10 @@
-from pplib.xml_parser import parse_element, parse_string, parse_int
+from pplib import json_parser
 
 from collection import Collection
 
 class Player_Container:
-	def __init__(self,element):
-		self.player = Player(parse_element(element,'player'))
-		self.collection = Collection(parse_element(element,'collection'))
-
-class Player:
-	def __init__(self,element):
-		self.uid = parse_int(element,'uid')
-		self.name = parse_string(element,'name')
-		self.health = parse_int(element,'health')
+	def __init__(self,obj):
+		self.uid = json_parser.get_int(obj,'uid')
+		self.name = json_parser.get_string(obj,'name')
+		self.health = json_parser.get_int(obj,'health')
+		self.collection = Collection(json_parser.get_object(obj,'deck'))

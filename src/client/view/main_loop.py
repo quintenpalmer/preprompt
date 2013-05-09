@@ -1,4 +1,4 @@
-from pplib.client_host import *
+from pplib.client_host_json import *
 
 from view.drawer import draw,init_screen
 
@@ -10,16 +10,17 @@ class Main_Loop:
 		self.current_message = 'Welcome!'
 		command = ''
 		while command != 'exit':
-			try:
+			#try:
+			if True:
 				print draw(self.model,self.current_message)
 				command = raw_input("Type a command to go: ")
 				if command == '!!':
 					command = self.last_command
 				self.last_command = command
 				self.run_command(command)
-			except Exception as e:
-				print "error caught"
-				print e.message
+			#except Exception as e:
+			#	print "error caught"
+			#	print e.message
 	def run_command(self,command):
 		if command == 'example':
 			self.example_start()

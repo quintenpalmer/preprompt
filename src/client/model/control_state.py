@@ -1,8 +1,8 @@
-from pplib.xml_parser import parse_int, parse_bool
+from pplib import json_parser
 
 class Control_State:
-	def __init__(self,element):
-		self.super_phase = parse_int(element,'super_phase')
-		self.phase = parse_int(element,'phase')
-		self.turn_owner = parse_int(element,'turn_owner')
-		self.has_drawn = parse_bool(element,'has_drawn')
+	def __init__(self,obj):
+		self.super_phase = json_parser.get_int(obj,'currentSuperPhase')
+		self.phase = json_parser.get_int(obj,'currentPhase')
+		self.turn_owner = json_parser.get_int(obj,'turnOwner')
+		self.has_drawn = json_parser.get_bool(obj,'hasDrawn')

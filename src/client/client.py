@@ -6,7 +6,7 @@ pplib = os.path.join(os.environ['postprompt'],'lib','python')
 sys.path.insert(0,pplib)
 
 from pplib import util
-from pplib.client_host import request_exit,send_request,request_test
+from pplib.client_host_xml import request_exit,send_request,request_test
 
 from model.main_model import Model
 from view.main_loop import Main_Loop

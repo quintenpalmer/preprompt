@@ -1,0 +1,10 @@
+from pplib.xml_parser import parse_element
+
+from player import Player_Container
+from control_state import Control_State
+
+class Game:
+	def __init__(self,element):
+		self.me = Player_Container(parse_element(element,'me'))
+		self.them = Player_Container(parse_element(element,'them'))
+		self.control_state = Control_State(parse_element(element,'control_state'))
