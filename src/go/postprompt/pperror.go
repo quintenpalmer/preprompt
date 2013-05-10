@@ -1,15 +1,15 @@
 package postprompt
 
-type pperror struct {
+type PPerror struct {
 	message string
 }
 
-func Newpperror(message string) pperror {
-	p := new(pperror)
-	p.message = message
-	return *p
+func Newpperror(message string) PPerror {
+	pperror := new(PPerror)
+	pperror.message = message
+	return *pperror
 }
 
-func (p pperror) Error() string {
-	return p.message
+func (pperror PPerror) Error() string {
+	return pperror.message
 }

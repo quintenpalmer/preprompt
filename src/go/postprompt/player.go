@@ -6,22 +6,22 @@ type PlayerType int
 var PlayerTypeMe PlayerType = 0
 var PlayerTypeThem PlayerType = 1
 
-type player struct {
+type Player struct {
 	health int
 	uid int
 	name string
-	d *deck
+	d *Collection
 }
 
-func NewPlayer(uid, did int) (*player, error) {
-	pc := new(player)
+func NewPlayer(uid, did int) (*Player, error) {
+	pc := new(Player)
 	pc.health = 50
 	pc.uid = uid
 	name, err := GetPlayerName(uid)
 	if err != nil { return nil, err }
 	pc.name = name
-	deck, err := NewDeck(uid,did)
+	collection, err := NewCollection(uid,did)
 	if err != nil { return nil, err }
-	pc.d = deck
+	pc.d = collection
 	return pc, nil
 }

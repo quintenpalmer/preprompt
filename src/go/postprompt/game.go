@@ -1,12 +1,12 @@
 package postprompt
 
-type game struct {
-	players [2]*player
-	controlState *controlState
+type Game struct {
+	players [2]*Player
+	controlState *ControlState
 }
 
-func NewGame(uid1,did1,uid2,did2 int) (*game, error) {
-	g := new(game)
+func NewGame(uid1,did1,uid2,did2 int) (*Game, error) {
+	g := new(Game)
 	player, err := NewPlayer(uid1,did1)
 	if err != nil { return nil, err }
 	g.players[0] = player
@@ -17,20 +17,20 @@ func NewGame(uid1,did1,uid2,did2 int) (*game, error) {
 	return g, nil
 }
 
-func (g *game) GetMeFromUid(uid int) (*player, error) {
-	if g.players[0].uid == uid {
-		return g.players[0], nil
-	} else if g.players[1].uid == uid {
-		return g.players[1], nil
+func (game *Game) GetMeFromUid(uid int) (*Player, error) {
+	if game.players[0].uid == uid {
+		return game.players[0], nil
+	} else if game.players[1].uid == uid {
+		return game.players[1], nil
 	}
 	return nil, Newpperror("not a uid playing this game")
 }
 
-func (g *game) GetThemFromUid(uid int) (*player, error) {
-	if g.players[0].uid == uid {
-		return g.players[1], nil
-	} else if g.players[1].uid == uid {
-		return g.players[0], nil
+func (game *Game) GetThemFromUid(uid int) (*Player, error) {
+	if game.players[0].uid == uid {
+		return game.players[1], nil
+	} else if game.players[1].uid == uid {
+		return game.players[0], nil
 	}
 	return nil, Newpperror("not a uid playing this game")
 }

@@ -1,22 +1,20 @@
 package postprompt
 
 import (
-	queue "container/list"
-	"fmt"
+	"container/list"
 )
 
-type action struct {
-	subActions *queue.List
-}
+type ActionList list.List
 
-type subAction struct {
-	g *game
+type Action struct {
+	game *Game
 	uid int
-	inst *instant
+	instant *Instant
+
 	damage int
 	heal int
+	elementType ElementType
 	/*
-	eType elementType = elementType.neutral
 	moving boolean = false
 	srcPlayerType int = 0
 	srcList int = 0
@@ -29,47 +27,68 @@ type subAction struct {
 	*/
 }
 
-func Act(g *game, uid int, iList *instantList) error {
-	a := new(action)
-	a.subActions = new(queue.List)
-	for _,inst := range iList.instants {
-		a.subActions.PushBack(NewSubAction(g,uid,inst))
+func NewAction(game *Game, uid int, instant *Instant) *Action {
+	action := new(Action)
+	action.uid = uid
+	action.game = game
+	action.instant = instant
+	action.elementType = neutral
+	return action
+}
+
+func Act(game *Game, uid int, instantList *InstantList) error {
+	action := new(list.List)
+	for _,instant := range instantList.instants {
+		action.PushBack(NewAction(game,uid,instant))
 	}
 	// sort?
 	for {
-		front := a.subActions.Front()
-		if front == nil { break }
-		sub := a.subActions.Remove(front)
-		if sub == nil { break }
-		s, ok := sub.(*subAction)
-		if !ok { return Newpperror("Element was not SubAction somehow?") }
-        if err := s.act(); err != nil { return err }
-		fmt.Println(ok)
+		front := action.Front()
+		if front == nil {
+			break
+		}
+		sub := action.Remove(front)
+		s, ok := sub.(*Action)
+		if !ok {
+			return Newpperror("Element was not Action somehow?")
+		}
+		if err := s.act(); err != nil {
+			return err
+		}
 		// destroy cards that don't exist for both players
 	}
 	return nil
 }
 
-func NewSubAction(g *game, uid int, inst *instant) *subAction {
-	s := new(subAction)
-	s.uid = uid
-	s.g = g
-	s.inst = inst
-	return s
-}
+func (action *Action) act() error {
+	action.instant.applyTo(action,action.game)
+	// Apply others to this
 
-func (s *subAction) act() error {
-	s.inst.applyTo(s,s.g)
-    // Apply others to this
-    me, err := s.g.GetMeFromUid(s.uid)
-    if err != nil { return err }
-    me.health -= s.damage
-    them, err := s.g.GetThemFromUid(s.uid)
-    if err != nil { return err }
-    them.health += s.heal
+	me, err := action.game.GetMeFromUid(action.uid)
+	if err != nil {
+		return err
+	}
+	me.health += action.heal
+
+	them, err := action.game.GetThemFromUid(action.uid)
+	if err != nil {
+		return err
+	}
+	them.health -= action.damage
+
 	return nil
 }
 
-func (s *subAction) SetDamage(amount int) {
-	s.damage = amount
+func (action *Action) SetDamage(amount int) {
+	action.damage = amount
 }
+
+func (action *Action) SetHeal(amount int) {
+	action.heal = amount
+}
+
+/*
+func (s *Action) SetMovement(srcPlayer, srcList, srcCardLoc, dstPlayer, dstList, dstCardLoc, int) {
+	
+}
+*/

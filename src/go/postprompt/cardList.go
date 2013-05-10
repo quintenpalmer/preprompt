@@ -1,22 +1,22 @@
 package postprompt
 
-type cardList struct {
-	cards []*card
+type CardList struct {
+	cards []*Card
 }
 
-func EmptyCardList() *cardList {
-	cl := new(cardList)
-	cl.cards = []*card{}
-	return cl
+func EmptyCardList() *CardList {
+	cardList := new(CardList)
+	cardList.cards = []*Card{}
+	return cardList
 }
 
-func NewCardList(cardIds []int) (*cardList, error) {
-	cl := new(cardList)
-	cl.cards = make([]*card,len(cardIds))
+func NewCardList(cardIds []int) (*CardList, error) {
+	cardList := new(CardList)
+	cardList.cards = make([]*Card,len(cardIds))
 	for i,cardId := range cardIds {
-		c, err := NewCard(cardId)
+		card, err := NewCard(cardId)
 		if err != nil { return nil, err }
-		cl.cards[i] = c
+		cardList.cards[i] = card
 	}
-	return cl, nil
+	return cardList, nil
 }

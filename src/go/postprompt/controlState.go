@@ -1,22 +1,22 @@
 package postprompt
 
-type phase int
-type superPhase int
+type Phase int
+type SuperPhase int
 
-type controlState struct {
+type ControlState struct {
 	uids [2]int
-	currentPhase phase
-	currentSuperPhase superPhase
+	phase Phase
+	superPhase SuperPhase
 	turnOwner int
 	hasDrawn bool
 }
 
-func NewControlState(uid1, uid2 int) *controlState {
-	c := new(controlState)
-	c.uids = [2]int{uid1,uid2}
-	c.currentPhase = 0
-	c.currentSuperPhase = 0
-	c.turnOwner = uid1
-	c.hasDrawn = false
-	return c
+func NewControlState(uid1, uid2 int) *ControlState {
+	controlState := new(ControlState)
+	controlState.uids = [2]int{uid1,uid2}
+	controlState.phase = 0
+	controlState.superPhase = 0
+	controlState.turnOwner = uid1
+	controlState.hasDrawn = false
+	return controlState
 }

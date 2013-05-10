@@ -3,8 +3,8 @@ package postprompt
 import (
 	"fmt"
 	"strconv"
-    "database/sql"
-    _ "github.com/ziutek/mymysql/godrv"
+	"database/sql"
+	_ "github.com/ziutek/mymysql/godrv"
 
 )
 
@@ -41,7 +41,7 @@ func getCardIdFromUniqueId(uniqueId int) (int, error) {
 	if err != nil { return 0, err }
 	var cardId int
 	for rows.Next() {
-		if err := rows.Scan(&cardId); err != nil { return 0,  err }
+		if err := rows.Scan(&cardId); err != nil { return 0, err }
 	}
 	return cardId, nil
 }

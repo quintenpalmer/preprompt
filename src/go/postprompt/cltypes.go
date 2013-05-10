@@ -2,18 +2,31 @@ package postprompt
 
 //TODO make a general util file (maybe PlayerTypes as well)
 
-type clIndex struct {
+type CLType int
+
+const (
+	Deck int = iota
+	Hand
+	Active
+	Grave
+	Special
+	Other
+)
+
+const numcl = 6
+
+type CLInfo struct {
 	i int
 	name string
 }
 
-var CLTypes [6]clIndex = [6]clIndex{
-	clIndex{0,"deck"},
-	clIndex{1,"hand"},
-	clIndex{2,"active"},
-	clIndex{3,"grave"},
-	clIndex{4,"special"},
-	clIndex{5,"other"}}
+var CLTypes [6]CLInfo = [6]CLInfo{
+	CLInfo{Deck,"deck"},
+	CLInfo{Hand,"hand"},
+	CLInfo{Active,"active"},
+	CLInfo{Grave,"grave"},
+	CLInfo{Special,"special"},
+	CLInfo{Other,"other"}}
 
 func GetNameFromIndex(i int) (string, error) {
 	for _,cli := range CLTypes {

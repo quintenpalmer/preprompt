@@ -1,37 +1,33 @@
 package postprompt
 
-import "fmt"
-
-func GetDirectDamage(amount int) *instantList {
-	fmt.Println("Making a direct damage")
-	il := new(instantList)
-	il.instants  = []*instant{NewDirectDamageInstant(amount)}
-	return il
+func GetDirectDamage(amount int, elementType ElementType) *InstantList {
+	instantList := new(InstantList)
+	instantList.instants = []*Instant{NewDirectDamageInstant(amount,elementType)}
+	return instantList
 }
 
-func NewDirectDamageInstant(amount int) *instant {
-	fmt.Println("Making a dd instant")
-	i := new(instant)
-	e := new(directDamageInstantEffect)
-	e.amount = amount
-	i.ieffect = e
-	i.iconds = []instantCond{new(validInstant)}
-	return i
+func NewDirectDamageInstant(amount int, elementType ElementType) *Instant {
+	instant := new(Instant)
+	dd := new(directDamageInstantEffect)
+	dd.amount = amount
+	dd.elementType = elementType
+	instant.effect = dd
+	instant.conds = []InstantCond{new(validInstant)}
+	return instant
 }
 
 type directDamageInstantEffect struct {
 	amount int
+	elementType ElementType
 }
 
-func (dd *directDamageInstantEffect) applyTo(sub *subAction) {
-	fmt.Println("applying")
-	sub.SetDamage(dd.amount)
+func (dd *directDamageInstantEffect) applyTo(action *Action) {
+	action.SetDamage(dd.amount)
 }
 
-type validInstant struct {
-}
+type validInstant struct { }
 
-func (vi *validInstant) isValid(g *game, sub *subAction) bool {
+func (vi *validInstant) isValid(game *Game, action *Action) bool {
 		return true;
 }
 
@@ -50,7 +46,7 @@ type NewDestroyInstantEffect struct {
 }
 
 func (destroy *NewDestroyInstantEffect) applyTo(sub *subAction) {
-	sub.setMovement(destroy.playerNum,GetIndexFromName("active"),destroy.srcCard,destroy.playerNum,GetIndexFromName("grave"),-1)
+	sub.setMovement(destroy.playerNum,Active,destroy.srcCard,destroy.playerNum,Grave,-1)
 }
 
 func GetPhaseInstantList() *instantList {

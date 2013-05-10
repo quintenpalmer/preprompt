@@ -7,7 +7,7 @@ import (
 
 type jsonMap map[string]interface{}
 
-func getGameJsonMap(g *game, uid int) (jsonMap, error) {
+func getGameJsonMap(g *Game, uid int) (jsonMap, error) {
 	containerJson := make(jsonMap)
 	gJson := make(jsonMap)
 	player, err := g.GetMeFromUid(uid)
@@ -21,7 +21,7 @@ func getGameJsonMap(g *game, uid int) (jsonMap, error) {
 	return containerJson, nil
 }
 
-func SerializeGame(g *game, uid int) (string, error) {
+func SerializeGame(g *Game, uid int) (string, error) {
 	containerJson := make(jsonMap)
 	gJson := make(jsonMap)
 	player, err := g.GetMeFromUid(uid)
@@ -37,28 +37,28 @@ func SerializeGame(g *game, uid int) (string, error) {
 	return ret, nil
 }
 
-func serializePlayer(p *player, pt PlayerType) jsonMap {
+func serializePlayer(p *Player, pt PlayerType) jsonMap {
 	pJson := make(jsonMap)
 	pJson["uid"] = p.uid
 	pJson["health"] = p.health
 	pJson["name"] = p.name
-	pJson["deck"] = serializeDeck(p.d,pt)
+	pJson["collection"] = serializeDeck(p.d,pt)
 	return pJson
 }
 
-func serializeControlState(c *controlState) jsonMap {
+func serializeControlState(c *ControlState) jsonMap {
 	cJson := make(jsonMap)
 	cJson["uids"] = c.uids
-	cJson["currentPhase"] = c.currentPhase
-	cJson["currentSuperPhase"] = c.currentSuperPhase
+	cJson["phase"] = c.phase
+	cJson["superPhase"] = c.superPhase
 	cJson["turnOwner"] = c.turnOwner
 	cJson["hasDrawn"] = c.hasDrawn
 	return cJson
 }
 
-func serializeDeck(d *deck, pt PlayerType) jsonMap {
+func serializeDeck(d *Collection, pt PlayerType) jsonMap {
 	dJson := make(jsonMap)
-	for i,cardList := range d.cl{
+	for i,cardList := range d.cardList{
 		index, err := GetNameFromIndex(i)
 		if err != nil { }
 		dJson[index] = serializeCardList(cardList, true)
@@ -66,19 +66,19 @@ func serializeDeck(d *deck, pt PlayerType) jsonMap {
 	return dJson
 }
 
-func serializeCardList(cl *cardList, full bool) jsonMap {
+func serializeCardList(cl *CardList, full bool) jsonMap {
 	clJson := make(jsonMap)
 	array := []jsonMap{}
 	for _,c := range cl.cards {
 		cJson := make(jsonMap)
-		cJson["card"] = serializeCard(c)
+		cJson["Card"] = serializeCard(c)
 		array = append(array,cJson)
 	}
 	clJson["cards"] = array
 	return clJson
 }
 
-func serializeCard(c *card) jsonMap {
+func serializeCard(c *Card) jsonMap {
 	cJson := make(jsonMap)
 	cJson["name"] = c.name
 	cJson["effect"] = c.effect
@@ -93,7 +93,7 @@ func (repr jsonMap) toString() (string, error) {
 
 func (repr jsonMap) getInt(key string) (int, error) {
 	tmpString, ok := repr[key].(string)
-	if !ok { return 0,Newpperror("Not an string inside the map") }
+	if !ok { return 0,Newpperror("Not an int inside the map") }
 	retInt, err := strconv.Atoi(tmpString)
 	if err != nil { return 0,Newpperror("Cound not conver to to") }
 	return retInt, nil
@@ -103,4 +103,19 @@ func (repr jsonMap) getString(key string) (string, error) {
 	retString, ok := repr[key].(string)
 	if !ok { return "",Newpperror("Not an string inside the map") }
 	return retString, nil
+}
+
+func (repr jsonMap) getMap(key string) (jsonMap, error) {
+	retMap, ok := repr[key].(map[string]interface{})
+	if !ok { return nil,Newpperror("Not a map inside the map") }
+	return retMap, nil
+}
+
+func loadJson(buf []byte) (jsonMap, error) {
+	jsonRepr := make(jsonMap)
+	err := json.Unmarshal(buf, &jsonRepr)
+	if err != nil {
+		return nil, err
+	}
+	return jsonRepr, nil
 }

@@ -7,4 +7,4 @@ class Player_Container:
 		self.uid = json_parser.get_int(obj,'uid')
 		self.name = json_parser.get_string(obj,'name')
 		self.health = json_parser.get_int(obj,'health')
-		self.collection = Collection(json_parser.get_object(obj,'deck'))
+		self.collection = Collection(json_parser.get_object(obj,'collection'))

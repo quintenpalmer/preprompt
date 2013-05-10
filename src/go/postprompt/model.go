@@ -1,26 +1,27 @@
 package postprompt
 
-type model struct {
+type Model struct {
 	currentIndex int
-	games map[int]*game
+	games map[int]*Game
 }
 
-func NewModel() *model {
-	m := new(model)
-	m.games = make(map[int]*game)
-	m.currentIndex = 0
-	return m
+func NewModel() *Model {
+	model := new(Model)
+	model.games = make(map[int]*Game)
+	model.currentIndex = 0
+	return model
 }
 
-func (m *model) AddGame(uid1,did1,uid2,did2 int) (*game, int, error) {
-	i := m.currentIndex
-	m.currentIndex += 1
-	g, err := NewGame(uid1,did1,uid2,did2)
+func (model *Model) AddGame(uid1,did1,uid2,did2 int) (*Game, int, error) {
+	gameId := model.currentIndex
+	model.currentIndex += 1
+	game, err := NewGame(uid1,did1,uid2,did2)
 	if err != nil { return nil, 0, err }
-	m.games[i] = g
-	return g, i, nil
+	model.games[gameId] = game
+	return game, gameId, nil
 }
 
-func (m *model) GetGameFromGameId(gameId int) (*game, error) {
-	return m.games[gameId], nil
+func (model *Model) GetGameFromGameId(gameId int) (*Game, error) {
+	//TODO safety check this
+	return model.games[gameId], nil
 }

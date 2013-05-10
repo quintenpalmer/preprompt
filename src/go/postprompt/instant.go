@@ -1,30 +1,30 @@
 package postprompt
 
-type instant struct {
-	ieffect instantEffect
-	iconds []instantCond
+type Instant struct {
+	effect InstantEffect
+	conds []InstantCond
 }
 
-type instantList struct {
-	instants []*instant
+type InstantList struct {
+	instants []*Instant
 }
 
-func (i *instant) applyTo(sub *subAction, g *game) error {
+func (instant *Instant) applyTo(action *Action, game *Game) error {
 	playable := true;
-	for _,icond := range i.iconds {
-		playable = playable && icond.isValid(g,sub);
+	for _,icond := range instant.conds {
+		playable = playable && icond.isValid(game,action);
 	}
 	if playable {
-		i.ieffect.applyTo(sub);
+		instant.effect.applyTo(action);
 		return nil
 	}
 	return Newpperror("that card is not valid to play")
 }
 
-type instantEffect interface {
-	applyTo(*subAction)
+type InstantEffect interface {
+	applyTo(*Action)
 }
 
-type instantCond interface {
-	isValid(*game, *subAction) bool
+type InstantCond interface {
+	isValid(*Game, *Action) bool
 }
