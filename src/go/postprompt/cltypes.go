@@ -5,7 +5,7 @@ package postprompt
 type CLType int
 
 const (
-	Deck int = iota
+	Deck CLType = iota
 	Hand
 	Active
 	Grave
@@ -16,7 +16,7 @@ const (
 const numcl = 6
 
 type CLInfo struct {
-	i int
+	i CLType
 	name string
 }
 
@@ -28,7 +28,7 @@ var CLTypes [6]CLInfo = [6]CLInfo{
 	CLInfo{Special,"special"},
 	CLInfo{Other,"other"}}
 
-func GetNameFromIndex(i int) (string, error) {
+func GetNameFromIndex(i CLType) (string, error) {
 	for _,cli := range CLTypes {
 		if i == cli.i {
 			return cli.name, nil
@@ -38,7 +38,7 @@ func GetNameFromIndex(i int) (string, error) {
 	return "", Newpperror("Not a valid cardList index")
 }
 
-func GetIndexFromName(name string) (int, error) {
+func GetIndexFromName(name string) (CLType, error) {
 	for _,cli := range CLTypes {
 		if name == cli.name {
 			return cli.i, nil

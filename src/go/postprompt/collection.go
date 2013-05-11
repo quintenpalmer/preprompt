@@ -1,7 +1,7 @@
 package postprompt
 
 type Collection struct {
-	cardList [numcl]*CardList
+	cardList map[CLType]*CardList
 	visibility [numcl][2]bool
 }
 
@@ -18,12 +18,12 @@ func NewCollection(uid,did int) (*Collection, error) {
 	if err != nil { return nil, err }
 	deck, err := NewCardList(clnums)
 	if err != nil { return nil, err }
-	coll.cardList = [numcl]*CardList{
-		deck,
-		EmptyCardList(),
-		EmptyCardList(),
-		EmptyCardList(),
-		EmptyCardList(),
-		EmptyCardList()}
+	coll.cardList = make(map[CLType]*CardList)
+	coll.cardList[Deck] = deck
+	coll.cardList[Hand] = EmptyCardList()
+	coll.cardList[Active] = EmptyCardList()
+	coll.cardList[Grave] = EmptyCardList()
+	coll.cardList[Special] = EmptyCardList()
+	coll.cardList[Other] = EmptyCardList()
 	return coll, nil
 }

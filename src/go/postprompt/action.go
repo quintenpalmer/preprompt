@@ -1,8 +1,6 @@
 package postprompt
 
-import (
-	"container/list"
-)
+import "container/list"
 
 type ActionList list.List
 
@@ -14,17 +12,18 @@ type Action struct {
 	damage int
 	heal int
 	elementType ElementType
-	/*
-	moving boolean = false
-	srcPlayerType int = 0
-	srcList int = 0
-	srcIndex int = 0
-	dstPlayerType int = 0
-	dstList int = 0
-	dstIndex int = 0
-	phase boolean = false
-	turn boolean = false
-	*/
+	movement *Movement
+	phase bool
+	turn bool
+}
+
+type Movement struct {
+	srcPlayerType PlayerType
+	srcList CLType
+	srcIndex int
+	dstPlayerType PlayerType
+	dstList CLType
+	dstIndex int
 }
 
 func NewAction(game *Game, uid int, instant *Instant) *Action {
@@ -33,6 +32,9 @@ func NewAction(game *Game, uid int, instant *Instant) *Action {
 	action.game = game
 	action.instant = instant
 	action.elementType = neutral
+	action.movement = nil
+	action.phase = false
+	action.turn = false
 	return action
 }
 
@@ -68,13 +70,28 @@ func (action *Action) act() error {
 	if err != nil {
 		return err
 	}
-	me.health += action.heal
-
 	them, err := action.game.GetThemFromUid(action.uid)
 	if err != nil {
 		return err
 	}
+	me.health += action.heal
 	them.health -= action.damage
+
+	var player *Player
+	if action.movement != nil {
+		if action.movement.srcPlayerType == 0 {
+			player = me
+		} else {
+			player = them
+		}
+		card := player.collection.cardList[action.movement.srcList].cards[action.movement.srcIndex]
+		if action.movement.dstPlayerType == 0 {
+			player = me
+		} else {
+			player = them
+		}
+		player.collection.cardList[action.movement.dstList].push(card,action.movement.dstIndex)
+	}
 
 	return nil
 }
@@ -87,8 +104,22 @@ func (action *Action) SetHeal(amount int) {
 	action.heal = amount
 }
 
-/*
-func (s *Action) SetMovement(srcPlayer, srcList, srcCardLoc, dstPlayer, dstList, dstCardLoc, int) {
-	
+func (action *Action) SetElementType(elementType ElementType){
+	action.elementType = elementType
 }
-*/
+
+func (action *Action) SetMovement(
+		srcPlayerType PlayerType,
+		srcList CLType,
+		srcIndex int,
+		dstPlayerType PlayerType,
+		dstList CLType,
+		dstIndex int) {
+	action.movement = new(Movement)
+	action.movement.srcPlayerType = srcPlayerType
+	action.movement.srcList = srcList
+	action.movement.srcIndex = srcIndex
+	action.movement.dstPlayerType = dstPlayerType
+	action.movement.dstList = dstList
+	action.movement.dstIndex = dstIndex
+}

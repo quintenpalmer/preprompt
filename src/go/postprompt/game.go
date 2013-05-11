@@ -1,36 +1,44 @@
 package postprompt
 
 type Game struct {
-	players [2]*Player
+	players map[int]*Player
 	controlState *ControlState
 }
 
 func NewGame(uid1,did1,uid2,did2 int) (*Game, error) {
+	if uid1 == uid2 {
+		return nil, Newpperror("Cannot start a game with yourself")
+	}
 	g := new(Game)
+	g.players = make(map[int]*Player)
 	player, err := NewPlayer(uid1,did1)
 	if err != nil { return nil, err }
-	g.players[0] = player
+	g.players[uid1] = player
 	player, err = NewPlayer(uid2,did2)
 	if err != nil { return nil, err }
-	g.players[1] = player
+	g.players[uid2] = player
 	g.controlState = NewControlState(uid1,uid2)
 	return g, nil
 }
 
 func (game *Game) GetMeFromUid(uid int) (*Player, error) {
-	if game.players[0].uid == uid {
-		return game.players[0], nil
-	} else if game.players[1].uid == uid {
-		return game.players[1], nil
+	if player, ok := game.players[uid]; ok {
+		return player, nil
 	}
 	return nil, Newpperror("not a uid playing this game")
 }
 
 func (game *Game) GetThemFromUid(uid int) (*Player, error) {
-	if game.players[0].uid == uid {
-		return game.players[1], nil
-	} else if game.players[1].uid == uid {
-		return game.players[0], nil
+	keys := make([]int,len(game.players))
+	i := 0
+	for k, _ := range game.players {
+		keys[i] = k
+		i ++
+	}
+	if uid == keys[0] {
+		return game.players[keys[1]], nil
+	} else if uid == keys[1] {
+		return game.players[keys[0]], nil
 	}
 	return nil, Newpperror("not a uid playing this game")
 }

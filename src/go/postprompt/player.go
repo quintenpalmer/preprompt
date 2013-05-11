@@ -10,7 +10,7 @@ type Player struct {
 	health int
 	uid int
 	name string
-	d *Collection
+	collection *Collection
 }
 
 func NewPlayer(uid, did int) (*Player, error) {
@@ -22,6 +22,6 @@ func NewPlayer(uid, did int) (*Player, error) {
 	pc.name = name
 	collection, err := NewCollection(uid,did)
 	if err != nil { return nil, err }
-	pc.d = collection
+	pc.collection = collection
 	return pc, nil
 }

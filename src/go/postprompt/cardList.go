@@ -1,7 +1,10 @@
 package postprompt
 
+import "container/list"
+
 type CardList struct {
 	cards []*Card
+	lcards list.List
 }
 
 func EmptyCardList() *CardList {
@@ -19,4 +22,8 @@ func NewCardList(cardIds []int) (*CardList, error) {
 		cardList.cards[i] = card
 	}
 	return cardList, nil
+}
+
+func (cardList *CardList) push(card *Card, index int) error {
+	return Newpperror("cannot push yet")
 }

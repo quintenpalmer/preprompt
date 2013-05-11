@@ -42,7 +42,7 @@ func serializePlayer(p *Player, pt PlayerType) jsonMap {
 	pJson["uid"] = p.uid
 	pJson["health"] = p.health
 	pJson["name"] = p.name
-	pJson["collection"] = serializeDeck(p.d,pt)
+	pJson["collection"] = serializeDeck(p.collection,pt)
 	return pJson
 }
 
