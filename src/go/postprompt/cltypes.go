@@ -4,6 +4,8 @@ package postprompt
 
 type CLType int
 
+const numcl = 6
+
 const (
 	Deck CLType = iota
 	Hand
@@ -12,8 +14,6 @@ const (
 	Special
 	Other
 )
-
-const numcl = 6
 
 type CLInfo struct {
 	i CLType

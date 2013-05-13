@@ -44,20 +44,10 @@ def request_draw(game_id,player_id):
 	return send_request(json.dumps( { 'request' : { 'command' : 'draw', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )
 
 def request_phase(game_id,player_id):
-	request = '<request>'
-	request += '<command>phase</command>'
-	request += '<game_id>'+str(game_id)+'</game_id>'
-	request += '<player_id>'+str(player_id)+'</player_id>'
-	request += '</request>'
-	return send_request(request)
+	return send_request(json.dumps( { 'request' : { 'command' : 'phase', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )
 
 def request_turn(game_id,player_id):
-	request = '<request>'
-	request += '<command>turn</command>'
-	request += '<game_id>'+str(game_id)+'</game_id>'
-	request += '<player_id>'+str(player_id)+'</player_id>'
-	request += '</request>'
-	return send_request(request)
+	return send_request(json.dumps( { 'request' : { 'command' : 'turn', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )
 
 def request_play(game_id,player_id,src_list,src_card,target_uid,target_list,target_card):
 	request = '<request>'

@@ -9,16 +9,16 @@ type InstantList struct {
 	instants []*Instant
 }
 
-func (instant *Instant) applyTo(action *Action, game *Game) error {
+func (instant *Instant) applyTo(action *Action, game *Game) string {
 	playable := true;
 	for _,icond := range instant.conds {
 		playable = playable && icond.isValid(game,action);
 	}
 	if playable {
 		instant.effect.applyTo(action);
-		return nil
+		return "ok"
 	}
-	return Newpperror("that card is not valid to play")
+	return "that card is not valid to play"
 }
 
 type InstantEffect interface {

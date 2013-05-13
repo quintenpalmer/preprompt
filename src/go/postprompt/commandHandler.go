@@ -15,9 +15,21 @@ func handleCommand(buf []byte, model *Model) string {
 	}
 	switch command {
 		case "new" : return handleNewGame(request,model)
+		case "setup" : return handleSetup(request,model)
 		case "draw" : return handleDraw(request,model)
+		case "phase" : return handlePhase(request,model)
 	}
 	return respondOther(command)
+}
+
+func getStandardInfo(r jsonMap, m *Model) (int, int, *Game, error) {
+	gameId, err := r.getInt("gameId")
+	if err != nil { return 0, 0, nil, err }
+	playerId, err := r.getInt("playerId")
+	if err != nil { return 0, 0, nil, err }
+	game, err := m.GetGameFromGameId(gameId)
+	if err != nil { return 0, 0, nil, err }
+	return gameId, playerId, game, nil
 }
 
 func handleNewGame(r jsonMap, m *Model) string {
@@ -36,15 +48,32 @@ func handleNewGame(r jsonMap, m *Model) string {
 }
 
 func handleDraw(r jsonMap, m *Model) string {
-	gameId, err := r.getInt("gameId")
+	gameId, playerId, game, err := getStandardInfo(r,m)
 	if err != nil { return respondError(err) }
-	playerId, err := r.getInt("playerId")
+	message, err := Act(game,playerId,GetDraw())
 	if err != nil { return respondError(err) }
-	g, err := m.GetGameFromGameId(gameId)
+	gameRepr, err := getGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
-	Act(g,playerId,GetDraw())
+	return respondAction("draw",gameId,gameRepr,message)
 	//Act(g,playerId,GetDirectDamage(5,fire))
-	gameRepr, err := getGameJsonMap(g,playerId)
+}
+
+func handleSetup(r jsonMap, m *Model) string {
+	gameId, playerId, game, err := getStandardInfo(r,m)
 	if err != nil { return respondError(err) }
-	return respondAction("draw",gameId,gameRepr)
+	message, err := Act(game,playerId,GetSetup())
+	if err != nil { return respondError(err) }
+	gameRepr, err := getGameJsonMap(game,playerId)
+	if err != nil { return respondError(err) }
+	return respondAction("setup",gameId,gameRepr,message)
+}
+
+func handlePhase(r jsonMap, m *Model) string {
+	gameId, playerId, game, err := getStandardInfo(r,m)
+	if err != nil { return respondError(err) }
+	message, err := Act(game,playerId,GetPhaseStep())
+	if err != nil { return respondError(err) }
+	gameRepr, err := getGameJsonMap(game,playerId)
+	if err != nil { return respondError(err) }
+	return respondAction("setup",gameId,gameRepr,message)
 }

@@ -15,13 +15,14 @@ func respondOther(command string) string {
 	return ret
 }
 
-func respondAction(command string, gameId int, gameRepr jsonMap) string {
+func respondAction(command string, gameId int, gameRepr jsonMap, message string) string {
 	fmt.Println(command," : ",gameId)
 	resp := make(jsonMap)
 	resp["respType"] = "ok"
 	resp["command"] = command
 	resp["gameId"] = gameId
 	resp["gameRepr"] = gameRepr
+	resp["message"] = message
 	ret, err := resp.toString()
 	if err != nil {
 		return respondError(err)
