@@ -91,7 +91,7 @@ function parse_int(element,tag){
    onclick function 'li_onclick', and
    id 'id'
  */
-function create_card_li(li_html,li_onclick,li_id){
+function create_card_li(li_html, li_onclick, li_id) {
 	var li;
 	var a;
 	var span;

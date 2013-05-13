@@ -58,10 +58,11 @@ function display_game(){
 	var them = game.them.collection;
 	display_control_state(game.control_state);
 	display_player_stats(game.them.player);
-	display_card_lists(them.deck, false, null, them.hand, true, null);
-	display_card_lists(them.grave, false, null, them.active, true, null);
-	display_card_lists(me.grave, false, null, me.active, true, game_play_card_from_active);
-	display_card_lists(me.deck, false, game_draw, me.hand, true, game_play_card_from_hand);
+	// reminder: d_c_lists(list, fanned?, visible?, action, ...)
+	display_card_lists(them.deck, false, false, null, them.hand, true, false, null);
+	display_card_lists(them.grave, false, true, null, them.active, true, true, null);
+	display_card_lists(me.grave, false, true, null, me.active, true, true, game_play_card_from_active);
+	display_card_lists(me.deck, false, false, game_draw, me.hand, true, true, game_play_card_from_hand);
 	display_player_stats(game.me.player);
 	display_actions();
 }
@@ -113,7 +114,7 @@ function display_control_state(control_state){
 	document.getElementById("game").appendChild(control_state_div);
 }
 
-function display_player_stats(player){
+function display_player_stats(player) {
 	/* Displays player name and health. */
 	var table = document.createElement("table");
 		table.setAttribute("class", "mini-info");
@@ -134,45 +135,51 @@ function display_player_stats(player){
 	left_card_list: The list to be displayed at left in this row
 	left_expand: Should the left list be fanned out (T) or piled (F)?
 	left_action: The action to be taken on clicking an item.
+	left_visible: Should the cards be face-up (T) or face-down (F)?
 	right_parameters are the same for the right side. */
-function display_card_lists(left_card_list, left_expand, left_action, right_card_list, right_expand, right_action){
+function display_card_lists(left_card_list, left_expand, left_visible, left_action, right_card_list, right_expand, right_visible, right_action) {
 	var card_list_div = document.createElement("div");
-	card_list_div.setAttribute("id", "card_lists");
+	card_list_div.setAttribute("class", "card_lists");
 	document.getElementById("game").appendChild(card_list_div);
-	display_card_list(left_card_list, left_expand, card_list_div, left_action);
-	display_card_list(right_card_list, right_expand, card_list_div, right_action);
+	display_card_list(left_card_list, left_expand, card_list_div, left_visible, left_action);
+	display_card_list(right_card_list, right_expand, card_list_div, right_visible, right_action);
 }
 
 /* Displays a single list of cards on the board:
 	card_list: The list to be displayed.
 	expand: Should the list be fanned (T) or piled (F)?
 	card_list_div: The div to be the container for this list.
+	visible: Should the list be face-up (T) or face-down (F)?
 	action: The action to be taken on clicking an item. */
-function display_card_list(card_list, expand, card_list_div, action){
+function display_card_list(card_list, expand, card_list_div, visible, action){
 	//console.log(card_list);
 	var li;
 	var card_name;
 	var ul = document.createElement("ul");
-	if(expand) {
+		ul.setAttribute("class", "list_box");
+	if (expand) {
 		var iterations = card_list.cards.length; // as many iterations as cards
 	}
-	else {
+	else { // display one if the list has at least one; otherwise, none
 		var iterations = Math.min(1, card_list.cards.length);
 	}
-	if(iterations > 0) {
-		for(var index=0; index < iterations; index++){ // for each card in list
+	if (iterations > 0) {
+		for (var index=0; index < iterations; index++ ){ // for each card in list
 			card_name = card_list.cards[index].name; // get its name
-			if(card_name == 'Unknown'){
+			if (card_name == 'Unknown'){
 				card_name = '';
+			} 
+			if (visible) {
+				li = document.createElement("li").appendChild(display_icon());
+				if (action != null) { // apply the action, if there is one
+					li.onclick = function(){ action(event) };
+				}
+			} else {
+				li = document.createElement("li").appendChild(display_back());
+				li.innerHTML = "&nbsp;";
 			}
-			// li = create_card_li(card_name, action, index);
-			li = document.createElement("li").appendChild(display_icon());
-			ul.appendChild(li);
+			ul.appendChild(li); // add this card to the list
 		}
-	}
-	else {
-		li = document.createElement("li");
-		ul.appendChild(li);
 	}
 	card_list_div.appendChild(ul);
 }
