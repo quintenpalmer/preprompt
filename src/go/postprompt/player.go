@@ -10,7 +10,6 @@ type Player struct {
 	health int
 	uid int
 	name string
-	//collection *Collection
 	cardList map[CLType]*CardList
 	visibility [numcl][2]bool
 }
@@ -22,12 +21,6 @@ func NewPlayer(uid, did int) (*Player, error) {
 	name, err := GetPlayerName(uid)
 	if err != nil { return nil, err }
 	pc.name = name
-	/*
-	collection, err := NewCollection(uid,did)
-	if err != nil { return nil, err }
-
-	pc.collection = collection
-	*/
 	pc.visibility = [numcl][2]bool{
 		{false,false},
 		{true,false},
