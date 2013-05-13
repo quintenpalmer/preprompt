@@ -71,7 +71,7 @@ func serializeCardList(cl *CardList, full bool) jsonMap {
 	array := []jsonMap{}
 	for _,c := range cl.cards {
 		cJson := make(jsonMap)
-		cJson["Card"] = serializeCard(c)
+		cJson["card"] = serializeCard(c)
 		array = append(array,cJson)
 	}
 	clJson["cards"] = array

@@ -6,7 +6,7 @@ func GetDirectDamage(amount int, elementType ElementType) *InstantList {
 	return instantList
 }
 
-func GetDrawEffect() *InstantList {
+func GetDraw() *InstantList {
 	instantList := new(InstantList)
 	instantList.instants = []*Instant{NewCardMoveInstant(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1)}
 	return instantList

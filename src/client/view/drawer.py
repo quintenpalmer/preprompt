@@ -18,7 +18,9 @@ def draw_game(game):
 	out = '='*70+'\n'
 	out += 'State: ' + str(game.control_state.super_phase) + '/' + str(game.control_state.phase) + ' ' + str(game.control_state.turn_owner)+'\n'
 	out += 'Enemy: ' + game.them.name+' Health: '+str(game.them.health)+'\n'
-	out += '[[DECK]]\t'
+	out += str(len(game.them.collection.deck.cards))
+	out += '\n'
+	out += '[[DECK ]]\t'
 	for card in game.them.collection.hand.cards:
 		out += '['+card.name+']'
 		for i in range(10-len(card.name)):
@@ -42,11 +44,13 @@ def draw_game(game):
 		for i in range(10-len(card.name)):
 			out += ' '
 	out += '\n'
-	out += '[[DECK]]\t'
+	out += '[[DECK ]]\t'
 	for card in game.me.collection.hand.cards:
 		out += '['+card.name+']'
 		for i in range(10-len(card.name)):
 			out += ' '
+	out += '\n'
+	out += str(len(game.me.collection.deck.cards))
 	out += '\n'
 	out += 'You: ' + game.me.name+' Health: '+str(game.me.health)+'\n'
 	out += '-'*70

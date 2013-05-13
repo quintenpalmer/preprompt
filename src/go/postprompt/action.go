@@ -84,13 +84,15 @@ func (action *Action) act() error {
 		} else {
 			player = them
 		}
-		card := player.collection.cardList[action.movement.srcList].cards[action.movement.srcIndex]
+		card, err := player.collection.cardList[action.movement.srcList].pop(action.movement.srcIndex)
+		if err != nil { return err }
 		if action.movement.dstPlayerType == 0 {
 			player = me
 		} else {
 			player = them
 		}
-		player.collection.cardList[action.movement.dstList].push(card,action.movement.dstIndex)
+		err = player.collection.cardList[action.movement.dstList].push(card,action.movement.dstIndex)
+		if err != nil { return err }
 	}
 
 	return nil
