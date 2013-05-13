@@ -38,18 +38,12 @@ func serializePlayer(p *Player, pt PlayerType) jsonMap {
 	pJson["uid"] = p.uid
 	pJson["health"] = p.health
 	pJson["name"] = p.name
-	pJson["collection"] = serializeDeck(p.collection,pt)
-	return pJson
-}
-
-func serializeDeck(d *Collection, pt PlayerType) jsonMap {
-	dJson := make(jsonMap)
-	for i,cardList := range d.cardList{
+	for i,cardList := range p.cardList{
 		index, err := GetNameFromIndex(i)
 		if err != nil { }
-		dJson[index] = serializeCardList(cardList, true)
+		pJson[index] = serializeCardList(cardList, true)
 	}
-	return dJson
+	return pJson
 }
 
 func serializeCardList(cl *CardList, full bool) jsonMap {

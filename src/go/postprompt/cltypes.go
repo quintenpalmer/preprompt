@@ -34,7 +34,6 @@ func GetNameFromIndex(i CLType) (string, error) {
 			return cli.name, nil
 		}
 	}
-	//TODO return error if not found
 	return "", Newpperror("Not a valid cardList index")
 }
 
@@ -44,6 +43,5 @@ func GetIndexFromName(name string) (CLType, error) {
 			return cli.i, nil
 		}
 	}
-	//TODO return error if not found
 	return 0, Newpperror("Not a valid cardList name")
 }

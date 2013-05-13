@@ -32,7 +32,7 @@ func NewAction(game *Game, uid int, instant *Instant) *Action {
 	action.uid = uid
 	action.game = game
 	action.instant = instant
-	action.elementType = neutral
+	action.elementType = Neutral
 	action.movement = nil
 	action.superPhaseStep = 0
 	action.phaseStep = 0
@@ -103,14 +103,14 @@ func (action *Action) act() (string, error) {
 		} else {
 			player = them
 		}
-		card, err := player.collection.cardList[action.movement.srcList].pop(action.movement.srcIndex)
+		card, err := player.cardList[action.movement.srcList].pop(action.movement.srcIndex)
 		if err != nil { return "error", err }
 		if action.movement.dstPlayerType == 0 {
 			player = me
 		} else {
 			player = them
 		}
-		err = player.collection.cardList[action.movement.dstList].push(card,action.movement.dstIndex)
+		err = player.cardList[action.movement.dstList].push(card,action.movement.dstIndex)
 		if err != nil { return "problem", err }
 	}
 

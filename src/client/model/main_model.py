@@ -12,6 +12,8 @@ class Model:
 		self.version = 0
 
 	def update_game(self,resp):
+		with open("ASDF.json","w") as f:
+			f.write(str(resp))
 		obj = json_parser.create_object(resp)
 		respType = json_parser.get_string(obj,"respType")
 		print '------------'
