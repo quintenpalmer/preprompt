@@ -6,7 +6,7 @@ func GetDirectDamage(amount int, elementType ElementType) *InstantList {
 	return instantList
 }
 
-func GetPhaseStep() *InstantList {
+func GetPhaseStepIL() *InstantList {
 	instantList := new(InstantList)
 	instant := new(Instant)
 	instant.effect = new(stepPhase)
@@ -14,7 +14,7 @@ func GetPhaseStep() *InstantList {
 	instantList.instants = []*Instant{instant}
 	return instantList
 }
-func GetDraw() *InstantList {
+func GetDrawIL() *InstantList {
 	instantList := new(InstantList)
 	instant := new(Instant)
 	instant.effect = newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1)
@@ -23,7 +23,16 @@ func GetDraw() *InstantList {
 	return instantList
 }
 
-func GetSetup() *InstantList {
+func GetTurnStepIL() *InstantList {
+	instantList := new(InstantList)
+	instant := new(Instant)
+	instant.effect = new(stepTurn)
+	instant.conds = []InstantCond{&validSuperPhase{MainSuperPhase},&validPhase{EndPhase}}
+	instantList.instants = []*Instant{instant}
+	return instantList
+}
+
+func GetSetupIL() *InstantList {
 	instantList := new(InstantList)
 	instant := new(Instant)
 	instant.effect = new(stepSuperPhase)
@@ -79,9 +88,15 @@ func (cm *cardMoveInstantEffect) applyTo(action *Action) {
 	action.movement = movement
 }
 
+type stepTurn struct { }
+
+func (st *stepTurn) applyTo(action *Action) {
+	action.SetTurnStep(true)
+}
+
 type stepPhase struct { }
 
-func (ssp *stepPhase) applyTo(action *Action) {
+func (sp *stepPhase) applyTo(action *Action) {
 	action.SetPhaseStep(StepOnePhase)
 }
 

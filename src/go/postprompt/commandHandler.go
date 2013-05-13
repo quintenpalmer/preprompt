@@ -18,6 +18,7 @@ func handleCommand(buf []byte, model *Model) string {
 		case "setup" : return handleSetup(request,model)
 		case "draw" : return handleDraw(request,model)
 		case "phase" : return handlePhase(request,model)
+		case "turn" : return handleTurn(request,model)
 	}
 	return respondOther(command)
 }
@@ -50,7 +51,7 @@ func handleNewGame(r jsonMap, m *Model) string {
 func handleDraw(r jsonMap, m *Model) string {
 	gameId, playerId, game, err := getStandardInfo(r,m)
 	if err != nil { return respondError(err) }
-	message, err := Act(game,playerId,GetDraw())
+	message, err := Act(game,playerId,GetDrawIL())
 	if err != nil { return respondError(err) }
 	gameRepr, err := getGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
@@ -61,7 +62,7 @@ func handleDraw(r jsonMap, m *Model) string {
 func handleSetup(r jsonMap, m *Model) string {
 	gameId, playerId, game, err := getStandardInfo(r,m)
 	if err != nil { return respondError(err) }
-	message, err := Act(game,playerId,GetSetup())
+	message, err := Act(game,playerId,GetSetupIL())
 	if err != nil { return respondError(err) }
 	gameRepr, err := getGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
@@ -71,9 +72,19 @@ func handleSetup(r jsonMap, m *Model) string {
 func handlePhase(r jsonMap, m *Model) string {
 	gameId, playerId, game, err := getStandardInfo(r,m)
 	if err != nil { return respondError(err) }
-	message, err := Act(game,playerId,GetPhaseStep())
+	message, err := Act(game,playerId,GetPhaseStepIL())
 	if err != nil { return respondError(err) }
 	gameRepr, err := getGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
 	return respondAction("setup",gameId,gameRepr,message)
+}
+
+func handleTurn(r jsonMap, m *Model) string {
+	gameId, playerId, game, err := getStandardInfo(r,m)
+	if err != nil { return respondError(err) }
+	message, err := Act(game,playerId,GetTurnStepIL())
+	if err != nil { return respondError(err) }
+	gameRepr, err := getGameJsonMap(game,playerId)
+	if err != nil { return respondError(err) }
+	return respondAction("turn",gameId,gameRepr,message)
 }

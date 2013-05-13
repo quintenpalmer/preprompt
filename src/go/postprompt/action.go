@@ -15,7 +15,7 @@ type Action struct {
 	movement *Movement
 	superPhaseStep SuperPhase
 	phaseStep Phase
-	turn bool
+	turnStep bool
 }
 
 type Movement struct {
@@ -36,7 +36,7 @@ func NewAction(game *Game, uid int, instant *Instant) *Action {
 	action.movement = nil
 	action.superPhaseStep = 0
 	action.phaseStep = 0
-	action.turn = false
+	action.turnStep = false
 	return action
 }
 
@@ -87,6 +87,15 @@ func (action *Action) act() (string, error) {
 		action.game.controlState.phase += action.phaseStep
 	} else { return "reached end phase", nil }
 
+	if action.turnStep {
+		if action.game.controlState.turnOwner == action.game.controlState.uids[0] {
+			action.game.controlState.turnOwner = action.game.controlState.uids[1]
+		} else {
+			action.game.controlState.turnOwner = action.game.controlState.uids[0]
+		}
+		action.game.controlState.phase = DrawPhase
+	}
+
 	var player *Player
 	if action.movement != nil {
 		if action.movement.srcPlayerType == 0 {
@@ -126,6 +135,10 @@ func (action *Action) SetPhaseStep(amount Phase) {
 
 func (action *Action) SetSuperPhaseStep(amount SuperPhase) {
 	action.superPhaseStep += amount
+}
+
+func (action *Action) SetTurnStep(turnStep bool) {
+	action.turnStep = turnStep
 }
 
 func (action *Action) SetMovement(
