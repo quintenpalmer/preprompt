@@ -209,7 +209,7 @@ go_build(){
 }
 
 go_run(){
-	cd $postprompt/src/go
+	cd $postprompt/src
 	go run main.go
 }
 
