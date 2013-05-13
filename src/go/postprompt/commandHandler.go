@@ -76,7 +76,7 @@ func handlePhase(r jsonMap, m *Model) string {
 	if err != nil { return respondError(err) }
 	gameRepr, err := getGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
-	return respondAction("setup",gameId,gameRepr,message)
+	return respondAction("phase",gameId,gameRepr,message)
 }
 
 func handleTurn(r jsonMap, m *Model) string {

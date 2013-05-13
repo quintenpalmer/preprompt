@@ -37,6 +37,7 @@ func respondNew(gameId int, gameRepr jsonMap) string {
 	resp["command"] = "new"
 	resp["gameId"] = gameId
 	resp["gameRepr"] = gameRepr
+	resp["message"] = "ok"
 	ret, err := resp.toString()
 	if err != nil {
 		return respondError(err)

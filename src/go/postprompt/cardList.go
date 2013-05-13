@@ -1,12 +1,14 @@
 package postprompt
 
+type subCL []*Card
+
 type CardList struct {
-	cards []*Card
+	cards subCL
 }
 
 func EmptyCardList() *CardList {
 	cardList := new(CardList)
-	cardList.cards = make([]*Card,0)
+	cardList.cards = make(subCL,0)
 	return cardList
 }
 

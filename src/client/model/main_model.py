@@ -22,6 +22,8 @@ class Model:
 		if respType == "ok":
 			command = json_parser.get_string(obj,"command")
 			gameId = json_parser.get_int(obj,"gameId")
+			message = json_parser.get_string(obj,"message")
+			print message
 			print gameId
 			gameRepr = json_parser.get_object(obj,"gameRepr")
 			print type(gameRepr)
