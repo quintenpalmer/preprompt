@@ -1,6 +1,6 @@
 package postprompt
 
-func GetDirectDamage(amount int, elementType ElementType) *InstantList {
+func GetDirectDamageIL(amount int, elementType ElementType) *InstantList {
 	instantList := new(InstantList)
 	instantList.instants = []*Instant{newDirectDamageInstant(amount,elementType)}
 	return instantList
@@ -121,7 +121,7 @@ type validPhase struct {
 }
 
 func (vp *validPhase) isValid(game *Game, action *Action) bool {
-	if game.controlState.phase == vp.phase {
+	if game.phase == vp.phase {
 		return true
 	}
 	return false
@@ -132,7 +132,7 @@ type validSuperPhase struct {
 }
 
 func (vp *validSuperPhase) isValid(game *Game, action *Action) bool {
-	if game.controlState.superPhase == vp.superPhase {
+	if game.superPhase == vp.superPhase {
 		return true
 	}
 	return false

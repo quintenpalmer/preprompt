@@ -2,23 +2,33 @@ package postprompt
 
 type Game struct {
 	players map[int]*Player
-	controlState *ControlState
+	uids [2]int
+	phase Phase
+	superPhase SuperPhase
+	turnOwner int
+	hasDrawn bool
 }
 
 func NewGame(uid1,did1,uid2,did2 int) (*Game, error) {
 	if uid1 == uid2 {
 		return nil, Newpperror("Cannot start a game with yourself")
 	}
-	g := new(Game)
-	g.players = make(map[int]*Player)
+	game := new(Game)
+	game.players = make(map[int]*Player)
 	player, err := NewPlayer(uid1,did1)
 	if err != nil { return nil, err }
-	g.players[uid1] = player
+	game.players[uid1] = player
 	player, err = NewPlayer(uid2,did2)
 	if err != nil { return nil, err }
-	g.players[uid2] = player
-	g.controlState = NewControlState(uid1,uid2)
-	return g, nil
+	game.players[uid2] = player
+
+	game.uids = [2]int{uid1,uid2}
+	game.phase = DrawPhase
+	game.superPhase = PreSuperPhase
+	game.turnOwner = uid1
+	game.hasDrawn = false
+
+	return game, nil
 }
 
 func (game *Game) GetMeFromUid(uid int) (*Player, error) {

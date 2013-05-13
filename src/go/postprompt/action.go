@@ -80,20 +80,20 @@ func (action *Action) act() (string, error) {
 	me.health += action.heal
 	them.health -= action.damage
 
-	if action.game.controlState.superPhase + action.superPhaseStep <= DoneSuperPhase {
-		action.game.controlState.superPhase += action.superPhaseStep
+	if action.game.superPhase + action.superPhaseStep <= DoneSuperPhase {
+		action.game.superPhase += action.superPhaseStep
 	} else { return "reached end super phase", nil }
-	if action.game.controlState.phase + action.phaseStep <= EndPhase {
-		action.game.controlState.phase += action.phaseStep
+	if action.game.phase + action.phaseStep <= EndPhase {
+		action.game.phase += action.phaseStep
 	} else { return "reached end phase", nil }
 
 	if action.turnStep {
-		if action.game.controlState.turnOwner == action.game.controlState.uids[0] {
-			action.game.controlState.turnOwner = action.game.controlState.uids[1]
+		if action.game.turnOwner == action.game.uids[0] {
+			action.game.turnOwner = action.game.uids[1]
 		} else {
-			action.game.controlState.turnOwner = action.game.controlState.uids[0]
+			action.game.turnOwner = action.game.uids[0]
 		}
-		action.game.controlState.phase = DrawPhase
+		action.game.phase = DrawPhase
 	}
 
 	var player *Player

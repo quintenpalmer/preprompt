@@ -56,7 +56,7 @@ func handleDraw(r jsonMap, m *Model) string {
 	gameRepr, err := getGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
 	return respondAction("draw",gameId,gameRepr,message)
-	//Act(g,playerId,GetDirectDamage(5,fire))
+	//Act(g,playerId,GetDirectDamageIL(5,fire))
 }
 
 func handleSetup(r jsonMap, m *Model) string {

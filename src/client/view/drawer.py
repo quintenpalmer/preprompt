@@ -16,7 +16,7 @@ def draw(model,message):
 
 def draw_game(game):
 	out = '='*70+'\n'
-	out += 'State: ' + str(game.control_state.super_phase) + '/' + str(game.control_state.phase) + ' ' + str(game.control_state.turn_owner)+'\n'
+	out += 'State: ' + str(game.super_phase) + '/' + str(game.phase) + ' ' + str(game.turn_owner)+'\n'
 	out += 'Enemy: ' + game.them.name+' Health: '+str(game.them.health)+'\n'
 	out += str(len(game.them.collection.deck.cards))
 	out += '\n'

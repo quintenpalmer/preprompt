@@ -16,22 +16,18 @@ func getGameJsonMap(g *Game, uid int) (jsonMap, error) {
 	player, err = g.GetThemFromUid(uid)
 	if err != nil { return make(jsonMap), err }
 	gJson["them"] = serializePlayer(player,0)
-	gJson["controlState"] = serializeControlState(g.controlState)
+	gJson["uids"] = g.uids
+	gJson["phase"] = g.phase
+	gJson["superPhase"] = g.superPhase
+	gJson["turnOwner"] = g.turnOwner
+	gJson["hasDrawn"] = g.hasDrawn
 	containerJson["game"] = gJson
 	return containerJson, nil
 }
 
 func SerializeGame(g *Game, uid int) (string, error) {
-	containerJson := make(jsonMap)
-	gJson := make(jsonMap)
-	player, err := g.GetMeFromUid(uid)
+	containerJson, err := getGameJsonMap(g,uid)
 	if err != nil { return "", err }
-	gJson["me"] = serializePlayer(player,0)
-	player, err = g.GetThemFromUid(uid)
-	if err != nil { return "", err }
-	gJson["them"] = serializePlayer(player,0)
-	gJson["controlState"] = serializeControlState(g.controlState)
-	containerJson["game"] = gJson
 	ret, err := containerJson.toString()
 	if err != nil { return "", err }
 	return ret, nil
@@ -44,16 +40,6 @@ func serializePlayer(p *Player, pt PlayerType) jsonMap {
 	pJson["name"] = p.name
 	pJson["collection"] = serializeDeck(p.collection,pt)
 	return pJson
-}
-
-func serializeControlState(c *ControlState) jsonMap {
-	cJson := make(jsonMap)
-	cJson["uids"] = c.uids
-	cJson["phase"] = c.phase
-	cJson["superPhase"] = c.superPhase
-	cJson["turnOwner"] = c.turnOwner
-	cJson["hasDrawn"] = c.hasDrawn
-	return cJson
 }
 
 func serializeDeck(d *Collection, pt PlayerType) jsonMap {
