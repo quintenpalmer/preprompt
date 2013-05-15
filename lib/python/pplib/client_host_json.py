@@ -12,8 +12,8 @@ def send_request(request):
 	response = s.recv(32768).rstrip()
 	#print request
 	#print response
-	with open('tmp.json','w') as f:
-		f.write(response)
+	#with open('tmp.json','w') as f:
+	#	f.write(response)
 	s.close()
 	return response
 
