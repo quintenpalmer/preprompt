@@ -160,6 +160,7 @@ def handle_request(command,params=None,player_id=None,game_id=None):
 				return request_list()
 			elif command == 'play':
 				src_list = 1
+				print params
 				src_card = params
 				target_uid = 13
 				target_list = 2

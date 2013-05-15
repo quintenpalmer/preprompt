@@ -2,17 +2,17 @@ import sys
 
 from pplib.errors import PP_Model_Error
 
-def init_screen():
-	#sys.stdout.write('\n'*11)
-	pass
-def draw(model,message):
-	#sys.stdout.write('\33[10A]                                        \r')
-	ret = '%s\n'%message
+def draw(model,message,last_line_breaks):
+	for i in range(last_line_breaks+1):
+		sys.stdout.write('\33[A\r%s\r'%(' '*100))
+	ret = '='*70+'\n'
+	ret += '%s\n'%message
 	try:
 		ret += draw_game(model.get_current_game())
 	except PP_Model_Error as e:
 		ret += "No current game! %s\n"%str(e)
-	return ret
+	print ret
+	return len(ret.split('\n'))
 
 def draw_game(game):
 	out = '='*70+'\n'

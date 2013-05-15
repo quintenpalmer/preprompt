@@ -30,6 +30,9 @@ func (cardList *CardList) push(card *Card, index int) error {
 
 func (cardList *CardList) pop(index int) (*Card, error) {
 	if index == -1 { index = len(cardList.cards) - 1 }
+	if index >= len(cardList.cards) {
+		return nil, Newpperror("index out of range")
+	}
 	card := cardList.cards[index]
 	cardList.cards = append(cardList.cards[:index], cardList.cards[index+1:]...)
 	return card, nil

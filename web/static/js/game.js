@@ -19,13 +19,15 @@ function game_turn(){
 
 function game_play_card_from_hand(event){
 	card_id = event.target.id;
-	console.log('clicked');
+	console.log('play from hand');
+	console.log(card_id);
 	ajax_request('command=play&params='+card_id,gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
 function game_play_card_from_active(event){
 	card_id = event.target.id;
-	console.log('clicked');
+	console.log('play from active');
+	console.log(card_id);
 	ajax_request('command=play&params='+card_id,gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
