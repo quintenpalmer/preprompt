@@ -1,6 +1,6 @@
 from pplib.client_host_json import *
 
-from view.drawer import draw,init_screen
+from drawer import draw,init_screen
 
 class Main_Loop:
 	def __init__(self,model):

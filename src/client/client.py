@@ -2,16 +2,13 @@ import socket
 import sys
 import os
 
-pplib = os.path.join(os.environ['postprompt'],'lib','python')
-sys.path.insert(0,pplib)
-
 from pplib import util
-from pplib.client_host_json import request_exit,send_request,request_test
+from pplib.client_host_json import *
 
-from model.main_model import Model
-from view.main_loop import Main_Loop
+from model import Model
+from main_loop import Main_Loop
 
-from view.drawer import draw
+from drawer import draw
 
 if __name__ == '__main__':
 	if len(sys.argv) == 1:
@@ -23,11 +20,7 @@ if __name__ == '__main__':
 		main.run()
 		print "Client: Exiting!"
 	else:
-		if sys.argv[1] == 'bad':
-			request = '{ "request" :'
-			send_request(request)
-			print "Client: Sent bad data!"
-		elif sys.argv[1] == 'close':
+		if sys.argv[1] == 'close':
 			print request_exit(0)
 			print "Client: Sent shutdown to server!"
 		elif sys.argv[1] == 'check':
@@ -44,4 +37,3 @@ if __name__ == '__main__':
 					f.write('%s\n'%main.resp)
 					f.write('%s\n'%draw(main.model,main.current_message))
 					print draw(main.model,main.current_message)
-				print draw(main.model,main.current_message)
