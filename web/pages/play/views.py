@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
-from pplib.client_host_xml import *
-from pplib.xml_parser import parse_xml, parse_ints
+from pplib.client_host_json import *
+from pplib.json_parser import *
 from pplib import database
 
 def splash(request):
@@ -29,7 +29,7 @@ def ajax_new_game(request):
 	uid = get_user_key(request.COOKIES['username'])
 	if command.get('command') == 'new':
 		print handle_request('new',player_id=uid)
-	gids = sorted(parse_ints(parse_xml(request_list(uid)),'game_id'))
+	gids = sorted(get_ints(create_object(request_list(uid)),'gameId'))
 	return HttpResponse(str(gids).replace(' ','').strip('[').strip(']'),content_type='text/plain')
 
 @login_required
@@ -40,7 +40,6 @@ def ajax_update_game(request,game_id):
 	command = post.get('command')
 	params = post.get('params')
 	xml_string = handle_request(command,params=params,player_id=uid,game_id=game_id)
-	print xml_string
 	return HttpResponse(xml_string)
 
 @login_required
@@ -50,11 +49,10 @@ def games(request):
 	uid = get_user_key(request.COOKIES['username'])
 	if command.get('command') == 'new':
 		handle_request('new',{'player_id':uid})
-	gids = sorted(parse_ints(parse_xml(request_list(uid)),'game_id'))
+	gids = sorted(get_ints(create_object(request_list(uid)),'gameId'))
 	c = {}
 	c.update(csrf(request))
 	c['game_ids']=str(gids).replace(' ','').strip('[').strip(']')
-	c['game_ids']
 	return render_to_response('play/games.html',c)
 
 @login_required
@@ -67,10 +65,11 @@ def game(request,game_id):
 	username = request.COOKIES['username']
 	uid = get_user_key(username)
 	xml_string = request_out(game_id,uid)
+	print xml_string
 	c = {}
 	c.update(csrf(request))
-	c['game_xml']=xml_string
-	c['game_id']=game_id
+	c['gameRepr']=xml_string
+	c['gameId']=game_id
 	return render_to_response('play/game.html',c)
 
 

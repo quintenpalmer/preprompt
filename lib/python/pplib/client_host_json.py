@@ -50,30 +50,19 @@ def request_turn(game_id,player_id):
 	return send_request(json.dumps( { 'request' : { 'command' : 'turn', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )
 
 def request_play(game_id,player_id,src_list,src_card,target_uid,target_list,target_card):
-	request = '<request>'
-	request += '<command>play</command>'
-	request += '<game_id>'+str(game_id)+'</game_id>'
-	request += '<player_id>'+str(player_id)+'</player_id>'
-	request += '<src_list>'+str(src_list)+'</src_list>'
-	request += '<src_card>'+str(src_card)+'</src_card>'
-	request += '<target_uid>'+str(target_uid)+'</target_uid>'
-	request += '<target_list>'+str(target_list)+'</target_list>'
-	request += '<target_card>'+str(target_card)+'</target_card>'
-	request += '</request>'
-	return send_request(request)
+	return send_request(json.dumps( { 'request' : {
+		'command' : 'play',
+		'gameId' : str(game_id),
+		'playerId' : str(player_id),
+		'srcList' : str(src_list),
+		'srcCard' : str(src_card),
+		'targetUid' : str(target_uid),
+		'targetList' : str(target_list),
+		'targetCard' : str(target_card),
+	} } ) )
 
 def request_out(game_id,player_id):
-	request = '<request>'
-	request += '<command>out</command>'
-	request += '<game_id>'+str(game_id)+'</game_id>'
-	request += '<player_id>'+str(player_id)+'</player_id>'
-	request += '</request>'
-	return send_request(request)
+	return send_request(json.dumps( { 'request' : { 'command' : 'out', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )
 
 def request_forfeit(game_id,player_id):
-	request = '<request>'
-	request += '<command>forfeit</command>'
-	request += '<game_id>'+str(game_id)+'</game_id>'
-	request += '<player_id>'+str(player_id)+'</player_id>'
-	request += '</request>'
-	return send_request(request)
+	return send_request(json.dumps( { 'request' : { 'command' : 'forfeit', 'gameId' : str(game_id) , 'playerId' : str(player_id) } } ) )

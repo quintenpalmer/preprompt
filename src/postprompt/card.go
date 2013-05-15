@@ -11,6 +11,6 @@ func NewCard(id int) (*Card, error) {
 	if err != nil {
 		return nil, err }
 	card.name = cardInfo[0]
-	card.effect = cardInfo[1]
+	card.effect = "fireblast"//cardInfo[1]
 	return card, nil
 }

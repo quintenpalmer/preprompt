@@ -53,3 +53,15 @@ func respondError(err error) string {
 	if err2 != nil { }
 	return ret
 }
+
+func respondList(gameIds []int) string {
+	resp := make(jsonMap)
+	resp["respType"] = "ok"
+	resp["command"] = "list"
+	resp["gameId"] = gameIds
+	ret, err := resp.toString()
+	if err != nil {
+		return respondError(err)
+	}
+	return ret
+}

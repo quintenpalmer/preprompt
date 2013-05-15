@@ -2,46 +2,46 @@ var game;
 var game_id;
 
 function game_setup(){
-	ajax_request('command=setup',receive_game_xml,url='/play/game/ajax_update_game/'+game_id+'/');
+	ajax_request('command=setup',gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
 function game_draw(){
-	ajax_request('command=draw',receive_game_xml,url='/play/game/ajax_update_game/'+game_id+'/');
+	ajax_request('command=draw',gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
 function game_phase(){
-	ajax_request('command=phase',receive_game_xml,url='/play/game/ajax_update_game/'+game_id+'/');
+	ajax_request('command=phase',gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
 function game_turn(){
-	ajax_request('command=turn',receive_game_xml,url='/play/game/ajax_update_game/'+game_id+'/');
+	ajax_request('command=turn',gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
 function game_play_card_from_hand(event){
 	card_id = event.target.id;
 	console.log('clicked');
-	ajax_request('command=play&params='+card_id,receive_game_xml,url='/play/game/ajax_update_game/'+game_id+'/');
+	ajax_request('command=play&params='+card_id,gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
 function game_play_card_from_active(event){
 	card_id = event.target.id;
 	console.log('clicked');
-	ajax_request('command=play&params='+card_id,receive_game_xml,url='/play/game/ajax_update_game/'+game_id+'/');
+	ajax_request('command=play&params='+card_id,gameRepr,url='/play/game/ajax_update_game/'+game_id+'/');
 }
 
-function receive_game_xml(xml_string){
-	game = make_game(xml_string);
+function gameRepr(gameRepr){
+	game = make_game(gameRepr);
 	redisplay_game();
 }
 
-function display(xml_string,input_game_id){
+function display(gameRepr,input_game_id){
 	content = document.getElementById("content");
 	var game_div = document.createElement("div");
 	game_div.setAttribute("id","game");
 
 	content.appendChild(game_div);
 
-	game = make_game(xml_string);
+	game = make_game(gameRepr);
 	game_id = input_game_id;
 	display_game();
 }
@@ -54,16 +54,16 @@ function redisplay_game(){
 /* Displays all the information on the board. */
 /* THIS IS WHERE THINGS SHOULD BE DECLARED TO BE FACE-DOWN!! */
 function display_game(){
-	var me = game.me.collection;
-	var them = game.them.collection;
-	display_control_state(game.control_state);
-	display_player_stats(game.them.player);
+	var me = game.me;
+	var them = game.them;
+	display_control_state(game);
+	display_player_stats(them);
 	// reminder: d_c_lists(list, fanned?, visible?, action, ...)
 	display_card_lists(them.deck, false, false, null, them.hand, true, false, null);
 	display_card_lists(them.grave, false, true, null, them.active, true, true, null);
 	display_card_lists(me.grave, false, true, null, me.active, true, true, game_play_card_from_active);
 	display_card_lists(me.deck, false, false, game_draw, me.hand, true, true, game_play_card_from_hand);
-	display_player_stats(game.me.player);
+	display_player_stats(me);
 	display_actions();
 }
 
@@ -168,7 +168,7 @@ function display_card_list(card_list, expand, card_list_div, visible, action){
 			card_name = card_list.cards[index].name; // get its name
 			if (card_name == 'Unknown'){
 				card_name = '';
-			} 
+			}
 			if (visible) {
 				li = document.createElement("li").appendChild(display_icon());
 				if (action != null) { // apply the action, if there is one

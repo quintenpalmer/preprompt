@@ -12,7 +12,7 @@ function display_icon() {
 	var desc = document.createElement("div");
 		desc.setAttribute("class", "card-desc");
 			desc.innerHTML += "i"; /* one of these lines for each icon */
-	
+
 	frame.appendChild(art); /* top-most */
 	frame.appendChild(desc);
 	rarity.appendChild(frame);

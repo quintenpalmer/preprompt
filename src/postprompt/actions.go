@@ -41,6 +41,24 @@ func GetSetupIL() *InstantList {
 	return instantList
 }
 
+func GetEmptyIL() *InstantList {
+	instantList := new(InstantList)
+	instant := new(Instant)
+	instant.effect = new(doNothing)
+	instant.conds = []InstantCond{new(validInstant)}
+	instantList.instants = []*Instant{instant}
+	return instantList
+}
+
+func GetDestroyIL(srcIndex int) *InstantList {
+	instantList := new(InstantList)
+	instant := new(Instant)
+	instant.effect = newCardMoveInstantEffect(PlayerTypeMe,Hand,srcIndex,PlayerTypeMe,Grave,-1)
+	instant.conds = []InstantCond{&validPhase{MainPhase},&validSuperPhase{MainSuperPhase}}
+	instantList.instants = []*Instant{instant}
+	return instantList
+}
+
 func newDirectDamageInstant(amount int, elementType ElementType) *Instant {
 	instant := new(Instant)
 	dd := new(directDamageInstantEffect)
@@ -106,6 +124,10 @@ func (ssp *stepSuperPhase) applyTo(action *Action) {
 	action.SetSuperPhaseStep(StepOneSuperPhase)
 }
 
+type doNothing struct { }
+
+func (dn *doNothing) applyTo(action *Action) { }
+
 type directDamageInstantEffect struct {
 	amount int
 	elementType ElementType
@@ -145,15 +167,6 @@ func (vi *validInstant) isValid(game *Game, action *Action) bool {
 }
 
 /*
-func GetDestroyInstant(srcCard playerNum, int) *instant {
-	i := new(instant)
-	i.ieffect = NewDestroyInstantEffect(srcCard,playerNum)
-	i.iconds = []instantCond{NewValidInstant()}
-		NewDestroyEffect(srcCard,playerNum),
-		NewInstantCond[]{
-			NewValidInstant()})
-}
-
 type NewDestroyInstantEffect struct {
 	srcCard, playerNum int
 }

@@ -2,10 +2,10 @@ var games;
 
 function new_game(){
 	var command = 'command=new'
-	ajax_request(command,receive_game_ids,url='/play/games/ajax_new_game/');
+	ajax_request(command,receiveGameIds,url='/play/games/ajax_new_game/');
 }
 
-function receive_game_ids(game_ids){
+function receiveGameIds(game_ids){
 	console.log(game_ids);
 	games = game_ids.split(',');
 	if(games[0]==""){

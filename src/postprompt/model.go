@@ -23,5 +23,8 @@ func (model *Model) AddGame(uid1,did1,uid2,did2 int) (*Game, int, error) {
 
 func (model *Model) GetGameFromGameId(gameId int) (*Game, error) {
 	//TODO safety check this
-	return model.games[gameId], nil
+	if val, ok := model.games[gameId]; ok {
+		return val, nil
+	}
+	return nil, Newpperror("game does not exist")
 }
