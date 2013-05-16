@@ -105,14 +105,14 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 		} else {
 			player = them
 		}
-		card, err := player.cardList[subAction.movement.srcList].pop(subAction.movement.srcIndex)
+		card, err := player.pop(subAction.movement.srcList,subAction.movement.srcIndex)
 		if err != nil { return "error", err }
 		if subAction.movement.dstPlayerType == 0 {
 			player = me
 		} else {
 			player = them
 		}
-		err = player.cardList[subAction.movement.dstList].push(card,subAction.movement.dstIndex)
+		err = player.push(subAction.movement.dstList,card,subAction.movement.dstIndex)
 		if err != nil { return "problem", err }
 	}
 

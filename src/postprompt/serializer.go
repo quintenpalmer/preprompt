@@ -46,10 +46,10 @@ func serializePlayer(p *Player, pt PlayerType) jsonMap {
 	return pJson
 }
 
-func serializeCardList(cl *CardList, full bool) jsonMap {
+func serializeCardList(cl CardList, full bool) jsonMap {
 	clJson := make(jsonMap)
 	array := []jsonMap{}
-	for _,c := range cl.cards {
+	for _,c := range cl{
 		cJson := make(jsonMap)
 		cJson["card"] = serializeCard(c)
 		array = append(array,cJson)

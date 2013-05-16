@@ -10,7 +10,7 @@ type Player struct {
 	health int
 	uid int
 	name string
-	cardList map[CLType]*CardList
+	cardList map[CLType]CardList
 	visibility [numcl][2]bool
 }
 
@@ -32,7 +32,7 @@ func NewPlayer(uid, did int) (*Player, error) {
 	if err != nil { return nil, err }
 	deck, err := NewCardList(clnums)
 	if err != nil { return nil, err }
-	pc.cardList = make(map[CLType]*CardList)
+	pc.cardList = make(map[CLType]CardList)
 	pc.cardList[Deck] = deck
 	pc.cardList[Hand] = EmptyCardList()
 	pc.cardList[Active] = EmptyCardList()
@@ -41,4 +41,19 @@ func NewPlayer(uid, did int) (*Player, error) {
 	pc.cardList[Other] = EmptyCardList()
 
 	return pc, nil
+}
+
+func (player *Player) push(cltype CLType, card *Card, index int) error {
+	player.cardList[cltype] = append(player.cardList[cltype], card)
+	return nil
+}
+
+func (player *Player) pop(cltype CLType, index int) (*Card, error) {
+	if index == -1 { index = len(player.cardList[cltype]) - 1 }
+	if index >= len(player.cardList[cltype]) {
+		return nil, Newpperror("index out of range")
+	}
+	card := player.cardList[cltype][index]
+	player.cardList[cltype] = append(player.cardList[cltype][:index], player.cardList[cltype][index+1:]...)
+	return card, nil
 }
