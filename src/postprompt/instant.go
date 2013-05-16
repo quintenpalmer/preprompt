@@ -1,11 +1,11 @@
 package postprompt
 
+type InstantList []*Instant
+
 type Instant struct {
 	effect []InstantEffect
 	conds []InstantCond
 }
-
-type InstantList []*Instant
 
 func (instant *Instant) applyTo(action *Action, game *Game, uid int) ([]*SubAction,error) {
 	playable := true;

@@ -2,8 +2,8 @@ package postprompt
 
 type Effect struct {
 	instants InstantList
-	persists []*Persist
-	triggers []*Trigger
+	persists PersistList
+	triggers TriggerList
 }
 
 func NewEffect(effectString string) *Effect {
