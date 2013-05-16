@@ -8,7 +8,7 @@ function display_icon() {
 		frame.setAttribute("class", "card-frame-red");
 	var art = document.createElement("div");
 		art.setAttribute("class", "card-art");
-		art.innerHTML = "<img src=\"/static/images/cards/art/0000i_Test.png\">";
+		art.innerHTML = "<img src\"/static/images/cards/art/0000i_Test.png\">";
 	var desc = document.createElement("div");
 		desc.setAttribute("class", "card-desc");
 			desc.innerHTML += "i"; /* one of these lines for each icon */
