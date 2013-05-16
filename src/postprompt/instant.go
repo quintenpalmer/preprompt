@@ -1,7 +1,7 @@
 package postprompt
 
 type Instant struct {
-	effect InstantEffect
+	effect []InstantEffect
 	conds []InstantCond
 }
 
@@ -9,20 +9,25 @@ type InstantList struct {
 	instants []*Instant
 }
 
-func (instant *Instant) applyTo(action *Action, uid int, game *Game) string {
+func (instant *Instant) applyTo(action *Action, game *Game, uid int) ([]*SubAction,error) {
 	playable := true;
 	for _,icond := range instant.conds {
 		playable = playable && icond.isValid(game,uid,action);
 	}
 	if playable {
-		instant.effect.applyTo(action);
-		return "ok"
+		subActions := make([]*SubAction,0)
+		for _,ieffect := range instant.effect {
+			subAction := NewSubAction()
+			ieffect.applyTo(uid,subAction);
+			subActions = append(subActions,subAction)
+		}
+		return subActions, nil
 	}
-	return "that action is not valid to perform"
+	return nil, Newpperror("that action is not valid to play")
 }
 
 type InstantEffect interface {
-	applyTo(*Action)
+	applyTo(int,*SubAction)
 }
 
 type InstantCond interface {

@@ -8,7 +8,10 @@ type Action struct {
 	game *Game
 	uid int
 	instant *Instant
+	subActions []*SubAction
+}
 
+type SubAction struct {
 	damage int
 	heal int
 	elementType ElementType
@@ -16,6 +19,8 @@ type Action struct {
 	superPhaseStep SuperPhase
 	phaseStep Phase
 	turnStep bool
+	hasSetDidDraw bool
+	didDraw bool
 }
 
 type Movement struct {
@@ -32,12 +37,19 @@ func NewAction(game *Game, uid int, instant *Instant) *Action {
 	action.uid = uid
 	action.game = game
 	action.instant = instant
-	action.elementType = Neutral
-	action.movement = nil
-	action.superPhaseStep = 0
-	action.phaseStep = 0
-	action.turnStep = false
 	return action
+}
+
+func NewSubAction() *SubAction {
+	subAction := new(SubAction)
+	subAction.elementType = Neutral
+	subAction.movement = nil
+	subAction.superPhaseStep = 0
+	subAction.phaseStep = 0
+	subAction.turnStep = false
+	subAction.hasSetDidDraw = false
+	subAction.didDraw = false
+	return subAction
 }
 
 func Act(game *Game, uid int, instantList *InstantList) (string, error) {
@@ -55,18 +67,20 @@ func Act(game *Game, uid int, instantList *InstantList) (string, error) {
 		sub := action.Remove(front)
 		s, ok := sub.(*Action)
 		if !ok { return fullMessage, Newpperror("Element was not Action somehow?") }
-		message, err := s.act()
-		if err != nil { return fullMessage, err }
-		if message != "ok" { fullMessage = fullMessage + message }
+		subActions, err := s.instant.applyTo(s,s.game,s.uid)
+		if err != nil { return "", err }
+		for _,subAction := range subActions {
+			message, err := subAction.act(s)
+			if err != nil { return fullMessage, err }
+			if message != "ok" { fullMessage = fullMessage + message }
+		}
 		// destroy cards that don't exist for both players
 	}
 	if fullMessage == "" { fullMessage = "ok" }
 	return fullMessage, nil
 }
 
-func (action *Action) act() (string, error) {
-	statusString := action.instant.applyTo(action,action.uid,action.game)
-	if statusString != "ok" { return statusString, nil }
+func (subAction *SubAction) act(action *Action) (string, error) {
 	// Apply others to this
 
 	me, err := action.game.GetMeFromUid(action.uid)
@@ -77,17 +91,17 @@ func (action *Action) act() (string, error) {
 	if err != nil {
 		return "error", err
 	}
-	me.health += action.heal
-	them.health -= action.damage
+	me.health += subAction.heal
+	them.health -= subAction.damage
 
-	if action.game.superPhase + action.superPhaseStep <= DoneSuperPhase {
-		action.game.superPhase += action.superPhaseStep
+	if action.game.superPhase + subAction.superPhaseStep <= DoneSuperPhase {
+		action.game.superPhase += subAction.superPhaseStep
 	} else { return "reached end super phase", nil }
-	if action.game.phase + action.phaseStep <= EndPhase {
-		action.game.phase += action.phaseStep
+	if action.game.phase + subAction.phaseStep <= EndPhase {
+		action.game.phase += subAction.phaseStep
 	} else { return "reached end phase", nil }
 
-	if action.turnStep {
+	if subAction.turnStep {
 		if action.game.turnOwner == action.game.uids[0] {
 			action.game.turnOwner = action.game.uids[1]
 		} else {
@@ -97,62 +111,71 @@ func (action *Action) act() (string, error) {
 	}
 
 	var player *Player
-	if action.movement != nil {
-		if action.movement.srcPlayerType == 0 {
+	if subAction.movement != nil {
+		if subAction.movement.srcPlayerType == 0 {
 			player = me
 		} else {
 			player = them
 		}
-		card, err := player.cardList[action.movement.srcList].pop(action.movement.srcIndex)
+		card, err := player.cardList[subAction.movement.srcList].pop(subAction.movement.srcIndex)
 		if err != nil { return "error", err }
-		if action.movement.dstPlayerType == 0 {
+		if subAction.movement.dstPlayerType == 0 {
 			player = me
 		} else {
 			player = them
 		}
-		err = player.cardList[action.movement.dstList].push(card,action.movement.dstIndex)
+		err = player.cardList[subAction.movement.dstList].push(card,subAction.movement.dstIndex)
 		if err != nil { return "problem", err }
+	}
+
+	if subAction.hasSetDidDraw {
+		action.game.hasDrawn = subAction.didDraw
 	}
 
 	return "ok", nil
 }
 
-func (action *Action) SetDamage(amount int) {
-	action.damage = amount
+func (subAction *SubAction) SetDamage(amount int) {
+	subAction.damage = amount
 }
 
-func (action *Action) SetHeal(amount int) {
-	action.heal = amount
+func (subAction *SubAction) SetHeal(amount int) {
+	subAction.heal = amount
 }
 
-func (action *Action) SetElementType(elementType ElementType) {
-	action.elementType = elementType
+func (subAction *SubAction) SetElementType(elementType ElementType) {
+	subAction.elementType = elementType
 }
 
-func (action *Action) SetPhaseStep(amount Phase) {
-	action.phaseStep += amount
+func (subAction *SubAction) SetPhaseStep(amount Phase) {
+	subAction.phaseStep += amount
 }
 
-func (action *Action) SetSuperPhaseStep(amount SuperPhase) {
-	action.superPhaseStep += amount
+func (subAction *SubAction) SetSuperPhaseStep(amount SuperPhase) {
+	subAction.superPhaseStep += amount
 }
 
-func (action *Action) SetTurnStep(turnStep bool) {
-	action.turnStep = turnStep
+func (subAction *SubAction) SetTurnStep(turnStep bool) {
+	subAction.turnStep = turnStep
 }
 
-func (action *Action) SetMovement(
+func (subAction *SubAction) SetMovement(
 		srcPlayerType PlayerType,
 		srcList CLType,
 		srcIndex int,
 		dstPlayerType PlayerType,
 		dstList CLType,
 		dstIndex int) {
-	action.movement = new(Movement)
-	action.movement.srcPlayerType = srcPlayerType
-	action.movement.srcList = srcList
-	action.movement.srcIndex = srcIndex
-	action.movement.dstPlayerType = dstPlayerType
-	action.movement.dstList = dstList
-	action.movement.dstIndex = dstIndex
+	subAction.movement = new(Movement)
+	subAction.movement.srcPlayerType = srcPlayerType
+	subAction.movement.srcList = srcList
+	subAction.movement.srcIndex = srcIndex
+	subAction.movement.dstPlayerType = dstPlayerType
+	subAction.movement.dstList = dstList
+	subAction.movement.dstIndex = dstIndex
+}
+
+func (subAction *SubAction) SetDidDraw(didDraw bool) {
+	subAction.hasSetDidDraw = true
+	subAction.didDraw = didDraw
 }
