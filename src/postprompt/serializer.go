@@ -61,7 +61,7 @@ func serializeCardList(cl *CardList, full bool) jsonMap {
 func serializeCard(c *Card) jsonMap {
 	cJson := make(jsonMap)
 	cJson["name"] = c.name
-	cJson["effect"] = c.effect
+	cJson["effect"] = "effect"
 	return cJson
 }
 

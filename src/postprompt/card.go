@@ -2,7 +2,7 @@ package postprompt
 
 type Card struct {
 	name string
-	effect string
+	effect *Effect
 }
 
 func NewCard(id int) (*Card, error) {
@@ -11,6 +11,6 @@ func NewCard(id int) (*Card, error) {
 	if err != nil {
 		return nil, err }
 	card.name = cardInfo[0]
-	card.effect = "fireblast"//cardInfo[1]
+	card.effect = NewEffect(cardInfo[1])
 	return card, nil
 }

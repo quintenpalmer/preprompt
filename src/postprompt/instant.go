@@ -18,7 +18,7 @@ func (instant *Instant) applyTo(action *Action, uid int, game *Game) string {
 		instant.effect.applyTo(action);
 		return "ok"
 	}
-	return "that action is not valid to play"
+	return "that action is not valid to perform"
 }
 
 type InstantEffect interface {
