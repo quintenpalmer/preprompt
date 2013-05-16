@@ -5,9 +5,7 @@ type Instant struct {
 	conds []InstantCond
 }
 
-type InstantList struct {
-	instants []*Instant
-}
+type InstantList []*Instant
 
 func (instant *Instant) applyTo(action *Action, game *Game, uid int) ([]*SubAction,error) {
 	playable := true;

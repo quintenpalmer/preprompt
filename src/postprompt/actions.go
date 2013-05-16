@@ -2,43 +2,49 @@ package postprompt
 
 /* Public InstantList constructors */
 
-func GetDirectDamageIL(amount int, elementType ElementType) *InstantList {
-	instantList := new(InstantList)
+func GetDirectDamageIL(amount int, elementType ElementType) InstantList {
+	//instantList := make(InstantList,0)
 	instant := new(Instant)
-	instant.effect = []InstantEffect{&directDamageInstantEffect{amount,elementType}}
-	instant.conds = []InstantCond{new(validInstant)}
-	instantList.instants = []*Instant{instant}
-	return instantList
+	instant.effect = []InstantEffect{
+		&directDamageInstantEffect{amount,elementType}}
+	instant.conds = []InstantCond{
+		new(validInstant)}
+	return []*Instant{instant}
 }
 
-func GetPhaseStepIL() *InstantList {
-	instantList := new(InstantList)
+func GetPhaseStepIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{new(stepPhase)}
-	instant.conds = []InstantCond{&validSuperPhase{MainSuperPhase},new(validTurnOwner)}
-	instantList.instants = []*Instant{instant}
-	return instantList
+	instant.conds = []InstantCond{
+		&validSuperPhase{MainSuperPhase},
+		new(validTurnOwner)}
+	return []*Instant{instant}
 }
-func GetDrawIL() *InstantList {
-	instantList := new(InstantList)
+func GetDrawIL() InstantList {
 	instant := new(Instant)
-	instant.effect = []InstantEffect{newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),new(setDidDraw)}
-	instant.conds = []InstantCond{&validPhase{DrawPhase},&validSuperPhase{MainSuperPhase},new(validTurnOwner),new(validHaveNotDrawn)}
-	instantList.instants = []*Instant{instant}
-	return instantList
+	instant.effect = []InstantEffect{
+		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
+		new(setDidDraw)}
+	instant.conds = []InstantCond{
+		&validPhase{DrawPhase},
+		&validSuperPhase{MainSuperPhase},
+		new(validTurnOwner),
+		new(validHaveNotDrawn)}
+	return []*Instant{instant}
 }
 
-func GetTurnStepIL() *InstantList {
-	instantList := new(InstantList)
+func GetTurnStepIL() InstantList {
 	instant := new(Instant)
-	instant.effect = []InstantEffect{new(stepTurn)}
-	instant.conds = []InstantCond{&validSuperPhase{MainSuperPhase},&validPhase{EndPhase},new(validTurnOwner)}
-	instantList.instants = []*Instant{instant}
-	return instantList
+	instant.effect = []InstantEffect{
+		new(stepTurn)}
+	instant.conds = []InstantCond{
+		&validSuperPhase{MainSuperPhase},
+		&validPhase{EndPhase},
+		new(validTurnOwner)}
+	return []*Instant{instant}
 }
 
-func GetSetupIL() *InstantList {
-	instantList := new(InstantList)
+func GetSetupIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
 		new(stepSuperPhase),
@@ -47,27 +53,29 @@ func GetSetupIL() *InstantList {
 		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
 		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
 		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1)}
-	instant.conds = []InstantCond{&validSuperPhase{PreSuperPhase}}
-	instantList.instants = []*Instant{instant}
-	return instantList
+	instant.conds = []InstantCond{
+		&validSuperPhase{PreSuperPhase}}
+	return []*Instant{instant}
 }
 
-func GetEmptyIL() *InstantList {
-	instantList := new(InstantList)
+func GetEmptyIL() InstantList {
 	instant := new(Instant)
-	instant.effect = []InstantEffect{new(doNothing)}
-	instant.conds = []InstantCond{new(validInstant)}
-	instantList.instants = []*Instant{instant}
-	return instantList
+	instant.effect = []InstantEffect{
+		new(doNothing)}
+	instant.conds = []InstantCond{
+		new(validInstant)}
+	return []*Instant{instant}
 }
 
-func GetDestroyIL(srcIndex int) *InstantList {
-	instantList := new(InstantList)
+// TODO this is for card movement from hand to (currently grave, but should be) active and then need to implement dieing as soon as played
+func GetDestroyIL(srcIndex int) InstantList {
 	instant := new(Instant)
-	instant.effect = []InstantEffect{newCardMoveInstantEffect(PlayerTypeMe,Hand,srcIndex,PlayerTypeMe,Grave,-1)}
-	instant.conds = []InstantCond{&validPhase{MainPhase},&validSuperPhase{MainSuperPhase}}
-	instantList.instants = []*Instant{instant}
-	return instantList
+	instant.effect = []InstantEffect{
+		newCardMoveInstantEffect(PlayerTypeMe,Hand,srcIndex,PlayerTypeMe,Grave,-1)}
+	instant.conds = []InstantCond{
+		&validPhase{MainPhase},
+		&validSuperPhase{MainSuperPhase}}
+	return  []*Instant{instant}
 }
 
 /* Instant Effects */

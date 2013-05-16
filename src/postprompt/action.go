@@ -1,14 +1,9 @@
 package postprompt
 
-import "container/list"
-
-type ActionList list.List
+type ActionList []*Action
 
 type Action struct {
-	game *Game
-	uid int
 	instant *Instant
-	subActions []*SubAction
 }
 
 type SubAction struct {
@@ -32,10 +27,8 @@ type Movement struct {
 	dstIndex int
 }
 
-func NewAction(game *Game, uid int, instant *Instant) *Action {
+func NewAction(instant *Instant) *Action {
 	action := new(Action)
-	action.uid = uid
-	action.game = game
 	action.instant = instant
 	return action
 }
@@ -52,62 +45,57 @@ func NewSubAction() *SubAction {
 	return subAction
 }
 
-func Act(game *Game, uid int, instantList *InstantList) (string, error) {
-	action := new(list.List)
-	for _,instant := range instantList.instants {
-		action.PushBack(NewAction(game,uid,instant))
+func Act(game *Game, uid int, instantList InstantList) (string, error) {
+	actions := make([]*Action,0)
+	for _,instant := range instantList {
+		actions = append(actions,NewAction(instant))
 	}
-	// sort?
+	// TODO sort all of the actions on to-exist field
 	fullMessage := ""
-	for {
-		front := action.Front()
-		if front == nil {
-			break
-		}
-		sub := action.Remove(front)
-		s, ok := sub.(*Action)
-		if !ok { return fullMessage, Newpperror("Element was not Action somehow?") }
-		subActions, err := s.instant.applyTo(s,s.game,s.uid)
+	for len(actions) > 0{
+		var action *Action
+		action, actions = actions[len(actions)-1], actions[:len(actions)-1]
+		subActions, err := action.instant.applyTo(action,game,uid)
 		if err != nil { return "", err }
 		for _,subAction := range subActions {
-			message, err := subAction.act(s)
+			message, err := subAction.act(game,uid)
 			if err != nil { return fullMessage, err }
 			if message != "ok" { fullMessage = fullMessage + message }
 		}
-		// destroy cards that don't exist for both players
+		// TODO Destroy cards that don't exist for both players
 	}
 	if fullMessage == "" { fullMessage = "ok" }
 	return fullMessage, nil
 }
 
-func (subAction *SubAction) act(action *Action) (string, error) {
-	// Apply others to this
+func (subAction *SubAction) act(game *Game, uid int) (string, error) {
+	// TODO Apply triggers to this
 
-	me, err := action.game.GetMeFromUid(action.uid)
+	me, err := game.GetMeFromUid(uid)
 	if err != nil {
 		return "error", err
 	}
-	them, err := action.game.GetThemFromUid(action.uid)
+	them, err := game.GetThemFromUid(uid)
 	if err != nil {
 		return "error", err
 	}
 	me.health += subAction.heal
 	them.health -= subAction.damage
 
-	if action.game.superPhase + subAction.superPhaseStep <= DoneSuperPhase {
-		action.game.superPhase += subAction.superPhaseStep
+	if game.superPhase + subAction.superPhaseStep <= DoneSuperPhase {
+		game.superPhase += subAction.superPhaseStep
 	} else { return "reached end super phase", nil }
-	if action.game.phase + subAction.phaseStep <= EndPhase {
-		action.game.phase += subAction.phaseStep
+	if game.phase + subAction.phaseStep <= EndPhase {
+		game.phase += subAction.phaseStep
 	} else { return "reached end phase", nil }
 
 	if subAction.turnStep {
-		if action.game.turnOwner == action.game.uids[0] {
-			action.game.turnOwner = action.game.uids[1]
+		if game.turnOwner == game.uids[0] {
+			game.turnOwner = game.uids[1]
 		} else {
-			action.game.turnOwner = action.game.uids[0]
+			game.turnOwner = game.uids[0]
 		}
-		action.game.phase = DrawPhase
+		game.phase = DrawPhase
 	}
 
 	var player *Player
@@ -129,7 +117,7 @@ func (subAction *SubAction) act(action *Action) (string, error) {
 	}
 
 	if subAction.hasSetDidDraw {
-		action.game.hasDrawn = subAction.didDraw
+		game.hasDrawn = subAction.didDraw
 	}
 
 	return "ok", nil

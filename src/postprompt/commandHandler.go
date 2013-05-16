@@ -70,7 +70,7 @@ func handleCardPlay(r jsonMap, m *Model) string {
 	return respondAction("play",gameId,gameRepr,message)
 }
 
-func handleBuiltinAction(r jsonMap,m *Model, myInstantList *InstantList, command string) string {
+func handleBuiltinAction(r jsonMap,m *Model, myInstantList InstantList, command string) string {
 	gameId, err := r.getInt("gameId")
 	if err != nil { return respondError(err) }
 	playerId, err := r.getInt("playerId")
