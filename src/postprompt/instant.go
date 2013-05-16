@@ -9,16 +9,16 @@ type InstantList struct {
 	instants []*Instant
 }
 
-func (instant *Instant) applyTo(action *Action, game *Game) string {
+func (instant *Instant) applyTo(action *Action, uid int, game *Game) string {
 	playable := true;
 	for _,icond := range instant.conds {
-		playable = playable && icond.isValid(game,action);
+		playable = playable && icond.isValid(game,uid,action);
 	}
 	if playable {
 		instant.effect.applyTo(action);
 		return "ok"
 	}
-	return "that card is not valid to play"
+	return "that action is not valid to play"
 }
 
 type InstantEffect interface {
@@ -26,5 +26,5 @@ type InstantEffect interface {
 }
 
 type InstantCond interface {
-	isValid(*Game, *Action) bool
+	isValid(*Game, int, *Action) bool
 }

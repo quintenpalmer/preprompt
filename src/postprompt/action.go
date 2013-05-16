@@ -65,7 +65,7 @@ func Act(game *Game, uid int, instantList *InstantList) (string, error) {
 }
 
 func (action *Action) act() (string, error) {
-	statusString := action.instant.applyTo(action,action.game)
+	statusString := action.instant.applyTo(action,action.uid,action.game)
 	if statusString != "ok" { return statusString, nil }
 	// Apply others to this
 
