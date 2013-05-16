@@ -26,14 +26,14 @@ func handleCommand(buf []byte, model *Model) string {
 	return respondOther(command)
 }
 
-func handleNewGame(r jsonMap, m *Model) string {
-	p1_uid, err := r.getInt("p1_uid")
+func handleNewGame(request jsonMap, m *Model) string {
+	p1_uid, err := request.getInt("p1_uid")
 	if err != nil { return respondError(err) }
-	p1_did, err := r.getInt("p1_did")
+	p1_did, err := request.getInt("p1_did")
 	if err != nil { return respondError(err) }
-	p2_uid, err := r.getInt("p2_uid")
+	p2_uid, err := request.getInt("p2_uid")
 	if err != nil { return respondError(err) }
-	p2_did, err := r.getInt("p2_did")
+	p2_did, err := request.getInt("p2_did")
 	if err != nil { return respondError(err) }
 	g,i,err := m.AddGame(p1_uid,p1_did,p2_uid,p2_did)
 	if err != nil { return respondError(err) }
@@ -42,23 +42,23 @@ func handleNewGame(r jsonMap, m *Model) string {
 	return respondNew(i,gameRepr)
 }
 
-func handleCardPlay(r jsonMap, m *Model) string {
-	gameId, err := r.getInt("gameId")
+func handleCardPlay(request jsonMap, m *Model) string {
+	gameId, err := request.getInt("gameId")
 	if err != nil { return respondError(err) }
-	playerId, err := r.getInt("playerId")
+	playerId, err := request.getInt("playerId")
 	if err != nil { return respondError(err) }
 	/*
-	srcList, err := r.getInt("srcList")
+	srcList, err := request.getInt("srcList")
 	if err != nil { return respondError(err) }
 	*/
-	srcCard, err := r.getInt("srcCard")
+	srcCard, err := request.getInt("srcCard")
 	if err != nil { return respondError(err) }
 	/*
-	targetUid, err := r.getInt("targetUid")
+	targetUid, err := request.getInt("targetUid")
 	if err != nil { return respondError(err) }
-	targetList, err := r.getInt("targetList")
+	targetList, err := request.getInt("targetList")
 	if err != nil { return respondError(err) }
-	targetCard, err := r.getInt("targetCard")
+	targetCard, err := request.getInt("targetCard")
 	if err != nil { return respondError(err) }
 	*/
 	game, err := m.GetGameFromGameId(gameId)
@@ -70,10 +70,10 @@ func handleCardPlay(r jsonMap, m *Model) string {
 	return respondAction("play",gameId,gameRepr,message)
 }
 
-func handleBuiltinAction(r jsonMap,m *Model, myInstantList InstantList, command string) string {
-	gameId, err := r.getInt("gameId")
+func handleBuiltinAction(request jsonMap,m *Model, myInstantList InstantList, command string) string {
+	gameId, err := request.getInt("gameId")
 	if err != nil { return respondError(err) }
-	playerId, err := r.getInt("playerId")
+	playerId, err := request.getInt("playerId")
 	if err != nil { return respondError(err) }
 	game, err := m.GetGameFromGameId(gameId)
 	if err != nil { return respondError(err) }
@@ -84,7 +84,8 @@ func handleBuiltinAction(r jsonMap,m *Model, myInstantList InstantList, command 
 	return respondAction(command,gameId,gameRepr,message)
 }
 
-func handleList(r jsonMap,m *Model) string {
+func handleList(request jsonMap,m *Model) string {
+	// TODO Only return the games that this player is playing
 	gameIds := make([]int,len(m.games))
 	i := 0
 	for k,_ := range m.games {

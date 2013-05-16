@@ -15,6 +15,7 @@ func Listen(port string, m *Model) {
 		fmt.Println("Could not listen on port")
 		return
 	}
+	fmt.Println("Listening on : "+ port)
 
 	for {
 		conn, err := ln.Accept()
