@@ -37,7 +37,7 @@ func handleNewGame(request jsonMap, m *Model) string {
 	if err != nil { return respondError(err) }
 	g,i,err := m.AddGame(p1_uid,p1_did,p2_uid,p2_did)
 	if err != nil { return respondError(err) }
-	gameRepr, err := getGameJsonMap(g,p1_uid)
+	gameRepr, err := GetGameJsonMap(g,p1_uid)
 	if err != nil { return respondError(err) }
 	return respondNew(i,gameRepr)
 }
@@ -65,7 +65,7 @@ func handleCardPlay(request jsonMap, m *Model) string {
 	if err != nil { return respondError(err) }
 	message, err := Act(game,playerId,GetDestroyIL(srcCard))
 	if err != nil { return respondError(err) }
-	gameRepr, err := getGameJsonMap(game,playerId)
+	gameRepr, err := GetGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
 	return respondAction("play",gameId,gameRepr,message)
 }
@@ -79,7 +79,7 @@ func handleBuiltinAction(request jsonMap,m *Model, myInstantList InstantList, co
 	if err != nil { return respondError(err) }
 	message, err := Act(game,playerId,myInstantList)
 	if err != nil { return respondError(err) }
-	gameRepr, err := getGameJsonMap(game,playerId)
+	gameRepr, err := GetGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }
 	return respondAction(command,gameId,gameRepr,message)
 }

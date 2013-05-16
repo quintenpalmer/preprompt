@@ -12,7 +12,7 @@ const (
 func Listen(port string, m *Model) {
 	ln, err := net.Listen("tcp", ":"+port)
 	if err != nil {
-		fmt.Println("Could not listen on port")
+		fmt.Println("Could not listen on port : "+port)
 		return
 	}
 	fmt.Println("Listening on : "+ port)

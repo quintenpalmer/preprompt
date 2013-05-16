@@ -3,11 +3,12 @@ package postprompt
 import (
 	"encoding/json"
 	"strconv"
+	"io/ioutil"
 )
 
 type jsonMap map[string]interface{}
 
-func getGameJsonMap(g *Game, uid int) (jsonMap, error) {
+func GetGameJsonMap(g *Game, uid int) (jsonMap, error) {
 	containerJson := make(jsonMap)
 	gJson := make(jsonMap)
 	player, err := g.GetMeFromUid(uid)
@@ -25,8 +26,16 @@ func getGameJsonMap(g *Game, uid int) (jsonMap, error) {
 	return containerJson, nil
 }
 
+func PrintGame(g *Game, uid int) error {
+	gameRepr, err := SerializeGame(g,uid)
+	if err != nil { return err }
+	err = ioutil.WriteFile("out.json",[]byte(gameRepr),0644)
+	if err != nil { return err }
+	return nil
+}
+
 func SerializeGame(g *Game, uid int) (string, error) {
-	containerJson, err := getGameJsonMap(g,uid)
+	containerJson, err := GetGameJsonMap(g,uid)
 	if err != nil { return "", err }
 	ret, err := containerJson.toString()
 	if err != nil { return "", err }

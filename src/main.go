@@ -2,17 +2,16 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"postprompt"
-	//"io/ioutil"
 )
 
 func main(){
+	port := "52690"
+	if len(os.Args) == 2 {
+		port = os.Args[1]
+	}
 	m := postprompt.NewModel()
 	fmt.Println("Starting PostPrompt")
-	postprompt.Listen("52690",m)
-	/*
-	g := m.AddGame(1,0,2,0)
-	err := ioutil.WriteFile("out.json",[]byte(postprompt.SerializeGame(g,1)),0644)
-	if err != nil { panic(err) }
-	*/
+	postprompt.Listen(port,m)
 }
