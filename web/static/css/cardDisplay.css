@@ -85,6 +85,7 @@ div[class*="icon"] {
 
 /* Card display */
 
+
 div[class*='card-rarity-'] {
 	/* i.e. all card rarity classes */
 	display: inline-block;
@@ -122,6 +123,20 @@ div[class*='card-frame-'] {
 	width: 54px;
 	height: 45px;
 	padding: 2px;
+}
+
+.click-overlay {
+	/* the class that handles onClick events in javascript */
+	display: inline-block;
+
+	/* a very faint white overlay; needed for onClick */
+	background-color: rgba(0, 0, 0, 0.01);
+	left: 0px;
+	top: 0px;
+	width: 78px;
+	height: 120px;
+	position: absolute; /* position actually isn't dependent on this, but it
+		allows child elements to anchor their own positions to this class */
 }
 
 

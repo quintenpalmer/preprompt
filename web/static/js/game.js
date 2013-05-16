@@ -18,6 +18,7 @@ function game_turn(){
 }
 
 function game_play_card_from_hand(event){
+	console.log(event);
 	card_id = event.target.id;
 	console.log('play from hand');
 	console.log(card_id);
@@ -172,13 +173,12 @@ function display_card_list(card_list, expand, card_list_div, visible, action){
 				card_name = '';
 			}
 			if (visible) {
-				li = document.createElement("li").appendChild(display_icon());
-				if (action != null) { // apply the action, if there is one
-					li.onclick = function(){ action(event) };
-				}
+				card = display_icon(index, action);
+				li = document.createElement("li").appendChild(card);
 			} else {
 				li = document.createElement("li").appendChild(display_back());
-				li.innerHTML = "&nbsp;";
+			//	li.innerHTML = "&nbsp;";
+				li.setAttribute("id", index);
 			}
 			ul.appendChild(li); // add this card to the list
 		}
