@@ -64,14 +64,18 @@ class Main_Loop:
 			self.current_message = self.resp
 		elif self.command == 'list':
 			self.current_message = str(self.model.games.keys())
+		elif self.command == 'stats':
+			self.current_message = "me : %s them : %s"%(self.model.get_current_game().me.uid,self.model.get_current_game().them.uid)
 		elif self.command[:4] == 'curr':
 			try:
 				self.model.current_game_id = int(self.command[5:])
 			except ValueError:
 				self.current_message = 'Invalid gameId %s'%self.command
 		elif self.command == 'swap':
-			self.model.logged_in_uid = self.model.get_current_game().them.player.uid
-			self.request_out()
+			self.model.logged_in_uid = self.model.get_current_game().them.uid
+			self.current_message = 'ok'
+			self.resp = request_out(self.model.current_game_id,self.model.logged_in_uid)
+			self.current_message = self.model.update_game(self.resp)
 		elif self.command[:4] == 'help':
 			self.current_message = '''Valid commands are:
 	test     send a test service
