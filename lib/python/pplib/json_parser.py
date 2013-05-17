@@ -39,7 +39,7 @@ def get_object(obj,tag):
 	return obj.get(tag)
 
 def get_string(obj,tag):
-	return str(obj.get(tag))
+	return str(obj.get(tag)).replace("u\'","\'").replace("\'","\\\"")
 
 def get_int(obj,tag):
 	return int(obj.get(tag))
