@@ -5,8 +5,3 @@ type Effect struct {
 	persists PersistList
 	triggers TriggerList
 }
-
-func NewEffect(effectString string) *Effect {
-	effect := new(Effect)
-	return effect
-}

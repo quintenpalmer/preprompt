@@ -57,3 +57,10 @@ func (player *Player) pop(cltype CLType, index int) (*Card, error) {
 	player.cardList[cltype] = append(player.cardList[cltype][:index], player.cardList[cltype][index+1:]...)
 	return card, nil
 }
+
+func (player *Player) GetInstantList(index int) (InstantList, error) {
+	if index >= len(player.cardList[Hand]) {
+		return nil, Newpperror("index out of range")
+	}
+	return player.cardList[Hand][index].effect.instants, nil
+}

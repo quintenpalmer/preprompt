@@ -63,7 +63,13 @@ func handleCardPlay(request jsonMap, m *Model) string {
 	*/
 	game, err := m.GetGameFromGameId(gameId)
 	if err != nil { return respondError(err) }
-	message, err := Act(game,playerId,GetDestroyIL(srcCard))
+	me, err := game.GetMeFromUid(playerId)
+	if err != nil { return respondError(err) }
+	instantList, err := me.GetInstantList(srcCard)
+	if err != nil { return respondError(err) }
+	message, err := Act(game,playerId,instantList)
+	if err != nil { return respondError(err) }
+	_, err = Act(game,playerId,GetDestroyIL(srcCard))
 	if err != nil { return respondError(err) }
 	gameRepr, err := GetGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }

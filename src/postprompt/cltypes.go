@@ -16,21 +16,22 @@ const (
 )
 
 type CLInfo struct {
-	i CLType
+	index int
+	cltype CLType
 	name string
 }
 
 var CLTypes [6]CLInfo = [6]CLInfo{
-	CLInfo{Deck,"deck"},
-	CLInfo{Hand,"hand"},
-	CLInfo{Active,"active"},
-	CLInfo{Grave,"grave"},
-	CLInfo{Special,"special"},
-	CLInfo{Other,"other"}}
+	CLInfo{0,Deck,"deck"},
+	CLInfo{1,Hand,"hand"},
+	CLInfo{2,Active,"active"},
+	CLInfo{3,Grave,"grave"},
+	CLInfo{4,Special,"special"},
+	CLInfo{5,Other,"other"}}
 
-func GetNameFromIndex(i CLType) (string, error) {
+func GetNameFromIndex(cltype CLType) (string, error) {
 	for _,cli := range CLTypes {
-		if i == cli.i {
+		if cltype == cli.cltype {
 			return cli.name, nil
 		}
 	}
@@ -40,7 +41,7 @@ func GetNameFromIndex(i CLType) (string, error) {
 func GetIndexFromName(name string) (CLType, error) {
 	for _,cli := range CLTypes {
 		if name == cli.name {
-			return cli.i, nil
+			return cli.cltype, nil
 		}
 	}
 	return 0, Newpperror("Not a valid cardList name")
