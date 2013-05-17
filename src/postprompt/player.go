@@ -62,5 +62,5 @@ func (player *Player) GetInstantList(index int) (InstantList, error) {
 	if index >= len(player.cardList[Hand]) {
 		return nil, Newpperror("index out of range")
 	}
-	return player.cardList[Hand][index].effect.instants, nil
+	return player.cardList[Hand][index].instants, nil
 }

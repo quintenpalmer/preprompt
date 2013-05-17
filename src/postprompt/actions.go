@@ -24,7 +24,7 @@ func GetDrawIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
 		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
-		new(setDidDraw)}
+		&setDidDraw{true}}
 	instant.conds = []InstantCond{
 		&validPhase{DrawPhase},
 		&validSuperPhase{MainSuperPhase},
@@ -36,7 +36,8 @@ func GetDrawIL() InstantList {
 func GetTurnStepIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		new(stepTurn)}
+		new(stepTurn),
+		&setDidDraw{false}}
 	instant.conds = []InstantCond{
 		&validSuperPhase{MainSuperPhase},
 		&validPhase{EndPhase},
@@ -52,7 +53,12 @@ func GetSetupIL() InstantList {
 		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
 		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
 		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1)}
+		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
+		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
+		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
+		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
+		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
+		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1)}
 	instant.conds = []InstantCond{
 		&validSuperPhase{PreSuperPhase}}
 	return []*Instant{instant}
@@ -141,9 +147,11 @@ func (ssp *stepSuperPhase) applyTo(uid int, subAction *SubAction) {
 
 /* Set Draw to True Instant Effect */
 
-type setDidDraw struct { }
+type setDidDraw struct {
+	didDraw bool
+}
 func (sdd *setDidDraw) applyTo(uid int, subAction *SubAction) {
-	subAction.SetDidDraw(true)
+	subAction.SetDidDraw(sdd.didDraw)
 }
 
 /* Do Nothing Instant Effect */

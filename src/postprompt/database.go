@@ -46,14 +46,15 @@ func getCardIdFromUniqueId(uniqueId int) (int, error) {
 	return cardId, nil
 }
 
-func GetCardInfo(cardId int) ([2]string, error) {
+func GetCardInfo(cardId int) (string, string, error) {
 	rows, err := getRows("select card_name, card_effect from play_card_names where id="+strconv.Itoa(cardId))
-	if err != nil { return [2]string{}, err }
-	cardInfo := [2]string{}
+	if err != nil { return "", "", err }
+	var cardName string
+	var cardEffect string
 	for rows.Next() {
-		if err := rows.Scan(&cardInfo[0],&cardInfo[1]); err != nil { return [2]string{}, err }
+		if err := rows.Scan(&cardName,&cardEffect); err != nil { return "", "" , err }
 	}
-	return cardInfo, nil
+	return cardName, cardEffect, nil
 }
 
 type ppdatabase struct {
