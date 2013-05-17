@@ -7,25 +7,27 @@ if [ "$UID" -ne "$ROOT_UID" ]; then
 else
 	distro="$(cat /etc/issue | xargs | cut -d ' ' -f 1)"
 	if [ $distro == "Fedora" ]; then
-		yum install java-1.7.0-openjdk-devel
-		yum install go
+		# MYSQL
+		yum install mysql-server
+		# PYTHON
 		yum install python-pip
 		pip install django
 		yum install MySQL-python
-		yum install mysql-server
-		yum install mysql-connector-java
-		yum install json_simple
+		# GO
+		yum install go
 		go get github.com/ziutek/mymysql/godrv
+
 	elif [ $distro == "Ubuntu" ]; then
-		apt-get install openjdk-7-jdk
+		# MYSQL
+		apt-get install mysql-server
+		# PYTHON
+		apt-get install python-mysqldb
 		apt-get install python-pip
 		pip install django
+		# GO
 		apt-get install go
-		apt-get install python-mysqldb
-		apt-get install mysql-server
-		apt-get install libmysql-java
-		apt-get install libjson-simple-java
 		go get github.com/ziutek/mymysql/godrv
+
 	else
 		echo "Unsupported Linux Distro"
 	fi
