@@ -1,24 +1,34 @@
 {
     "card": {
+        "name": "FieryInferno",
         "effect": {
             "instant": {
-                "type": "NoInstant"
-            }, 
+				"ieffect" : {
+					"type": "NoInstant"
+				},
+				"icond" : {
+					"type" : "AlwaysValid"
+				}
+            },
             "persist": {
+                "type": "Timer",
                 "params": {
                     "duration": 2
-                }, 
-                "type": "Timer"
-            }, 
+                }
+            },
             "trigger": {
-                "element": "Fire", 
-                "params": {
-                    "amount": 7, 
-                    "who": 0
-                }, 
-                "type": "Alter"
+				"teffect" : {
+					"type": "Alter",
+					"element": "Fire",
+					"params": {
+						"amount": 7,
+						"who": 0
+					}
+				},
+				"tcond" : {
+					"type" : "AlwaysValid"
+				}
             }
-        }, 
-        "name": "FieryInferno"
+        }
     }
 }

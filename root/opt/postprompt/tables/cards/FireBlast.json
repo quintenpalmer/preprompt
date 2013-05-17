@@ -1,21 +1,26 @@
 {
     "card": {
+        "name": "Fire Blast",
         "effect": {
             "instant": {
-                "element": "Fire", 
-                "params": {
-                    "amount": 7, 
-                    "who": 0
-                }, 
-                "type": "DirectDamage"
-            }, 
+				"ieffect" : {
+					"type": "DirectDamage",
+					"element": "Fire",
+					"params": {
+						"amount": 7,
+						"who": 0
+					}
+				},
+				"icond" : {
+					"type" : "AlwaysValid"
+				}
+            },
             "persist": {
                 "type": "NoPersist"
-            }, 
+            },
             "trigger": {
                 "type": "NoTrigger"
             }
-        }, 
-        "name": "Fire Blast"
+        }
     }
 }
