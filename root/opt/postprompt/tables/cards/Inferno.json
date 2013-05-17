@@ -1,0 +1,24 @@
+{
+    "card": {
+        "effect": {
+            "instant": {
+                "type": "NoInstant"
+            }, 
+            "persist": {
+                "params": {
+                    "duration": 3
+                }, 
+                "type": "Timer"
+            }, 
+            "trigger": {
+                "element": "Fire", 
+                "params": {
+                    "amount": 4, 
+                    "who": 0
+                }, 
+                "type": "Alter"
+            }
+        }, 
+        "name": "Inferno"
+    }
+}

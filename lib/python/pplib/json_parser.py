@@ -30,6 +30,10 @@ class PPjo:
 def create_object(jstring):
 	return json.loads(jstring)
 
+def create_object_from_file(file_name):
+	with open(file_name) as f:
+		return json.load(f)
+
 def get_object(obj,tag):
 	#return create_object(obj.get(tag))
 	return obj.get(tag)

@@ -1,0 +1,29 @@
+{
+    "card": {
+        "effect": {
+            "instant": {
+                "element": "Fire", 
+                "params": {
+                    "amount": 3, 
+                    "who": 0
+                }, 
+                "type": "DirectDamage"
+            }, 
+            "persist": {
+                "params": {
+                    "duration": 3
+                }, 
+                "type": "Timer"
+            }, 
+            "trigger": {
+                "element": "Fire", 
+                "params": {
+                    "amount": 4, 
+                    "who": 0
+                }, 
+                "type": "Alter"
+            }
+        }, 
+        "name": "Incinerator"
+    }
+}

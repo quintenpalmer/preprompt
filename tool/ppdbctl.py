@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import glob
 from pprint import pprint
 
 from pplib.database import Database
@@ -25,18 +26,21 @@ class DatabaseController:
 		self.db.delete('play_starting_cards')
 		self.db.delete('play_card_names')
 	def load_cards(self):
-		path = os.path.join(base_path,'cards','all.json')
-		obj = json_parser.create_object(path)
-		cards = json_parser.get_array(obj,'cards')
-		for key,card in enumerate(cards):
+		pre_glob_path = os.path.join(base_path,'cards','*.json')
+		card_files = glob.glob(pre_glob_path)
+		for key, card_file in enumerate(card_files):
 			key += 1
-			name = json_parser.get_string(card,"name")
-			effect = json_parser.get_string(card,"effect")
-			self.db.update('insert into play_card_names values(%s,"%s","%s")'%(key,name,effect))
+			print card_file
+			obj = json_parser.create_object_from_file(card_file)
+			card = json_parser.get_object(obj,'card')
+			name = json_parser.get_string(card,'name')
+			effect = json_parser.get_string(card,'effect')
+			self.db.update('insert into play_card_names values(%s,"%s","%s")'%
+				(key,name,effect))
 
-		path = os.path.join(base_path,'cards','starting.json')
-		obj = json_parser.create_object(path)
-		card_ids = json_parser.get_array(obj,'card_ids')
+		path = os.path.join(base_path,'starting_cards.json')
+		obj = json_parser.create_object_from_file(path)
+		card_ids = json_parser.get_objects(obj,'card_ids')
 		for key,card_id in enumerate(card_ids):
 			key += 1
 			self.db.update("insert into play_starting_cards values(%s,%s)"%(key,card_id))
@@ -47,9 +51,9 @@ class DatabaseController:
 	def delete_users(self):
 		self.db.delete('auth_user')
 	def load_users(self):
-		path = os.path.join(base_path,'users','all.json')
-		obj = json_parser.create_object(path)
-		users = json_parser.get_array(obj,'users')
+		path = os.path.join(base_path,'users.json')
+		obj = json_parser.create_object_from_file(path)
+		users = json_parser.get_objects(obj,'users')
 		for user in users:
 			username = json_parser.get_string(user,"username")
 			password = json_parser.get_string(user,"password")

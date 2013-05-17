@@ -1,0 +1,21 @@
+{
+    "card": {
+        "effect": {
+            "instant": {
+                "element": "Fire", 
+                "params": {
+                    "amount": 7, 
+                    "who": 0
+                }, 
+                "type": "DirectDamage"
+            }, 
+            "persist": {
+                "type": "NoPersist"
+            }, 
+            "trigger": {
+                "type": "NoTrigger"
+            }
+        }, 
+        "name": "Fire Blast"
+    }
+}
