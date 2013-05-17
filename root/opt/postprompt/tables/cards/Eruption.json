@@ -2,25 +2,31 @@
     "card": {
         "name": "Eruption",
         "effect": {
-            "instant": {
-				"ieffect" : {
-					"type": "DirectDamage",
-					"element": "Fire",
-					"params": {
-						"amount": 10,
-						"who": 0
+            "instants": [
+				{
+					"ieffect" : {
+						"type": "DirectDamage",
+						"element": "Fire",
+						"params": {
+							"amount": 10,
+							"who": 0
+						}
+					},
+					"icond" : {
+						"type" : "AlwaysValid"
 					}
-				},
-				"icond" : {
-					"type" : "AlwaysValid"
 				}
-            },
-            "persist": {
-                "type": "NoPersist"
-            },
-            "trigger": {
-                "type": "NoTrigger"
-            }
+			],
+            "persists": [
+				{
+					"type": "NoPersist"
+				}
+			],
+            "triggers": [
+				{
+					"type": "NoTrigger"
+				}
+			]
         }
     }
 }

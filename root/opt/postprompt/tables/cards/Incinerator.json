@@ -2,38 +2,44 @@
     "card": {
         "name": "Incinerator",
         "effect": {
-            "instant": {
-				"ieffect" : {
-					"type": "DirectDamage",
-					"element": "Fire",
-					"params": {
-						"amount": 3,
-						"who": 0
+            "instants": [
+				{
+					"ieffect" : {
+						"type": "DirectDamage",
+						"element": "Fire",
+						"params": {
+							"amount": 3,
+							"who": 0
+						}
+					},
+					"icond" : {
+						"type" : "AlwaysValid"
 					}
-				},
-				"icond" : {
-					"type" : "AlwaysValid"
 				}
-            },
-            "persist": {
-                "params": {
-                    "duration": 3
-                },
-                "type": "Timer"
-            },
-            "trigger": {
-				"teffect" : {
-					"type": "Alter",
-					"element": "Fire",
+			],
+            "persists": [
+				{
 					"params": {
-						"amount": 4,
-						"who": 0
-					}
-				},
-				"tcond" : {
-					"type" : "AlwaysValid"
+						"duration": 3
+					},
+					"type": "Timer"
 				}
-            }
+			],
+            "triggers": [
+				{
+					"teffect" : {
+						"type": "Alter",
+						"element": "Fire",
+						"params": {
+							"amount": 4,
+							"who": 0
+						}
+					},
+					"tcond" : {
+						"type" : "AlwaysValid"
+					}
+				}
+			]
         }
     }
 }

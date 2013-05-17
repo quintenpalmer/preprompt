@@ -2,33 +2,39 @@
     "card": {
         "name": "Inferno",
         "effect": {
-            "instant": {
-				"ieffect" : {
-					"type": "NoInstant"
-				},
-				"icond" : {
-					"type" : "AlwaysValid"
-				}
-            },
-            "persist": {
-                "type": "Timer",
-                "params": {
-                    "duration": 3
-                }
-            },
-            "trigger": {
-				"teffect" : {
-					"type": "Alter",
-					"element": "Fire",
-					"params": {
-						"amount": 4,
-						"who": 0
+            "instants": [
+				{
+					"ieffect" : {
+						"type": "NoInstant"
+					},
+					"icond" : {
+						"type" : "AlwaysValid"
 					}
-				},
-				"tcond" : {
-					"type" : "AlwaysValid"
 				}
-            }
+			],
+            "persists": [
+				{
+					"type": "Timer",
+					"params": {
+						"duration": 3
+					}
+				}
+			],
+            "triggers": [
+				{
+					"teffect" : {
+						"type": "Alter",
+						"element": "Fire",
+						"params": {
+							"amount": 4,
+							"who": 0
+						}
+					},
+					"tcond" : {
+						"type" : "AlwaysValid"
+					}
+				}
+			]
         }
     }
 }
