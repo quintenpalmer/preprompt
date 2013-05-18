@@ -1,7 +1,5 @@
 package postprompt
 
-import "fmt"
-
 type Card struct {
 	name string
 	instants InstantList
@@ -24,24 +22,14 @@ func NewCard(id int) (*Card, error) {
 	return card, nil
 }
 
-func getInstants(instantRepr interface{}) (InstantList, error) {
-	//instantList := make(InstantList,0)
-	instant := new(Instant)
-	instant.effect = []InstantEffect{
-		&directDamageInstantEffect{4,Fire}}
-	instant.conds = []InstantCond{
-		new(validInstant)}
-	return []*Instant{instant}, nil
-}
-
 func getPersists(persistRepr interface{}) (PersistList, error) {
 	persistList := make(PersistList,0)
-	fmt.Println(persistRepr)
+	//fmt.Println(persistRepr)
 	return persistList, nil
 }
 
 func getTriggers(triggerRepr interface{}) (TriggerList, error) {
 	triggerList := make(TriggerList,0)
-	fmt.Println(triggerRepr)
+	//fmt.Println(triggerRepr)
 	return triggerList, nil
 }
