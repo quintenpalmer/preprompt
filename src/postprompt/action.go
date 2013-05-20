@@ -63,6 +63,26 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 			if message != "ok" { fullMessage = fullMessage + message }
 		}
 		// TODO Destroy cards that don't exist for both players
+		var index int = 0
+		me, err := game.GetMeFromUid(uid)
+		if err != nil { return "", err }
+		for _, card := range me.cardList[Active] {
+			if ! card.persists.doesPersist(game) {
+				actions = append(actions, NewAction(GetCardExpire(index)))
+				break
+			}
+			index++
+		}
+		them, err := game.GetThemFromUid(uid)
+		if err != nil { return "", err }
+		index = 0
+		for _, card := range them.cardList[Active] {
+			if ! card.persists.doesPersist(game) {
+				actions = append(actions, NewAction(GetCardExpire(index)))
+				break
+			}
+			index++
+		}
 	}
 	if fullMessage == "" { fullMessage = "ok" }
 	return fullMessage, nil

@@ -19,10 +19,10 @@
 			],
             "persists": [
 				{
+					"type": "Timer",
 					"params": {
 						"duration": 3
-					},
-					"type": "Timer"
+					}
 				}
 			],
             "triggers": [

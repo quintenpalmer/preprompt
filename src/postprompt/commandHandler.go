@@ -69,7 +69,7 @@ func handleCardPlay(request jsonMap, m *Model) string {
 	if err != nil { return respondError(err) }
 	message, err := Act(game,playerId,instantList)
 	if err != nil { return respondError(err) }
-	_, err = Act(game,playerId,GetDestroyIL(srcCard))
+	_, err = Act(game,playerId,GetPlayMoveCardIL(srcCard))
 	if err != nil { return respondError(err) }
 	gameRepr, err := GetGameJsonMap(game,playerId)
 	if err != nil { return respondError(err) }

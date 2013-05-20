@@ -22,12 +22,6 @@ func NewCard(id int) (*Card, error) {
 	return card, nil
 }
 
-func getPersists(persistRepr interface{}) (PersistList, error) {
-	persistList := make(PersistList,0)
-	//fmt.Println(persistRepr)
-	return persistList, nil
-}
-
 func getTriggers(triggerRepr interface{}) (TriggerList, error) {
 	triggerList := make(TriggerList,0)
 	//fmt.Println(triggerRepr)
