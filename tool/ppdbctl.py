@@ -28,11 +28,10 @@ class DatabaseController:
 	def load_cards(self):
 		pre_glob_path = os.path.join(base_path,'cards','*.json')
 		card_files = glob.glob(pre_glob_path)
-		for key, card_file in enumerate(card_files):
-			key += 1
-			print card_file
+		for card_file in card_files:
 			obj = json_parser.create_object_from_file(card_file)
 			card = json_parser.get_object(obj,'card')
+			key = json_parser.get_object(obj,'index')
 			name = json_parser.get_string(card,'name')
 			effect = json_parser.get_string(card,'effect')
 			self.db.update('insert into play_card_names values(%s,"%s","%s")'%
