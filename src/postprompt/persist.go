@@ -8,6 +8,12 @@ type Persist interface {
 	reset()
 }
 
+func (persistList PersistList) tick() {
+	for _,persist := range persistList {
+		persist.tick()
+	}
+}
+
 func (persistList PersistList) doesPersist(game *Game) bool {
 	retDoesPersist := true
 	for _,persist := range persistList {

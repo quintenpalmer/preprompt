@@ -67,7 +67,7 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 		if err != nil { return "", err }
 		for index, card := range me.cardList[Active] {
 			if ! card.persists.doesPersist(game) {
-				actions = append(actions, NewAction(GetCardExpire(index)))
+				actions = append(actions, NewAction(GetCardExpire(PlayerTypeMe,index)))
 				break
 			}
 		}
@@ -75,7 +75,7 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 		if err != nil { return "", err }
 		for index, card := range them.cardList[Active] {
 			if ! card.persists.doesPersist(game) {
-				actions = append(actions, NewAction(GetCardExpire(index)))
+				actions = append(actions, NewAction(GetCardExpire(PlayerTypeThem,index)))
 				break
 			}
 		}
@@ -112,6 +112,9 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 			game.turnOwner = game.uids[0]
 		}
 		game.phase = DrawPhase
+		for _,card := range them.cardList[Active] {
+			card.persists.tick()
+		}
 	}
 
 	var player *Player

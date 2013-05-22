@@ -85,13 +85,12 @@ func GetPlayMoveCardIL(srcIndex int) InstantList {
 }
 
 // TODO this is for card movement from hand to (currently grave, but should be) active and then need to implement dieing as soon as played
-func GetCardExpire(srcIndex int) *Instant {
+func GetCardExpire(givenPlayerType PlayerType, srcIndex int) *Instant {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(PlayerTypeMe,Active,srcIndex,PlayerTypeMe,Grave,-1)}
+		newCardMoveInstantEffect(givenPlayerType,Active,srcIndex,givenPlayerType,Grave,-1)}
 	instant.conds = []InstantCond{
-		&validPhase{MainPhase},
-		&validSuperPhase{MainSuperPhase}}
+		new(validInstant)}
 	return instant
 }
 
