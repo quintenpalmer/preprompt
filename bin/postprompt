@@ -4,10 +4,10 @@ main(){
 	if [ $# -gt 0 ]; then
 		command=$1
 		shift
-		if [ $command == host ] || [ $command == h ] || [ $command == java ]; then
-			host $@
-		elif [ $command == compile ] || [ $command == jc ] || [ $command == javac ]; then
-			compile $@
+		if [ $command == host ] || [ $command == h ] || [ $command == go ]; then
+			my_go 'run' $@
+		elif [ $command == build ]; then
+			my_go 'build' $@
 		elif [ $command == client ] || [ $command == c ]; then
 			client $@
 		elif [ $command == django ] || [ $command == dj ]; then
@@ -30,19 +30,9 @@ main(){
 			test
 		#shortcuts
 		elif [ $command == hb ]; then
-			host 'background'
+			go 'background'
 		elif [ $command == close ] || [ $command == cc ]; then
 			client 'close'
-		elif [ $command == json ]; then
-			json
-		elif [ $command == setup ]; then
-			setup
-		elif [ $command == go ]; then
-			go_run $@
-		elif [ $command == gb ]; then
-			go_build $@
-		elif [ $command == gp ]; then
-			go_run_plus
 		else
 			help_text
 		fi
@@ -169,8 +159,6 @@ view_diagram(){
 doc_gen(){
 	cd $postprompt
 	./bin/diagram_reader.py -u -c=Game > ./docs/drawing.draw
-	./bin/parse_classes.py > ./docs/gen_diagram.ppmd
-	./bin/diagram_reader.py -f=docs/gen_diagram.ppmd -c=Game -u > ./docs/gen_drawing.draw
 }
 
 vim_copy(){
@@ -191,14 +179,6 @@ vim_copy(){
 	cp lib/vim/syntax/* ~/.vim/syntax/
 }
 
-json(){
-	cd $postprompt
-	clean
-	make_build
-	javac -cp lib/java:/usr/share/java/json_simple.jar -d build JsonTester.java
-	java -cp build:/usr/share/java/json_simple.jar JsonTester
-}
-
 go_run_plus(){
 	cd $postprompt/src/go
 	rm out.json pout.json; go run main.go; cat out.json | python -m json.tool | tee pout.json
@@ -208,8 +188,9 @@ go_build(){
 	go build main.go
 }
 
-go_run(){
+my_go(){
 	cd $postprompt/src
+	shift
 	go run main.go $@
 }
 
