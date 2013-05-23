@@ -25,7 +25,7 @@ else
 		apt-get install python-pip
 		pip install django
 		# GO
-		apt-get install go
+		apt-get install golang
 		go get github.com/ziutek/mymysql/godrv
 
 	else

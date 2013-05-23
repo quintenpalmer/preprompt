@@ -1,7 +1,5 @@
 import sys
 
-from pplib.errors import PP_Model_Error
-
 def draw(model,message,last_line_breaks):
 	for i in range(last_line_breaks+1):
 		sys.stdout.write('\33[A\r%s\r'%(' '*100))
@@ -9,8 +7,8 @@ def draw(model,message,last_line_breaks):
 	ret += '%s\n'%message
 	try:
 		ret += draw_game(model.get_current_game())
-	except PP_Model_Error as e:
-		ret += "No current game! %s\n"%str(e)
+	except KeyError:
+		ret += "Not the id of a game!"
 	print ret
 	return len(ret.split('\n'))
 

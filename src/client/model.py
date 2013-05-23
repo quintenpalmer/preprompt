@@ -1,5 +1,4 @@
 from pplib import json_parser
-from pplib.errors import PP_Model_Error
 
 class Model:
 	def __init__(self,uid):
@@ -25,10 +24,7 @@ class Model:
 			return 'Received error message: %s'%respType
 
 	def get_current_game(self):
-		try:
-			return self.games[self.current_game_id]
-		except KeyError:
-			raise PP_Model_Error('The current_game_id is not the id of a real game!')
+		return self.games[self.current_game_id]
 
 class Game:
 	def __init__(self,obj):

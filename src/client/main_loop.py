@@ -19,7 +19,7 @@ class Main_Loop:
 				self.run_command()
 			except Exception as e:
 				print "error caught"
-				print e.message
+				#print e.message
 	def run_command(self):
 		if self.command == 'new':
 			me_did=0

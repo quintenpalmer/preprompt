@@ -2,8 +2,6 @@ import sqlite3
 import MySQLdb as mdb
 import os
 
-from pplib.errors import PP_Database_Error
-
 class Database:
 	def __init__(self,database_name='pp_shared'):
 		self.con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf',database_name)
@@ -39,7 +37,7 @@ def insert_batch(table_name,types,values_list):
 	ns = Namespace()
 	try:
 		ns.key = int(select(table_name,'id')[-1])+1
-	except PP_Database_Error and IndexError:
+	except IndexError:
 		ns.key = 1
 	def get_next_key(ns_sub):
 		ret = ns_sub.key
@@ -69,7 +67,7 @@ def insert(table_name,types,values):
 		try:
 			keys = select(table_name,'id')
 			return str(int(keys[-1])+1)
-		except PP_Database_Error and IndexError:
+		except IndexError:
 			return '1'
 	values = tuple([value if value != None else get_next_key() for value in values])
 	command = "insert into "+table_name+" values("

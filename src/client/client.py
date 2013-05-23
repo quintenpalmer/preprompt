@@ -2,7 +2,6 @@ import socket
 import sys
 import os
 
-from pplib import util
 from pplib.client_host_json import *
 
 from model import Model
@@ -13,8 +12,6 @@ from drawer import draw
 if __name__ == '__main__':
 	if len(sys.argv) == 1:
 		print "Client: Starting!"
-		util.make_logger('client')
-		util.logger.info('Started Client')
 		model = Model(uid=1)
 		main = Main_Loop(model)
 		main.run()

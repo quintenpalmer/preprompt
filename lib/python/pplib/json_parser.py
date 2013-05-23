@@ -1,7 +1,5 @@
 import json
 
-from pplib.errors import JsonParserError
-
 class PPjo:
 	def __init__(self,obj):
 		self.obj = json.loads(obj)
