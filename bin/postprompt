@@ -114,8 +114,8 @@ bashrc(){
 
 export postprompt=`pwd`
 export pp=\$postprompt
-export postpromptroot=\$postprompt/root
-export PATH=\$PATH:\$postprompt/tool
+export postpromptroot=\$postprompt
+export PATH=\$PATH:\$postprompt/bin
 export PYTHONPATH=\$PYTHONPATH:\$postprompt/lib/python
 export GOPATH=\$postprompt
 alias cdpp=\"cd \$postprompt\"" >> ~/.bashrc
@@ -145,7 +145,7 @@ And then press enter to continue : "
 
 get_requirements(){
 	cd $postprompt
-	sudo ./tool/requirements
+	sudo ./bin/requirements
 }
 
 database(){
@@ -154,23 +154,23 @@ database(){
 		mysql -u developer --password=jfjfkdkdlslskdkdjfjf
 	else
 		if [ $1 == fresh ] || [ $1 == f ]; then
-			mysql -u root -p < $postprompt/tool/mysql_fresh
+			mysql -u root -p < $postprompt/bin/mysql_fresh
 		fi
 		../web/manage.py syncdb --noinput
-		../tool/ppdbctl.py all load
+		../bin/ppdbctl.py all load
 	fi
 }
 
 view_diagram(){
 	cd $postprompt
-	./tool/diagram_reader.py $@
+	./bin/diagram_reader.py $@
 }
 
 doc_gen(){
 	cd $postprompt
-	./tool/diagram_reader.py -u -c=Game > ./docs/drawing.draw
-	./tool/parse_classes.py > ./docs/gen_diagram.ppmd
-	./tool/diagram_reader.py -f=docs/gen_diagram.ppmd -c=Game -u > ./docs/gen_drawing.draw
+	./bin/diagram_reader.py -u -c=Game > ./docs/drawing.draw
+	./bin/parse_classes.py > ./docs/gen_diagram.ppmd
+	./bin/diagram_reader.py -f=docs/gen_diagram.ppmd -c=Game -u > ./docs/gen_drawing.draw
 }
 
 vim_copy(){

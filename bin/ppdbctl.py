@@ -13,7 +13,7 @@ sys.path.insert(0,pplib_path)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings")
 from django.contrib.auth.models import User
 
-base_path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','tables')
+base_path = os.path.join(os.environ['postprompt'],'tables')
 
 class DatabaseController:
 	def __init__(self):

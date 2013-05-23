@@ -28,8 +28,8 @@ def bashrc():
 			'\n'
 			'export postprompt=`pwd`\n'
 			'export pp=$postprompt\n'
-			'export postpromptroot=$postprompt/root\n'
-			'export PATH=$PATH:$postprompt/tool\n'
+			'export postpromptroot=$postprompt\n'
+			'export PATH=$PATH:$postprompt/bin\n'
 			'export PYTHONPATH=$PYTHONPATH:$postprompt/lib/python\n'
 			'export GOPATH=$postprompt'
 			'alias cdpp="cd $postprompt"\n'))

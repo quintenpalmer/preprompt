@@ -21,13 +21,9 @@ class Database:
 		return self.cur.fetchall()
 
 
-def init(mysql=True):
-	if mysql:
-		database_name = 'pp_shared'
-		con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf',database_name)
-	else:
-		database_path = os.path.join(os.environ['postpromptroot'],'opt','postprompt','shared_database')
-		con = sqlite3.connect(database_path)
+def init():
+	database_name = 'pp_shared'
+	con = mdb.connect('localhost','developer','jfjfkdkdlslskdkdjfjf',database_name)
 	cur = con.cursor()
 	return (con,cur)
 
