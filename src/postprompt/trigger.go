@@ -1,6 +1,5 @@
 package postprompt
 
-import "fmt"
 
 type TriggerList []*Trigger
 
@@ -32,7 +31,6 @@ func (trigger *Trigger) applyTo(subAction *SubAction, action *Action, game *Game
 }
 
 func getTriggers(triggerRepr interface{}) (TriggerList, error) {
-	fmt.Println(triggerRepr)
 	triggerList := make(TriggerList,0)
 	triggerArray, ok := triggerRepr.([]interface{})
 	if ! ok { return nil, Newpperror("Could not load trigger array from json") }
