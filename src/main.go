@@ -11,7 +11,7 @@ func main(){
 	if len(os.Args) == 2 {
 		port = os.Args[1]
 	}
-	m := postprompt.NewModel()
-	fmt.Println("Starting PostPrompt")
-	postprompt.Listen(port,m)
+	model := postprompt.NewModel()
+	fmt.Println("Starting PostPrompt!")
+	postprompt.Listen(port,model)
 }

@@ -15,7 +15,7 @@ func Listen(port string, m *Model) {
 		fmt.Println("Could not listen on port : "+port)
 		return
 	}
-	fmt.Println("Listening on : "+ port)
+	fmt.Println("Listening on port : "+ port)
 
 	for {
 		conn, err := ln.Accept()
@@ -28,7 +28,7 @@ func Listen(port string, m *Model) {
 }
 
 func handleConnection(conn net.Conn, m *Model) {
-	fmt.Println("handling a connection")
+	fmt.Println("Handling a connection")
 	buf := make([]byte,RECV_BUF_LEN)
 	n, err := conn.Read(buf)
 	if err != nil {

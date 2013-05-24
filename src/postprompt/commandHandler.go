@@ -92,12 +92,12 @@ func handleBuiltinAction(request jsonMap,m *Model, myInstantList InstantList, co
 
 func handleList(request jsonMap,m *Model) string {
 	// TODO Only return the games that this player is playing
-	gameIds := make([]int,len(m.games))
-	i := 0
-	for k,_ := range m.games {
-		gameIds[i] = k
-		i++
+	playerId, err := request.getInt("playerId")
+	if err != nil { return respondError(err) }
+	gameIds := make([]int,0)
+	games := m.GetGameIdsFromUid(playerId)
+	for k,_ := range games {
+		gameIds = append(gameIds,k)
 	}
 	return respondList(gameIds)
 }
-//Act(g,playerId,GetDirectDamageIL(5,Fire))
