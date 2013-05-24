@@ -1,5 +1,6 @@
 package postprompt
 
+import "fmt"
 
 type TriggerList []*Trigger
 
@@ -9,7 +10,7 @@ type Trigger struct {
 }
 
 type TriggerEffect interface {
-	applyTo(*SubAction, int)
+	applyTo(*SubAction, *Game, int)
 }
 
 type TriggerCond interface {
@@ -23,13 +24,16 @@ func (trigger *Trigger) applyTo(subAction *SubAction, action *Action, game *Game
 	}
 	if playable {
 		for _,ieffect := range trigger.effect {
-			ieffect.applyTo(subAction,uid);
+			ieffect.applyTo(subAction,game,uid);
 		}
 		return nil
 	}
 	return Newpperror("that action is not valid to play")
 }
 
+// TODO
+// TODO Increase the usefulness of the error return values
+// TODO
 func getTriggers(triggerRepr interface{}) (TriggerList, error) {
 	triggerList := make(TriggerList,0)
 	triggerArray, ok := triggerRepr.([]interface{})
@@ -82,11 +86,23 @@ func getDamageEnhancerHelper(triggerEffectRepr map[string]interface{}) ([]Trigge
 	*/
 	params, ok := triggerEffectRepr["params"].(map[string]interface{})
 	if ! ok { return nil, Newpperror("Could not load trigger effect params from json") }
+	whoFloat, ok := params["who"].(float64)
+	if ! ok { return nil, Newpperror("Could not load trigger effect who from json") }
+	var who PlayerType
+	if whoFloat == 0 {
+		who = PlayerTypeMe
+	} else if whoFloat == 1 {
+		who = PlayerTypeThem
+	} else if whoFloat == 2 {
+		who = PlayerTypeBoth
+	} else {
+		return nil, Newpperror("Not a valid playerType!")
+	}
 	amountFloat, ok := params["amount"].(float64)
 	if ! ok { return nil, Newpperror("Could not load trigger effect amount from json") }
 	amount := int(amountFloat)
 	if ! ok { return nil, Newpperror("Could not load trigger effect param amount from json") }
-	return []TriggerEffect{&directDamageTriggerEffect{amount}}, nil
+	return []TriggerEffect{&directDamageTriggerEffect{amount,who}}, nil
 }
 
 func getDoNothingTrigger() ([]TriggerEffect, error) {
@@ -101,15 +117,23 @@ func getAlwaysValidTrigger() ([]TriggerCond, error) {
 
 type directDamageTriggerEffect struct {
 	amount int
+	who PlayerType
 }
-func (dd *directDamageTriggerEffect) applyTo(subAction *SubAction, uid int) {
-	subAction.IncreaseDamage(dd.amount)
+func (dd *directDamageTriggerEffect) applyTo(subAction *SubAction, game *Game, uid int) {
+	fmt.Println("who,turnOwner,uid,PTMe")
+	fmt.Println(dd.who)
+	fmt.Println(game.turnOwner)
+	fmt.Println(uid)
+	fmt.Println(PlayerTypeMe)
+	if dd.who == PlayerTypeBoth || (dd.who == PlayerTypeMe && game.turnOwner == uid) || (dd.who == PlayerTypeThem && game.turnOwner != uid) {
+		subAction.IncreaseDamage(dd.amount)
+	}
 }
 
 /* Do Nothing Instant Effect */
 
 type doNothingTrigger struct { }
-func (dnt *doNothingTrigger) applyTo(subAction *SubAction, uid int) { }
+func (dnt *doNothingTrigger) applyTo(subAction *SubAction, game *Game, uid int) { }
 
 
 /* Always valid Trigger */

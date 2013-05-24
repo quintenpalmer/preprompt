@@ -3,8 +3,11 @@ package postprompt
 //TODO possibly merge PlayerTypes with cltype
 type PlayerType int
 
-var PlayerTypeMe PlayerType = 0
-var PlayerTypeThem PlayerType = 1
+const (
+	PlayerTypeMe PlayerType = iota
+	PlayerTypeThem
+	PlayerTypeBoth
+	)
 
 type Player struct {
 	health int

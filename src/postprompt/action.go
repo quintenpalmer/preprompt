@@ -1,5 +1,7 @@
 package postprompt
 
+import "fmt"
+
 type ActionList []*Action
 
 type Action struct {
@@ -8,7 +10,9 @@ type Action struct {
 
 type SubAction struct {
 	damage int
+	doesDamage bool
 	heal int
+	doesHeal bool
 	elementType ElementType
 	movement *Movement
 	superPhaseStep SuperPhase
@@ -36,6 +40,10 @@ func NewAction(instant *Instant) *Action {
 func NewSubAction() *SubAction {
 	subAction := new(SubAction)
 	subAction.elementType = Neutral
+	subAction.damage = 0
+	subAction.doesDamage = false
+	subAction.heal = 0
+	subAction.doesHeal = false
 	subAction.movement = nil
 	subAction.superPhaseStep = 0
 	subAction.phaseStep = 0
@@ -57,6 +65,7 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 	if err != nil { return "", err }
 	them, err := game.GetThemFromUid(uid)
 	if err != nil { return "", err }
+	enemyuid := them.uid
 
 	fullMessage := ""
 	for len(actions) > 0 {
@@ -67,14 +76,19 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 
 		for _,subAction := range subActions {
 			// Activate all triggers
+			fmt.Println("SubAction going")
 			for _, card := range me.cardList[Active] {
+				fmt.Println("Iterating over my triggerlist")
 				for _, trigger := range card.triggers {
+					fmt.Println("Applying trigger")
 					trigger.applyTo(subAction,action,game,uid)
 				}
 			}
 			for _, card := range them.cardList[Active] {
+				fmt.Println("Iterating over enemy triggerlist")
 				for _, trigger := range card.triggers {
-					trigger.applyTo(subAction,action,game,uid)
+					fmt.Println("Applying trigger")
+					trigger.applyTo(subAction,action,game,enemyuid)
 				}
 			}
 			message, err := subAction.act(game,uid)
@@ -159,16 +173,24 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 
 func (subAction *SubAction) SetDamage(amount int) {
 	subAction.damage = amount
+	subAction.doesDamage = true
 }
 
 func (subAction *SubAction) IncreaseDamage(amount int) {
-	if subAction.damage != 0 {
+	if subAction.doesDamage {
 		subAction.damage += amount
 	}
 }
 
 func (subAction *SubAction) SetHeal(amount int) {
 	subAction.heal = amount
+	subAction.doesHeal = true
+}
+
+func (subAction *SubAction) IncreaseHeal(amount int) {
+	if subAction.doesHeal {
+		subAction.heal += amount
+	}
 }
 
 func (subAction *SubAction) SetElementType(elementType ElementType) {
