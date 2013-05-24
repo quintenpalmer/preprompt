@@ -26,7 +26,6 @@ func (model *Model) AddGame(uid1,did1,uid2,did2 int) (*Game, int, error) {
 }
 
 func (model *Model) GetGameFromGameId(gameId int) (*Game, error) {
-	//TODO safety check this
 	if val, ok := model.games[gameId]; ok {
 		return val, nil
 	}

@@ -1,7 +1,7 @@
 PostPrompt
 ========
 
-PostPrompt virtual card game in Java
+PostPrompt - a virtual card game in Go and Python
 
  How to
 -------
@@ -30,16 +30,11 @@ To see the help text of the main program
 
 	postprompt
 
-To compile the host backend
-
-	postprompt javac
-
 To run just the host
 
 	postprompt host
 
 Then navigate to a new terminal and
-
 
 To run the web server
 
@@ -55,14 +50,12 @@ To run the command line client
 ------
 
 Host:
- - Need to have tickers for persistant cards
  - Make requests and responses async
  - Make host require 2 new requests to start a game (a game between the two users)
  - Add more card effects
  - Limit copies of a card
- - Finish Actions
- - Finish Play
- - Still have parameters per different type of card
+ - Ability for triggers to spawn new SubActions
+ - Card Play needs ability to handle parameters
 
 Web:
  - Make requests and responses async

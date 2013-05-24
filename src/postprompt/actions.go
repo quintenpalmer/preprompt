@@ -73,7 +73,6 @@ func GetEmptyIL() InstantList {
 	return []*Instant{instant}
 }
 
-// TODO this is for card movement from hand to (currently grave, but should be) active and then need to implement dieing as soon as played
 func GetPlayMoveCardIL(srcIndex int) InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
@@ -84,7 +83,6 @@ func GetPlayMoveCardIL(srcIndex int) InstantList {
 	return []*Instant{instant}
 }
 
-// TODO this is for card movement from hand to (currently grave, but should be) active and then need to implement dieing as soon as played
 func GetCardExpire(givenPlayerType PlayerType, srcIndex int) *Instant {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
