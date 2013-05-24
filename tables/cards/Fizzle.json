@@ -25,7 +25,12 @@
 			],
             "triggers": [
 				{
-					"type": "NoTrigger"
+					"teffect" : {
+						"type": "NoTrigger"
+					},
+					"tcond" : {
+						"type" : "AlwaysValid"
+					}
 				}
 			]
         }

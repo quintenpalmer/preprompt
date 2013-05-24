@@ -44,7 +44,7 @@ func getInstants(instantRepr interface{}) (InstantList, error) {
 		instantEffectRepr , ok := instantRepr["ieffect"].(map[string]interface{})
 		if ! ok { return nil, Newpperror("Could not load instant effect from json") }
 		instantCondRepr , ok := instantRepr["icond"].(map[string]interface{})
-		if ! ok { return nil, Newpperror("Could not load instant effect from json") }
+		if ! ok { return nil, Newpperror("Could not load instant cond from json") }
 		instant := new(Instant)
 		var err error
 		instant.effect, err = getInstantEffectFromType(instantEffectRepr)
@@ -77,10 +77,6 @@ func getInstantCondFromType(instantCondRepr map[string]interface{}) ([]InstantCo
 	return nil, Newpperror("Invalid Instant Effect Type found : " + effectType)
 }
 
-func getDoNothing() ([]InstantEffect, error) {
-	return []InstantEffect{new(doNothing)}, nil
-}
-
 func getDirectDamageHelper(instantEffectRepr map[string]interface{}) ([]InstantEffect, error) {
 	elementString, ok := instantEffectRepr["element"].(string)
 	if ! ok { return nil, Newpperror("element in instant effect was not a string") }
@@ -89,10 +85,14 @@ func getDirectDamageHelper(instantEffectRepr map[string]interface{}) ([]InstantE
 	params, ok := instantEffectRepr["params"].(map[string]interface{})
 	if ! ok { return nil, Newpperror("Could not load instant effect params from json") }
 	amountFloat, ok := params["amount"].(float64)
+	if ! ok { return nil, Newpperror("Could not load instant effect amount from json") }
 	amount := int(amountFloat)
-	if err != nil { return nil, err }
 	if ! ok { return nil, Newpperror("Could not load instant effect param amount from json") }
 	return []InstantEffect{&directDamageInstantEffect{amount,elementType}}, nil
+}
+
+func getDoNothing() ([]InstantEffect, error) {
+	return []InstantEffect{new(doNothing)}, nil
 }
 
 func getAlwaysValid() ([]InstantCond, error) {

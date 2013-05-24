@@ -50,29 +50,44 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 	for _,instant := range instantList {
 		actions = append(actions,NewAction(instant))
 	}
+
 	// TODO sort all of the actions on to-exist field
+
+	me, err := game.GetMeFromUid(uid)
+	if err != nil { return "", err }
+	them, err := game.GetThemFromUid(uid)
+	if err != nil { return "", err }
+
 	fullMessage := ""
-	for len(actions) > 0{
+	for len(actions) > 0 {
 		var action *Action
 		action, actions = actions[len(actions)-1], actions[:len(actions)-1]
 		subActions, err := action.instant.applyTo(action,game,uid)
 		if err != nil { return "", err }
+
 		for _,subAction := range subActions {
+			// Activate all triggers
+			for _, card := range me.cardList[Active] {
+				for _, trigger := range card.triggers {
+					trigger.applyTo(subAction,action,game,uid)
+				}
+			}
+			for _, card := range them.cardList[Active] {
+				for _, trigger := range card.triggers {
+					trigger.applyTo(subAction,action,game,uid)
+				}
+			}
 			message, err := subAction.act(game,uid)
 			if err != nil { return fullMessage, err }
 			if message != "ok" { fullMessage = fullMessage + message }
 		}
-		// TODO Destroy cards that don't exist for both players
-		me, err := game.GetMeFromUid(uid)
-		if err != nil { return "", err }
+		// Destroy cards that don't exist for both players
 		for index, card := range me.cardList[Active] {
 			if ! card.persists.doesPersist(game) {
 				actions = append(actions, NewAction(GetCardExpire(PlayerTypeMe,index)))
 				break
 			}
 		}
-		them, err := game.GetThemFromUid(uid)
-		if err != nil { return "", err }
 		for index, card := range them.cardList[Active] {
 			if ! card.persists.doesPersist(game) {
 				actions = append(actions, NewAction(GetCardExpire(PlayerTypeThem,index)))
@@ -144,6 +159,12 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 
 func (subAction *SubAction) SetDamage(amount int) {
 	subAction.damage = amount
+}
+
+func (subAction *SubAction) IncreaseDamage(amount int) {
+	if subAction.damage != 0 {
+		subAction.damage += amount
+	}
 }
 
 func (subAction *SubAction) SetHeal(amount int) {

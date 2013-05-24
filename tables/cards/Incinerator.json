@@ -29,7 +29,7 @@
             "triggers": [
 				{
 					"teffect" : {
-						"type": "Alter",
+						"type": "DamageEnhance",
 						"element": "Fire",
 						"params": {
 							"amount": 4,

@@ -21,9 +21,3 @@ func NewCard(id int) (*Card, error) {
 	if err != nil { return nil, err }
 	return card, nil
 }
-
-func getTriggers(triggerRepr interface{}) (TriggerList, error) {
-	triggerList := make(TriggerList,0)
-	//fmt.Println(triggerRepr)
-	return triggerList, nil
-}
