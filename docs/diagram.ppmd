@@ -1,138 +1,178 @@
+ppdatabase :
+	field : sql.DB
+validPhase :
+	method : isValid
+	field : Phase
+directDamageTriggerEffect :
+	method : applyTo
+	field : int
+	field : PlayerType
+validSuperPhase :
+	method : isValid
+	field : SuperPhase
+PPerror :
+	method : Error
+	field : string
+Persist :
+	field : tick
+	field : doesPersist
+	field : reset
+InstantCond :
+	field : isValid
+Model :
+	method : AddGame
+	method : GetGameFromGameId
+	method : bookKeepGame
+	method : GetGameIdsFromUid
+	field : int
+	field : gameMapping
+	field : gameMapping
+CLInfo :
+	field : int
+	field : CLType
+	field : string
+stepTurn :
+	method : applyTo
+noPersist :
+	method : tick
+	method : reset
+	method : doesPersist
+TriggerCond :
+	field : isValid
+ActionList :
+	field : Action
 Game :
-	field : PlayerContainer (2)
-	field : ControlState
-	method : xmlOutput
-	method : getMeFromUid
-	method : getThemFromUid
-	method : shuffle
-	method : setup
-	method : draw
-	method : stepPhase
-	method : stepTurn
-	method : play
-	method : forfeit
-	method : checkGameEnd
-
-ControlState :
-	field : uids (2)
-	field : phase
-	field : superPhase
-	field : turnOwner
-	field : hasDrawn
-	method : xmlOutput
-	method : draw
-	method : stepPhase
-	method : toggleTurn
-	method : play
-	method : exitSetupSuperPhase
-	method : exitMainSuperPhase
-
-PlayerContainer :
+	method : GetMeFromUid
+	method : GetThemFromUid
 	field : Player
-	field : Deck
-	method : xmlOutput
-	method : getPlayer
-	method : getDeck
-
-Player :
-	field : uid
-	field : name
-	field : health
-	method : xmlOutput
-	method : receiveDamage
-	method : receiveHeal
-	method : getUid
-	method : getName
-	method : getHealth
-
-Deck :
-	field : CardList (5)
-	field : Visibility
-	method : xmlOutput
-	method : draw
-	method : playHandToActive
-	method : playHandToGrave
-	method : getCardList
-
-CardList :
-	field : Card (N)
-	method : xmlOutput
-	method : pop
-	method : push
-	method : getCard
-	method : shuffle
-
+	field : int
+	field : Phase
+	field : SuperPhase
+	field : int
+	field : bool
+PlayerType :
+	field : int
+stepSuperPhase :
+	method : applyTo
+jsonMap :
+	method : toString
+	method : getInt
+	method : getString
+	method : getMap
+	field : 
+validTurnOwner :
+	method : isValid
+TriggerList :
+	field : Trigger
+Phase :
+	field : int
+setDidDraw :
+	method : applyTo
+	field : bool
+InstantEffect :
+	field : applyTo
 Card :
-	field : name
-	field : Effect
-	method : xmlOutput
-	method : getEffect
-
-Effect :
+	field : string
 	field : InstantList
 	field : PersistList
-	field : PersistActivateList
-	field : ElementType
-	method : xmlOutput
-	method : getInstantList
-	method : getPersistList
-	method : getPersistActivateList
-	TODO : methods for effect
-
-InstantList :
-	field : Instant (N)
-	field : validPhases (N)
-	method : xmlOutput
-	method : getPhases
-	method : getInstants
-
+	field : TriggerList
 Instant :
+	method : applyTo
 	field : InstantEffect
-	field : InstantCond (N)
-	method : xmlOutput
+	field : InstantCond
+cardMoveInstantEffect :
 	method : applyTo
-	method : isValid
-
-InstantEffect :
-	method : xmlOutput
-	method : applyTo
-
-InstantCond :
-	method : xmlOutput
-	method : isValid
-
-PersistList :
-	field : Persist (N)
-	method : xmlOutput
-	method : doesPersist
-	method : tick
-	method : reset
-	TODO : more methods for the persist list
-
-Persist :
-	method : xmlOutput
-	method : doesPersist
-	method : tick
-	method : reset
-
-PersistActivateList :
-	method : xmlOutput
-	TODO : IMPLEMENT PERSIST ACTIVATE
-
-Action :
-	field : SubAction (N)
-	field : Game
-	field : uid
-	method : act
-
+	field : PlayerType
+	field : CLType
+	field : int
+	field : PlayerType
+	field : CLType
+	field : int
+SuperPhase :
+	field : int
 SubAction :
-	field : Game
-	field : PlayerContainer (2)
-	field : Instant
-	field : ElementType
-	field : damage
-	field : heal
 	method : act
-	method : setDamage
-	method : setHeal
-	method : setElementType
+	method : SetDamage
+	method : IncreaseDamage
+	method : SetHeal
+	method : IncreaseHeal
+	method : SetElementType
+	method : SetPhaseStep
+	method : SetSuperPhaseStep
+	method : SetTurnStep
+	method : SetMovement
+	method : SetDidDraw
+	field : int
+	field : bool
+	field : int
+	field : bool
+	field : ElementType
+	field : Movement
+	field : SuperPhase
+	field : Phase
+	field : bool
+	field : bool
+	field : bool
+TriggerEffect :
+	field : applyTo
+gameMapping :
+	field : Game
+Movement :
+	field : PlayerType
+	field : CLType
+	field : int
+	field : PlayerType
+	field : CLType
+	field : int
+doNothing :
+	method : applyTo
+validHaveNotDrawn :
+	method : isValid
+validInstant :
+	method : isValid
+persistTimer :
+	method : tick
+	method : reset
+	method : doesPersist
+	field : int
+	field : int
+Action :
+	field : Instant
+validTrigger :
+	method : isValid
+ElementType :
+	field : int
+doNothingTrigger :
+	method : applyTo
+CardList :
+	field : Card
+stepPhase :
+	method : applyTo
+directDamageInstantEffect :
+	method : applyTo
+	field : int
+	field : ElementType
+ElementTypeInfo :
+	field : ElementType
+	field : string
+Player :
+	method : push
+	method : pop
+	method : GetInstantList
+	field : int
+	field : int
+	field : string
+	field : CardList
+	field : bool
+Trigger :
+	method : applyTo
+	field : TriggerEffect
+	field : TriggerCond
+PersistList :
+	method : tick
+	method : doesPersist
+	field : Persist
+CLType :
+	field : int
+InstantList :
+	field : Instant
