@@ -118,8 +118,7 @@ clean(){
 	rm -r build
 	find . -name "*.pyc" | xargs rm
 	find . -name "*.class" | xargs rm
-	rm docs/*.draw
-	rm docs/gen_*.ppmd
+	rm docs/gen_*
 }
 
 setup(){

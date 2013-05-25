@@ -1,14 +1,15 @@
 from pplib import database
 
 def register_add_cards(username):
-	uid = int(database.select('auth_user','id',where=(("username='"+username+"'"),))[0])
-	starting_cards = database.select('play_starting_cards','card_name_id')
+	db = database.Database()
+	uid = int(db.select("select id from auth_user where username='%s'"%username)[0][0])
+	starting_cards = [x[0] for x in db.select('select card_name_id from play_starting_cards')]
 	values_list = []
-	for card in starting_cards:
-		values_list.append((None,card,uid))
-	database.insert_batch('play_cards',(int,int,int),values_list)
-	cards = database.select('play_cards','id',where=(('uid='+str(uid)),))
+	start_index = len(db.select('select id from play_cards'))+1
+	for i, card in enumerate(starting_cards):
+		db.update('insert into play_cards values(%s,%s,%s)'%(i+start_index,card,uid))
+	cards = [x[0] for x in db.select("select id from play_cards where uid='%s'"%uid)]
 	values_list = []
-	for card in cards:
-		values_list.append((None,uid,0,card))
-	database.insert_batch('play_decks',(int,int,int,int),values_list)
+	start_index = len(db.select('select id from play_decks'))+1
+	for i,card in enumerate(cards):
+		db.update('insert into play_decks values(%s,%s,0,%s)'%(i+start_index,card,uid))

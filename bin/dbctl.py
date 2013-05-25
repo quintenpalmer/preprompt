@@ -4,8 +4,8 @@ import sys
 import glob
 from pprint import pprint
 
-from pplib.database import Database
 from pplib import json_parser
+from pplib.database import Database
 from pplib.manage_db import register_add_cards
 
 pplib_path = os.path.join(os.environ['postprompt'],'web')
@@ -13,10 +13,10 @@ sys.path.insert(0,pplib_path)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings")
 from django.contrib.auth.models import User
 
-base_path = os.path.join(os.environ['postprompt'],'tables')
 
 class DatabaseController:
 	def __init__(self):
+		self.base_path = os.path.join(os.environ['postprompt'],'tables')
 		self.db = Database()
 	def reload_cards(self):
 		self.delete_cards()
@@ -27,7 +27,7 @@ class DatabaseController:
 		self.db.delete('play_card_names')
 	def load_cards(self):
 		self.load_card_info()
-		path = os.path.join(base_path,'starting_cards.json')
+		path = os.path.join(self.base_path,'starting_cards.json')
 		obj = json_parser.create_object_from_file(path)
 		card_ids = json_parser.get_objects(obj,'card_ids')
 		for key,card_id in enumerate(card_ids):
@@ -40,7 +40,7 @@ class DatabaseController:
 	def delete_card_info(self):
 		self.db.delete('play_card_names')
 	def load_card_info(self):
-		pre_glob_path = os.path.join(base_path,'cards','*.json')
+		pre_glob_path = os.path.join(self.base_path,'cards','*.json')
 		card_files = glob.glob(pre_glob_path)
 		for card_file in card_files:
 			obj = json_parser.create_object_from_file(card_file)
@@ -57,7 +57,7 @@ class DatabaseController:
 	def delete_users(self):
 		self.db.delete('auth_user')
 	def load_users(self):
-		path = os.path.join(base_path,'users.json')
+		path = os.path.join(self.base_path,'users.json')
 		obj = json_parser.create_object_from_file(path)
 		users = json_parser.get_objects(obj,'users')
 		for user in users:
