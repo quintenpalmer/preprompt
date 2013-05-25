@@ -147,7 +147,7 @@ database(){
 			mysql -u root -p < $postprompt/bin/mysql_fresh
 		fi
 		../web/manage.py syncdb --noinput
-		../bin/ppdbctl.py all load
+		../bin/dbctl.py all load
 	fi
 }
 

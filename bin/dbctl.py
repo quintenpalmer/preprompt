@@ -26,6 +26,20 @@ class DatabaseController:
 		self.db.delete('play_starting_cards')
 		self.db.delete('play_card_names')
 	def load_cards(self):
+		self.load_card_info()
+		path = os.path.join(base_path,'starting_cards.json')
+		obj = json_parser.create_object_from_file(path)
+		card_ids = json_parser.get_objects(obj,'card_ids')
+		for key,card_id in enumerate(card_ids):
+			key += 1
+			self.db.update("insert into play_starting_cards values(%s,%s)"%(key,card_id))
+
+	def reload_card_info(self):
+		self.delete_card_info()
+		self.load_card_info()
+	def delete_card_info(self):
+		self.db.delete('play_card_names')
+	def load_card_info(self):
 		pre_glob_path = os.path.join(base_path,'cards','*.json')
 		card_files = glob.glob(pre_glob_path)
 		for card_file in card_files:
@@ -36,13 +50,6 @@ class DatabaseController:
 			effect = json_parser.get_string(card,'effect')
 			self.db.update('insert into play_card_names values(%s,"%s","%s")'%
 				(key,name,effect))
-
-		path = os.path.join(base_path,'starting_cards.json')
-		obj = json_parser.create_object_from_file(path)
-		card_ids = json_parser.get_objects(obj,'card_ids')
-		for key,card_id in enumerate(card_ids):
-			key += 1
-			self.db.update("insert into play_starting_cards values(%s,%s)"%(key,card_id))
 
 	def reload_users(self):
 		self.delete_users()
@@ -81,6 +88,7 @@ dbc = DatabaseController()
 commands = {
 	'games' : { 'delete' : dbc.delete_games },
 	'cards' : { 'delete' : dbc.delete_cards , 'load' : dbc.load_cards, 'reload' : dbc.reload_cards },
+	'starting' : { 'delete' : dbc.delete_card_info, 'load' : dbc.load_card_info, 'reload' : dbc.reload_card_info},
 	'users' : { 'delete' : dbc.delete_users , 'load' : dbc.load_users, 'reload' : dbc.reload_users },
 	'all' : { 'delete' : dbc.delete_all , 'load' : dbc.load_all, 'reload' : dbc.reload_all },
 }
@@ -89,11 +97,7 @@ def help_text():
 	ret = "Database Controlling Tool  - Usage :\n"
 	ret += "  ppdbctl.py <table> <command>\n"
 	for key,val in commands.items():
-		ret += '    %0-8s'%key
-		ret += '[ '
-		ret += ' | '.join(val.keys())
-		ret += ' ]'
-		ret += '\n'
+		ret += '    %0-8s[ %s ]\n'%(key,' | '.join(val.keys()))
 	ret = ret[:-1]
 	return ret
 
