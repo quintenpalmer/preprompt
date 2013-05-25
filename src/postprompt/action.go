@@ -1,7 +1,5 @@
 package postprompt
 
-import "fmt"
-
 type ActionList []*Action
 
 type Action struct {
@@ -76,18 +74,13 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 
 		for _,subAction := range subActions {
 			// Activate all triggers
-			fmt.Println("SubAction going")
 			for _, card := range me.cardList[Active] {
-				fmt.Println("Iterating over my triggerlist")
 				for _, trigger := range card.triggers {
-					fmt.Println("Applying trigger")
 					trigger.applyTo(subAction,action,game,uid)
 				}
 			}
 			for _, card := range them.cardList[Active] {
-				fmt.Println("Iterating over enemy triggerlist")
 				for _, trigger := range card.triggers {
-					fmt.Println("Applying trigger")
 					trigger.applyTo(subAction,action,game,enemyuid)
 				}
 			}

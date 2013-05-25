@@ -1,7 +1,5 @@
 package postprompt
 
-//import "fmt"
-
 type InstantList []*Instant
 
 type Instant struct {

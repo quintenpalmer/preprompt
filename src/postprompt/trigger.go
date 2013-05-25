@@ -1,7 +1,5 @@
 package postprompt
 
-import "fmt"
-
 type TriggerList []*Trigger
 
 type Trigger struct {
@@ -120,11 +118,6 @@ type directDamageTriggerEffect struct {
 	who PlayerType
 }
 func (dd *directDamageTriggerEffect) applyTo(subAction *SubAction, game *Game, uid int) {
-	fmt.Println("who,turnOwner,uid,PTMe")
-	fmt.Println(dd.who)
-	fmt.Println(game.turnOwner)
-	fmt.Println(uid)
-	fmt.Println(PlayerTypeMe)
 	if dd.who == PlayerTypeBoth || (dd.who == PlayerTypeMe && game.turnOwner == uid) || (dd.who == PlayerTypeThem && game.turnOwner != uid) {
 		subAction.IncreaseDamage(dd.amount)
 	}
