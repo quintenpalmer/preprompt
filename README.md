@@ -12,7 +12,7 @@ From the root of the project (e.g. /home/john/postprompt)
 
 (the same location that this file is located in)
 
-	./tool/postprompt bashrc
+	./bin/postprompt bashrc
 
 Then source your bashrc
 
