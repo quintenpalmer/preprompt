@@ -33,7 +33,6 @@ func getPersists(persistRepr interface{}) (PersistList, error) {
 		if err != nil { return nil, err }
 		persistList = append(persistList,persist)
 	}
-	//fmt.Println(persistRepr)
 	return persistList, nil
 }
 
