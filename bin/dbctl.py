@@ -4,7 +4,7 @@ import sys
 import glob
 from pprint import pprint
 
-from pplib import json_parser
+from pplib.json_parser import PPjo
 from pplib.database import Database
 from pplib.manage_db import register_add_cards
 
@@ -28,8 +28,8 @@ class DatabaseController:
 	def load_cards(self):
 		self.load_card_info()
 		path = os.path.join(self.base_path,'starting_cards.json')
-		obj = json_parser.create_object_from_file(path)
-		card_ids = json_parser.get_objects(obj,'card_ids')
+		obj = PPjo(filename=path)
+		card_ids = obj.get_strings('card_ids')
 		for key,card_id in enumerate(card_ids):
 			key += 1
 			self.db.update("insert into play_starting_cards values(%s,%s)"%(key,card_id))
@@ -43,11 +43,11 @@ class DatabaseController:
 		pre_glob_path = os.path.join(self.base_path,'cards','*.json')
 		card_files = glob.glob(pre_glob_path)
 		for card_file in card_files:
-			obj = json_parser.create_object_from_file(card_file)
-			card = json_parser.get_object(obj,'card')
-			key = json_parser.get_object(obj,'index')
-			name = json_parser.get_string(card,'name')
-			effect = json_parser.get_string(card,'effect')
+			obj = PPjo(filename=card_file)
+			card = obj.get_object('card')
+			key = obj.get_string('index')
+			name = card.get_string('name')
+			effect = card.get_string('effect')
 			self.db.update('insert into play_card_names values(%s,"%s","%s")'%
 				(key,name,effect))
 
@@ -58,12 +58,12 @@ class DatabaseController:
 		self.db.delete('auth_user')
 	def load_users(self):
 		path = os.path.join(self.base_path,'users.json')
-		obj = json_parser.create_object_from_file(path)
-		users = json_parser.get_objects(obj,'users')
+		obj = PPjo(filename=path)
+		users = obj.get_objects('users')
 		for user in users:
-			username = json_parser.get_string(user,"username")
-			password = json_parser.get_string(user,"password")
-			email = json_parser.get_string(user,"email")
+			username = user.get_string("username")
+			password = user.get_string("password")
+			email = user.get_string("email")
 			User.objects.create_user(username,email,password)
 			register_add_cards(username)
 

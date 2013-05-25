@@ -27,7 +27,9 @@ def request_close(close_code):
 	return send_request(json.dumps( { 'request' : { 'command' : 'close', 'version' : str(close_code) } } ) )
 
 def request_list(uid):
-	return send_request(json.dumps( { 'request' : { 'command' : 'list', 'playerId' : str(uid) } } ) )
+	ret = send_request(json.dumps( { 'request' : { 'command' : 'list', 'playerId' : str(uid) } } ) )
+	print ret
+	return ret
 
 def request_new(p1_uid,p1_did,p2_uid,p2_did):
 	return send_request(json.dumps( { 'request' : { 'command' : 'new',

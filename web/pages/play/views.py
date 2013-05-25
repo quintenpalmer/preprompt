@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 from pplib.client_host_json import *
-from pplib.json_parser import *
+from pplib.json_parser import PPjo
 from pplib import database
 
 def splash(request):
@@ -29,7 +29,7 @@ def ajax_new_game(request):
 	uid = get_user_key(request.COOKIES['username'])
 	if command.get('command') == 'new':
 		print handle_request('new',player_id=uid)
-	gids = sorted(get_ints(create_object(request_list(uid)),'gameId'))
+	gids = sorted(PPjo(request_list(uid)).get_ints('gameId'))
 	return HttpResponse(str(gids).replace(' ','').strip('[').strip(']'),content_type='text/plain')
 
 @login_required
@@ -49,7 +49,7 @@ def games(request):
 	uid = get_user_key(request.COOKIES['username'])
 	if command.get('command') == 'new':
 		handle_request('new',{'player_id':uid})
-	gids = sorted(get_ints(create_object(request_list(uid)),'gameId'))
+	gids = sorted(PPjo(request_list(uid)).get_ints('gameId'))
 	c = {}
 	c.update(csrf(request))
 	c['game_ids']=str(gids).replace(' ','').strip('[').strip(']')

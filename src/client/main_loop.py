@@ -18,7 +18,7 @@ class Main_Loop:
 				self.last_command = self.command
 				self.run_command()
 			except Exception as e:
-				print "error caught"
+				self.current_message = "error caught"
 				#print e.message
 	def run_command(self):
 		if self.command == 'new':

@@ -12,4 +12,4 @@ def register_add_cards(username):
 	values_list = []
 	start_index = len(db.select('select id from play_decks'))+1
 	for i,card in enumerate(cards):
-		db.update('insert into play_decks values(%s,%s,0,%s)'%(i+start_index,card,uid))
+		db.update('insert into play_decks values(%s,%s,0,%s)'%(i+start_index,uid,card))

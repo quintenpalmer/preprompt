@@ -1,4 +1,4 @@
-from pplib import json_parser
+from pplib.json_parser import PPjo
 
 class Model:
 	def __init__(self,uid):
@@ -10,14 +10,14 @@ class Model:
 	def update_game(self,resp):
 		#with open("ASDF.json","w") as f:
 		#	f.write(str(resp))
-		obj = json_parser.create_object(resp)
-		respType = json_parser.get_string(obj,"respType")
+		obj = PPjo(resp)
+		respType = obj.get_string("respType")
 		if respType == "ok":
-			command = json_parser.get_string(obj,"command")
-			gameId = json_parser.get_int(obj,"gameId")
-			message = json_parser.get_string(obj,"message")
-			gameRepr = json_parser.get_object(obj,"gameRepr")
-			self.games[gameId] = Game(json_parser.get_object(gameRepr,"game"))
+			command = obj.get_string("command")
+			gameId = obj.get_int("gameId")
+			message = obj.get_string("message")
+			gameRepr = obj.get_object("gameRepr")
+			self.games[gameId] = Game(gameRepr.get_object("game"))
 			self.current_game_id = gameId
 			return message
 		else:
@@ -28,31 +28,31 @@ class Model:
 
 class Game:
 	def __init__(self,obj):
-		self.me = Player_Container(json_parser.get_object(obj,'me'))
-		self.them = Player_Container(json_parser.get_object(obj,'them'))
-		self.super_phase = json_parser.get_int(obj,'superPhase')
-		self.phase = json_parser.get_int(obj,'phase')
-		self.turn_owner = json_parser.get_int(obj,'turnOwner')
-		self.has_drawn = json_parser.get_bool(obj,'hasDrawn')
+		self.me = Player_Container(obj.get_object('me'))
+		self.them = Player_Container(obj.get_object('them'))
+		self.super_phase = obj.get_int('superPhase')
+		self.phase = obj.get_int('phase')
+		self.turn_owner = obj.get_int('turnOwner')
+		self.has_drawn = obj.get_bool('hasDrawn')
 
 class Player_Container:
 	def __init__(self,obj):
-		self.uid = json_parser.get_int(obj,'uid')
-		self.name = json_parser.get_string(obj,'name')
-		self.health = json_parser.get_int(obj,'health')
-		self.deck    = Card_List(json_parser.get_object(obj,'deck'))
-		self.hand    = Card_List(json_parser.get_object(obj,'hand'))
-		self.active  = Card_List(json_parser.get_object(obj,'active'))
-		self.grave   = Card_List(json_parser.get_object(obj,'grave'))
-		self.special = Card_List(json_parser.get_object(obj,'special'))
+		self.uid = obj.get_int('uid')
+		self.name = obj.get_string('name')
+		self.health = obj.get_int('health')
+		self.deck    = Card_List(obj.get_object('deck'))
+		self.hand    = Card_List(obj.get_object('hand'))
+		self.active  = Card_List(obj.get_object('active'))
+		self.grave   = Card_List(obj.get_object('grave'))
+		self.special = Card_List(obj.get_object('special'))
 
 class Card_List:
 	def __init__(self,obj):
 		self.cards = []
-		for card_element in json_parser.get_objects(obj,'cards'):
+		for card_element in obj.get_objects('cards'):
 			self.cards.append(Card(card_element))
 
 class Card:
 	def __init__(self,obj):
-		card = json_parser.get_object(obj,'card')
-		self.name = json_parser.get_string(card,'name')
+		card = obj.get_object('card')
+		self.name = card.get_string('name')
