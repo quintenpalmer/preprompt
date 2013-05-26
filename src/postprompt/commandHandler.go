@@ -34,7 +34,7 @@ func handleCommand(buf []byte, model *Model) string {
 	return respondOther(command)
 }
 
-func handleNewGame(request jsonMap, m *Model) string {
+func handleNewGame(request jsonMap, model *Model) string {
 	p1_uid, err := request.getInt("p1_uid")
 	if err != nil {
 		return respondError(err)
@@ -51,7 +51,7 @@ func handleNewGame(request jsonMap, m *Model) string {
 	if err != nil {
 		return respondError(err)
 	}
-	g, i, err := m.AddGame(p1_uid, p1_did, p2_uid, p2_did)
+	g, i, err := model.AddGame(p1_uid, p1_did, p2_uid, p2_did)
 	if err != nil {
 		return respondError(err)
 	}
@@ -62,7 +62,7 @@ func handleNewGame(request jsonMap, m *Model) string {
 	return respondNew(i, gameRepr)
 }
 
-func handleCardPlay(request jsonMap, m *Model) string {
+func handleCardPlay(request jsonMap, model *Model) string {
 	gameId, err := request.getInt("gameId")
 	if err != nil {
 		return respondError(err)
@@ -87,7 +87,7 @@ func handleCardPlay(request jsonMap, m *Model) string {
 		targetCard, err := request.getInt("targetCard")
 		if err != nil { return respondError(err) }
 	*/
-	game, err := m.GetGameFromGameId(gameId)
+	game, err := model.GetGameFromGameId(gameId)
 	if err != nil {
 		return respondError(err)
 	}
@@ -114,7 +114,7 @@ func handleCardPlay(request jsonMap, m *Model) string {
 	return respondAction("play", gameId, gameRepr, message)
 }
 
-func handleBuiltinAction(request jsonMap, m *Model, myInstantList InstantList, command string) string {
+func handleBuiltinAction(request jsonMap, model *Model, myInstantList InstantList, command string) string {
 	gameId, err := request.getInt("gameId")
 	if err != nil {
 		return respondError(err)
@@ -123,7 +123,7 @@ func handleBuiltinAction(request jsonMap, m *Model, myInstantList InstantList, c
 	if err != nil {
 		return respondError(err)
 	}
-	game, err := m.GetGameFromGameId(gameId)
+	game, err := model.GetGameFromGameId(gameId)
 	if err != nil {
 		return respondError(err)
 	}
@@ -138,14 +138,13 @@ func handleBuiltinAction(request jsonMap, m *Model, myInstantList InstantList, c
 	return respondAction(command, gameId, gameRepr, message)
 }
 
-func handleList(request jsonMap, m *Model) string {
-	// TODO Only return the games that this player is playing
+func handleList(request jsonMap, model *Model) string {
 	playerId, err := request.getInt("playerId")
 	if err != nil {
 		return respondError(err)
 	}
 	gameIds := make([]int, 0)
-	games := m.GetGameIdsFromUid(playerId)
+	games := model.GetGameIdsFromUid(playerId)
 	for k, _ := range games {
 		gameIds = append(gameIds, k)
 	}
