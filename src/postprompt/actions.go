@@ -103,7 +103,7 @@ type shuffler struct {
 }
 
 func (sh *shuffler) applyTo(uid int, subAction *SubAction) {
-	subAction.SetDoShuffle(true,sh.playerType)
+	subAction.SetDoShuffle(true, sh.playerType)
 }
 
 /* Card Move Instant Effect */

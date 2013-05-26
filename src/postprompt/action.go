@@ -148,11 +148,11 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 		}
 		deck := player.cardList[Deck]
 		startSize := len(deck)
-		newSlice := make([]*Card,0)
+		newSlice := make([]*Card, 0)
 		for i := startSize; i > 0; i-- {
 			r := rand.Intn(i)
-			newSlice = append(newSlice,deck[r])
-			deck = append(deck[:r],deck[r+1:]...)
+			newSlice = append(newSlice, deck[r])
+			deck = append(deck[:r], deck[r+1:]...)
 		}
 		player.cardList[Deck] = newSlice
 	}
