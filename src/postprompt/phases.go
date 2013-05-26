@@ -17,4 +17,3 @@ const (
 	DoneSuperPhase
 	StepOneSuperPhase = 1
 )
-

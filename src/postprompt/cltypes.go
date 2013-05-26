@@ -16,21 +16,21 @@ const (
 )
 
 type CLInfo struct {
-	index int
+	index  int
 	cltype CLType
-	name string
+	name   string
 }
 
 var CLTypes [6]CLInfo = [6]CLInfo{
-	CLInfo{0,Deck,"deck"},
-	CLInfo{1,Hand,"hand"},
-	CLInfo{2,Active,"active"},
-	CLInfo{3,Grave,"grave"},
-	CLInfo{4,Special,"special"},
-	CLInfo{5,Other,"other"}}
+	CLInfo{0, Deck, "deck"},
+	CLInfo{1, Hand, "hand"},
+	CLInfo{2, Active, "active"},
+	CLInfo{3, Grave, "grave"},
+	CLInfo{4, Special, "special"},
+	CLInfo{5, Other, "other"}}
 
 func GetNameFromIndex(cltype CLType) (string, error) {
-	for _,cli := range CLTypes {
+	for _, cli := range CLTypes {
 		if cltype == cli.cltype {
 			return cli.name, nil
 		}
@@ -39,7 +39,7 @@ func GetNameFromIndex(cltype CLType) (string, error) {
 }
 
 func GetIndexFromName(name string) (CLType, error) {
-	for _,cli := range CLTypes {
+	for _, cli := range CLTypes {
 		if name == cli.name {
 			return cli.cltype, nil
 		}

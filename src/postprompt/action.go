@@ -7,26 +7,26 @@ type Action struct {
 }
 
 type SubAction struct {
-	damage int
-	doesDamage bool
-	heal int
-	doesHeal bool
-	elementType ElementType
-	movement *Movement
+	damage         int
+	doesDamage     bool
+	heal           int
+	doesHeal       bool
+	elementType    ElementType
+	movement       *Movement
 	superPhaseStep SuperPhase
-	phaseStep Phase
-	turnStep bool
-	hasSetDidDraw bool
-	didDraw bool
+	phaseStep      Phase
+	turnStep       bool
+	hasSetDidDraw  bool
+	didDraw        bool
 }
 
 type Movement struct {
 	srcPlayerType PlayerType
-	srcList CLType
-	srcIndex int
+	srcList       CLType
+	srcIndex      int
 	dstPlayerType PlayerType
-	dstList CLType
-	dstIndex int
+	dstList       CLType
+	dstIndex      int
 }
 
 func NewAction(instant *Instant) *Action {
@@ -52,57 +52,69 @@ func NewSubAction() *SubAction {
 }
 
 func Act(game *Game, uid int, instantList InstantList) (string, error) {
-	actions := make([]*Action,0)
-	for _,instant := range instantList {
-		actions = append(actions,NewAction(instant))
+	actions := make([]*Action, 0)
+	for _, instant := range instantList {
+		actions = append(actions, NewAction(instant))
 	}
 
 	// TODO sort all of the actions on to-exist field
 
 	me, err := game.GetMeFromUid(uid)
-	if err != nil { return "", err }
+	if err != nil {
+		return "", err
+	}
 	them, err := game.GetThemFromUid(uid)
-	if err != nil { return "", err }
+	if err != nil {
+		return "", err
+	}
 	enemyuid := them.uid
 
 	fullMessage := ""
 	for len(actions) > 0 {
 		var action *Action
 		action, actions = actions[len(actions)-1], actions[:len(actions)-1]
-		subActions, err := action.instant.applyTo(action,game,uid)
-		if err != nil { return "", err }
+		subActions, err := action.instant.applyTo(action, game, uid)
+		if err != nil {
+			return "", err
+		}
 
-		for _,subAction := range subActions {
+		for _, subAction := range subActions {
 			// Activate all triggers
 			for _, card := range me.cardList[Active] {
 				for _, trigger := range card.triggers {
-					trigger.applyTo(subAction,action,game,uid)
+					trigger.applyTo(subAction, action, game, uid)
 				}
 			}
 			for _, card := range them.cardList[Active] {
 				for _, trigger := range card.triggers {
-					trigger.applyTo(subAction,action,game,enemyuid)
+					trigger.applyTo(subAction, action, game, enemyuid)
 				}
 			}
-			message, err := subAction.act(game,uid)
-			if err != nil { return fullMessage, err }
-			if message != "ok" { fullMessage = fullMessage + message }
+			message, err := subAction.act(game, uid)
+			if err != nil {
+				return fullMessage, err
+			}
+			if message != "ok" {
+				fullMessage = fullMessage + message
+			}
 		}
 		// Destroy cards that don't exist for both players
 		for index, card := range me.cardList[Active] {
-			if ! card.persists.doesPersist(game) {
-				actions = append(actions, NewAction(GetCardExpire(PlayerTypeMe,index)))
+			if !card.persists.doesPersist(game) {
+				actions = append(actions, NewAction(GetCardExpire(PlayerTypeMe, index)))
 				break
 			}
 		}
 		for index, card := range them.cardList[Active] {
-			if ! card.persists.doesPersist(game) {
-				actions = append(actions, NewAction(GetCardExpire(PlayerTypeThem,index)))
+			if !card.persists.doesPersist(game) {
+				actions = append(actions, NewAction(GetCardExpire(PlayerTypeThem, index)))
 				break
 			}
 		}
 	}
-	if fullMessage == "" { fullMessage = "ok" }
+	if fullMessage == "" {
+		fullMessage = "ok"
+	}
 	return fullMessage, nil
 }
 
@@ -120,12 +132,16 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 	me.health += subAction.heal
 	them.health -= subAction.damage
 
-	if game.superPhase + subAction.superPhaseStep <= DoneSuperPhase {
+	if game.superPhase+subAction.superPhaseStep <= DoneSuperPhase {
 		game.superPhase += subAction.superPhaseStep
-	} else { return "reached end super phase", nil }
-	if game.phase + subAction.phaseStep <= EndPhase {
+	} else {
+		return "reached end super phase", nil
+	}
+	if game.phase+subAction.phaseStep <= EndPhase {
 		game.phase += subAction.phaseStep
-	} else { return "reached end phase", nil }
+	} else {
+		return "reached end phase", nil
+	}
 
 	if subAction.turnStep {
 		if game.turnOwner == game.uids[0] {
@@ -134,7 +150,7 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 			game.turnOwner = game.uids[0]
 		}
 		game.phase = DrawPhase
-		for _,card := range them.cardList[Active] {
+		for _, card := range them.cardList[Active] {
 			card.persists.tick()
 		}
 	}
@@ -146,15 +162,19 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 		} else {
 			player = them
 		}
-		card, err := player.pop(subAction.movement.srcList,subAction.movement.srcIndex)
-		if err != nil { return "error", err }
+		card, err := player.pop(subAction.movement.srcList, subAction.movement.srcIndex)
+		if err != nil {
+			return "error", err
+		}
 		if subAction.movement.dstPlayerType == 0 {
 			player = me
 		} else {
 			player = them
 		}
-		err = player.push(subAction.movement.dstList,card,subAction.movement.dstIndex)
-		if err != nil { return "problem", err }
+		err = player.push(subAction.movement.dstList, card, subAction.movement.dstIndex)
+		if err != nil {
+			return "problem", err
+		}
 	}
 
 	if subAction.hasSetDidDraw {
@@ -203,12 +223,12 @@ func (subAction *SubAction) SetTurnStep(turnStep bool) {
 }
 
 func (subAction *SubAction) SetMovement(
-		srcPlayerType PlayerType,
-		srcList CLType,
-		srcIndex int,
-		dstPlayerType PlayerType,
-		dstList CLType,
-		dstIndex int) {
+	srcPlayerType PlayerType,
+	srcList CLType,
+	srcIndex int,
+	dstPlayerType PlayerType,
+	dstList CLType,
+	dstIndex int) {
 	subAction.movement = new(Movement)
 	subAction.movement.srcPlayerType = srcPlayerType
 	subAction.movement.srcList = srcList

@@ -6,7 +6,7 @@ func GetDirectDamageIL(amount int, elementType ElementType) InstantList {
 	//instantList := make(InstantList,0)
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		&directDamageInstantEffect{amount,elementType}}
+		&directDamageInstantEffect{amount, elementType}}
 	instant.conds = []InstantCond{
 		new(validInstant)}
 	return []*Instant{instant}
@@ -23,7 +23,7 @@ func GetPhaseStepIL() InstantList {
 func GetDrawIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
 		&setDidDraw{true}}
 	instant.conds = []InstantCond{
 		&validPhase{DrawPhase},
@@ -49,16 +49,16 @@ func GetSetupIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
 		new(stepSuperPhase),
-		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeMe,Deck,-1,PlayerTypeMe,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1),
-		newCardMoveInstantEffect(PlayerTypeThem,Deck,-1,PlayerTypeThem,Hand,-1)}
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1)}
 	instant.conds = []InstantCond{
 		&validSuperPhase{PreSuperPhase}}
 	return []*Instant{instant}
@@ -76,7 +76,7 @@ func GetEmptyIL() InstantList {
 func GetPlayMoveCardIL(srcIndex int) InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(PlayerTypeMe,Hand,srcIndex,PlayerTypeMe,Active,-1)}
+		newCardMoveInstantEffect(PlayerTypeMe, Hand, srcIndex, PlayerTypeMe, Active, -1)}
 	instant.conds = []InstantCond{
 		&validPhase{MainPhase},
 		&validSuperPhase{MainSuperPhase}}
@@ -86,7 +86,7 @@ func GetPlayMoveCardIL(srcIndex int) InstantList {
 func GetCardExpire(givenPlayerType PlayerType, srcIndex int) *Instant {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(givenPlayerType,Active,srcIndex,givenPlayerType,Grave,-1)}
+		newCardMoveInstantEffect(givenPlayerType, Active, srcIndex, givenPlayerType, Grave, -1)}
 	instant.conds = []InstantCond{
 		new(validInstant)}
 	return instant
@@ -97,12 +97,12 @@ func GetCardExpire(givenPlayerType PlayerType, srcIndex int) *Instant {
 /* Card Move Instant Effect */
 
 func newCardMoveInstantEffect(
-		srcPlayerType PlayerType,
-		srcList CLType,
-		srcIndex int,
-		dstPlayerType PlayerType,
-		dstList CLType,
-		dstIndex int,) InstantEffect {
+	srcPlayerType PlayerType,
+	srcList CLType,
+	srcIndex int,
+	dstPlayerType PlayerType,
+	dstList CLType,
+	dstIndex int) InstantEffect {
 	cm := new(cardMoveInstantEffect)
 	cm.srcPlayerType = srcPlayerType
 	cm.srcList = srcList
@@ -114,13 +114,14 @@ func newCardMoveInstantEffect(
 }
 
 type cardMoveInstantEffect struct {
-		srcPlayerType PlayerType
-		srcList CLType
-		srcIndex int
-		dstPlayerType PlayerType
-		dstList CLType
-		dstIndex int
+	srcPlayerType PlayerType
+	srcList       CLType
+	srcIndex      int
+	dstPlayerType PlayerType
+	dstList       CLType
+	dstIndex      int
 }
+
 func (cm *cardMoveInstantEffect) applyTo(uid int, subAction *SubAction) {
 	movement := new(Movement)
 	movement.srcPlayerType = cm.srcPlayerType
@@ -134,21 +135,24 @@ func (cm *cardMoveInstantEffect) applyTo(uid int, subAction *SubAction) {
 
 /* Turn Swap Instant Effect */
 
-type stepTurn struct { }
+type stepTurn struct{}
+
 func (st *stepTurn) applyTo(uid int, subAction *SubAction) {
 	subAction.SetTurnStep(true)
 }
 
 /* Phase Step Instant Effect */
 
-type stepPhase struct { }
+type stepPhase struct{}
+
 func (sp *stepPhase) applyTo(uid int, subAction *SubAction) {
 	subAction.SetPhaseStep(StepOnePhase)
 }
 
 /* Super Phase Step Instant Effect */
 
-type stepSuperPhase struct { }
+type stepSuperPhase struct{}
+
 func (ssp *stepSuperPhase) applyTo(uid int, subAction *SubAction) {
 	subAction.SetSuperPhaseStep(StepOneSuperPhase)
 }
@@ -158,21 +162,24 @@ func (ssp *stepSuperPhase) applyTo(uid int, subAction *SubAction) {
 type setDidDraw struct {
 	didDraw bool
 }
+
 func (sdd *setDidDraw) applyTo(uid int, subAction *SubAction) {
 	subAction.SetDidDraw(sdd.didDraw)
 }
 
 /* Do Nothing Instant Effect */
 
-type doNothing struct { }
-func (dn *doNothing) applyTo(uid int, subAction *SubAction) { }
+type doNothing struct{}
+
+func (dn *doNothing) applyTo(uid int, subAction *SubAction) {}
 
 /* Direct Damage Instant Effect */
 
 type directDamageInstantEffect struct {
-	amount int
+	amount      int
 	elementType ElementType
 }
+
 func (dd *directDamageInstantEffect) applyTo(uid int, subAction *SubAction) {
 	subAction.SetDamage(dd.amount)
 	subAction.SetElementType(dd.elementType)
@@ -185,6 +192,7 @@ func (dd *directDamageInstantEffect) applyTo(uid int, subAction *SubAction) {
 type validPhase struct {
 	phase Phase
 }
+
 func (vp *validPhase) isValid(game *Game, uid int, action *Action) bool {
 	return game.phase == vp.phase
 }
@@ -194,27 +202,31 @@ func (vp *validPhase) isValid(game *Game, uid int, action *Action) bool {
 type validSuperPhase struct {
 	superPhase SuperPhase
 }
+
 func (vp *validSuperPhase) isValid(game *Game, uid int, action *Action) bool {
 	return game.superPhase == vp.superPhase
 }
 
 /* Always valid */
 
-type validInstant struct { }
+type validInstant struct{}
+
 func (vi *validInstant) isValid(game *Game, uid int, action *Action) bool {
-	return true;
+	return true
 }
 
 /* Only valid on your turn */
 
-type validTurnOwner struct { }
+type validTurnOwner struct{}
+
 func (vto *validTurnOwner) isValid(game *Game, uid int, action *Action) bool {
 	return uid == game.turnOwner
 }
 
 /* Only valid when haven't drawn */
 
-type validHaveNotDrawn struct { }
+type validHaveNotDrawn struct{}
+
 func (vhnd *validHaveNotDrawn) isValid(game *Game, uid int, action *Action) bool {
 	return !game.hasDrawn
 }

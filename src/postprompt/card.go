@@ -1,7 +1,7 @@
 package postprompt
 
 type Card struct {
-	name string
+	name     string
 	instants InstantList
 	persists PersistList
 	triggers TriggerList
@@ -10,14 +10,22 @@ type Card struct {
 func NewCard(id int) (*Card, error) {
 	cardName, cardEffectString, err := GetCardInfo(id)
 	cardEffectRepr, err := loadJson([]byte(cardEffectString))
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	card := new(Card)
 	card.name = cardName
 	card.instants, err = getInstants(cardEffectRepr["instants"])
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	card.persists, err = getPersists(cardEffectRepr["persists"])
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	card.triggers, err = getTriggers(cardEffectRepr["triggers"])
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	return card, nil
 }

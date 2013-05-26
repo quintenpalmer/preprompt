@@ -4,8 +4,8 @@ type gameMapping map[int]*Game
 
 type Model struct {
 	currentIndex int
-	games gameMapping
-	userGames map[int]gameMapping
+	games        gameMapping
+	userGames    map[int]gameMapping
 }
 
 func NewModel() *Model {
@@ -16,12 +16,14 @@ func NewModel() *Model {
 	return model
 }
 
-func (model *Model) AddGame(uid1,did1,uid2,did2 int) (*Game, int, error) {
+func (model *Model) AddGame(uid1, did1, uid2, did2 int) (*Game, int, error) {
 	gameId := model.currentIndex
 	model.currentIndex += 1
-	game, err := NewGame(uid1,did1,uid2,did2)
-	if err != nil { return nil, 0, err }
-	model.bookKeepGame(game,gameId,uid1,uid2)
+	game, err := NewGame(uid1, did1, uid2, did2)
+	if err != nil {
+		return nil, 0, err
+	}
+	model.bookKeepGame(game, gameId, uid1, uid2)
 	return game, gameId, nil
 }
 
@@ -33,10 +35,10 @@ func (model *Model) GetGameFromGameId(gameId int) (*Game, error) {
 }
 
 func (model *Model) bookKeepGame(game *Game, gameId int, uid1 int, uid2 int) {
-	if _,ok := model.userGames[uid1]; ! ok {
+	if _, ok := model.userGames[uid1]; !ok {
 		model.userGames[uid1] = make(gameMapping)
 	}
-	if _,ok := model.userGames[uid2]; ! ok {
+	if _, ok := model.userGames[uid2]; !ok {
 		model.userGames[uid2] = make(gameMapping)
 	}
 	model.userGames[uid1][gameId] = game
@@ -45,7 +47,7 @@ func (model *Model) bookKeepGame(game *Game, gameId int, uid1 int, uid2 int) {
 }
 
 func (model *Model) GetGameIdsFromUid(uid int) gameMapping {
-	if games,ok := model.userGames[uid]; ok {
+	if games, ok := model.userGames[uid]; ok {
 		return games
 	}
 	return make(gameMapping)

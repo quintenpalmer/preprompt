@@ -1,4 +1,3 @@
-
 package postprompt
 
 import "fmt"
@@ -16,7 +15,7 @@ func respondOther(command string) string {
 }
 
 func respondAction(command string, gameId int, gameRepr jsonMap, message string) string {
-	fmt.Println(command," : ",gameId)
+	fmt.Println(command, " : ", gameId)
 	resp := make(jsonMap)
 	resp["respType"] = "ok"
 	resp["command"] = command
@@ -31,7 +30,7 @@ func respondAction(command string, gameId int, gameRepr jsonMap, message string)
 }
 
 func respondNew(gameId int, gameRepr jsonMap) string {
-	fmt.Println("new : ",gameId)
+	fmt.Println("new : ", gameId)
 	resp := make(jsonMap)
 	resp["respType"] = "ok"
 	resp["command"] = "new"
@@ -50,7 +49,8 @@ func respondError(err error) string {
 	resp := make(jsonMap)
 	resp["respType"] = "error"
 	ret, err2 := resp.toString()
-	if err2 != nil { }
+	if err2 != nil {
+	}
 	return ret
 }
 
