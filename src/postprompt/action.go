@@ -1,5 +1,7 @@
 package postprompt
 
+import "math/rand"
+
 type ActionList []*Action
 
 type Action struct {
@@ -18,6 +20,8 @@ type SubAction struct {
 	turnStep       bool
 	hasSetDidDraw  bool
 	didDraw        bool
+	doShuffle      bool
+	whoShuffle     PlayerType
 }
 
 type Movement struct {
@@ -48,6 +52,7 @@ func NewSubAction() *SubAction {
 	subAction.turnStep = false
 	subAction.hasSetDidDraw = false
 	subAction.didDraw = false
+	subAction.doShuffle = false
 	return subAction
 }
 
@@ -131,6 +136,26 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 	}
 	me.health += subAction.heal
 	them.health -= subAction.damage
+
+	if subAction.doShuffle {
+		var player *Player
+		if subAction.whoShuffle == PlayerTypeMe {
+			player = me
+		} else if subAction.whoShuffle == PlayerTypeThem {
+			player = them
+		} else {
+			return "invalid PlayerType given to shuffle", nil
+		}
+		deck := player.cardList[Deck]
+		startSize := len(deck)
+		newSlice := make([]*Card,0)
+		for i := startSize; i > 0; i-- {
+			r := rand.Intn(i)
+			newSlice = append(newSlice,deck[r])
+			deck = append(deck[:r],deck[r+1:]...)
+		}
+		player.cardList[Deck] = newSlice
+	}
 
 	if game.superPhase+subAction.superPhaseStep <= DoneSuperPhase {
 		game.superPhase += subAction.superPhaseStep
@@ -241,4 +266,9 @@ func (subAction *SubAction) SetMovement(
 func (subAction *SubAction) SetDidDraw(didDraw bool) {
 	subAction.hasSetDidDraw = true
 	subAction.didDraw = didDraw
+}
+
+func (subAction *SubAction) SetDoShuffle(doShuffle bool, playerType PlayerType) {
+	subAction.doShuffle = doShuffle
+	subAction.whoShuffle = playerType
 }

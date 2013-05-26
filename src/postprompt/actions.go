@@ -49,6 +49,8 @@ func GetSetupIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
 		new(stepSuperPhase),
+		&shuffler{PlayerTypeMe},
+		&shuffler{PlayerTypeThem},
 		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
 		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
 		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
@@ -93,6 +95,16 @@ func GetCardExpire(givenPlayerType PlayerType, srcIndex int) *Instant {
 }
 
 /* Instant Effects */
+
+/* Shuffle the player's deck */
+
+type shuffler struct {
+	playerType PlayerType
+}
+
+func (sh *shuffler) applyTo(uid int, subAction *SubAction) {
+	subAction.SetDoShuffle(true,sh.playerType)
+}
 
 /* Card Move Instant Effect */
 
