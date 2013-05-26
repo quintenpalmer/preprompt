@@ -97,7 +97,7 @@ def help_text():
 	ret = "Database Controlling Tool  - Usage :\n"
 	ret += "  ppdbctl.py <table> <command>\n"
 	for key,val in commands.items():
-		ret += '    %0-8s[ %s ]\n'%(key,' | '.join(val.keys()))
+		ret += '    %0-10s[ %s ]\n'%(key,' | '.join(val.keys()))
 	ret = ret[:-1]
 	return ret
 
