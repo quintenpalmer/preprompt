@@ -173,7 +173,7 @@ function display_card_list(card_list, expand, card_list_div, visible, action){
 				card_name = '';
 			}
 			if (visible) {
-				card = display_icon(index, action);
+				card = display_icon(index, action, card_name);
 				li = document.createElement("li").appendChild(card);
 			} else {
 				li = document.createElement("li").appendChild(display_back());

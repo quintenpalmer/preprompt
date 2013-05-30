@@ -40,14 +40,15 @@ function Player(obj){
 
 function Card_List(obj){
 	this.cards = [];
-	var card_names = obj.cards
-	for(var i=0;i<card_names.length;i++){
-		this.cards.push(new Card(card_names[i]));
+	var card_objs = obj.cards
+	for(var i=0;i<card_objs.length;i++){
+		this.cards.push(new Card(card_objs[i].card));
 	}
 }
 
 function Card(obj){
 	this.name = obj.name
+	this.effect = obj.effect
 }
 
 var super_phase_setup = '0';

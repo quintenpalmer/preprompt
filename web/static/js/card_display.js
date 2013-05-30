@@ -1,7 +1,7 @@
 /* Displays the small version of a card.
 Right now this only displays a single static card; eventually it should get
 information from the database and build the appropriate card based on input. */
-function display_icon(id, action) {
+function display_icon(id, action, name) {
 	var card = document.createElement("div");
 		card.setAttribute("class", "click-overlay");
 		if (action != null) { // apply the action, if there is one
@@ -17,7 +17,7 @@ function display_icon(id, action) {
 		art.innerHTML = "<img src=\"/static/images/cards/art/0000i_Test.png\">";
 	var desc = document.createElement("div");
 		desc.setAttribute("class", "card-desc");
-		desc.innerHTML += "i"; /* one of these lines for each icon */
+		desc.innerHTML += name; /* one of these lines for each icon */
 
 	frame.appendChild(art); /* top-most */
 	frame.appendChild(desc);
