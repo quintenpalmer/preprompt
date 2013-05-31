@@ -2,6 +2,10 @@ package postprompt
 
 import "math/rand"
 
+type FullAction struct {
+	actions ActionList
+}
+
 type ActionList []*Action
 
 type Action struct {
@@ -57,9 +61,10 @@ func NewSubAction() *SubAction {
 }
 
 func Act(game *Game, uid int, instantList InstantList) (string, error) {
-	actions := make([]*Action, 0)
+	fullAction := new(FullAction)
+	fullAction.actions = make([]*Action, 0)
 	for _, instant := range instantList {
-		actions = append(actions, NewAction(instant))
+		fullAction.actions = append(fullAction.actions, NewAction(instant))
 	}
 
 	// TODO sort all of the actions on to-exist field
@@ -75,9 +80,9 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 	enemyuid := them.uid
 
 	fullMessage := ""
-	for len(actions) > 0 {
+	for len(fullAction.actions) > 0 {
 		var action *Action
-		action, actions = actions[len(actions)-1], actions[:len(actions)-1]
+		action, fullAction.actions = fullAction.actions[len(fullAction.actions)-1], fullAction.actions[:len(fullAction.actions)-1]
 		subActions, err := action.instant.applyTo(action, game, uid)
 		if err != nil {
 			return "", err
@@ -87,14 +92,15 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 			// Activate all triggers
 			for _, card := range me.cardList[Active] {
 				for _, trigger := range card.triggers {
-					trigger.applyTo(subAction, action, game, uid)
+					trigger.applyTo(subAction, action, fullAction, game, uid)
 				}
 			}
 			for _, card := range them.cardList[Active] {
 				for _, trigger := range card.triggers {
-					trigger.applyTo(subAction, action, game, enemyuid)
+					trigger.applyTo(subAction, action, fullAction, game, enemyuid)
 				}
 			}
+			// Do the deed
 			message, err := subAction.act(game, uid)
 			if err != nil {
 				return fullMessage, err
@@ -106,13 +112,13 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 		// Destroy cards that don't exist for both players
 		for index, card := range me.cardList[Active] {
 			if !card.persists.doesPersist(game) {
-				actions = append(actions, NewAction(GetCardExpire(PlayerTypeMe, index)))
+				fullAction.actions = append(fullAction.actions, NewAction(GetCardExpire(PlayerTypeMe, index)))
 				break
 			}
 		}
 		for index, card := range them.cardList[Active] {
 			if !card.persists.doesPersist(game) {
-				actions = append(actions, NewAction(GetCardExpire(PlayerTypeThem, index)))
+				fullAction.actions = append(fullAction.actions, NewAction(GetCardExpire(PlayerTypeThem, index)))
 				break
 			}
 		}

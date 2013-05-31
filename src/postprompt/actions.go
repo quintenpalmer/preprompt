@@ -85,6 +85,15 @@ func GetPlayMoveCardIL(srcIndex int) InstantList {
 	return []*Instant{instant}
 }
 
+func GetCardDestroyFromHand(srcIndex int) *Instant {
+	instant := new(Instant)
+	instant.effect = []InstantEffect{
+		newCardMoveInstantEffect(PlayerTypeThem, Hand, srcIndex, PlayerTypeThem, Grave, -1)}
+	instant.conds = []InstantCond{
+		new(validInstant)}
+	return instant
+}
+
 func GetCardExpire(givenPlayerType PlayerType, srcIndex int) *Instant {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
@@ -109,12 +118,12 @@ func (sh *shuffler) applyTo(uid int, subAction *SubAction) {
 /* Card Move Instant Effect */
 
 func newCardMoveInstantEffect(
-	srcPlayerType PlayerType,
-	srcList CLType,
-	srcIndex int,
-	dstPlayerType PlayerType,
-	dstList CLType,
-	dstIndex int) InstantEffect {
+		srcPlayerType PlayerType,
+		srcList CLType,
+		srcIndex int,
+		dstPlayerType PlayerType,
+		dstList CLType,
+		dstIndex int) InstantEffect {
 	cm := new(cardMoveInstantEffect)
 	cm.srcPlayerType = srcPlayerType
 	cm.srcList = srcList

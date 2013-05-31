@@ -8,21 +8,21 @@ type Trigger struct {
 }
 
 type TriggerEffect interface {
-	applyTo(*SubAction, *Game, int)
+	applyTo(*SubAction, *FullAction, *Game, int)
 }
 
 type TriggerCond interface {
 	isValid(*SubAction, *Action, *Game, int) bool
 }
 
-func (trigger *Trigger) applyTo(subAction *SubAction, action *Action, game *Game, uid int) error {
+func (trigger *Trigger) applyTo(subAction *SubAction, action *Action, fullAction *FullAction, game *Game, uid int) error {
 	playable := true
 	for _, icond := range trigger.conds {
 		playable = playable && icond.isValid(subAction, action, game, uid)
 	}
 	if playable {
 		for _, ieffect := range trigger.effect {
-			ieffect.applyTo(subAction, game, uid)
+			ieffect.applyTo(subAction, fullAction, game, uid)
 		}
 		return nil
 	}
@@ -74,6 +74,8 @@ func getTriggerEffectFromType(triggerEffectRepr map[string]interface{}) ([]Trigg
 	switch effectType {
 	case "DamageEnhance":
 		return getDamageEnhancerHelper(triggerEffectRepr)
+	case "CardDestroyOnDamage":
+		return getCardDestroyOnDamageHelper(triggerEffectRepr)
 	case "NoTrigger":
 		return getDoNothingTrigger()
 	default:
@@ -94,6 +96,19 @@ func getTriggerCondFromType(triggerCondRepr map[string]interface{}) ([]TriggerCo
 		return nil, Newpperror("Invalid trigger Effect Type found : " + effectType)
 	}
 	return nil, Newpperror("Invalid trigger Effect Type found : " + effectType)
+}
+
+func getCardDestroyOnDamageHelper(triggerEffectRepr map[string]interface{}) ([]TriggerEffect, error) {
+	params, ok := triggerEffectRepr["params"].(map[string]interface{})
+	if !ok {
+		return nil, Newpperror("Could not load trigger effect params from json")
+	}
+	amountFloat, ok := params["amount"].(float64)
+	if !ok {
+		return nil, Newpperror("Could not load trigger effect amount from json")
+	}
+	amount := int(amountFloat)
+	return []TriggerEffect{&cardDestroyTriggerOnDamageEffect{amount}}, nil
 }
 
 func getDamageEnhancerHelper(triggerEffectRepr map[string]interface{}) ([]TriggerEffect, error) {
@@ -140,14 +155,26 @@ func getAlwaysValidTrigger() ([]TriggerCond, error) {
 	return []TriggerCond{new(validTrigger)}, nil
 }
 
-/* Direct Damage Instant Effect */
+/* Card Destroy Trigger on Damage Effect */
+
+type cardDestroyTriggerOnDamageEffect struct {
+	amount int
+}
+
+func (cd *cardDestroyTriggerOnDamageEffect) applyTo(subAction *SubAction, fullAction *FullAction, game *Game, uid int) {
+	if subAction.doesDamage && subAction.damage >= cd.amount {
+		fullAction.actions = append(fullAction.actions,NewAction(GetCardDestroyFromHand(0)))
+	}
+}
+
+/* Direct Damage Trigger Effect */
 
 type directDamageTriggerEffect struct {
 	amount int
 	who    PlayerType
 }
 
-func (dd *directDamageTriggerEffect) applyTo(subAction *SubAction, game *Game, uid int) {
+func (dd *directDamageTriggerEffect) applyTo(subAction *SubAction, fullAction *FullAction, game *Game, uid int) {
 	if dd.who == PlayerTypeBoth || (dd.who == PlayerTypeMe && game.turnOwner == uid) || (dd.who == PlayerTypeThem && game.turnOwner != uid) {
 		subAction.IncreaseDamage(dd.amount)
 	}
@@ -157,7 +184,7 @@ func (dd *directDamageTriggerEffect) applyTo(subAction *SubAction, game *Game, u
 
 type doNothingTrigger struct{}
 
-func (dnt *doNothingTrigger) applyTo(subAction *SubAction, game *Game, uid int) {}
+func (dnt *doNothingTrigger) applyTo(subAction *SubAction, fullAction *FullAction, game *Game, uid int) {}
 
 /* Always valid Trigger */
 

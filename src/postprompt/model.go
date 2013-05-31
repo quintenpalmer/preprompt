@@ -1,5 +1,10 @@
 package postprompt
 
+import (
+	"math/rand"
+	"time"
+)
+
 type gameMapping map[int]*Game
 
 type Model struct {
@@ -13,6 +18,7 @@ func NewModel() *Model {
 	model.games = make(gameMapping)
 	model.currentIndex = 0
 	model.userGames = make(map[int]gameMapping)
+	rand.Seed(time.Now().UTC().UnixNano())
 	return model
 }
 

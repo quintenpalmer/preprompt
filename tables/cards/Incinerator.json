@@ -29,11 +29,10 @@
             "triggers": [
 				{
 					"teffect" : {
-						"type": "DamageEnhance",
+						"type": "CardDestroyOnDamage",
 						"element": "Fire",
-						"params": {
-							"amount": 4,
-							"who": 0
+						"params" : {
+							"amount": 1
 						}
 					},
 					"tcond" : {
