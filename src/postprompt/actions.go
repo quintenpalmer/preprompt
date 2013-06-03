@@ -23,7 +23,7 @@ func GetPhaseStepIL() InstantList {
 func GetDrawIL() InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1,false),
 		&setDidDraw{true}}
 	instant.conds = []InstantCond{
 		&validPhase{DrawPhase},
@@ -51,16 +51,16 @@ func GetSetupIL() InstantList {
 		new(stepSuperPhase),
 		&shuffler{PlayerTypeMe},
 		&shuffler{PlayerTypeThem},
-		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1),
-		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1)}
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeMe, Deck, -1, PlayerTypeMe, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1,false),
+		newCardMoveInstantEffect(PlayerTypeThem, Deck, -1, PlayerTypeThem, Hand, -1,false)}
 	instant.conds = []InstantCond{
 		&validSuperPhase{PreSuperPhase}}
 	return []*Instant{instant}
@@ -78,7 +78,7 @@ func GetEmptyIL() InstantList {
 func GetPlayMoveCardIL(srcIndex int) InstantList {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(PlayerTypeMe, Hand, srcIndex, PlayerTypeMe, Active, -1)}
+		newCardMoveInstantEffect(PlayerTypeMe, Hand, srcIndex, PlayerTypeMe, Active, -1,false)}
 	instant.conds = []InstantCond{
 		&validPhase{MainPhase},
 		&validSuperPhase{MainSuperPhase}}
@@ -88,7 +88,7 @@ func GetPlayMoveCardIL(srcIndex int) InstantList {
 func GetCardDestroyFromHand(srcIndex int) *Instant {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(PlayerTypeThem, Hand, srcIndex, PlayerTypeThem, Grave, -1)}
+		newCardMoveInstantEffect(PlayerTypeThem, Hand, srcIndex, PlayerTypeThem, Grave, -1,true)}
 	instant.conds = []InstantCond{
 		new(validInstant)}
 	return instant
@@ -97,7 +97,7 @@ func GetCardDestroyFromHand(srcIndex int) *Instant {
 func GetCardExpire(givenPlayerType PlayerType, srcIndex int) *Instant {
 	instant := new(Instant)
 	instant.effect = []InstantEffect{
-		newCardMoveInstantEffect(givenPlayerType, Active, srcIndex, givenPlayerType, Grave, -1)}
+		newCardMoveInstantEffect(givenPlayerType, Active, srcIndex, givenPlayerType, Grave, -1,false)}
 	instant.conds = []InstantCond{
 		new(validInstant)}
 	return instant
@@ -123,7 +123,8 @@ func newCardMoveInstantEffect(
 		srcIndex int,
 		dstPlayerType PlayerType,
 		dstList CLType,
-		dstIndex int) InstantEffect {
+		dstIndex int,
+		safe bool) InstantEffect {
 	cm := new(cardMoveInstantEffect)
 	cm.srcPlayerType = srcPlayerType
 	cm.srcList = srcList
@@ -131,6 +132,7 @@ func newCardMoveInstantEffect(
 	cm.dstPlayerType = dstPlayerType
 	cm.dstList = dstList
 	cm.dstIndex = dstIndex
+	cm.safe = safe
 	return cm
 }
 
@@ -141,17 +143,17 @@ type cardMoveInstantEffect struct {
 	dstPlayerType PlayerType
 	dstList       CLType
 	dstIndex      int
+	safe          bool
 }
 
 func (cm *cardMoveInstantEffect) applyTo(uid int, subAction *SubAction) {
-	movement := new(Movement)
-	movement.srcPlayerType = cm.srcPlayerType
-	movement.srcList = cm.srcList
-	movement.srcIndex = cm.srcIndex
-	movement.dstPlayerType = cm.dstPlayerType
-	movement.dstList = cm.dstList
-	movement.dstIndex = cm.dstIndex
-	subAction.movement = movement
+	subAction.SetMovement(cm.srcPlayerType,
+		cm.srcList,
+		cm.srcIndex,
+		cm.dstPlayerType,
+		cm.dstList,
+		cm.dstIndex,
+		cm.safe)
 }
 
 /* Turn Swap Instant Effect */

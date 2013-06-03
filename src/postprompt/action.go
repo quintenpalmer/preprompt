@@ -19,6 +19,7 @@ type SubAction struct {
 	doesHeal       bool
 	elementType    ElementType
 	movement       *Movement
+	safeMove       bool
 	superPhaseStep SuperPhase
 	phaseStep      Phase
 	turnStep       bool
@@ -51,6 +52,7 @@ func NewSubAction() *SubAction {
 	subAction.heal = 0
 	subAction.doesHeal = false
 	subAction.movement = nil
+	subAction.safeMove = false
 	subAction.superPhaseStep = 0
 	subAction.phaseStep = 0
 	subAction.turnStep = false
@@ -132,6 +134,7 @@ func Act(game *Game, uid int, instantList InstantList) (string, error) {
 func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 	// TODO Apply triggers to this
 
+	// Get Players
 	me, err := game.GetMeFromUid(uid)
 	if err != nil {
 		return "error", err
@@ -140,9 +143,13 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 	if err != nil {
 		return "error", err
 	}
+	// Heal
 	me.health += subAction.heal
+
+	// Damage
 	them.health -= subAction.damage
 
+	// Shuffle
 	if subAction.doShuffle {
 		var player *Player
 		if subAction.whoShuffle == PlayerTypeMe {
@@ -163,17 +170,21 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 		player.cardList[Deck] = newSlice
 	}
 
+	// Step Super Phase
 	if game.superPhase+subAction.superPhaseStep <= DoneSuperPhase {
 		game.superPhase += subAction.superPhaseStep
 	} else {
 		return "reached end super phase", nil
 	}
+
+	// Step Phase
 	if game.phase+subAction.phaseStep <= EndPhase {
 		game.phase += subAction.phaseStep
 	} else {
 		return "reached end phase", nil
 	}
 
+	// Step Turn
 	if subAction.turnStep {
 		if game.turnOwner == game.uids[0] {
 			game.turnOwner = game.uids[1]
@@ -186,6 +197,7 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 		}
 	}
 
+	// Move Card
 	var player *Player
 	if subAction.movement != nil {
 		if subAction.movement.srcPlayerType == 0 {
@@ -195,7 +207,11 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 		}
 		card, err := player.pop(subAction.movement.srcList, subAction.movement.srcIndex)
 		if err != nil {
-			return "error", err
+			if !subAction.safeMove {
+				return "error", err
+			} else {
+				return "safe move", nil
+			}
 		}
 		if subAction.movement.dstPlayerType == 0 {
 			player = me
@@ -208,6 +224,7 @@ func (subAction *SubAction) act(game *Game, uid int) (string, error) {
 		}
 	}
 
+	// Set "Draw" status
 	if subAction.hasSetDidDraw {
 		game.hasDrawn = subAction.didDraw
 	}
@@ -259,7 +276,8 @@ func (subAction *SubAction) SetMovement(
 	srcIndex int,
 	dstPlayerType PlayerType,
 	dstList CLType,
-	dstIndex int) {
+	dstIndex int,
+	safe bool) {
 	subAction.movement = new(Movement)
 	subAction.movement.srcPlayerType = srcPlayerType
 	subAction.movement.srcList = srcList
@@ -267,6 +285,7 @@ func (subAction *SubAction) SetMovement(
 	subAction.movement.dstPlayerType = dstPlayerType
 	subAction.movement.dstList = dstList
 	subAction.movement.dstIndex = dstIndex
+	subAction.safeMove  = safe
 }
 
 func (subAction *SubAction) SetDidDraw(didDraw bool) {

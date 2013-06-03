@@ -193,3 +193,16 @@ type validTrigger struct{}
 func (vi *validTrigger) isValid(subAction *SubAction, action *Action, game *Game, uid int) bool {
 	return true
 }
+
+/* Only valid on given player Trigger */
+
+type givenPlayerValid struct {
+	who PlayerType
+}
+
+func (gpv *givenPlayerValid) isValid(subAction *SubAction, action *Action, game *Game, uid int) bool {
+	if gpv.who == PlayerTypeBoth || (gpv.who == PlayerTypeMe && game.turnOwner == uid) || (gpv.who == PlayerTypeThem && game.turnOwner != uid) {
+		return true
+	}
+	return false
+}
