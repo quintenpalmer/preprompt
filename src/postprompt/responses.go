@@ -48,8 +48,9 @@ func respondError(err error) string {
 	fmt.Println(err)
 	resp := make(jsonMap)
 	resp["respType"] = "error"
-	ret, err2 := resp.toString()
-	if err2 != nil {
+	ret, err := resp.toString()
+	if err != nil {
+		return ""
 	}
 	return ret
 }
@@ -63,6 +64,7 @@ func respondList(gameIds []int) string {
 	if err != nil {
 		return respondError(err)
 	}
+	return ret
 }
 
 func respondClose() string {

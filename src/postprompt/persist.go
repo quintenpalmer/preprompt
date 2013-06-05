@@ -55,7 +55,6 @@ func getPersistFromType(persistRepr map[string]interface{}) (Persist, error) {
 	default:
 		return nil, Newpperror("Invalid Instant Effect Type found : " + persistType)
 	}
-	return nil, Newpperror("Invalid Instant Effect Type found : " + persistType)
 }
 
 func getPersistTimer(persistRepr map[string]interface{}) (Persist, error) {

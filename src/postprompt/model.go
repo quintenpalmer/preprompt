@@ -36,8 +36,9 @@ func (model *Model) AddGame(uid1, did1, uid2, did2 int) (*Game, int, error) {
 func (model *Model) GetGameFromGameId(gameId int) (*Game, error) {
 	if val, ok := model.games[gameId]; ok {
 		return val, nil
+	} else {
+		return nil, Newpperror("game does not exist")
 	}
-	return nil, Newpperror("game does not exist")
 }
 
 func (model *Model) bookKeepGame(game *Game, gameId int, uid1 int, uid2 int) {
@@ -55,6 +56,7 @@ func (model *Model) bookKeepGame(game *Game, gameId int, uid1 int, uid2 int) {
 func (model *Model) GetGameIdsFromUid(uid int) gameMapping {
 	if games, ok := model.userGames[uid]; ok {
 		return games
+	} else {
+		return make(gameMapping)
 	}
-	return make(gameMapping)
 }

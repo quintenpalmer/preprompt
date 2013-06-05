@@ -72,6 +72,7 @@ func (player *Player) pop(cltype CLType, index int) (*Card, error) {
 func (player *Player) GetInstantList(index int) (InstantList, error) {
 	if index >= len(player.cardList[Hand]) {
 		return nil, Newpperror("index out of range")
+	} else {
+		return player.cardList[Hand][index].instants, nil
 	}
-	return player.cardList[Hand][index].instants, nil
 }

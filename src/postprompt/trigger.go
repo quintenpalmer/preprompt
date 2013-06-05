@@ -25,8 +25,9 @@ func (trigger *Trigger) applyTo(subAction *SubAction, action *Action, fullAction
 			ieffect.applyTo(subAction, fullAction, game, uid)
 		}
 		return nil
+	} else {
+		return Newpperror("that action is not valid to play")
 	}
-	return Newpperror("that action is not valid to play")
 }
 
 // TODO
@@ -81,7 +82,6 @@ func getTriggerEffectFromType(triggerEffectRepr map[string]interface{}) ([]Trigg
 	default:
 		return nil, Newpperror("Invalid trigger Effect Type found : " + effectType)
 	}
-	return nil, Newpperror("Invalid trigger Effect Type found : " + effectType)
 }
 
 func getTriggerCondFromType(triggerCondRepr map[string]interface{}) ([]TriggerCond, error) {
@@ -95,7 +95,6 @@ func getTriggerCondFromType(triggerCondRepr map[string]interface{}) ([]TriggerCo
 	default:
 		return nil, Newpperror("Invalid trigger Effect Type found : " + effectType)
 	}
-	return nil, Newpperror("Invalid trigger Effect Type found : " + effectType)
 }
 
 func getCardDestroyOnDamageHelper(triggerEffectRepr map[string]interface{}) ([]TriggerEffect, error) {
@@ -203,6 +202,7 @@ type givenPlayerValid struct {
 func (gpv *givenPlayerValid) isValid(subAction *SubAction, action *Action, game *Game, uid int) bool {
 	if gpv.who == PlayerTypeBoth || (gpv.who == PlayerTypeMe && game.turnOwner == uid) || (gpv.who == PlayerTypeThem && game.turnOwner != uid) {
 		return true
+	} else {
+		return false
 	}
-	return false
 }

@@ -28,8 +28,9 @@ func (instant *Instant) applyTo(action *Action, game *Game, uid int) ([]*SubActi
 			subActions = append(subActions, subAction)
 		}
 		return subActions, nil
+	} else {
+		return nil, Newpperror("that action is not valid to play")
 	}
-	return nil, Newpperror("that action is not valid to play")
 }
 
 func getInstants(instantRepr interface{}) (InstantList, error) {
@@ -79,7 +80,6 @@ func getInstantEffectFromType(instantEffectRepr map[string]interface{}) ([]Insta
 	default:
 		return nil, Newpperror("Invalid Instant Effect Type found : " + effectType)
 	}
-	return nil, Newpperror("Invalid Instant Effect Type found : " + effectType)
 }
 
 func getInstantCondFromType(instantCondRepr map[string]interface{}) ([]InstantCond, error) {
@@ -93,7 +93,6 @@ func getInstantCondFromType(instantCondRepr map[string]interface{}) ([]InstantCo
 	default:
 		return nil, Newpperror("Invalid Instant Effect Type found : " + effectType)
 	}
-	return nil, Newpperror("Invalid Instant Effect Type found : " + effectType)
 }
 
 func getDirectDamageHelper(instantEffectRepr map[string]interface{}) ([]InstantEffect, error) {

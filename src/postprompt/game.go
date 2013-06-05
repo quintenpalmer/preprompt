@@ -38,8 +38,9 @@ func NewGame(uid1, did1, uid2, did2 int) (*Game, error) {
 func (game *Game) GetMeFromUid(uid int) (*Player, error) {
 	if player, ok := game.players[uid]; ok {
 		return player, nil
+	} else {
+		return nil, Newpperror("not a uid playing this game")
 	}
-	return nil, Newpperror("not a uid playing this game")
 }
 
 func (game *Game) GetThemFromUid(uid int) (*Player, error) {
@@ -53,6 +54,7 @@ func (game *Game) GetThemFromUid(uid int) (*Player, error) {
 		return game.players[keys[1]], nil
 	} else if uid == keys[1] {
 		return game.players[keys[0]], nil
+	} else {
+		return nil, Newpperror("not a uid playing this game")
 	}
-	return nil, Newpperror("not a uid playing this game")
 }
