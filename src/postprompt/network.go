@@ -16,25 +16,31 @@ func Listen(port string, m *Model) {
 		return
 	}
 	fmt.Println("Listening on port : " + port)
-
-	for {
+	running := true
+	for running {
 		conn, err := ln.Accept()
 		if err != nil {
 			fmt.Println("Error accepting connection")
 			continue
 		}
-		go handleConnection(conn, m)
+		running = handleConnection(conn, m)
 	}
 }
 
-func handleConnection(conn net.Conn, m *Model) {
+func handleConnection(conn net.Conn, m *Model) bool {
 	fmt.Println("Handling a connection")
 	buf := make([]byte, RECV_BUF_LEN)
 	n, err := conn.Read(buf)
 	if err != nil {
 		conn.Write([]byte(respondError(err)))
-		return
+		return false
 	}
 	buf = buf[0:n]
-	conn.Write([]byte(handleCommand(buf, m) + "\n"))
+	response := handleCommand(buf, m)
+	if response == "exit" {
+		return false
+	} else {
+		conn.Write([]byte(response + "\n"))
+		return true
+	}
 }

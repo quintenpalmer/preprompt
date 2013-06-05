@@ -63,5 +63,8 @@ func respondList(gameIds []int) string {
 	if err != nil {
 		return respondError(err)
 	}
-	return ret
+}
+
+func respondClose() string {
+	return "exit"
 }

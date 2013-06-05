@@ -30,6 +30,8 @@ func handleCommand(buf []byte, model *Model) string {
 		return handleCardPlay(request, model)
 	case "list":
 		return handleList(request, model)
+	case "close":
+		return handleClose(request, model)
 	}
 	return respondOther(command)
 }
@@ -149,4 +151,8 @@ func handleList(request jsonMap, model *Model) string {
 		gameIds = append(gameIds, k)
 	}
 	return respondList(gameIds)
+}
+
+func handleClose(request jsonMap, model *Model) string {
+	return respondClose()
 }
