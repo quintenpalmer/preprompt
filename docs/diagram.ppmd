@@ -1,46 +1,27 @@
-ppdatabase :
-	field : sql.DB
-validPhase :
-	method : isValid
-	field : Phase
-directDamageTriggerEffect :
-	method : applyTo
-	field : int
-	field : PlayerType
-validSuperPhase :
-	method : isValid
-	field : SuperPhase
-PPerror :
-	method : Error
-	field : string
-Persist :
-	field : tick
-	field : doesPersist
-	field : reset
-InstantCond :
-	field : isValid
-Model :
-	method : AddGame
-	method : GetGameFromGameId
-	method : bookKeepGame
-	method : GetGameIdsFromUid
-	field : int
-	field : gameMapping
-	field : gameMapping
+Action :
+	field : Instant
+ActionList :
+	field : Action
 CLInfo :
 	field : int
 	field : CLType
 	field : string
-stepTurn :
-	method : applyTo
-noPersist :
-	method : tick
-	method : reset
-	method : doesPersist
-TriggerCond :
-	field : isValid
-ActionList :
-	field : Action
+CLType :
+	field : int
+Card :
+	field : string
+	field : InstantList
+	field : PersistList
+	field : TriggerList
+CardList :
+	field : Card
+ElementType :
+	field : int
+ElementTypeInfo :
+	field : ElementType
+	field : string
+FullAction :
+	field : ActionList
 Game :
 	method : GetMeFromUid
 	method : GetThemFromUid
@@ -50,45 +31,54 @@ Game :
 	field : SuperPhase
 	field : int
 	field : bool
-PlayerType :
-	field : int
-stepSuperPhase :
-	method : applyTo
-jsonMap :
-	method : toString
-	method : getInt
-	method : getString
-	method : getMap
-	field : 
-validTurnOwner :
-	method : isValid
-TriggerList :
-	field : Trigger
-Phase :
-	field : int
-setDidDraw :
-	method : applyTo
-	field : bool
-InstantEffect :
-	field : applyTo
-Card :
-	field : string
-	field : InstantList
-	field : PersistList
-	field : TriggerList
 Instant :
 	method : applyTo
 	field : InstantEffect
 	field : InstantCond
-cardMoveInstantEffect :
-	method : applyTo
+InstantCond :
+	field : isValid
+InstantEffect :
+	field : applyTo
+InstantList :
+	field : Instant
+Model :
+	method : AddGame
+	method : GetGameFromGameId
+	method : bookKeepGame
+	method : GetGameIdsFromUid
+	field : int
+	field : gameMapping
+	field : gameMapping
+Movement :
 	field : PlayerType
 	field : CLType
 	field : int
 	field : PlayerType
 	field : CLType
 	field : int
-SuperPhase :
+PPerror :
+	method : Error
+	field : string
+Persist :
+	field : tick
+	field : doesPersist
+	field : reset
+PersistList :
+	method : tick
+	method : doesPersist
+	field : Persist
+Phase :
+	field : int
+Player :
+	method : push
+	method : pop
+	method : GetInstantList
+	field : int
+	field : int
+	field : string
+	field : CardList
+	field : bool
+PlayerType :
 	field : int
 SubAction :
 	method : act
@@ -102,77 +92,103 @@ SubAction :
 	method : SetTurnStep
 	method : SetMovement
 	method : SetDidDraw
+	method : SetDoShuffle
 	field : int
 	field : bool
 	field : int
 	field : bool
 	field : ElementType
 	field : Movement
+	field : bool
 	field : SuperPhase
 	field : Phase
 	field : bool
 	field : bool
 	field : bool
+	field : bool
+	field : PlayerType
+SuperPhase :
+	field : int
+Trigger :
+	method : applyTo
+	field : TriggerEffect
+	field : TriggerCond
+TriggerCond :
+	field : isValid
 TriggerEffect :
 	field : applyTo
-gameMapping :
-	field : Game
-Movement :
+TriggerList :
+	field : Trigger
+cardDestroyTriggerOnDamageEffect :
+	method : applyTo
+	field : int
+cardMoveInstantEffect :
+	method : applyTo
 	field : PlayerType
 	field : CLType
 	field : int
 	field : PlayerType
 	field : CLType
 	field : int
+	field : bool
+directDamageInstantEffect :
+	method : applyTo
+	field : int
+	field : ElementType
+directDamageTriggerEffect :
+	method : applyTo
+	field : int
+	field : PlayerType
 doNothing :
 	method : applyTo
-validHaveNotDrawn :
+doNothingTrigger :
+	method : applyTo
+gameMapping :
+	field : Game
+givenPlayerValid :
 	method : isValid
-validInstant :
-	method : isValid
+	field : PlayerType
+jsonMap :
+	method : toString
+	method : getInt
+	method : getString
+	method : getMap
+	field : interface
+noPersist :
+	method : tick
+	method : reset
+	method : doesPersist
 persistTimer :
 	method : tick
 	method : reset
 	method : doesPersist
 	field : int
 	field : int
-Action :
-	field : Instant
-validTrigger :
-	method : isValid
-ElementType :
-	field : int
-doNothingTrigger :
+ppdatabase :
+	field : sql.DB
+setDidDraw :
 	method : applyTo
-CardList :
-	field : Card
+	field : bool
+shuffler :
+	method : applyTo
+	field : PlayerType
 stepPhase :
 	method : applyTo
-directDamageInstantEffect :
+stepSuperPhase :
 	method : applyTo
-	field : int
-	field : ElementType
-ElementTypeInfo :
-	field : ElementType
-	field : string
-Player :
-	method : push
-	method : pop
-	method : GetInstantList
-	field : int
-	field : int
-	field : string
-	field : CardList
-	field : bool
-Trigger :
+stepTurn :
 	method : applyTo
-	field : TriggerEffect
-	field : TriggerCond
-PersistList :
-	method : tick
-	method : doesPersist
-	field : Persist
-CLType :
-	field : int
-InstantList :
-	field : Instant
+validHaveNotDrawn :
+	method : isValid
+validInstant :
+	method : isValid
+validPhase :
+	method : isValid
+	field : Phase
+validSuperPhase :
+	method : isValid
+	field : SuperPhase
+validTrigger :
+	method : isValid
+validTurnOwner :
+	method : isValid
