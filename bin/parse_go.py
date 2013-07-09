@@ -26,10 +26,14 @@ class Struct:
 		return '%s :%s%s'%(self.name,method_text+method_text.join(self.methods) if self.methods != [] else '',field_text+field_text.join(self.fields) if self.fields != [] else '')
 
 def print_type(line):
-	if not line[1] in structs:
+	if line[1] not in structs:
 		structs[line[1]] = Struct(line[1])
 	if line[2] not in ('struct','interface'):
-		structs[line[1]].fields.append(line[-1].lstrip('*'))
+		if len(line) < 4 or line[-4] != 'interface':
+			typename = line[-1]
+		else:
+			typename = line[-4]
+		structs[line[1]].fields.append(typename.lstrip('*'))
 
 def print_func(line):
 	if line[1] == '(':
@@ -42,7 +46,7 @@ def print_func(line):
 		pass
 
 def print_field(line,structname):
-	if not structname in structs:
+	if structname not in structs:
 		structs[structname] = Struct(structname)
 	if line[1] == 'map':
 		structs[structname].fields.append(line[5].lstrip('*'))
@@ -68,33 +72,43 @@ def format_line(line):
 	line = line.split(delim)
 	return line
 
-for gofile in gofiles:
-	with open(gofile,'r') as f:
-		in_struct = False
-		in_interface = False
-		for line in f:
-			line = format_line(line)
-			keyword = line[0]
-			if keyword == 'type':
-				print_type(line)
-				if len(line) > 3 and line[2] == 'struct' and line[-2] != '}':
-					in_struct = True
-					structname = line[1]
-				elif len(line) > 3 and line[2] == 'interface' and line[-2] != '}':
-					in_interface = True
-					ifacename = line[1]
-			elif keyword == 'func':
-				print_func(line)
-			elif in_struct:
-				if line[1] == '}':
-					in_struct = False
-					continue
-				print_field(line,structname)
-			elif in_interface:
-				if line[1] == '}':
-					in_interface = False
-					continue
-				print_field(line,ifacename)
+def main():
+	for gofile in gofiles:
+		with open(gofile,'r') as f:
+			in_struct = False
+			in_interface = False
+			for line in f:
+				line = format_line(line)
+				keyword = line[0]
+				if keyword == 'type':
+					print_type(line)
+					if len(line) > 3 and line[2] == 'struct' and line[-2] != '}':
+						in_struct = True
+						structname = line[1]
+					elif len(line) > 3 and line[2] == 'interface' and line[-2] != '}':
+						in_interface = True
+						ifacename = line[1]
+				elif keyword == 'func':
+					print_func(line)
+				elif in_struct:
+					if line[1] == '}':
+						in_struct = False
+					else:
+						print_field(line,structname)
+				elif in_interface:
+					if line[1] == '}':
+						in_interface = False
+					else:
+						print_field(line,ifacename)
 
-for key,val in structs.items():
-	print val
+	keys = []
+	for key in structs.keys():
+		keys.append(key)
+
+	keys = sorted(keys)
+
+	for key in keys:
+		print structs[key]
+
+if __name__=="__main__":
+	main()
